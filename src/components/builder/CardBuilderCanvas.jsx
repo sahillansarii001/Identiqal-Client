@@ -82,9 +82,9 @@ export const CardBuilderCanvas = () => {
   return (
     <div className="space-y-6">
       {/* Add Section controls */}
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
-        <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4 flex items-center space-x-1.5">
-          <Sparkles size={14} className="text-indigo-400" />
+      <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+        <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700 mb-4 flex items-center space-x-1.5">
+          <Sparkles size={14} className="text-indigo-650 animate-pulse" />
           <span>Add Section Component</span>
         </h4>
         <div className="flex flex-wrap gap-2">
@@ -110,7 +110,7 @@ export const CardBuilderCanvas = () => {
         </h4>
 
         {sections.length === 0 ? (
-          <div className="text-center py-12 border border-dashed border-slate-850 rounded-2xl text-slate-500 text-xs">
+          <div className="text-center py-12 border border-dashed border-slate-200 rounded-2xl text-slate-500 text-xs">
             No sections added to this card. Click a button above to add one.
           </div>
         ) : (
@@ -123,16 +123,16 @@ export const CardBuilderCanvas = () => {
                   onClick={() => setActiveSection(sec.sectionId)}
                   className={`p-4 rounded-xl border flex items-center justify-between transition-all cursor-pointer ${
                     isActive
-                      ? 'bg-slate-900 border-indigo-500/50 shadow-md'
-                      : 'bg-slate-900/30 border-slate-900 hover:border-slate-850'
+                      ? 'bg-indigo-50/50 border-indigo-500 shadow-sm'
+                      : 'bg-white border-slate-200 hover:border-slate-350 shadow-sm'
                   }`}
                 >
                   <div className="flex items-center space-x-3">
-                    <span className="text-xs text-slate-500 font-bold w-4">
+                    <span className="text-xs text-slate-400 font-bold w-4">
                       {index + 1}
                     </span>
                     <div>
-                      <h5 className="text-xs font-bold text-slate-200 capitalize">
+                      <h5 className="text-xs font-bold text-slate-900 capitalize">
                         {sec.type} Section
                       </h5>
                       <p className="text-[10px] text-slate-500">ID: {sec.sectionId}</p>
@@ -144,14 +144,14 @@ export const CardBuilderCanvas = () => {
                     <button
                       onClick={(e) => handleMoveUp(index, e)}
                       disabled={index === 0}
-                      className="p-1.5 text-slate-400 hover:text-slate-200 disabled:opacity-30 hover:bg-slate-800 rounded-lg transition-colors"
+                      className="p-1.5 text-slate-500 hover:text-slate-800 disabled:opacity-30 hover:bg-slate-100 rounded-lg transition-colors"
                     >
                       <ArrowUp size={12} />
                     </button>
                     <button
                       onClick={(e) => handleMoveDown(index, e)}
                       disabled={index === sections.length - 1}
-                      className="p-1.5 text-slate-400 hover:text-slate-200 disabled:opacity-30 hover:bg-slate-800 rounded-lg transition-colors"
+                      className="p-1.5 text-slate-500 hover:text-slate-800 disabled:opacity-30 hover:bg-slate-100 rounded-lg transition-colors"
                     >
                       <ArrowDown size={12} />
                     </button>
@@ -162,9 +162,9 @@ export const CardBuilderCanvas = () => {
                         e.stopPropagation();
                         toggleSectionVisibility(sec.sectionId);
                       }}
-                      className="p-1.5 text-slate-400 hover:text-indigo-400 hover:bg-slate-800 rounded-lg transition-colors"
+                      className="p-1.5 text-slate-500 hover:text-indigo-650 hover:bg-slate-100 rounded-lg transition-colors"
                     >
-                      {sec.isVisible ? <Eye size={14} /> : <EyeOff size={14} className="text-slate-600" />}
+                      {sec.isVisible ? <Eye size={14} /> : <EyeOff size={14} className="text-slate-400" />}
                     </button>
 
                     {/* Remove button */}
@@ -175,7 +175,7 @@ export const CardBuilderCanvas = () => {
                           removeSection(sec.sectionId);
                         }
                       }}
-                      className="p-1.5 text-slate-500 hover:text-red-400 hover:bg-slate-800 rounded-lg transition-colors"
+                      className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                     >
                       <Trash2 size={14} />
                     </button>

@@ -8,14 +8,14 @@ export const Button = React.forwardRef(({
   children,
   ...props
 }, ref) => {
-  const baseStyles = 'inline-flex items-center justify-center font-medium rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-900 disabled:opacity-50 disabled:pointer-events-none';
+  const baseStyles = 'inline-flex items-center justify-center font-medium rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white disabled:opacity-50 disabled:pointer-events-none';
   
   const variants = {
-    primary: 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-lg shadow-indigo-900/30 focus:ring-indigo-500',
-    secondary: 'bg-slate-800 hover:bg-slate-700 text-slate-100 focus:ring-slate-500 border border-slate-700',
-    outline: 'bg-transparent border border-slate-700 hover:bg-slate-850 hover:border-slate-600 text-slate-350 hover:text-slate-100 focus:ring-slate-650',
-    danger: 'bg-red-650 hover:bg-red-550 text-white shadow-lg shadow-red-950/20 focus:ring-red-500',
-    ghost: 'bg-transparent hover:bg-slate-850 text-slate-350 hover:text-slate-100 focus:ring-slate-600',
+    primary: 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-lg shadow-indigo-650/20 focus:ring-indigo-500',
+    secondary: 'bg-slate-100 hover:bg-slate-200 text-slate-800 focus:ring-slate-500 border border-slate-200',
+    outline: 'bg-transparent border border-slate-250 hover:bg-slate-50 hover:border-slate-300 text-slate-600 hover:text-slate-900 focus:ring-slate-300',
+    danger: 'bg-red-600 hover:bg-red-555 text-white shadow-lg shadow-red-200/20 focus:ring-red-500',
+    ghost: 'bg-transparent hover:bg-slate-100 text-slate-600 hover:text-slate-900 focus:ring-slate-200',
   };
 
   const sizes = {

@@ -44,8 +44,8 @@ export default function DashboardLayout({ children }) {
 
   if (!isAuthenticated || !user) {
     return (
-      <div className="flex h-screen bg-slate-950 items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-indigo-500" />
+      <div className="flex h-screen bg-zinc-50 items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-indigo-600" />
       </div>
     );
   }
@@ -65,24 +65,24 @@ export default function DashboardLayout({ children }) {
     { label: 'Billing & Plan', href: '/dashboard/billing', icon: <Wallet size={18} /> },
   ];
 
-  const activeClass = 'bg-slate-900 border-l-2 border-indigo-500 text-slate-100 font-semibold';
-  const inactiveClass = 'text-slate-400 hover:bg-slate-900/40 hover:text-slate-200 border-l-2 border-transparent';
+  const activeClass = 'bg-slate-100 border-l-2 border-indigo-600 text-slate-900 font-semibold';
+  const inactiveClass = 'text-slate-500 hover:bg-slate-50 hover:text-slate-800 border-l-2 border-transparent';
 
   return (
-    <div className="flex min-h-screen bg-slate-950">
+    <div className="flex min-h-screen bg-zinc-50">
       {/* Sidebar Navigation */}
-      <aside className="w-64 border-r border-slate-900 bg-slate-950/50 flex flex-col fixed inset-y-0 left-0">
+      <aside className="w-64 border-r border-slate-200 bg-white flex flex-col fixed inset-y-0 left-0">
         {/* Brand */}
-        <div className="h-16 px-6 border-b border-slate-900 flex items-center">
-          <Link href="/" className="flex items-center space-x-2 text-lg font-black tracking-tight bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">
-            <CreditCard className="text-blue-500" size={20} />
+        <div className="h-16 px-6 border-b border-slate-200 flex items-center">
+          <Link href="/" className="flex items-center space-x-2 text-lg font-black tracking-tight bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+            <CreditCard className="text-blue-600" size={20} />
             <span>Identiqal</span>
           </Link>
         </div>
 
         {/* Menu Items */}
         <nav className="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
-          <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-3 mb-2">Main Menu</p>
+          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-3 mb-2">Main Menu</p>
           {menuItems.map((item) => (
             <Link
               key={item.href}
@@ -91,7 +91,7 @@ export default function DashboardLayout({ children }) {
                 pathname === item.href ? activeClass : inactiveClass
               }`}
             >
-              <span className={pathname === item.href ? 'text-indigo-400' : ''}>
+              <span className={pathname === item.href ? 'text-indigo-600' : ''}>
                 {item.icon}
               </span>
               <span>{item.label}</span>
@@ -100,7 +100,7 @@ export default function DashboardLayout({ children }) {
 
           {isOwner && (
             <>
-              <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-3 mt-6 mb-2">Organization</p>
+              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-3 mt-6 mb-2">Organization</p>
               {ownerItems.map((item) => (
                 <Link
                   key={item.href}
@@ -109,7 +109,7 @@ export default function DashboardLayout({ children }) {
                     pathname === item.href ? activeClass : inactiveClass
                   }`}
                 >
-                  <span className={pathname === item.href ? 'text-indigo-400' : ''}>
+                  <span className={pathname === item.href ? 'text-indigo-600' : ''}>
                     {item.icon}
                   </span>
                   <span>{item.label}</span>
@@ -120,15 +120,15 @@ export default function DashboardLayout({ children }) {
         </nav>
 
         {/* User Card & Logout */}
-        <div className="p-4 border-t border-slate-900 space-y-3">
-          <div className="flex items-center space-x-3 px-2 py-1.5 rounded-xl bg-slate-900/30 border border-slate-900">
+        <div className="p-4 border-t border-slate-200 space-y-3">
+          <div className="flex items-center space-x-3 px-2 py-1.5 rounded-xl bg-slate-50 border border-slate-200">
             <div className="w-9 h-9 rounded-xl bg-indigo-650 flex items-center justify-center font-bold text-slate-100 text-sm shadow-md">
               {user.name[0].toUpperCase()}
             </div>
             <div className="flex-1 min-w-0">
-              <h4 className="text-xs font-bold text-slate-200 truncate">{user.name}</h4>
-              <p className="text-[10px] text-slate-500 flex items-center space-x-1">
-                <Sparkles size={10} className="text-indigo-400 shrink-0" />
+              <h4 className="text-xs font-bold text-slate-800 truncate">{user.name}</h4>
+              <p className="text-[10px] text-slate-600 flex items-center space-x-1">
+                <Sparkles size={10} className="text-indigo-600 shrink-0" />
                 <span className="capitalize">{user.subscriptionTier} plan</span>
               </p>
             </div>
@@ -137,7 +137,7 @@ export default function DashboardLayout({ children }) {
             variant="ghost"
             size="sm"
             onClick={handleLogout}
-            className="w-full justify-center text-slate-400 hover:text-white"
+            className="w-full justify-center text-slate-500 hover:text-slate-800"
           >
             <LogOut size={14} className="mr-1.5" />
             Logout
@@ -147,12 +147,12 @@ export default function DashboardLayout({ children }) {
 
       {/* Main Content Area */}
       <div className="pl-64 flex flex-col flex-1 min-w-0">
-        <header className="h-16 border-b border-slate-900 bg-slate-950/20 flex items-center justify-between px-8 sticky top-0 backdrop-blur-sm z-30">
-          <h2 className="text-sm font-bold text-slate-350">
+        <header className="h-16 border-b border-slate-200 bg-white/75 flex items-center justify-between px-8 sticky top-0 backdrop-blur-sm z-30">
+          <h2 className="text-sm font-bold text-slate-600">
             Dashboard &gt; {pathname.split('/').filter(Boolean).map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' > ')}
           </h2>
           <div className="flex items-center space-x-4">
-            <span className="text-[10px] bg-slate-900 text-slate-400 border border-slate-800 px-2.5 py-1 rounded-xl capitalize font-semibold tracking-wider">
+            <span className="text-[10px] bg-slate-100 text-slate-600 border border-slate-200 px-2.5 py-1 rounded-xl capitalize font-semibold tracking-wider">
               {user.role} workspace
             </span>
           </div>

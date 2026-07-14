@@ -54,13 +54,13 @@ export const PricingTeaser = () => {
   ];
 
   return (
-    <section className="py-20 bg-slate-950/70 border-t border-slate-900 scroll-mt-16">
+    <section className="py-20 bg-zinc-50 border-t border-slate-200 scroll-mt-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-4">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-4">
             Simple, flexible pricing tiers
           </h2>
-          <p className="text-slate-400">
+          <p className="text-slate-600">
             Choose the plan that suits your personal networking or organization needs.
           </p>
         </div>
@@ -69,31 +69,31 @@ export const PricingTeaser = () => {
           {plans.map((plan, index) => (
             <div
               key={index}
-              className={`flex flex-col border rounded-3xl p-8 relative transition-all duration-300 ${
+              className={`flex flex-col border rounded-3xl p-8 relative transition-all duration-300 bg-white ${
                 plan.featured
-                  ? 'bg-slate-900 border-indigo-500/50 shadow-xl shadow-indigo-950/20 md:scale-105 z-10'
-                  : 'bg-slate-900/30 border-slate-900 hover:border-slate-800'
+                  ? 'border-indigo-500 shadow-xl shadow-indigo-600/5 md:scale-105 z-10'
+                  : 'border-slate-200 hover:border-slate-350 hover:shadow-md'
               }`}
             >
               {plan.featured && (
-                <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-3 py-1 bg-indigo-650 rounded-full text-[10px] font-bold text-white uppercase tracking-wider">
+                <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-3 py-1 bg-indigo-650 rounded-full text-[10px] font-bold text-white uppercase tracking-wider shadow-md shadow-indigo-600/10">
                   Most Popular
                 </span>
               )}
 
               <div className="mb-6">
-                <h3 className="text-lg font-bold text-slate-100 mb-2">{plan.name}</h3>
+                <h3 className="text-lg font-bold text-slate-900 mb-2">{plan.name}</h3>
                 <div className="flex items-baseline space-x-1 mb-2">
-                  <span className="text-3xl sm:text-4xl font-black text-white">{plan.price}</span>
+                  <span className="text-3xl sm:text-4xl font-black text-slate-900">{plan.price}</span>
                   {plan.period && <span className="text-xs text-slate-500">{plan.period}</span>}
                 </div>
-                <p className="text-xs text-slate-400 leading-relaxed">{plan.description}</p>
+                <p className="text-xs text-slate-600 leading-relaxed">{plan.description}</p>
               </div>
 
-              <div className="flex-1 space-y-3 mb-8 border-t border-slate-900 pt-6">
+              <div className="flex-1 space-y-3 mb-8 border-t border-slate-100 pt-6">
                 {plan.features.map((feature, i) => (
-                  <div key={i} className="flex items-start space-x-2 text-xs text-slate-300">
-                    <Check size={14} className="text-indigo-400 shrink-0 mt-0.5" />
+                  <div key={i} className="flex items-start space-x-2 text-xs text-slate-650">
+                    <Check size={14} className="text-indigo-600 shrink-0 mt-0.5" />
                     <span>{feature}</span>
                   </div>
                 ))}

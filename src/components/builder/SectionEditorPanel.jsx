@@ -21,17 +21,17 @@ export const SectionEditorPanel = () => {
 
   if (!activeSection) {
     return (
-      <div className="text-center py-20 bg-slate-900/10 border border-slate-900 rounded-2xl text-slate-500 text-xs">
+      <div className="text-center py-20 bg-white border border-slate-200 rounded-2xl text-slate-500 text-xs shadow-sm">
         Select a section on the canvas to configure fields.
       </div>
     );
   }
 
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-6">
-      <div className="border-b border-slate-800 pb-4">
-        <h4 className="text-sm font-bold text-slate-100 flex items-center space-x-1.5 capitalize">
-          <Edit3 size={16} className="text-indigo-400" />
+    <div className="bg-white border border-slate-200 rounded-2xl p-6 space-y-6 shadow-sm">
+      <div className="border-b border-slate-200 pb-4">
+        <h4 className="text-sm font-bold text-slate-900 flex items-center space-x-1.5 capitalize">
+          <Edit3 size={16} className="text-indigo-650" />
           <span>Edit {activeSection.type} Section</span>
         </h4>
         <p className="text-[10px] text-slate-500 mt-1">Configure layout properties for ID: {activeSection.sectionId}</p>
@@ -75,9 +75,9 @@ const AboutEditor = ({ section, onUpdate }) => {
         {...register('headline')}
       />
       <div className="flex flex-col space-y-1.5">
-        <label className="text-xs font-semibold uppercase tracking-wider text-slate-400">Biography</label>
+        <label className="text-xs font-semibold uppercase tracking-wider text-slate-650">Biography</label>
         <textarea
-          className="w-full px-4 py-2.5 bg-slate-950 border border-slate-800 focus:ring-2 focus:ring-indigo-500 rounded-xl text-slate-100 placeholder-slate-500 text-sm focus:outline-none"
+          className="w-full px-4 py-2.5 bg-white border border-slate-250 focus:ring-2 focus:ring-indigo-500 rounded-xl text-slate-905 placeholder-slate-400 text-sm focus:outline-none"
           rows={4}
           {...register('bio')}
         />
@@ -114,14 +114,14 @@ const LinksEditor = ({ section, onUpdate }) => {
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div className="space-y-3">
         {fields.map((field, idx) => (
-          <div key={field.id} className="p-4 bg-slate-950 border border-slate-850 rounded-xl space-y-3 relative">
+          <div key={field.id} className="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-3 relative">
             <div className="flex items-center justify-between">
               <span className="text-[10px] font-bold text-slate-500">Link #{idx + 1}</span>
               {fields.length > 1 && (
                 <button
                   type="button"
                   onClick={() => remove(idx)}
-                  className="text-red-500 hover:text-red-400"
+                  className="text-red-655 hover:text-red-750"
                 >
                   <Trash2 size={12} />
                 </button>
@@ -173,9 +173,9 @@ const TestimonialEditor = ({ section, onUpdate }) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div className="flex flex-col space-y-1.5">
-        <label className="text-xs font-semibold uppercase tracking-wider text-slate-400">Quote</label>
+        <label className="text-xs font-semibold uppercase tracking-wider text-slate-655">Quote</label>
         <textarea
-          className="w-full px-4 py-2.5 bg-slate-950 border border-slate-800 focus:ring-2 focus:ring-indigo-500 rounded-xl text-slate-100 placeholder-slate-500 text-sm focus:outline-none"
+          className="w-full px-4 py-2.5 bg-white border border-slate-250 focus:ring-2 focus:ring-indigo-500 rounded-xl text-slate-905 placeholder-slate-400 text-sm focus:outline-none"
           rows={3}
           {...register('quote')}
         />
@@ -239,18 +239,18 @@ const FormSectionEditor = ({ section, onUpdate }) => {
       />
 
       <div className="space-y-3 pt-2">
-        <label className="text-xs font-semibold uppercase tracking-wider text-slate-400 block border-b border-slate-800 pb-2">
+        <label className="text-xs font-semibold uppercase tracking-wider text-slate-650 block border-b border-slate-150 pb-2">
           Form Fields Setup
         </label>
         {fields.map((field, idx) => (
-          <div key={field.id} className="p-4 bg-slate-950 border border-slate-850 rounded-xl space-y-3 relative">
+          <div key={field.id} className="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-3 relative">
             <div className="flex items-center justify-between">
               <span className="text-[10px] font-bold text-slate-500">Field #{idx + 1}</span>
               {fields.length > 1 && (
                 <button
                   type="button"
                   onClick={() => remove(idx)}
-                  className="text-red-500 hover:text-red-400"
+                  className="text-red-655 hover:text-red-750"
                 >
                   <Trash2 size={12} />
                 </button>
@@ -264,9 +264,9 @@ const FormSectionEditor = ({ section, onUpdate }) => {
             />
             <div className="grid grid-cols-2 gap-3">
               <div className="flex flex-col space-y-1">
-                <label className="text-[10px] font-bold text-slate-400">Type</label>
+                <label className="text-[10px] font-bold text-slate-550">Type</label>
                 <select
-                  className="bg-slate-900 border border-slate-850 rounded-lg text-xs p-2 text-slate-350 focus:outline-none"
+                  className="bg-white border border-slate-250 rounded-lg text-xs p-2 text-slate-700 focus:outline-none"
                   {...register(`fields.${idx}.type`)}
                 >
                   <option value="text">Short Text</option>
@@ -280,8 +280,9 @@ const FormSectionEditor = ({ section, onUpdate }) => {
                   type="checkbox"
                   id={`req-${field.id}`}
                   {...register(`fields.${idx}.required`)}
+                  className="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
                 />
-                <label htmlFor={`req-${field.id}`} className="text-[10px] text-slate-400 font-bold">
+                <label htmlFor={`req-${field.id}`} className="text-[10px] text-slate-550 font-bold">
                   Required
                 </label>
               </div>
@@ -331,17 +332,17 @@ const GalleryEditor = ({ section, onUpdate }) => {
       />
 
       <div className="space-y-3 pt-2">
-        <label className="text-xs font-semibold uppercase tracking-wider text-slate-400 block border-b border-slate-800 pb-2">
+        <label className="text-xs font-semibold uppercase tracking-wider text-slate-650 block border-b border-slate-150 pb-2">
           Image Items
         </label>
         {fields.map((field, idx) => (
-          <div key={field.id} className="p-4 bg-slate-950 border border-slate-850 rounded-xl space-y-3 relative">
+          <div key={field.id} className="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-3 relative">
             <div className="flex items-center justify-between">
               <span className="text-[10px] font-bold text-slate-500">Image #{idx + 1}</span>
               <button
                 type="button"
                 onClick={() => remove(idx)}
-                className="text-red-500 hover:text-red-400"
+                className="text-red-655 hover:text-red-750"
               >
                 <Trash2 size={12} />
               </button>

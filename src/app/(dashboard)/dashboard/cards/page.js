@@ -73,10 +73,10 @@ export default function CardsPage() {
 
   return (
     <div className="space-y-6 max-w-5xl">
-      <div className="flex items-center justify-between border-b border-slate-900 pb-5">
+      <div className="flex items-center justify-between border-b border-slate-200 pb-5">
         <div>
-          <h1 className="text-xl font-extrabold text-slate-100">My Digital Cards</h1>
-          <p className="text-xs text-slate-400">Design, update, and manage your active visual networking cards.</p>
+          <h1 className="text-xl font-extrabold text-slate-900">My Digital Cards</h1>
+          <p className="text-xs text-slate-500">Design, update, and manage your active visual networking cards.</p>
         </div>
         <Button onClick={() => setIsModalOpen(true)} className="space-x-1.5 py-2.5">
           <Plus size={16} />
@@ -86,14 +86,14 @@ export default function CardsPage() {
 
       {isLoading ? (
         <div className="grid md:grid-cols-2 gap-6">
-          <div className="h-44 bg-slate-900/40 rounded-2xl animate-pulse" />
-          <div className="h-44 bg-slate-900/40 rounded-2xl animate-pulse" />
+          <div className="h-44 bg-slate-100 rounded-2xl animate-pulse" />
+          <div className="h-44 bg-slate-100 rounded-2xl animate-pulse" />
         </div>
       ) : cards.length === 0 ? (
-        <div className="text-center py-20 bg-slate-900/10 border border-dashed border-slate-800 rounded-3xl space-y-4">
-          <Layers size={48} className="mx-auto text-slate-700" />
+        <div className="text-center py-20 bg-white border border-dashed border-slate-300 rounded-3xl space-y-4">
+          <Layers size={48} className="mx-auto text-slate-400" />
           <div className="space-y-1">
-            <h3 className="text-sm font-bold text-slate-300">No cards created yet</h3>
+            <h3 className="text-sm font-bold text-slate-800">No cards created yet</h3>
             <p className="text-xs text-slate-500 max-w-xs mx-auto">Create a draft card to start composing sections and branding.</p>
           </div>
           <Button onClick={() => setIsModalOpen(true)}>Create Your First Card</Button>
@@ -105,18 +105,18 @@ export default function CardsPage() {
             return (
               <div
                 key={card._id}
-                className="bg-slate-900/30 border border-slate-900 hover:border-slate-850 rounded-2xl p-6 flex flex-col justify-between space-y-6 relative transition-all duration-200"
+                className="bg-white border border-slate-200 hover:border-slate-350 rounded-2xl p-6 flex flex-col justify-between space-y-6 relative transition-all duration-200 shadow-sm hover:shadow-md"
               >
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <h3 className="font-bold text-slate-100 text-base">{card.title}</h3>
+                    <h3 className="font-bold text-slate-900 text-base">{card.title}</h3>
                     <div className="flex items-center space-x-2">
                       <button
                         onClick={() => handleTogglePublish(card._id, card.isPublished)}
                         className={`text-[10px] px-2 py-0.5 rounded-full border transition-colors flex items-center space-x-1 font-semibold ${
                           card.isPublished
-                            ? 'bg-green-500/10 border-green-500/25 text-green-400 hover:bg-green-500/20'
-                            : 'bg-slate-950 border-slate-800 text-slate-500 hover:text-slate-400'
+                            ? 'bg-green-50 border-green-200 text-green-700 hover:bg-green-100'
+                            : 'bg-slate-100 border-slate-200 text-slate-500 hover:text-slate-700 hover:bg-slate-200'
                         }`}
                       >
                         {card.isPublished ? (
@@ -133,12 +133,12 @@ export default function CardsPage() {
                       </button>
                     </div>
                   </div>
-                  <p className="text-xs text-slate-400 leading-normal truncate">
-                    Slug Link: <span className="text-indigo-400">/{card.slug}</span>
+                  <p className="text-xs text-slate-650 leading-normal truncate">
+                    Slug Link: <span className="text-indigo-600 font-bold">/{card.slug}</span>
                   </p>
                 </div>
 
-                <div className="flex items-center justify-between border-t border-slate-900 pt-4 mt-auto">
+                <div className="flex items-center justify-between border-t border-slate-100 pt-4 mt-auto">
                   <div className="flex items-center space-x-2">
                     <Link href={`/dashboard/cards/${card._id}/edit`}>
                       <Button variant="secondary" size="sm" className="space-x-1">
@@ -167,7 +167,7 @@ export default function CardsPage() {
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="text-slate-500 hover:text-red-400 hover:bg-red-500/10 p-2 rounded-xl"
+                    className="text-slate-400 hover:text-red-500 hover:bg-red-50 p-2 rounded-xl"
                     onClick={() => handleDelete(card._id)}
                   >
                     <Trash2 size={14} />
@@ -196,7 +196,7 @@ export default function CardsPage() {
             error={errors.slug?.message}
             {...register('slug')}
           />
-          <div className="flex justify-end space-x-3 pt-4 border-t border-slate-800">
+          <div className="flex justify-end space-x-3 pt-4 border-t border-slate-150">
             <Button type="button" variant="secondary" onClick={() => setIsModalOpen(false)}>
               Cancel
             </Button>
@@ -208,11 +208,8 @@ export default function CardsPage() {
       {/* QR Code Modal */}
       <Modal isOpen={qrModalOpen} onClose={() => setQrModalOpen(false)} title="Share Card QR Code">
         <div className="flex flex-col items-center space-y-4 py-4 text-center">
-          <p className="text-xs text-slate-400">Scan this QR Code to load the published digital card on mobile devices.</p>
-          <div className="bg-white p-4 rounded-2xl">
-            {/* Standard rendering of mock QR code, or dynamically build it using qrcode on client.
-                Since qrcode package can generate dynamic URLs, we can just generate a client side Canvas or img here.
-                Let's use google charts API or local URL to display QR image: */}
+          <p className="text-xs text-slate-500">Scan this QR Code to load the published digital card on mobile devices.</p>
+          <div className="bg-white p-4 border border-slate-200 rounded-2xl shadow-md">
             <img
               src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(
                 `${window.location.origin}/${selectedCardSlug}`
@@ -221,7 +218,7 @@ export default function CardsPage() {
               className="w-48 h-48"
             />
           </div>
-          <p className="text-xs font-bold text-slate-350">Link: <span className="text-indigo-400">/{selectedCardSlug}</span></p>
+          <p className="text-xs font-bold text-slate-700">Link: <span className="text-indigo-600">/{selectedCardSlug}</span></p>
           <Button variant="secondary" onClick={() => setQrModalOpen(false)}>
             Close
           </Button>

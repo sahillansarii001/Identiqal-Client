@@ -45,24 +45,24 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="flex min-h-screen bg-slate-950 items-center justify-center p-4">
-      <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-3xl p-8 shadow-2xl relative">
-        <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-t-3xl" />
+    <div className="flex min-h-screen bg-zinc-50 items-center justify-center p-4">
+      <div className="w-full max-w-md bg-white border border-slate-200 rounded-3xl p-8 shadow-xl relative">
+        <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-t-3xl" />
         
         {/* Header */}
         <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center space-x-2 text-2xl font-black tracking-tight bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent mb-4">
-            <CreditCard className="text-blue-500" />
+          <Link href="/" className="inline-flex items-center space-x-2 text-2xl font-black tracking-tight bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-4">
+            <CreditCard className="text-blue-600" />
             <span>Identiqal</span>
           </Link>
-          <h2 className="text-xl font-bold text-slate-100">Create an Account</h2>
-          <p className="text-xs text-slate-400 mt-1">Get started with your free digital business card</p>
+          <h2 className="text-xl font-bold text-slate-900">Create an Account</h2>
+          <p className="text-xs text-slate-500 mt-1">Get started with your free digital business card</p>
         </div>
 
         {/* Global Error Banner */}
         {errorMsg && (
-          <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 text-red-400 rounded-xl text-xs flex items-center space-x-2 animate-shake">
-            <ShieldAlert size={16} className="shrink-0" />
+          <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-xl text-xs flex items-center space-x-2 animate-shake">
+            <ShieldAlert size={16} className="shrink-0 animate-pulse" />
             <span>{errorMsg}</span>
           </div>
         )}
@@ -98,9 +98,9 @@ export default function SignupPage() {
         </form>
 
         {/* Footer link */}
-        <div className="mt-8 text-center text-xs text-slate-400 border-t border-slate-800/60 pt-6">
+        <div className="mt-8 text-center text-xs text-slate-500 border-t border-slate-150 pt-6">
           Already have an account?{' '}
-          <Link href="/login" className="text-indigo-400 font-semibold hover:text-indigo-300 transition-colors">
+          <Link href="/login" className="text-indigo-600 font-semibold hover:text-indigo-750 transition-colors">
             Sign In
           </Link>
         </div>

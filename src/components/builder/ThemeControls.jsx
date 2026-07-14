@@ -75,12 +75,12 @@ export const ThemeControls = () => {
   const isOwner = user?.role === 'owner';
 
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-6">
+    <div className="bg-white border border-slate-200 rounded-2xl p-6 space-y-6 shadow-sm">
       {/* Title */}
-      <div className="border-b border-slate-800 pb-4 flex items-center justify-between">
+      <div className="border-b border-slate-200 pb-4 flex items-center justify-between">
         <div>
-          <h4 className="text-sm font-bold text-slate-100 flex items-center space-x-1.5">
-            <Palette size={16} className="text-indigo-400" />
+          <h4 className="text-sm font-bold text-slate-900 flex items-center space-x-1.5">
+            <Palette size={16} className="text-indigo-655" />
             <span>Card Theme Controls</span>
           </h4>
           <p className="text-[10px] text-slate-500 mt-1">Configure layout styling and hex palettes.</p>
@@ -89,8 +89,8 @@ export const ThemeControls = () => {
 
       {/* Hex Colors Pickers */}
       <div className="space-y-3">
-        <label className="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center space-x-1.5">
-          <Palette size={12} className="text-slate-500" />
+        <label className="text-xs font-semibold uppercase tracking-wider text-slate-500 flex items-center space-x-1.5">
+          <Palette size={12} className="text-slate-400" />
           <span>Hex Colors Palette</span>
         </label>
         <div className="grid grid-cols-2 gap-4">
@@ -105,9 +105,9 @@ export const ThemeControls = () => {
       </div>
 
       {/* Typography Fonts */}
-      <div className="space-y-3 border-t border-slate-800 pt-5">
-        <label className="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center space-x-1.5">
-          <Type size={12} className="text-slate-500" />
+      <div className="space-y-3 border-t border-slate-150 pt-5">
+        <label className="text-xs font-semibold uppercase tracking-wider text-slate-600 flex items-center space-x-1.5">
+          <Type size={12} className="text-slate-400" />
           <span>Typography Fonts</span>
         </label>
         <div className="grid grid-cols-2 gap-3">
@@ -116,7 +116,7 @@ export const ThemeControls = () => {
             <select
               value={font.heading}
               onChange={(e) => handleFontChange('heading', e.target.value)}
-              className="bg-slate-950 border border-slate-850 rounded-lg text-xs p-2 text-slate-350 focus:outline-none"
+              className="bg-white border border-slate-200 rounded-lg text-xs p-2 text-slate-700 focus:outline-none"
             >
               {fonts.map((f) => (
                 <option key={f} value={f}>{f}</option>
@@ -128,7 +128,7 @@ export const ThemeControls = () => {
             <select
               value={font.body}
               onChange={(e) => handleFontChange('body', e.target.value)}
-              className="bg-slate-950 border border-slate-850 rounded-lg text-xs p-2 text-slate-350 focus:outline-none"
+              className="bg-white border border-slate-200 rounded-lg text-xs p-2 text-slate-700 focus:outline-none"
             >
               {fonts.map((f) => (
                 <option key={f} value={f}>{f}</option>
@@ -139,9 +139,9 @@ export const ThemeControls = () => {
       </div>
 
       {/* Design Layout Style */}
-      <div className="space-y-3 border-t border-slate-800 pt-5">
-        <label className="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center space-x-1.5">
-          <Layers size={12} className="text-slate-500" />
+      <div className="space-y-3 border-t border-slate-150 pt-5">
+        <label className="text-xs font-semibold uppercase tracking-wider text-slate-650 flex items-center space-x-1.5">
+          <Layers size={12} className="text-slate-400" />
           <span>Layout Template</span>
         </label>
         <div className="grid grid-cols-2 gap-2">
@@ -149,10 +149,10 @@ export const ThemeControls = () => {
             <button
               key={lay.id}
               onClick={() => setLayoutStyle(lay.id)}
-              className={`p-2.5 rounded-lg border text-center text-xs transition-colors font-medium ${
+              className={`p-2.5 rounded-lg border text-center text-xs transition-all font-medium ${
                 layoutStyle === lay.id
-                  ? 'bg-indigo-600/10 border-indigo-500 text-indigo-400'
-                  : 'bg-slate-950 border-slate-900 text-slate-400 hover:border-slate-850'
+                  ? 'bg-indigo-50 border-indigo-500 text-indigo-755 font-bold shadow-sm'
+                  : 'bg-white border-slate-200 text-slate-600 hover:border-slate-350 hover:shadow-sm'
               }`}
             >
               {lay.label}
@@ -162,8 +162,8 @@ export const ThemeControls = () => {
       </div>
 
       {/* Button Style */}
-      <div className="space-y-3 border-t border-slate-800 pt-5">
-        <label className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+      <div className="space-y-3 border-t border-slate-150 pt-5">
+        <label className="text-xs font-semibold uppercase tracking-wider text-slate-655">
           Interactive Button Edges
         </label>
         <div className="grid grid-cols-3 gap-2">
@@ -171,10 +171,10 @@ export const ThemeControls = () => {
             <button
               key={btn.id}
               onClick={() => setButtonStyle(btn.id)}
-              className={`p-2 rounded-lg border text-center text-[10px] transition-colors font-semibold ${
+              className={`p-2 rounded-lg border text-center text-[10px] transition-all font-semibold ${
                 buttonStyle === btn.id
-                  ? 'bg-indigo-600/10 border-indigo-500 text-indigo-400'
-                  : 'bg-slate-950 border-slate-900 text-slate-400 hover:border-slate-850'
+                  ? 'bg-indigo-50 border-indigo-500 text-indigo-755 font-bold shadow-sm'
+                  : 'bg-white border-slate-200 text-slate-600 hover:border-slate-350 hover:shadow-sm'
               }`}
             >
               {btn.label}
@@ -185,10 +185,10 @@ export const ThemeControls = () => {
 
       {/* Org Locks */}
       {isOwner && (
-        <div className="space-y-3 border-t border-slate-800 pt-5 flex items-center justify-between">
+        <div className="space-y-3 border-t border-slate-150 pt-5 flex items-center justify-between">
           <div className="space-y-1 pr-4">
-            <label className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center space-x-1.5">
-              <Shield size={12} className="text-indigo-400" />
+            <label className="text-xs font-bold uppercase tracking-wider text-slate-650 flex items-center space-x-1.5">
+              <Shield size={12} className="text-indigo-650" />
               <span>Theme locking</span>
             </label>
             <p className="text-[9px] text-slate-500">Lock organization cards to apply this theme template universally.</p>
@@ -197,15 +197,15 @@ export const ThemeControls = () => {
             type="checkbox"
             checked={isLockedByOrg}
             onChange={(e) => setIsLockedByOrg(e.target.checked)}
-            className="w-4 h-4 text-indigo-650 rounded border-slate-800 bg-slate-950 shrink-0"
+            className="w-4 h-4 text-indigo-600 rounded border-slate-300 bg-white shrink-0 focus:ring-indigo-500"
           />
         </div>
       )}
 
       {/* Save Button */}
-      <div className="border-t border-slate-800 pt-5 flex flex-col items-center space-y-3">
+      <div className="border-t border-slate-150 pt-5 flex flex-col items-center space-y-3">
         {saveSuccess && (
-          <span className="text-xs text-green-400 font-semibold flex items-center space-x-1.5 animate-bounce">
+          <span className="text-xs text-green-700 font-semibold flex items-center space-x-1.5 animate-bounce">
             <Check size={14} />
             <span>Theme saved successfully!</span>
           </span>
@@ -221,7 +221,7 @@ export const ThemeControls = () => {
 // Helper hex-color picker row
 const ColorPickerInput = ({ label, val, onChange }) => {
   return (
-    <div className="flex flex-col space-y-1 w-full bg-slate-950 p-2 border border-slate-850 rounded-xl">
+    <div className="flex flex-col space-y-1 w-full bg-slate-50 p-2 border border-slate-200 rounded-xl shadow-sm">
       <span className="text-[10px] font-bold text-slate-500 uppercase">{label}</span>
       <div className="flex items-center space-x-2">
         <input
@@ -234,12 +234,11 @@ const ColorPickerInput = ({ label, val, onChange }) => {
           type="text"
           value={val.toUpperCase()}
           onChange={(e) => {
-            const valInput = e.target.value;
-            if (valInput.match(/^#[0-9a-fA-F]{0,6}$/)) {
-              onChange(valInput);
-            }
+            let value = e.target.value;
+            if (!value.startsWith('#')) value = '#' + value;
+            if (value.length <= 7) onChange(value);
           }}
-          className="bg-transparent border-0 outline-none text-xs text-slate-200 uppercase font-mono w-20"
+          className="w-20 bg-white border border-slate-250 rounded-lg text-xs p-1 text-slate-700 font-mono focus:outline-none"
         />
       </div>
     </div>

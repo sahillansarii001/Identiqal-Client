@@ -105,27 +105,27 @@ export default function CardEditBuilderPage() {
   return (
     <div className="space-y-6 max-w-7xl">
       {/* Header controls bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-900 pb-5 gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-200 pb-5 gap-4">
         <div className="flex items-center space-x-3">
           <Link href="/dashboard/cards">
-            <button className="p-2 border border-slate-850 hover:bg-slate-900 rounded-xl text-slate-400 hover:text-white transition-colors">
+            <button className="p-2 border border-slate-250 hover:bg-slate-100 rounded-xl text-slate-500 hover:text-slate-800 transition-colors">
               <ArrowLeft size={16} />
             </button>
           </Link>
           <div>
-            <h1 className="text-xl font-extrabold text-slate-100 flex items-center space-x-1.5">
+            <h1 className="text-xl font-extrabold text-slate-900 flex items-center space-x-1.5">
               <span>Builder Workspace</span>
-              <span className="text-[10px] bg-slate-900 text-slate-400 border border-slate-800 px-2 py-0.5 rounded-lg capitalize">
+              <span className="text-[10px] bg-slate-100 text-slate-650 border border-slate-200 px-2 py-0.5 rounded-lg capitalize">
                 /{title}
               </span>
             </h1>
-            <p className="text-xs text-slate-400">Design your layout and brand styling templates.</p>
+            <p className="text-xs text-slate-500">Design your layout and brand styling templates.</p>
           </div>
         </div>
 
         <div className="flex items-center space-x-3">
           {saveSuccess && (
-            <span className="text-xs text-green-400 font-semibold animate-pulse">
+            <span className="text-xs text-green-600 font-semibold animate-pulse">
               Layout saved!
             </span>
           )}
@@ -149,21 +149,21 @@ export default function CardEditBuilderPage() {
 
         {/* Center: Live Mobile Preview Card */}
         <div className="lg:col-span-4 space-y-3 flex flex-col items-center">
-          <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center space-x-1">
-            <Eye size={12} className="text-slate-500" />
+          <h4 className="text-xs font-bold uppercase tracking-wider text-slate-550 flex items-center space-x-1">
+            <Eye size={12} className="text-slate-400" />
             <span>Visual Preview Device</span>
           </h4>
 
           {/* Smartphone device Mock frame */}
           <div 
-            className="w-full max-w-[340px] border-8 border-slate-900 rounded-[36px] bg-slate-950 overflow-hidden shadow-2xl relative"
+            className="w-full max-w-[340px] border-8 border-slate-850 rounded-[36px] bg-slate-950 overflow-hidden shadow-2xl relative"
             style={{ 
               minHeight: '520px',
               fontFamily: themeStore.font.body || 'sans-serif'
             }}
           >
             {/* Top Speaker notch */}
-            <div className="absolute top-2 left-1/2 -translate-x-1/2 w-28 h-4 bg-slate-900 rounded-full z-20" />
+            <div className="absolute top-2 left-1/2 -translate-x-1/2 w-28 h-4 bg-slate-850 rounded-full z-20" />
             
             {/* Live rendered scrollable viewport */}
             <div 
@@ -171,7 +171,7 @@ export default function CardEditBuilderPage() {
               style={{ backgroundColor: themeStore.colors.background || '#ffffff' }}
             >
               {sections.length === 0 ? (
-                <div className="text-center py-20 text-slate-400 text-xs">
+                <div className="text-center py-20 text-slate-500 text-xs">
                   Add layout block components to preview styling.
                 </div>
               ) : (
@@ -191,13 +191,13 @@ export default function CardEditBuilderPage() {
         {/* Right Side: Tabbed Configuration Panels */}
         <div className="lg:col-span-4 space-y-6">
           {/* Tab Selector bar */}
-          <div className="flex border-b border-slate-900 pb-px">
+          <div className="flex border-b border-slate-200 pb-px">
             <button
               onClick={() => setActiveInspectorTab('editor')}
               className={`flex-1 py-3 text-center text-xs font-bold border-b-2 transition-all flex items-center justify-center space-x-1.5 ${
                 activeInspectorTab === 'editor'
-                  ? 'border-indigo-500 text-indigo-400 bg-slate-900/10'
-                  : 'border-transparent text-slate-500 hover:text-slate-350'
+                  ? 'border-indigo-500 text-indigo-650 bg-indigo-50/10'
+                  : 'border-transparent text-slate-500 hover:text-slate-700'
               }`}
             >
               <Layers size={14} />
@@ -207,8 +207,8 @@ export default function CardEditBuilderPage() {
               onClick={() => setActiveInspectorTab('theme')}
               className={`flex-1 py-3 text-center text-xs font-bold border-b-2 transition-all flex items-center justify-center space-x-1.5 ${
                 activeInspectorTab === 'theme'
-                  ? 'border-indigo-500 text-indigo-400 bg-slate-900/10'
-                  : 'border-transparent text-slate-500 hover:text-slate-350'
+                  ? 'border-indigo-500 text-indigo-650 bg-indigo-50/10'
+                  : 'border-transparent text-slate-500 hover:text-slate-700'
               }`}
             >
               <Palette size={14} />

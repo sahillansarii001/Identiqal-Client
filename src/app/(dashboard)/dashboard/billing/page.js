@@ -74,23 +74,23 @@ export default function BillingPage() {
 
   return (
     <div className="space-y-6 max-w-5xl">
-      <div className="border-b border-slate-900 pb-5">
-        <h1 className="text-xl font-extrabold text-slate-100">Billing & Subscriptions</h1>
-        <p className="text-xs text-slate-400">Upgrade your plan to unlock premium branding tools, team seats, and CSV downloads.</p>
+      <div className="border-b border-slate-200 pb-5">
+        <h1 className="text-xl font-extrabold text-slate-900">Billing & Subscriptions</h1>
+        <p className="text-xs text-slate-500">Upgrade your plan to unlock premium branding tools, team seats, and CSV downloads.</p>
       </div>
 
       {/* Active tier card */}
-      <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 relative overflow-hidden flex flex-col sm:flex-row sm:items-center justify-between gap-6">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl z-0" />
+      <div className="bg-white border border-slate-200 rounded-3xl p-6 relative overflow-hidden flex flex-col sm:flex-row sm:items-center justify-between gap-6 shadow-sm">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/5 rounded-full blur-3xl z-0" />
         <div className="relative z-10 flex items-center space-x-4">
           <div className="w-12 h-12 bg-indigo-650 rounded-2xl flex items-center justify-center font-bold text-slate-100 text-lg shadow-md">
             <Zap size={22} />
           </div>
           <div>
-            <h4 className="font-bold text-slate-200 text-sm">Active Plan Tier</h4>
+            <h4 className="font-bold text-slate-800 text-sm">Active Plan Tier</h4>
             <div className="flex items-center space-x-2 mt-1">
-              <span className="text-lg font-black text-slate-100 capitalize">{user?.subscriptionTier}</span>
-              <span className="text-[10px] bg-green-500/10 border border-green-500/25 text-green-400 px-2 py-0.5 rounded-full font-bold flex items-center space-x-1">
+              <span className="text-lg font-black text-slate-900 capitalize">{user?.subscriptionTier}</span>
+              <span className="text-[10px] bg-green-50 border border-green-200 text-green-700 px-2 py-0.5 rounded-full font-bold flex items-center space-x-1">
                 <ShieldCheck size={10} />
                 <span>Active Account</span>
               </span>
@@ -106,26 +106,26 @@ export default function BillingPage() {
           return (
             <div
               key={p.id}
-              className={`p-6 border rounded-2xl flex flex-col justify-between space-y-6 relative transition-all duration-200 ${
+              className={`p-6 border rounded-2xl flex flex-col justify-between space-y-6 relative transition-all duration-200 bg-white ${
                 isActive
-                  ? 'bg-indigo-950/10 border-indigo-500 shadow-lg'
-                  : 'bg-slate-900/30 border-slate-900'
+                  ? 'border-indigo-500 shadow-lg bg-indigo-50/10'
+                  : 'border-slate-200 shadow-sm hover:border-slate-350'
               }`}
             >
               <div className="space-y-4">
-                <h3 className="text-sm font-bold text-slate-200 flex items-center justify-between">
+                <h3 className="text-sm font-bold text-slate-900 flex items-center justify-between">
                   <span>{p.name}</span>
-                  {isActive && <span className="text-[9px] bg-indigo-500/10 text-indigo-400 px-1.5 py-0.5 rounded-md font-bold uppercase border border-indigo-500/20">Current</span>}
+                  {isActive && <span className="text-[9px] bg-indigo-50 border border-indigo-200 text-indigo-700 px-1.5 py-0.5 rounded-md font-bold uppercase">Current</span>}
                 </h3>
                 <div className="flex items-baseline space-x-1">
-                  <span className="text-2xl font-black text-slate-100">{p.price}</span>
+                  <span className="text-2xl font-black text-slate-900">{p.price}</span>
                   {p.period && <span className="text-[10px] text-slate-500">{p.period}</span>}
                 </div>
-                <p className="text-[11px] text-slate-400">{p.description}</p>
-                <div className="space-y-2 pt-3 border-t border-slate-900">
+                <p className="text-[11px] text-slate-650">{p.description}</p>
+                <div className="space-y-2 pt-3 border-t border-slate-100">
                   {p.features.map((f, idx) => (
-                    <div key={idx} className="flex items-start space-x-2 text-[10px] text-slate-350">
-                      <Check size={12} className="text-indigo-400 mt-0.5 shrink-0" />
+                    <div key={idx} className="flex items-start space-x-2 text-[10px] text-slate-600">
+                      <Check size={12} className="text-indigo-600 mt-0.5 shrink-0" />
                       <span>{f}</span>
                     </div>
                   ))}

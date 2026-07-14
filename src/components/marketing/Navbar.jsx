@@ -21,26 +21,26 @@ export const Navbar = () => {
   };
 
   return (
-    <nav className="border-b border-slate-900 bg-slate-950/80 backdrop-blur-md sticky top-0 z-40">
+    <nav className="border-b border-slate-200 bg-white/80 backdrop-blur-md sticky top-0 z-40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <Link href="/" className="flex items-center space-x-2 text-xl font-black tracking-tight bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">
-              <CreditCard className="text-blue-500" />
+            <Link href="/" className="flex items-center space-x-2 text-xl font-black tracking-tight bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              <CreditCard className="text-blue-600" />
               <span>Identiqal</span>
             </Link>
           </div>
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link href="/pricing" className="text-sm text-slate-300 hover:text-white transition-colors">
+            <Link href="/pricing" className="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">
               Pricing
             </Link>
-            <Link href="/#how-it-works" className="text-sm text-slate-300 hover:text-white transition-colors">
+            <Link href="/#how-it-works" className="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">
               How it Works
             </Link>
-            <Link href="/#showcase" className="text-sm text-slate-300 hover:text-white transition-colors">
+            <Link href="/#showcase" className="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">
               Features
             </Link>
           </div>
@@ -54,7 +54,7 @@ export const Navbar = () => {
                     <span>Dashboard</span>
                   </Button>
                 </Link>
-                <Button variant="ghost" size="sm" onClick={handleLogout} className="text-slate-400 hover:text-white">
+                <Button variant="ghost" size="sm" onClick={handleLogout} className="text-slate-500 hover:text-slate-800">
                   <LogOut size={14} className="mr-1.5" />
                   Logout
                 </Button>
@@ -62,7 +62,7 @@ export const Navbar = () => {
             ) : (
               <>
                 <Link href="/login">
-                  <Button variant="ghost" size="sm" className="text-slate-300">
+                  <Button variant="ghost" size="sm" className="text-slate-600 hover:text-slate-900">
                     Sign In
                   </Button>
                 </Link>
@@ -79,7 +79,7 @@ export const Navbar = () => {
           <div className="md:hidden">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="text-slate-400 hover:text-white p-2 rounded-xl hover:bg-slate-900 transition-colors"
+              className="text-slate-500 hover:text-slate-800 p-2 rounded-xl hover:bg-slate-100 transition-colors"
             >
               {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
@@ -89,29 +89,29 @@ export const Navbar = () => {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden px-2 pt-2 pb-4 space-y-1 bg-slate-950 border-b border-slate-900">
+        <div className="md:hidden px-2 pt-2 pb-4 space-y-1 bg-white border-b border-slate-200">
           <Link
             href="/pricing"
-            className="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-300 hover:text-white hover:bg-slate-900"
+            className="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-650 hover:text-indigo-600 hover:bg-slate-50"
             onClick={() => setMobileMenuOpen(false)}
           >
             Pricing
           </Link>
           <Link
             href="/#how-it-works"
-            className="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-300 hover:text-white hover:bg-slate-900"
+            className="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-650 hover:text-indigo-600 hover:bg-slate-50"
             onClick={() => setMobileMenuOpen(false)}
           >
             How it Works
           </Link>
           <Link
             href="/#showcase"
-            className="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-300 hover:text-white hover:bg-slate-900"
+            className="block px-3 py-2.5 rounded-xl text-base font-medium text-slate-650 hover:text-indigo-600 hover:bg-slate-50"
             onClick={() => setMobileMenuOpen(false)}
           >
             Features
           </Link>
-          <div className="border-t border-slate-900 my-2 pt-2 space-y-2 px-3">
+          <div className="border-t border-slate-150 my-2 pt-2 space-y-2 px-3">
             {isAuthenticated ? (
               <>
                 <Link href="/dashboard" className="block w-full">
@@ -119,14 +119,14 @@ export const Navbar = () => {
                     Dashboard
                   </Button>
                 </Link>
-                <Button variant="ghost" onClick={handleLogout} className="w-full justify-center text-slate-400">
+                <Button variant="ghost" onClick={handleLogout} className="w-full justify-center text-slate-550">
                   Logout
                 </Button>
               </>
             ) : (
               <>
                 <Link href="/login" className="block w-full">
-                  <Button variant="ghost" className="w-full justify-center text-slate-300">
+                  <Button variant="ghost" className="w-full justify-center text-slate-600">
                     Sign In
                   </Button>
                 </Link>

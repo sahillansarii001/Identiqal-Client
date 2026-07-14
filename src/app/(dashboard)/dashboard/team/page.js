@@ -136,38 +136,38 @@ export default function TeamWorkspacePage() {
 
   return (
     <div className="space-y-6 max-w-5xl">
-      <div className="border-b border-slate-900 pb-5">
-        <h1 className="text-xl font-extrabold text-slate-100">Team Workspace</h1>
-        <p className="text-xs text-slate-400">Configure shared templates and invite organization members.</p>
+      <div className="border-b border-slate-200 pb-5">
+        <h1 className="text-xl font-extrabold text-slate-900">Team Workspace</h1>
+        <p className="text-xs text-slate-500">Configure shared templates and invite organization members.</p>
       </div>
 
       {errorMsg && (
-        <div className="p-4 bg-red-500/10 border border-red-500/20 text-red-400 rounded-xl text-xs flex items-center space-x-2">
-          <ShieldAlert size={16} className="shrink-0" />
+        <div className="p-4 bg-red-50 border border-red-200 text-red-700 rounded-xl text-xs flex items-center space-x-2">
+          <ShieldAlert size={16} className="shrink-0 animate-pulse" />
           <span>{errorMsg}</span>
         </div>
       )}
 
       {successMsg && (
-        <div className="p-4 bg-green-500/10 border border-green-500/20 text-green-400 rounded-xl text-xs flex items-center space-x-2">
-          <UserCheck size={16} className="shrink-0" />
+        <div className="p-4 bg-green-50 border border-green-200 text-green-700 rounded-xl text-xs flex items-center space-x-2">
+          <UserCheck size={16} className="shrink-0 animate-pulse" />
           <span>{successMsg}</span>
         </div>
       )}
 
       {!org ? (
         /* Create Org Callout */
-        <div className="bg-slate-900/40 border border-slate-900 rounded-3xl p-8 space-y-6 max-w-xl mx-auto text-center relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-48 h-48 bg-indigo-500/10 rounded-full blur-3xl" />
-          <Users size={48} className="mx-auto text-indigo-500 animate-pulse" />
+        <div className="bg-white border border-slate-200 rounded-3xl p-8 space-y-6 max-w-xl mx-auto text-center relative overflow-hidden shadow-sm">
+          <div className="absolute top-0 right-0 w-48 h-48 bg-indigo-500/5 rounded-full blur-3xl" />
+          <Users size={48} className="mx-auto text-indigo-600 animate-pulse" />
           <div className="space-y-2">
-            <h2 className="text-base font-bold text-slate-100">Create a Team Workspace</h2>
-            <p className="text-xs text-slate-400 leading-relaxed">
+            <h2 className="text-base font-bold text-slate-900">Create a Team Workspace</h2>
+            <p className="text-xs text-slate-600 leading-relaxed">
               Unlock centralized branding locks, aggregated team reports, and collaborative seat allocations. Rebrand all team business cards instantly.
             </p>
           </div>
 
-          <form onSubmit={handleSubmitOrg(handleCreateOrg)} className="space-y-4 text-left border-t border-slate-800 pt-6">
+          <form onSubmit={handleSubmitOrg(handleCreateOrg)} className="space-y-4 text-left border-t border-slate-150 pt-6">
             <Input
               label="Organization Name"
               placeholder="eg. Acme Corp"
@@ -190,28 +190,28 @@ export default function TeamWorkspacePage() {
         <div className="grid md:grid-cols-12 gap-8">
           {/* Member list & seats */}
           <div className="md:col-span-7 space-y-6">
-            <div className="bg-slate-900/30 border border-slate-900 rounded-2xl p-6 space-y-4">
-              <div className="flex items-center justify-between border-b border-slate-900 pb-3">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-slate-350 flex items-center space-x-1.5">
-                  <Users size={14} className="text-indigo-400" />
+            <div className="bg-white border border-slate-200 rounded-2xl p-6 space-y-4 shadow-sm">
+              <div className="flex items-center justify-between border-b border-slate-150 pb-3">
+                <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center space-x-1.5">
+                  <Users size={14} className="text-indigo-650" />
                   <span>Workspace Members</span>
                 </h3>
-                <span className="text-[10px] bg-slate-950 border border-slate-800 text-slate-400 px-2.5 py-0.5 rounded-full font-bold">
+                <span className="text-[10px] bg-slate-50 border border-slate-200 text-slate-600 px-2.5 py-0.5 rounded-full font-bold">
                   {org.seatsUsed} / {org.seatLimit} Seats Used
                 </span>
               </div>
 
               <div className="space-y-3">
                 {org.members.map((member, idx) => (
-                  <div key={idx} className="flex items-center justify-between p-3.5 bg-slate-950/40 border border-slate-900 rounded-xl">
+                  <div key={idx} className="flex items-center justify-between p-3.5 bg-slate-50 border border-slate-200 rounded-xl">
                     <div>
-                      <h5 className="text-xs font-bold text-slate-200">{member.email}</h5>
-                      <span className="text-[9px] text-indigo-400 capitalize">{member.role}</span>
+                      <h5 className="text-xs font-bold text-slate-800">{member.email}</h5>
+                      <span className="text-[9px] text-indigo-600 capitalize">{member.role}</span>
                     </div>
                     <span className={`text-[8px] border px-2 py-0.5 rounded-full uppercase font-bold tracking-wider ${
                       member.status === 'active' 
-                        ? 'bg-green-500/10 border-green-500/20 text-green-400' 
-                        : 'bg-amber-500/10 border-amber-500/20 text-amber-400'
+                        ? 'bg-green-50 border-green-200 text-green-700' 
+                        : 'bg-amber-50 border-amber-200 text-amber-700'
                     }`}>
                       {member.status}
                     </span>
@@ -223,9 +223,9 @@ export default function TeamWorkspacePage() {
 
           {/* Invitation Side Form */}
           <div className="md:col-span-5 space-y-6">
-            <div className="bg-slate-900/30 border border-slate-900 rounded-2xl p-6 space-y-4">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-350 flex items-center space-x-1.5 border-b border-slate-900 pb-3">
-                <Mail size={14} className="text-indigo-400" />
+            <div className="bg-white border border-slate-200 rounded-2xl p-6 space-y-4 shadow-sm">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center space-x-1.5 border-b border-slate-150 pb-3">
+                <Mail size={14} className="text-indigo-650" />
                 <span>Invite Team Member</span>
               </h3>
 
@@ -237,9 +237,9 @@ export default function TeamWorkspacePage() {
                   {...registerInvite('email')}
                 />
                 <div className="flex flex-col space-y-1.5">
-                  <label className="text-xs font-semibold uppercase tracking-wider text-slate-400">Workspace Role</label>
+                  <label className="text-xs font-semibold uppercase tracking-wider text-slate-500">Workspace Role</label>
                   <select
-                    className="bg-slate-950 border border-slate-800 rounded-xl text-xs p-2.5 text-slate-350 focus:outline-none"
+                    className="bg-white border border-slate-200 rounded-xl text-xs p-2.5 text-slate-700 focus:outline-none"
                     {...registerInvite('role')}
                   >
                     <option value="member">Member (Own Card Edit Only)</option>
@@ -253,11 +253,11 @@ export default function TeamWorkspacePage() {
             </div>
 
             {/* Centralized styling banner */}
-            <div className="p-5 bg-indigo-950/10 border border-indigo-900/35 rounded-2xl flex items-center space-x-3 shadow-md shadow-indigo-950/5">
-              <Lock size={20} className="text-indigo-400 shrink-0" />
+            <div className="p-5 bg-indigo-50 border border-indigo-150 rounded-2xl flex items-center space-x-3 shadow-md shadow-indigo-100/10">
+              <Lock size={20} className="text-indigo-600 shrink-0" />
               <div className="space-y-0.5">
-                <h5 className="text-xs font-bold text-indigo-300">Centralized styling theme locks</h5>
-                <p className="text-[9px] text-slate-400 leading-normal">
+                <h5 className="text-xs font-bold text-indigo-700">Centralized styling theme locks</h5>
+                <p className="text-[9px] text-slate-600 leading-normal">
                   All invited members will automatically render using the locked team theme configuration set on the Theme Controls tab.
                 </p>
               </div>
