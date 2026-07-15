@@ -11,11 +11,11 @@ export const Button = React.forwardRef(({
   const baseStyles = 'inline-flex items-center justify-center font-medium rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white disabled:opacity-50 disabled:pointer-events-none';
   
   const variants = {
-    primary: 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-lg shadow-indigo-650/20 focus:ring-indigo-500',
-    secondary: 'bg-slate-100 hover:bg-slate-200 text-slate-800 focus:ring-slate-500 border border-slate-200',
-    outline: 'bg-transparent border border-slate-250 hover:bg-slate-50 hover:border-slate-300 text-slate-600 hover:text-slate-900 focus:ring-slate-300',
-    danger: 'bg-red-600 hover:bg-red-555 text-white shadow-lg shadow-red-200/20 focus:ring-red-500',
-    ghost: 'bg-transparent hover:bg-slate-100 text-slate-600 hover:text-slate-900 focus:ring-slate-200',
+    primary: 'bg-[#5A3342] hover:bg-[#6A3B4B] text-white shadow-md shadow-[#5A3342]/10 focus:ring-[#5A3342]',
+    secondary: 'bg-white hover:bg-[#FAF8F6] text-[#5A3342] focus:ring-[#5A3342] border border-[#5A3342]',
+    outline: 'bg-transparent border border-[#E9E2DC] hover:bg-[#FAF8F6] hover:border-[#5A3342]/30 text-[#6B6B6B] hover:text-[#1F1F1F] focus:ring-[#5A3342]',
+    danger: 'bg-red-650 hover:bg-red-600 text-white shadow-md focus:ring-red-500',
+    ghost: 'bg-transparent hover:bg-[#FAF8F6] text-[#6B6B6B] hover:text-[#1F1F1F] focus:ring-[#5A3342]',
   };
 
   const sizes = {

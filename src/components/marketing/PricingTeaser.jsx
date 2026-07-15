@@ -1,18 +1,22 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
-import { Check } from 'lucide-react';
-import { Button } from '../ui/Button.jsx';
+import { Check, Star } from 'lucide-react';
+import { motion, useReducedMotion } from 'framer-motion';
 
 export const PricingTeaser = () => {
+  const shouldReduceMotion = useReducedMotion();
+
   const plans = [
     {
-      name: 'Free',
+      name: 'Free Starter',
       price: '$0',
-      description: 'Perfect for individual networking starters.',
+      description: 'Ideal for individual networking starters.',
       features: [
         '1 Active Digital Business Card',
         'Standard Layout Section Blocks',
-        'Basic Colors and Style Layouts',
+        'Basic Colors and Layout Settings',
         'Standard Performance Analytics',
       ],
       buttonText: 'Sign Up Free',
@@ -20,32 +24,33 @@ export const PricingTeaser = () => {
       featured: false,
     },
     {
-      name: 'Pro',
+      name: 'Professional Pro',
       price: '$9',
       period: '/mo',
-      description: 'Accelerate your professional brand.',
+      description: 'Elevate your professional brand visibility.',
       features: [
-        'Unlimited Digital Cards',
-        'Custom Design Theme Controls',
-        'Advanced Analytics Dashboards',
-        'Export Captured Leads to CSV',
-        'Generate and Download QR Code',
+        'Unlimited Active Digital Cards',
+        'AI Smart Intro Writer Assistant',
+        'AI suggestions & completeness review',
+        'Deep Analytics Dashboards (clicks, location)',
+        'Export captured inquiry leads to CSV',
+        'Download high-res dynamic vector QRs',
       ],
       buttonText: 'Get Started Pro',
       href: '/signup?tier=pro',
       featured: true,
     },
     {
-      name: 'Business',
+      name: 'Enterprise Business',
       price: '$29',
       period: '/mo',
       description: 'Empower your teams and organization workspaces.',
       features: [
-        'Includes 10 User Member Seats',
-        'Organization Theme Locking',
-        'Aggregated Team Analytics',
-        'Workspace Member Invitation Controls',
-        'Priority Premium Delivery Support',
+        'Includes 10 Admin Member Seats',
+        'Corporate Theme Style Locking controls',
+        'Aggregated Corporate Team Analytics',
+        'Workspace Member Invitation invitation access',
+        'Dedicated SLA Premium support agent',
       ],
       buttonText: 'Start Business Plan',
       href: '/signup?tier=business',
@@ -53,63 +58,132 @@ export const PricingTeaser = () => {
     },
   ];
 
+  const gridVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.12,
+      },
+    },
+  };
+
+  const cardVariants = {
+    hidden: shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: 'easeOut' },
+    },
+  };
+
   return (
-    <section className="py-20 bg-zinc-50 border-t border-slate-200 scroll-mt-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-4">
-            Simple, flexible pricing tiers
+    <section id="pricing" className="py-24 bg-[#FAFAF8] border-t border-[#4A2C3A]/5 scroll-mt-16 relative">
+      {/* Background radial effects */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-1/3 left-1/3 w-[400px] h-[400px] rounded-full bg-[#B88A44]/3 blur-[100px]" />
+      </div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+        {/* Header */}
+        <motion.div
+          initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center max-w-3xl mx-auto mb-20 space-y-4"
+        >
+          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#B88A44]/10 text-xs font-semibold text-[#B88A44] tracking-wider uppercase">
+            <span>Plans & Pricing</span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-[#1A1A1A]">
+            Simple, Transparent Pricing
           </h2>
-          <p className="text-slate-600">
-            Choose the plan that suits your personal networking or organization needs.
+          <p className="text-[#6B6B6B] text-base leading-relaxed">
+            Choose the subscription plan that fits your personal requirements or company workspace.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-8 items-stretch">
-          {plans.map((plan, index) => (
-            <div
-              key={index}
-              className={`flex flex-col border rounded-3xl p-8 relative transition-all duration-300 bg-white ${
-                plan.featured
-                  ? 'border-indigo-500 shadow-xl shadow-indigo-600/5 md:scale-105 z-10'
-                  : 'border-slate-200 hover:border-slate-350 hover:shadow-md'
-              }`}
-            >
-              {plan.featured && (
-                <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-3 py-1 bg-indigo-650 rounded-full text-[10px] font-bold text-white uppercase tracking-wider shadow-md shadow-indigo-600/10">
-                  Most Popular
-                </span>
-              )}
+        {/* Pricing Cards Grid */}
+        <motion.div
+          variants={gridVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-50px' }}
+          className="grid md:grid-cols-3 gap-8 items-stretch max-w-6xl mx-auto"
+        >
+          {plans.map((plan, index) => {
+            const isPro = plan.featured;
+            return (
+              <motion.div
+                key={index}
+                variants={cardVariants}
+                animate={
+                  isPro && !shouldReduceMotion
+                    ? { y: [0, -4, 0] }
+                    : {}
+                }
+                transition={
+                  isPro && !shouldReduceMotion
+                    ? { repeat: Infinity, duration: 6, ease: 'easeInOut' }
+                    : {}
+                }
+                whileHover={
+                  shouldReduceMotion
+                    ? {}
+                    : {
+                        y: isPro ? -8 : -6,
+                        scale: 1.02,
+                        borderColor: 'rgba(184, 138, 68, 0.3)',
+                        boxShadow: '0 25px 50px -12px rgba(74, 44, 58, 0.1)',
+                      }
+                }
+                className={`flex flex-col border rounded-[28px] p-8 relative transition-all duration-300 bg-white/60 backdrop-blur-md cursor-pointer ${
+                  isPro
+                    ? 'border-[#B88A44] border-2 shadow-[0_20px_50px_-10px_rgba(184,138,68,0.15)] z-10'
+                    : 'border-[#4A2C3A]/5'
+                }`}
+              >
+                {isPro && (
+                  <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-3.5 py-1 bg-[#B88A44] rounded-full text-[9px] font-bold text-[#FAFAF8] uppercase tracking-wider shadow-md shadow-[#B88A44]/20 flex items-center space-x-1">
+                    <Star size={8} fill="currentColor" />
+                    <span>Most Popular</span>
+                  </span>
+                )}
 
-              <div className="mb-6">
-                <h3 className="text-lg font-bold text-slate-900 mb-2">{plan.name}</h3>
-                <div className="flex items-baseline space-x-1 mb-2">
-                  <span className="text-3xl sm:text-4xl font-black text-slate-900">{plan.price}</span>
-                  {plan.period && <span className="text-xs text-slate-500">{plan.period}</span>}
-                </div>
-                <p className="text-xs text-slate-600 leading-relaxed">{plan.description}</p>
-              </div>
-
-              <div className="flex-1 space-y-3 mb-8 border-t border-slate-100 pt-6">
-                {plan.features.map((feature, i) => (
-                  <div key={i} className="flex items-start space-x-2 text-xs text-slate-650">
-                    <Check size={14} className="text-indigo-600 shrink-0 mt-0.5" />
-                    <span>{feature}</span>
+                <div className="mb-6 text-left">
+                  <h3 className="text-lg font-bold text-[#1A1A1A] mb-2">{plan.name}</h3>
+                  <div className="flex items-baseline space-x-1 mb-3">
+                    <span className="text-4xl font-black text-[#1A1A1A]">{plan.price}</span>
+                    {plan.period && <span className="text-xs text-[#6B6B6B] font-semibold">{plan.period}</span>}
                   </div>
-                ))}
-              </div>
+                  <p className="text-xs text-[#6B6B6B] leading-relaxed">{plan.description}</p>
+                </div>
 
-              <Link href={plan.href} className="w-full mt-auto">
-                <Button
-                  variant={plan.featured ? 'primary' : 'secondary'}
-                  className="w-full justify-center"
-                >
-                  {plan.buttonText}
-                </Button>
-              </Link>
-            </div>
-          ))}
-        </div>
+                <div className="flex-1 space-y-3.5 mb-8 border-t border-[#4A2C3A]/5 pt-6 text-left">
+                  {plan.features.map((feature, i) => (
+                    <div key={i} className="flex items-start space-x-2.5 text-xs text-[#6B6B6B]">
+                      <Check size={14} className="text-[#B88A44] shrink-0 mt-0.5" strokeWidth={3} />
+                      <span className="leading-normal">{feature}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <Link href={plan.href} className="w-full mt-auto">
+                  <motion.button
+                    whileTap={{ scale: 0.98 }}
+                    className={`w-full py-3.5 px-4 rounded-xl text-xs font-bold transition-all duration-300 border ${
+                      isPro
+                        ? 'bg-[#4A2C3A] text-white border-[#4A2C3A] hover:bg-[#3d2430] shadow-md shadow-[#4A2C3A]/10'
+                        : 'bg-white text-[#4A2C3A] border-[#4A2C3A]/10 hover:border-[#4A2C3A]/30 hover:bg-[#FAFAF8]'
+                    }`}
+                  >
+                    {plan.buttonText}
+                  </motion.button>
+                </Link>
+              </motion.div>
+            );
+          })}
+        </motion.div>
       </div>
     </section>
   );
