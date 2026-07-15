@@ -3,12 +3,19 @@
 import React from 'react';
 import { SectionRenderer } from '@/components/builder/SectionRenderer.jsx';
 
-export function LiveCardPreview({ card }) {
+export function LiveCardPreview({ card, className = "h-[280px]", scale = 0.31 }) {
   const sections = card.sections || [];
-  const theme = card.theme || { colors: { background: '#090d16', text: '#212529' } };
+  const defaultTheme = {
+    colors: {
+      background: '#ffffff',
+      text: '#212529',
+      primary: '#000000'
+    }
+  };
+  const theme = card.theme || defaultTheme;
 
   return (
-    <div className="w-full h-[280px] bg-slate-50 relative overflow-hidden flex justify-center pt-5 border-b border-[rgba(90,48,69,0.04)]">
+    <div className={`w-full bg-slate-50 relative overflow-hidden flex justify-center pt-5 ${className}`}>
       {/* Subtle background glow for premium feel */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-[#D4A45B]/5 rounded-full blur-[40px] pointer-events-none" />
       
@@ -18,8 +25,8 @@ export function LiveCardPreview({ card }) {
           width: '375px',
           height: '812px',
           transformOrigin: 'top center',
-          transform: 'scale(0.31)',
-          backgroundColor: theme.colors?.background || '#090d16'
+          transform: `scale(${scale})`,
+          backgroundColor: theme.colors?.background || '#ffffff'
         }}
       >
         <div className="w-full h-full overflow-y-auto overflow-x-hidden no-scrollbar">
@@ -28,14 +35,20 @@ export function LiveCardPreview({ card }) {
               No content.
             </div>
           ) : (
-            sections.map((sec) => (
-              <SectionRenderer
-                key={sec.sectionId}
-                section={{ ...sec, cardId: card._id }}
-                theme={theme}
-                previewMode={true}
-              />
-            ))
+            <div className="w-full flex flex-col">
+              {sections.map((sec, idx) => (
+                <React.Fragment key={sec.sectionId}>
+                  <SectionRenderer
+                    section={{ ...sec, cardId: card._id }}
+                    theme={theme}
+                    previewMode={true}
+                  />
+                  {idx < sections.length - 1 && sec.isVisible && (
+                    <div className="w-full h-px" style={{ backgroundColor: 'rgba(0,0,0,0.06)' }} />
+                  )}
+                </React.Fragment>
+              ))}
+            </div>
           )}
         </div>
       </div>

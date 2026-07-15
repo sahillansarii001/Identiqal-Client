@@ -2,8 +2,9 @@
 
 import React from 'react';
 import { Check, X } from 'lucide-react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import AnimatedSection from '@/components/ui/AnimatedSection.jsx';
+import { useSafeReducedMotion } from '@/hooks/useSafeReducedMotion.js';
 
 const comparisonRows = [
   { feature: 'Editable',             traditional: 'No (requires reprinting)',        identiqal: '⚡ Instant (edit from dashboard)' },
@@ -26,7 +27,7 @@ const tableVariants = {
 };
 
 export const ProblemFraming = () => {
-  const shouldReduceMotion = useReducedMotion();
+  const shouldReduceMotion = useSafeReducedMotion();
 
   return (
     <section id="about" className="py-24 bg-[#FAFAF8] border-t border-[#4A2C3A]/5 scroll-mt-16 relative overflow-hidden">

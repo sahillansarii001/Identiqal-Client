@@ -6,8 +6,9 @@ import {
   Sparkles, Play, Check, QrCode, TrendingUp, Sparkle,
   MessageSquare, UserCheck, ShieldCheck,
 } from 'lucide-react';
+import { useSafeReducedMotion } from '@/hooks/useSafeReducedMotion.js';
 import {
-  motion, useReducedMotion, useMotionValue, useSpring, useTransform,
+  motion, useMotionValue, useSpring, useTransform,
 } from 'framer-motion';
 
 // ─── Word-by-word split helper ─────────────────────────────────────────────────
@@ -64,7 +65,7 @@ function FloatingWidget({ children, animate, transition, className }) {
 }
 
 export const Hero = () => {
-  const shouldReduceMotion = useReducedMotion();
+  const shouldReduceMotion = useSafeReducedMotion();
   const containerRef = useRef(null);
 
   // ─── Mouse-tracking 3D tilt ──────────────────────────────────────────────────

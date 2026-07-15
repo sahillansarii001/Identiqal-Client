@@ -3,11 +3,12 @@
 import React from 'react';
 import Link from 'next/link';
 import { ArrowRight, Sparkles } from 'lucide-react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import AnimatedSection from '@/components/ui/AnimatedSection.jsx';
+import { useSafeReducedMotion } from '@/hooks/useSafeReducedMotion.js';
 
 export const FinalCTA = () => {
-  const shouldReduceMotion = useReducedMotion();
+  const shouldReduceMotion = useSafeReducedMotion();
 
   return (
     <section className="py-20 bg-[#FAFAF8] relative overflow-hidden">

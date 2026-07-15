@@ -3,8 +3,9 @@
 import React from 'react';
 import { Check, Star } from 'lucide-react';
 import Link from 'next/link';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import AnimatedSection from '@/components/ui/AnimatedSection.jsx';
+import { useSafeReducedMotion } from '@/hooks/useSafeReducedMotion.js';
 
 const plans = [
   {
@@ -67,7 +68,7 @@ const cardVariants = {
 };
 
 export const PricingTeaser = () => {
-  const shouldReduceMotion = useReducedMotion();
+  const shouldReduceMotion = useSafeReducedMotion();
 
   return (
     <section id="pricing" className="py-24 bg-[#FAFAF8] border-t border-[#4A2C3A]/5 scroll-mt-16 relative overflow-hidden">

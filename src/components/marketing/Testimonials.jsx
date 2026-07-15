@@ -2,8 +2,9 @@
 
 import React from 'react';
 import { Star } from 'lucide-react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import AnimatedSection from '@/components/ui/AnimatedSection.jsx';
+import { useSafeReducedMotion } from '@/hooks/useSafeReducedMotion.js';
 
 const reviews = [
   {
@@ -42,7 +43,7 @@ const reviews = [
 const scrollList = [...reviews, ...reviews, ...reviews];
 
 export const Testimonials = () => {
-  const shouldReduceMotion = useReducedMotion();
+  const shouldReduceMotion = useSafeReducedMotion();
 
   return (
     <section className="py-24 bg-[#FAFAF8] border-t border-[#4A2C3A]/5 overflow-hidden relative">

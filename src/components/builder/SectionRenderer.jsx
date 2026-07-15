@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/Input.jsx';
 import { CheckSquare } from 'lucide-react';
 
 export const SectionRenderer = ({ section, theme = {}, previewMode = false }) => {
-  const { type, data, isVisible } = section;
+  const { type, data = {}, isVisible } = section;
   const { colors = {}, font = {}, buttonStyle = 'rounded' } = theme;
 
   if (!isVisible && !previewMode) return null;
@@ -26,12 +26,8 @@ export const SectionRenderer = ({ section, theme = {}, previewMode = false }) =>
     case 'about':
       return (
         <div 
-          className="p-6 border border-slate-900 rounded-2xl shadow-sm text-center space-y-4"
-          style={{ 
-            backgroundColor: colors.background || '#ffffff', 
-            borderColor: colors.secondary || '#6c757d',
-            color: colors.text || '#212529' 
-          }}
+          className="px-6 py-10 sm:px-10 sm:py-12 text-center space-y-6"
+          style={{ color: colors.text || '#212529' }}
         >
           {data.avatarUrl && (
             <img 
@@ -58,26 +54,24 @@ export const SectionRenderer = ({ section, theme = {}, previewMode = false }) =>
     case 'links':
       const links = data.links || [];
       return (
-        <div className="space-y-3 w-full">
+        <div className="space-y-3 w-full px-6 py-8 sm:px-10">
           {links.length === 0 ? (
             <p className="text-xs text-slate-500 text-center py-4">No links added yet.</p>
           ) : (
             links.map((link, idx) => (
               <a
                 key={idx}
-                href={link.url}
+                href={link.url || '#'}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`block p-4 border text-center text-xs font-semibold tracking-wide transition-all shadow-sm flex items-center justify-between ${buttonRadiusClass}`}
-                style={{ 
-                  backgroundColor: colors.background || '#ffffff', 
-                  borderColor: colors.secondary || '#6c757d',
-                  color: colors.primary || '#000000' 
-                }}
+                className="group flex items-center justify-between p-4 sm:p-5 rounded-2xl bg-black/[0.02] dark:bg-white/[0.02] hover:bg-black/[0.06] dark:hover:bg-white/[0.06] transition-all duration-300"
+                style={{ color: colors.primary || '#000000' }}
               >
-                <span className="text-lg">🔗</span>
-                <span className="flex-1 text-center font-bold">{link.label}</span>
-                <span className="text-xs opacity-60">→</span>
+                <div className="w-10 h-10 rounded-full bg-white dark:bg-black/20 shadow-sm flex items-center justify-center flex-shrink-0" style={{ color: colors.accent || colors.primary }}>
+                  <span className="text-lg">🔗</span>
+                </div>
+                <span className="flex-1 px-4 font-bold text-sm sm:text-base tracking-wide">{link.label}</span>
+                <span className="text-xs opacity-40 group-hover:opacity-100 group-hover:translate-x-1 transition-all">→</span>
               </a>
             ))
           )}
@@ -87,12 +81,8 @@ export const SectionRenderer = ({ section, theme = {}, previewMode = false }) =>
     case 'testimonials':
       return (
         <div 
-          className="p-6 border border-slate-900 rounded-2xl shadow-sm space-y-4"
-          style={{ 
-            backgroundColor: colors.background || '#ffffff', 
-            borderColor: colors.secondary || '#6c757d',
-            color: colors.text || '#212529' 
-          }}
+          className="px-6 py-8 sm:px-10 space-y-5"
+          style={{ color: colors.text || '#212529' }}
         >
           <div className="text-2xl" style={{ color: colors.accent || '#0d6efd' }}>“</div>
           <p className="text-xs italic leading-relaxed -mt-2">
@@ -130,12 +120,8 @@ export const SectionRenderer = ({ section, theme = {}, previewMode = false }) =>
       const images = data.images || [];
       return (
         <div 
-          className="p-6 border border-slate-900 rounded-2xl shadow-sm space-y-4 w-full"
-          style={{ 
-            backgroundColor: colors.background || '#ffffff', 
-            borderColor: colors.secondary || '#6c757d',
-            color: colors.text || '#212529' 
-          }}
+          className="px-6 py-8 sm:px-10 space-y-6 w-full"
+          style={{ color: colors.text || '#212529' }}
         >
           {data.title && (
             <h4 
@@ -183,9 +169,8 @@ export const SectionRenderer = ({ section, theme = {}, previewMode = false }) =>
   }
 };
 
-// Sub-component to manage form state and dynamic yup validation
 const FormSectionRenderer = ({ section, theme, buttonRadiusClass, previewMode }) => {
-  const { data, sectionId } = section;
+  const { data = {}, sectionId } = section;
   const { colors = {}, font = {} } = theme;
   const fields = data.fields || [];
   const [success, setSuccess] = React.useState(false);
@@ -243,12 +228,8 @@ const FormSectionRenderer = ({ section, theme, buttonRadiusClass, previewMode })
 
   return (
     <div 
-      className="p-6 border border-slate-900 rounded-2xl shadow-sm space-y-4"
-      style={{ 
-        backgroundColor: colors.background || '#ffffff', 
-        borderColor: colors.secondary || '#6c757d',
-        color: colors.text || '#212529' 
-      }}
+      className="px-6 py-8 sm:px-10 space-y-6"
+      style={{ color: colors.text || '#212529' }}
     >
       <h4 
         className="text-sm font-bold"
@@ -271,15 +252,14 @@ const FormSectionRenderer = ({ section, theme, buttonRadiusClass, previewMode })
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
         {fields.map((field) => (
           <div key={field.fieldId} className="flex flex-col space-y-1">
-            <label className="text-[10px] font-bold uppercase opacity-80" style={{ color: colors.text }}>
+            <label className="text-[11px] font-bold uppercase opacity-60 tracking-wider mb-1" style={{ color: colors.text }}>
               {field.label} {field.required && <span className="text-red-500">*</span>}
             </label>
             {field.type === 'textarea' ? (
               <textarea
-                className="w-full px-3 py-2 bg-transparent border rounded-lg text-xs focus:outline-none focus:ring-1"
+                className="w-full px-4 py-3 bg-black/[0.02] dark:bg-white/[0.02] border border-black/[0.06] dark:border-white/[0.06] rounded-[18px] text-sm focus:outline-none focus:ring-2 focus:bg-transparent transition-all"
                 rows={3}
                 style={{ 
-                  borderColor: colors.secondary || '#6c757d',
                   color: colors.primary || '#000000',
                   fontFamily: font.body || 'inherit'
                 }}
@@ -288,9 +268,8 @@ const FormSectionRenderer = ({ section, theme, buttonRadiusClass, previewMode })
             ) : (
               <input
                 type={field.type}
-                className="w-full px-3 py-2 bg-transparent border rounded-lg text-xs focus:outline-none focus:ring-1"
+                className="w-full px-4 py-3 bg-black/[0.02] dark:bg-white/[0.02] border border-black/[0.06] dark:border-white/[0.06] rounded-[18px] text-sm focus:outline-none focus:ring-2 focus:bg-transparent transition-all"
                 style={{ 
-                  borderColor: colors.secondary || '#6c757d',
                   color: colors.primary || '#000000',
                   fontFamily: font.body || 'inherit'
                 }}

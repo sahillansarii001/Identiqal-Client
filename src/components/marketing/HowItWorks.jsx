@@ -2,8 +2,9 @@
 
 import React from 'react';
 import { UserCheck, Sliders, Globe, Share2, BarChart2 } from 'lucide-react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import AnimatedSection from '@/components/ui/AnimatedSection.jsx';
+import { useSafeReducedMotion } from '@/hooks/useSafeReducedMotion.js';
 
 const steps = [
   {
@@ -49,7 +50,7 @@ const stepVariants = {
 };
 
 export const HowItWorks = () => {
-  const shouldReduceMotion = useReducedMotion();
+  const shouldReduceMotion = useSafeReducedMotion();
 
   return (
     <section id="how-it-works" className="py-24 bg-[#FAFAF8] border-t border-[#4A2C3A]/5 scroll-mt-16 relative overflow-hidden">

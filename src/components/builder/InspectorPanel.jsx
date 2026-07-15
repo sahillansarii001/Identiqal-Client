@@ -55,13 +55,13 @@ export const InspectorPanel = () => {
       <div className="flex-1 overflow-y-auto p-5 pb-24 no-scrollbar">
         <AnimatePresence mode="wait">
           {activeSection ? (
-            <motion.div
+              <motion.div
               key="contextual-editor"
               initial={{ x: 20, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: -20, opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="space-y-6"
+              className="space-y-5"
             >
               <ContextualEditor section={activeSection} />
             </motion.div>
@@ -75,18 +75,22 @@ export const InspectorPanel = () => {
               className="space-y-8"
             >
               {/* Hierarchy List */}
-              <div className="space-y-3">
-                <h4 className="text-xs font-bold uppercase tracking-wider text-gray-400 flex items-center gap-2">
-                  <Layers size={14} /> Blocks
-                </h4>
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 px-1">
+                  <div className="w-1.5 h-4 bg-primary/30 rounded-full"></div>
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-gray-800 dark:text-gray-200">Blocks</h4>
+                </div>
                 <SectionHierarchyList />
                 
                 {sections.length === 0 && (
-                  <div className="text-center py-8 border-2 border-dashed border-gray-100 rounded-2xl">
-                    <p className="text-sm text-gray-400 mb-3">Your card is empty.</p>
+                  <div className="text-center py-10 bg-gray-50 dark:bg-white/5 border border-dashed border-gray-200 dark:border-white/10 rounded-[20px]">
+                    <div className="w-10 h-10 mx-auto bg-white dark:bg-[#181518] shadow-sm rounded-xl flex items-center justify-center text-gray-300 mb-3 border border-gray-100 dark:border-white/5">
+                      <Layers size={18} />
+                    </div>
+                    <p className="text-sm text-gray-500 font-medium mb-4">Your card is empty.</p>
                     <button 
                       onClick={() => setBlockPickerOpen(true)}
-                      className="px-4 py-2 bg-primary/10 text-primary dark:!bg-white/10 dark:!text-white hover:bg-primary/20 dark:hover:!bg-white/20 rounded-full text-sm font-semibold transition-colors inline-flex items-center gap-2"
+                      className="px-5 py-2.5 bg-white dark:bg-[#181518] text-primary dark:text-white border border-gray-200 dark:border-white/10 shadow-sm hover:shadow-md hover:-translate-y-0.5 rounded-[12px] text-sm font-semibold transition-all inline-flex items-center gap-2"
                     >
                       <Plus size={16} /> Add First Block
                     </button>
@@ -94,11 +98,8 @@ export const InspectorPanel = () => {
                 )}
               </div>
 
-              {/* Theme Customizer Preview (Placeholder for V2) */}
-              <div className="space-y-4">
-                <h4 className="text-xs font-bold uppercase tracking-wider text-gray-400 flex items-center gap-2">
-                  <Palette size={14} /> Theme Options
-                </h4>
+              {/* Theme Customizer Preview */}
+              <div className="pt-4 space-y-4">
                 <ThemeCustomizer />
               </div>
             </motion.div>
@@ -120,16 +121,18 @@ const ContextualEditor = ({ section }) => {
     updateSectionRealTime(section.sectionId, { [field]: value });
   };
 
+  const data = section.data || {};
+
   return (
     <>
       {section.type === 'about' && (
-        <AboutSettings data={section.data} onUpdate={handleUpdate} />
+        <AboutSettings data={data} onUpdate={handleUpdate} />
       )}
       {section.type === 'links' && (
-        <LinksSettings data={section.data} onUpdate={handleUpdate} />
+        <LinksSettings data={data} onUpdate={handleUpdate} />
       )}
       {section.type === 'gallery' && (
-        <GallerySettings data={section.data} onUpdate={handleUpdate} />
+        <GallerySettings data={data} onUpdate={handleUpdate} />
       )}
       {['testimonials', 'form'].includes(section.type) && (
         <div className="text-sm text-gray-400 text-center py-12 border border-gray-100 rounded-2xl bg-gray-50/50">
@@ -158,7 +161,7 @@ const SortableHierarchyItem = ({ section, setActiveSection, removeSection, toggl
     <div
       ref={setNodeRef}
       style={style}
-      className={`relative group bg-white border ${isDragging ? 'border-primary shadow-xl shadow-primary/10' : 'border-gray-200 hover:border-gray-300'} rounded-2xl p-3 flex items-center gap-3 transition-colors`}
+      className={`relative group bg-white dark:bg-[#151215] border ${isDragging ? 'border-primary shadow-[0_12px_32px_rgba(var(--color-primary-rgb),0.15)] scale-[1.02]' : 'border-black/5 dark:border-white/10 hover:border-black/10 dark:hover:border-white/20 hover:shadow-[0_4px_20px_rgba(0,0,0,0.04)]'} rounded-[16px] p-3.5 flex items-center gap-3 transition-all`}
     >
       <div 
         {...attributes} 
@@ -172,12 +175,12 @@ const SortableHierarchyItem = ({ section, setActiveSection, removeSection, toggl
         className="flex-1 flex items-center gap-3 cursor-pointer"
         onClick={() => setActiveSection(section.sectionId)}
       >
-        <div className="w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center text-primary">
-          <Icon size={16} />
+        <div className="w-10 h-10 rounded-[12px] bg-gray-50/80 dark:bg-white/5 border border-black/5 dark:border-white/10 flex items-center justify-center text-primary dark:text-white shadow-sm">
+          <Icon size={18} />
         </div>
         <div>
-          <h5 className="text-sm font-semibold text-gray-900 capitalize">{section.type}</h5>
-          <p className="text-[11px] text-gray-500">
+          <h5 className="text-[13px] font-bold text-gray-900 dark:text-white capitalize">{section.type}</h5>
+          <p className="text-[11px] text-gray-500 font-medium">
             {section.data?.headline || section.data?.title || `${section.data?.links?.length || 0} items`}
           </p>
         </div>
@@ -248,39 +251,83 @@ const SectionHierarchyList = () => {
 const ThemeCustomizer = () => {
   const { themeConfig, updateThemeConfig } = useCardBuilderStore();
 
-  const colors = ['#8a2be2', '#000000', '#2563eb', '#ea580c', '#16a34a'];
-  const fonts = ['Inter', 'Outfit', 'Roboto', 'Playfair Display'];
+  const TEMPLATES = [
+    { id: 'classic', name: 'Classic', preview: 'bg-white border-gray-200 text-gray-900' },
+    { id: 'corporate', name: 'Corporate', preview: 'bg-[#f0f4f8] border-[#d9e2ec] text-[#102a43]' },
+    { id: 'minimal', name: 'Minimal', preview: 'bg-[#f8f9fa] border-gray-100 text-gray-800' },
+    { id: 'luxury', name: 'Luxury', preview: 'bg-[#121212] border-[#333] text-[#d4af37]' },
+    { id: 'modern', name: 'Modern', preview: 'bg-indigo-50 border-indigo-100 text-indigo-900' },
+    { id: 'dark', name: 'Dark', preview: 'bg-gray-900 border-gray-800 text-white' },
+  ];
+
+  const brandColors = ['#5A3045', '#000000', '#2563eb', '#16a34a', '#8a2be2', '#ea580c'];
+  const bgColors = ['#ffffff', '#f8f5f2', '#f0f4f8', '#1a1a1a', '#0D0B0D', '#151215'];
 
   return (
-    <div className="space-y-6">
-      <div className="space-y-3">
-        <label className="text-[11px] font-semibold text-gray-500 block">Accent Color</label>
-        <div className="flex gap-2">
-          {colors.map(c => (
-            <button 
-              key={c}
-              onClick={() => updateThemeConfig({ primaryColor: c })}
-              className={`w-8 h-8 rounded-full border-2 transition-all ${themeConfig.primaryColor === c ? 'border-gray-900 dark:!border-white scale-110 shadow-md' : 'border-transparent'}`}
-              style={{ backgroundColor: c }}
-            />
-          ))}
-        </div>
-      </div>
-      <div className="space-y-3">
-        <label className="text-[11px] font-semibold text-gray-500 block">Typography</label>
-        <div className="grid grid-cols-2 gap-2">
-          {fonts.map(f => (
-            <button 
-              key={f}
-              onClick={() => updateThemeConfig({ fontFamily: f })}
-              className={`py-2 px-3 text-sm rounded-xl border transition-all ${themeConfig.fontFamily === f ? 'border-primary dark:!border-white bg-primary/5 dark:!bg-white/10 text-primary dark:!text-white font-semibold' : 'border-gray-200 dark:!border-white/20 text-gray-600 dark:!text-gray-300 hover:bg-gray-50 dark:hover:!bg-white/5'}`}
-              style={{ fontFamily: f }}
+    <div className="space-y-5">
+      <SettingGroup title="Theme Gallery">
+        <div className="grid grid-cols-2 gap-3">
+          {TEMPLATES.map(t => (
+            <button
+              key={t.id}
+              onClick={() => updateThemeConfig({ template: t.id })}
+              className={`relative h-[84px] rounded-[14px] border flex flex-col p-2.5 transition-all duration-300 overflow-hidden group ${
+                themeConfig.template === t.id ? 'border-primary ring-2 ring-primary/20 shadow-md' : 'border-black/10 dark:border-white/10 hover:border-black/20 hover:shadow-sm'
+              }`}
             >
-              {f}
+              <div className={`absolute inset-0 opacity-40 ${t.preview}`}></div>
+              <div className="relative z-10 flex flex-col h-full justify-between w-full">
+                <div className="flex justify-between items-start w-full">
+                  <div className="w-8 h-1.5 rounded-full bg-current opacity-30"></div>
+                  {themeConfig.template === t.id && (
+                    <div className="w-4 h-4 rounded-full bg-primary flex items-center justify-center text-white shrink-0 shadow-sm">
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    </div>
+                  )}
+                </div>
+                <div className="space-y-1 w-full">
+                  <div className="w-full h-1 rounded-full bg-current opacity-30"></div>
+                  <div className="w-2/3 h-1 rounded-full bg-current opacity-30"></div>
+                </div>
+              </div>
+              <div className="absolute bottom-0 left-0 w-full p-1.5 bg-white/90 backdrop-blur-sm dark:bg-black/90 border-t border-black/5 dark:border-white/5 flex items-center justify-center">
+                <span className="text-[9px] font-bold uppercase tracking-wider text-gray-800 dark:text-gray-200">{t.name}</span>
+              </div>
             </button>
           ))}
         </div>
-      </div>
+      </SettingGroup>
+
+      <SettingGroup title="Color Palette">
+        <div className="space-y-6">
+          <div className="space-y-3">
+            <label className="text-[10px] font-bold text-gray-400 block uppercase tracking-wider">Brand / Accent Colors</label>
+            <div className="flex flex-wrap gap-3">
+              {brandColors.map(c => (
+                <button 
+                  key={c}
+                  onClick={() => updateThemeConfig({ primaryColor: c })}
+                  className={`w-[38px] h-[38px] rounded-[12px] border transition-all duration-300 flex items-center justify-center ${themeConfig.primaryColor === c ? 'border-gray-900 dark:border-white scale-110 shadow-md ring-2 ring-offset-1 ring-gray-200 dark:ring-gray-800' : 'border-black/10 shadow-sm hover:scale-105'}`}
+                  style={{ backgroundColor: c }}
+                />
+              ))}
+            </div>
+          </div>
+          <div className="space-y-3">
+            <label className="text-[10px] font-bold text-gray-400 block uppercase tracking-wider">Background Colors</label>
+            <div className="flex flex-wrap gap-3">
+              {bgColors.map(c => (
+                <button 
+                  key={c}
+                  onClick={() => updateThemeConfig({ backgroundColor: c })}
+                  className={`w-[38px] h-[38px] rounded-[12px] border transition-all duration-300 flex items-center justify-center ${themeConfig.backgroundColor === c ? 'border-gray-900 dark:border-white scale-110 shadow-md ring-2 ring-offset-1 ring-gray-200 dark:ring-gray-800' : 'border-black/10 shadow-sm hover:scale-105'}`}
+                  style={{ backgroundColor: c }}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </SettingGroup>
     </div>
   );
 };
@@ -291,22 +338,27 @@ const ThemeCustomizer = () => {
 /* -------------------------------------------------------------------------- */
 
 const SettingGroup = ({ title, children }) => (
-  <div className="space-y-4 pb-6 border-b border-gray-100 last:border-0 last:pb-0">
-    <h4 className="text-[11px] font-bold uppercase tracking-wider text-gray-400">{title}</h4>
-    <div className="space-y-5">{children}</div>
+  <div className="space-y-5 p-5 bg-white dark:bg-[#151215] border border-black/5 dark:border-white/10 rounded-[20px] shadow-[0_4px_24px_rgba(0,0,0,0.03)] relative overflow-hidden">
+    {title && (
+      <div className="flex items-center gap-2 mb-1">
+        <div className="w-1.5 h-4 bg-primary/30 rounded-full"></div>
+        <h4 className="text-[11px] font-bold uppercase tracking-wider text-gray-800 dark:text-gray-200">{title}</h4>
+      </div>
+    )}
+    <div className="space-y-5 relative z-10">{children}</div>
   </div>
 );
 
 const RealtimeInput = ({ label, value, onChange, placeholder, as = 'input', rows = 3 }) => (
   <div className="space-y-1.5">
-    <label className="text-[12px] font-medium text-gray-700 block">{label}</label>
+    <label className="text-[12px] font-semibold text-gray-700 dark:text-gray-300 block">{label}</label>
     {as === 'textarea' ? (
       <textarea
         value={value || ''}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         rows={rows}
-        className="w-full px-3 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-gray-900 resize-none shadow-sm"
+        className="w-full px-3.5 py-3 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all text-gray-900 dark:text-white resize-none shadow-sm"
       />
     ) : (
       <input
@@ -314,7 +366,7 @@ const RealtimeInput = ({ label, value, onChange, placeholder, as = 'input', rows
         value={value || ''}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full px-3 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-gray-900 shadow-sm"
+        className="w-full px-3.5 py-3 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all text-gray-900 dark:text-white shadow-sm"
       />
     )}
   </div>

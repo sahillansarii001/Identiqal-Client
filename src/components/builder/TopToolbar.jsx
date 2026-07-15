@@ -4,7 +4,10 @@ import { Undo, Redo, Monitor, Tablet, Smartphone, Share, ExternalLink, Check, Lo
 import { motion, AnimatePresence } from 'framer-motion';
 import { cardService } from '@/services/cardService.js';
 
+import { useRouter } from 'next/navigation';
+
 export default function TopToolbar() {
+  const router = useRouter();
   const { cardId, title, sections, seo, saveStatus, setSaveStatus, setCard, past, future, undo, redo, previewDevice, setPreviewDevice } = useCardBuilderStore();
 
   const handleSaveCard = async () => {
@@ -19,6 +22,7 @@ export default function TopToolbar() {
       if (response.success) {
         setCard(response.data);
         setSaveStatus('saved');
+        router.push('/dashboard/cards');
       }
     } catch (e) {
       alert('Failed to save layout configuration: ' + e.message);

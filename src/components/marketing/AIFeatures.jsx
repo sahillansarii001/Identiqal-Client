@@ -2,8 +2,9 @@
 
 import React from 'react';
 import { Sparkles, Bot, CheckCircle2 } from 'lucide-react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import AnimatedSection from '@/components/ui/AnimatedSection.jsx';
+import { useSafeReducedMotion } from '@/hooks/useSafeReducedMotion.js';
 
 const cardVariants = {
   hidden: { opacity: 0, y: 28, filter: 'blur(6px)' },
@@ -19,7 +20,7 @@ const gridVariants = {
 };
 
 export const AIFeatures = () => {
-  const shouldReduceMotion = useReducedMotion();
+  const shouldReduceMotion = useSafeReducedMotion();
 
   return (
     <section className="py-24 bg-[#FAFAF8] border-t border-[#4A2C3A]/5 relative overflow-hidden">

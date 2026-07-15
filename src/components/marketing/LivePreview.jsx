@@ -2,8 +2,9 @@
 
 import React, { useRef, useCallback } from 'react';
 import { Mail, Phone, MapPin, Globe, Sparkles, Check } from 'lucide-react';
-import { motion, AnimatePresence, useReducedMotion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import AnimatedSection from '@/components/ui/AnimatedSection.jsx';
+import { useSafeReducedMotion } from '@/hooks/useSafeReducedMotion.js';
 
 // ─── Theme definitions ─────────────────────────────────────────────────────────
 const themes = [
@@ -274,7 +275,7 @@ function ThemeMockup({ themeId }) {
 // ─── Main Component ────────────────────────────────────────────────────────────
 export const LivePreview = () => {
   const [activeTheme, setActiveTheme] = React.useState('light');
-  const shouldReduceMotion = useReducedMotion();
+  const shouldReduceMotion = useSafeReducedMotion();
   const phoneRef = useRef(null);
 
   // Auto-cycle themes

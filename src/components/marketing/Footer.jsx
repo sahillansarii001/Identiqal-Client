@@ -2,12 +2,13 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { ArrowUp, Sparkles, Shield, Heart, QrCode, BarChart3, RefreshCw } from 'lucide-react';
+import { useSafeReducedMotion } from '@/hooks/useSafeReducedMotion.js';
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
-  const shouldReduceMotion = useReducedMotion();
+  const shouldReduceMotion = useSafeReducedMotion();
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
 

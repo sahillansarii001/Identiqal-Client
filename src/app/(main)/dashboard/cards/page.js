@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { createCardSchema } from '@/validators/card.validator.js';
@@ -26,14 +27,22 @@ import {
   Share2,
   Download,
   CopyPlus,
-  Check
+  Check,
+  ArrowRight
 } from 'lucide-react';
 
 const DashboardCard = ({ card, handleTogglePublish, handleDelete, handleDuplicate }) => {
+  const router = useRouter();
   const [copiedLink, setCopiedLink] = useState(false);
-  const [copiedQR, setCopiedQR] = useState(false);
+  const [origin, setOrigin] = useState('');
   
-  const publicUrl = `${typeof window !== 'undefined' ? window.location.origin : ''}/${card.slug}`;
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setOrigin(window.location.origin);
+    }
+  }, []);
+
+  const publicUrl = origin ? `${origin}/${card.slug}` : `https://identiqal.com/${card.slug}`;
 
   const copyToClipboard = async (text, setter) => {
     try {
@@ -45,7 +54,9 @@ const DashboardCard = ({ card, handleTogglePublish, handleDelete, handleDuplicat
     }
   };
 
-  const downloadQR = () => {
+  const downloadQR = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     const svg = document.getElementById(`qr-${card._id}`);
     if (!svg) return;
     const svgData = new XMLSerializer().serializeToString(svg);
@@ -78,124 +89,81 @@ const DashboardCard = ({ card, handleTogglePublish, handleDelete, handleDuplicat
 
   return (
     <motion.div
+      onClick={() => router.push(`/dashboard/cards/${card._id}`)}
       variants={{
         hidden: { opacity: 0, y: 30 },
         show: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 300, damping: 25 } }
       }}
-      className="bg-white border border-[rgba(90,48,69,0.08)] rounded-[32px] overflow-hidden group transition-all duration-500 shadow-sm hover:shadow-2xl hover:shadow-[#5A3045]/10 flex flex-col relative"
+      className="cursor-pointer bg-white border border-[rgba(90,48,69,0.08)] rounded-[32px] overflow-hidden group transition-all duration-500 shadow-sm hover:shadow-2xl hover:shadow-[#5A3045]/10 flex flex-col relative"
     >
       {/* Top: Live Profile Preview */}
-      <div className="relative border-b border-[rgba(90,48,69,0.06)]">
-        <LiveCardPreview card={card} />
-        
-        {/* Status Badge */}
-        <div className="absolute top-5 right-3 z-20">
-          <button
-            onClick={() => handleTogglePublish(card._id, card.isPublished)}
-            className={`px-3 py-1.5 rounded-full border shadow-lg backdrop-blur-md transition-all flex items-center space-x-1.5 text-[9px] font-black uppercase tracking-widest hover:scale-105 ${
-              card.isPublished
-                ? 'bg-green-500/90 border-green-400 text-white shadow-green-500/20'
-                : 'bg-slate-100 border-slate-200 text-slate-600 hover:text-slate-800 shadow-black/5'
-            }`}
-          >
-            {card.isPublished ? (
-              <><Globe size={10} /><div>Published</div></>
-            ) : (
-              <><Lock size={10} /><div>Draft</div></>
-            )}
-          </button>
-        </div>
-      </div>
-
-      {/* Middle: Identity & Public URL */}
-      <div className="p-6 pb-4">
-        <h3 className="font-black text-inherit text-xl truncate group-hover:text-[#5A3045] transition-colors">
-          {name}
-        </h3>
-        
-        <div className="mt-3 flex items-center space-x-2 bg-slate-50 border border-slate-100 rounded-xl p-2.5 transition-colors group-hover:bg-[#FAF7F3] group-hover:border-[rgba(90,48,69,0.08)]">
-          <div className="w-8 h-8 rounded-lg bg-white shadow-sm flex items-center justify-center shrink-0">
-            <Globe size={14} className="text-[#D4A45B]" />
-          </div>
-          <div className="flex-1 min-w-0">
-            <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Public Link</p>
-            <p className="text-xs font-semibold text-inherit truncate opacity-80 mt-0.5">
-              identiqal.com/{card.slug}
-            </p>
-          </div>
-          <button 
-            onClick={() => copyToClipboard(publicUrl, setCopiedLink)}
-            className="w-8 h-8 rounded-lg flex items-center justify-center bg-white shadow-sm hover:bg-[#5A3045] hover:text-white text-slate-400 transition-all shrink-0"
-            title="Copy Public Link"
-          >
-            {copiedLink ? <Check size={14} /> : <Copy size={14} />}
-          </button>
-        </div>
-      </div>
-
-      {/* Bottom: QR & Statistics */}
-      <div className="px-6 flex items-center gap-6 mt-2">
-        {/* QR Code Container */}
-        <div className="w-[104px] h-[104px] rounded-2xl bg-white border border-slate-100 shadow-sm flex flex-col items-center justify-center p-2 shrink-0 group-hover:border-[#D4A45B]/30 transition-colors relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-[#5A3045]/5 to-[#D4A45B]/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-          <QRCodeSVG 
-            id={`qr-${card._id}`}
-            value={publicUrl}
-            size={76}
-            bgColor={"#ffffff"}
-            fgColor={"#251E2A"}
-            level={"Q"}
-            className="relative z-10"
-          />
-        </div>
-        
-        {/* Stats Grid */}
-        <div className="flex-1 grid grid-cols-2 gap-3">
-          {stats.map((stat, i) => (
-            <div key={i} className="bg-slate-50 rounded-xl p-3 border border-transparent group-hover:border-[rgba(90,48,69,0.05)] transition-colors">
-              <p className="text-[9px] font-bold uppercase tracking-wider text-slate-400">{stat.label}</p>
-              <p className="text-base font-black text-inherit mt-0.5">{stat.value}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Action Bar */}
-      <div className="p-6 pt-5 mt-6 border-t border-[rgba(90,48,69,0.06)] flex flex-col gap-5">
-        <div className="flex items-center justify-center gap-4 px-1">
-          {card.isPublished && (
-            <a href={`/${card.slug}`} target="_blank" rel="noopener noreferrer" className="action-btn" title="Open Live Profile">
-              <ExternalLink size={16} />
-            </a>
-          )}
-          <button onClick={downloadQR} className="action-btn" title="Download QR">
-            <Download size={16} />
-          </button>
-          <button onClick={() => copyToClipboard(publicUrl, setCopiedQR)} className="action-btn" title="Copy Link">
-            {copiedQR ? <Check size={16} /> : <Share2 size={16} />}
-          </button>
-          <Link href={`/dashboard/analytics?card=${card._id}`}>
-            <button className="action-btn" title="Analytics">
-              <BarChart3 size={16} />
+        <div className="relative border-b border-[rgba(90,48,69,0.06)]">
+          <LiveCardPreview card={card} className="h-[280px]" scale={0.31} />
+          
+          {/* Status Badge */}
+          <div className="absolute top-5 right-3 z-20">
+            <button
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleTogglePublish(card._id, card.isPublished); }}
+              className={`px-3 py-1.5 rounded-full border shadow-lg backdrop-blur-md transition-all flex items-center space-x-1.5 text-[9px] font-black uppercase tracking-widest hover:scale-105 ${
+                card.isPublished
+                  ? 'bg-green-500/90 border-green-400 text-white shadow-green-500/20'
+                  : 'bg-slate-100 border-slate-200 text-slate-600 hover:text-slate-800 shadow-black/5'
+              }`}
+            >
+              {card.isPublished ? (
+                <><Globe size={10} /><div>Published</div></>
+              ) : (
+                <><Lock size={10} /><div>Draft</div></>
+              )}
             </button>
-          </Link>
-          <button onClick={handleDuplicate} className="action-btn" title="Duplicate">
-            <CopyPlus size={16} />
-          </button>
-          <div className="w-px h-6 bg-slate-200 mx-1" />
-          <button onClick={() => handleDelete(card._id)} className="action-btn text-slate-400 hover:bg-red-50 hover:text-red-500 hover:border-red-100" title="Delete Card">
-            <Trash2 size={16} />
-          </button>
+          </div>
         </div>
 
-        <Link href={`/dashboard/cards/${card._id}/edit`} className="w-full">
-          <Button className="w-full h-12 bg-[#5A3045] hover:bg-[#4A2C3A] text-white border-none shadow-md shadow-[#5A3045]/20 font-bold space-x-2 transition-transform hover:scale-[1.02] rounded-xl text-sm">
-            <Edit size={16} />
-            <span>Edit Card</span>
-          </Button>
-        </Link>
-      </div>
-    </motion.div>
+        {/* Card Details & CTA */}
+        <div className="p-6 flex flex-col flex-1 h-[180px]">
+          <div className="flex items-start justify-between mb-4">
+            <div>
+              <h3 className="font-black text-inherit text-xl truncate group-hover:text-[#5A3045] transition-colors">
+                {name}
+              </h3>
+              <p className="text-[10px] font-bold text-slate-400 mt-1 uppercase tracking-wider">{card.isPublished ? 'Live Profile' : 'Draft Mode'}</p>
+            </div>
+            
+            {/* Quick Actions */}
+            <div className="flex items-center gap-2">
+              <Link href={`/dashboard/cards/${card._id}/edit`} onClick={(e) => e.stopPropagation()} className="w-8 h-8 flex items-center justify-center rounded-lg bg-slate-50 text-slate-400 hover:text-[#5A3045] hover:bg-[#FAF7F3] transition-colors border border-transparent hover:border-[#D4A45B]/30" title="Edit Card">
+                <Edit size={14} />
+              </Link>
+              <button 
+                onClick={(e) => { e.preventDefault(); e.stopPropagation(); copyToClipboard(publicUrl, setCopiedLink); }}
+                className="w-8 h-8 flex items-center justify-center rounded-lg bg-slate-50 text-slate-400 hover:text-[#5A3045] hover:bg-[#FAF7F3] transition-colors border border-transparent hover:border-[#D4A45B]/30"
+                title="Copy Link"
+              >
+                {copiedLink ? <Check size={14} /> : <Share2 size={14} />}
+              </button>
+            </div>
+          </div>
+          
+          {/* Mini Stats */}
+          <div className="flex gap-5 mb-auto">
+            <div className="flex items-center gap-1.5 text-slate-500">
+              <Sparkles size={12} className="text-[#D4A45B]" />
+              <span className="text-xs font-bold">{stats[0].value} <span className="text-slate-400 font-semibold">Views</span></span>
+            </div>
+            <div className="flex items-center gap-1.5 text-slate-500">
+              <QrCode size={12} className="text-[#D4A45B]" />
+              <span className="text-xs font-bold">{stats[1].value} <span className="text-slate-400 font-semibold">Scans</span></span>
+            </div>
+          </div>
+
+          <div className="mt-6">
+            <button className="w-full h-11 bg-white text-[#5A3045] border border-[rgba(90,48,69,0.1)] shadow-sm font-bold flex items-center justify-between px-5 transition-all rounded-xl text-sm group-hover:bg-[#5A3045] group-hover:text-white group-hover:shadow-md">
+              <span>Open Dashboard</span>
+              <ArrowRight size={16} className="transition-transform group-hover:translate-x-1 opacity-50 group-hover:opacity-100" />
+            </button>
+          </div>
+        </div>
+      </motion.div>
   );
 };
 

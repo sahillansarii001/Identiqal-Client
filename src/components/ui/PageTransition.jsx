@@ -1,12 +1,13 @@
 'use client';
 
 import React, { useState } from 'react';
-import { motion, AnimatePresence, useScroll, useMotionValueEvent, useReducedMotion } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
 import { ArrowUp } from 'lucide-react';
+import { useSafeReducedMotion } from '@/hooks/useSafeReducedMotion.js';
 
 export default function PageTransition({ children }) {
   const { scrollY } = useScroll();
-  const shouldReduceMotion = useReducedMotion();
+  const shouldReduceMotion = useSafeReducedMotion();
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [isHoveringScrollBtn, setIsHoveringScrollBtn] = useState(false);
 

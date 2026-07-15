@@ -7,7 +7,8 @@ import AnalyticsLogger from './AnalyticsLogger.jsx';
 // Incremental Static Regeneration (ISR) revalidation limit
 export const revalidate = 0; // Set to 0 to disable cache during active development
 
-export default async function PublicCardPage({ params }) {
+export default async function PublicCardPage(props) {
+  const params = await props.params;
   const { username } = params;
 
   let cardData = null;
@@ -48,21 +49,35 @@ export default async function PublicCardPage({ params }) {
       <AnalyticsLogger cardId={card._id} />
 
       {/* Main card mock body */}
-      <div className="w-full max-w-md space-y-6">
+      <div className="w-full max-w-[720px]">
         {/* Render sections sequentially */}
         {sections.length === 0 ? (
           <div className="text-center py-10 text-slate-500 text-xs">
             This card has no content sections to display yet.
           </div>
         ) : (
-          sections.map((sec) => (
-            <SectionRenderer
-              key={sec.sectionId}
-              section={{ ...sec, cardId: card._id }}
-              theme={theme}
-              previewMode={false}
-            />
-          ))
+          <div 
+            className="w-full rounded-[28px] border shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] overflow-hidden"
+            style={{ 
+              backgroundColor: theme.colors?.background || '#ffffff',
+              borderColor: 'rgba(0,0,0,0.06)'
+            }}
+          >
+            {sections.map((sec, idx) => (
+              <React.Fragment key={sec.sectionId}>
+                <div className="w-full">
+                  <SectionRenderer
+                    section={{ ...sec, cardId: card._id }}
+                    theme={theme}
+                    previewMode={false}
+                  />
+                </div>
+                {idx < sections.length - 1 && (
+                  <div className="w-full h-px" style={{ backgroundColor: 'rgba(0,0,0,0.06)' }} />
+                )}
+              </React.Fragment>
+            ))}
+          </div>
         )}
 
         {/* Footer info branding */}

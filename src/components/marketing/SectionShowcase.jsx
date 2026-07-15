@@ -2,8 +2,9 @@
 
 import React from 'react';
 import { Layers, Sparkles, QrCode, LineChart, Inbox, Palette } from 'lucide-react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import AnimatedSection from '@/components/ui/AnimatedSection.jsx';
+import { useSafeReducedMotion } from '@/hooks/useSafeReducedMotion.js';
 
 const features = [
   {
@@ -58,7 +59,7 @@ const cardVariants = {
 };
 
 export const SectionShowcase = () => {
-  const shouldReduceMotion = useReducedMotion();
+  const shouldReduceMotion = useSafeReducedMotion();
 
   return (
     <section id="features" className="py-24 bg-[#FAFAF8] border-t border-[#4A2C3A]/5 scroll-mt-16 relative overflow-hidden">

@@ -78,7 +78,7 @@ export default function DashboardOverviewPage() {
   return (
     <div className="space-y-8 w-full pb-12">
       {/* Welcome Banner: Premium Burgundy Gradient Card */}
-      <div className="bg-gradient-to-br from-[#5A3045] via-[#4A2033] to-[#2E101E] border border-[rgba(90,48,69,0.15)] rounded-[24px] p-8 relative overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-lg shadow-[#5A3045]/5 group">
+      <div className="bg-gradient-to-br from-[#5A3045] via-[#4A2033] to-[#2E101E] border border-[rgba(90,48,69,0.15)] rounded-[24px] p-6 md:p-8 relative overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-lg shadow-[#5A3045]/5 group">
         {/* Decorative backdrop shapes */}
         <div className="absolute top-0 right-0 w-80 h-80 bg-[#D4A45B]/5 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute -bottom-10 -left-10 w-64 h-64 bg-[#5A3045]/20 rounded-full blur-3xl pointer-events-none" />

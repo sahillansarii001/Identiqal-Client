@@ -875,7 +875,7 @@ export default function TemplatesPage() {
                   previewViewport === 'desktop'
                     ? 'w-full max-w-4xl h-[70vh] rounded-xl shadow-lg'
                     : previewViewport === 'tablet'
-                    ? 'w-[520px] h-[65vh] border-[8px] border-zinc-900 rounded-[28px] shadow-2xl'
+                    ? 'w-[520px] max-w-[90vw] h-[65vh] border-[8px] border-zinc-900 rounded-[28px] shadow-2xl'
                     : 'w-[290px] h-[60vh] border-[8px] border-zinc-900 rounded-[32px] shadow-2xl'
                 } ${previewTheme === 'dark' ? 'border-zinc-800' : 'border-[#E9E2DC]'}`}
               >

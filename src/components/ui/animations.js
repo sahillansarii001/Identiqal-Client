@@ -1,7 +1,8 @@
+import { useSafeReducedMotion } from '@/hooks/useSafeReducedMotion.js';
 /**
  * animations.js — Identiqal Shared Animation Presets
  * All animations are GPU-accelerated (opacity, transform only).
- * Consumers should check useReducedMotion() and disable where needed.
+ * Consumers should check useSafeReducedMotion() and disable where needed.
  */
 
 // ─── Spring Configs ──────────────────────────────────────────────────────────

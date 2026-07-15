@@ -87,15 +87,18 @@ export default function DashboardLayout({ children }) {
     { label: 'Billing & Plan', href: '/dashboard/billing', icon: <Wallet size={16} /> },
   ];
 
-  const activeCls   = 'bg-[#5A3045] text-white font-semibold shadow-sm border-r-4 border-r-[#D4A45B] rounded-2xl';
+  const activeCls = darkMode
+    ? 'bg-white/10 text-white font-semibold rounded-xl shadow-sm'
+    : 'bg-[#5A3045]/[0.06] text-[#5A3045] font-bold rounded-xl';
+
   const inactiveCls = darkMode
-    ? 'text-[#9A8AA0] hover:bg-white/8 hover:text-[#D4A45B] border-r-4 border-r-transparent rounded-2xl'
-    : 'text-[#7A7A7A] hover:bg-[#5A3045]/5 hover:text-[#5A3045] border-r-4 border-r-transparent rounded-2xl';
+    ? 'text-[#9A8AA0] hover:bg-white/5 hover:text-white rounded-xl transition-colors'
+    : 'text-[#8A8582] hover:bg-black/5 hover:text-[#222] rounded-xl transition-colors';
 
   return (
     <div
       data-dark={darkMode ? 'true' : undefined}
-      className={`flex min-h-screen font-sans relative overflow-x-hidden transition-colors duration-300 ${
+      className={`flex min-h-screen font-sans relative transition-colors duration-300 ${
         darkMode ? 'bg-[#151215] text-[#F0EBF0]' : 'bg-[#FAF7F3] text-inherit'
       }`}
     >
@@ -115,66 +118,71 @@ export default function DashboardLayout({ children }) {
       </AnimatePresence>
 
       {/* ── Sidebar ─────────────────────────────── */}
-      <aside className={`fixed top-4 bottom-4 w-64 border rounded-[24px] flex flex-col p-4 shadow-sm z-50 transition-all duration-300 lg:left-4 ${
-        sidebarOpen ? 'left-4' : '-left-80 lg:left-4'
+      <aside className={`fixed lg:sticky top-0 h-screen w-[260px] border-r flex flex-col z-50 transition-all duration-300 shrink-0 ${
+        sidebarOpen ? 'left-0' : '-left-[260px] lg:left-0'
       } ${
         darkMode
-          ? 'bg-[#1E1520]/95 backdrop-blur-xl border-white/8'
-          : 'bg-white/95 border-[rgba(90,48,69,0.08)]'
+          ? 'bg-[#120F12] border-white/10'
+          : 'bg-[#FDFCFB] border-[rgba(0,0,0,0.06)]'
       }`}>
 
         {/* Brand */}
-        <div className={`h-14 px-4 flex items-center justify-between border-b mb-4 ${
-          darkMode ? 'border-white/8' : 'border-[rgba(90,48,69,0.08)]'
+        <div className={`h-[72px] px-6 flex items-center justify-between border-b shrink-0 ${
+          darkMode ? 'border-white/10' : 'border-[rgba(0,0,0,0.04)]'
         }`}>
-          <Link href="/" className={`flex items-center space-x-2 text-lg font-black tracking-tight ${
-            darkMode ? 'text-[#D4A45B]' : 'text-[#5A3045]'
+          <Link href="/" className={`flex items-center space-x-3 text-[17px] font-black tracking-tight ${
+            darkMode ? 'text-white' : 'text-[#1A1A1A]'
           }`}>
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#5A3045] to-[#D4A45B] flex items-center justify-center text-white shadow-sm shadow-[#5A3045]/20">
-              <CreditCard size={16} />
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#5A3045] to-[#D4A45B] flex items-center justify-center text-white shadow-md shadow-[#5A3045]/20">
+              <CreditCard size={15} strokeWidth={2.5} />
             </div>
             <span>Identiqal</span>
           </Link>
           <button className={`lg:hidden p-1.5 rounded-lg ${
-            darkMode ? 'hover:bg-white/8 text-[#9A8AA0]' : 'hover:bg-slate-100 text-[#7A7A7A]'
+            darkMode ? 'hover:bg-white/8 text-[#9A8AA0]' : 'hover:bg-black/5 text-[#7A7A7A]'
           }`} onClick={() => setSidebarOpen(false)}>
             <X size={16} />
           </button>
         </div>
 
         {/* Nav links */}
-        <nav className="flex-1 px-1 py-2 space-y-1.5 overflow-y-auto">
-          <p className={`text-[9px] font-black uppercase tracking-widest px-3 mb-2 ${
-            darkMode ? 'text-[#5A4A60]' : 'text-slate-400'
+        <nav className="flex-1 py-6 overflow-y-auto no-scrollbar flex flex-col gap-1">
+          <p className={`text-[10px] font-bold uppercase tracking-[0.15em] px-8 mb-2 ${
+            darkMode ? 'text-[#6A5A70]' : 'text-[#A09A95]'
           }`}>Main Menu</p>
+          
           {menuItems.map((item) => {
             const active = pathname === item.href;
             return (
-              <Link key={item.href} href={item.href} onClick={() => setSidebarOpen(false)}
-                className={`flex items-center space-x-3 px-3.5 py-2.5 transition-all text-xs duration-200 group ${active ? activeCls : inactiveCls}`}>
-                <span className={`transition-transform duration-200 group-hover:scale-110 ${
-                  active ? 'text-[#D4A45B]' : darkMode ? 'text-[#9A8AA0] group-hover:text-[#D4A45B]' : 'text-[#7A7A7A] group-hover:text-[#5A3045]'
-                }`}>{item.icon}</span>
-                <span className="font-medium">{item.label}</span>
-              </Link>
+              <div key={item.href} className="px-4">
+                <Link href={item.href} onClick={() => setSidebarOpen(false)}
+                  className={`flex items-center space-x-3.5 px-4 py-2.5 text-[13px] group ${active ? activeCls : inactiveCls}`}>
+                  <span className={`transition-transform duration-200 group-hover:scale-110 ${
+                    active ? 'text-[#D4A45B]' : darkMode ? 'text-[#8A7A90] group-hover:text-white' : 'text-[#A09A95] group-hover:text-[#222]'
+                  }`}>{item.icon}</span>
+                  <span className="font-semibold tracking-wide">{item.label}</span>
+                </Link>
+              </div>
             );
           })}
 
           {isOwner && (
             <>
-              <p className={`text-[9px] font-black uppercase tracking-widest px-3 mt-6 mb-2 ${
-                darkMode ? 'text-[#5A4A60]' : 'text-slate-400'
+              <p className={`text-[10px] font-bold uppercase tracking-[0.15em] px-8 mt-6 mb-2 ${
+                darkMode ? 'text-[#6A5A70]' : 'text-[#A09A95]'
               }`}>Organization</p>
               {ownerItems.map((item) => {
                 const active = pathname === item.href;
                 return (
-                  <Link key={item.href} href={item.href} onClick={() => setSidebarOpen(false)}
-                    className={`flex items-center space-x-3 px-3.5 py-2.5 transition-all text-xs duration-200 group ${active ? activeCls : inactiveCls}`}>
-                    <span className={`transition-transform duration-200 group-hover:scale-110 ${
-                      active ? 'text-[#D4A45B]' : darkMode ? 'text-[#9A8AA0] group-hover:text-[#D4A45B]' : 'text-[#7A7A7A] group-hover:text-[#5A3045]'
-                    }`}>{item.icon}</span>
-                    <span className="font-medium">{item.label}</span>
-                  </Link>
+                  <div key={item.href} className="px-4">
+                    <Link href={item.href} onClick={() => setSidebarOpen(false)}
+                      className={`flex items-center space-x-3.5 px-4 py-2.5 text-[13px] group ${active ? activeCls : inactiveCls}`}>
+                      <span className={`transition-transform duration-200 group-hover:scale-110 ${
+                        active ? 'text-[#D4A45B]' : darkMode ? 'text-[#8A7A90] group-hover:text-white' : 'text-[#A09A95] group-hover:text-[#222]'
+                      }`}>{item.icon}</span>
+                      <span className="font-semibold tracking-wide">{item.label}</span>
+                    </Link>
+                  </div>
                 );
               })}
             </>
@@ -182,42 +190,41 @@ export default function DashboardLayout({ children }) {
         </nav>
 
         {/* User card */}
-        <div className={`pt-4 border-t space-y-2 ${
-          darkMode ? 'border-white/8' : 'border-[rgba(90,48,69,0.08)]'
+        <div className={`p-5 mt-auto border-t shrink-0 ${
+          darkMode ? 'border-white/10 bg-[#161316]' : 'border-[rgba(0,0,0,0.04)] bg-[#FAF8F5]'
         }`}>
-          <div className={`flex items-center space-x-2.5 p-2 rounded-2xl border ${
-            darkMode
-              ? 'bg-white/5 border-white/8'
-              : 'bg-[#FAF7F3] border-[rgba(90,48,69,0.06)]'
-          }`}>
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#5A3045] to-[#D4A45B] flex items-center justify-center font-bold text-white text-xs shadow-md">
-              {user.name[0].toUpperCase()}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3 min-w-0">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#5A3045] to-[#8A5065] flex items-center justify-center font-black text-white text-sm shadow-inner shrink-0">
+                {user.name[0].toUpperCase()}
+              </div>
+              <div className="flex-1 min-w-0 pr-2">
+                <h4 className={`text-xs font-bold truncate ${
+                  darkMode ? 'text-white' : 'text-[#1A1A1A]'
+                }`}>{user.name}</h4>
+                <p className={`text-[10px] font-semibold flex items-center space-x-1 mt-0.5 ${
+                  darkMode ? 'text-[#9A8AA0]' : 'text-[#8A8582]'
+                }`}>
+                  <Sparkles size={10} className="text-[#D4A45B]" />
+                  <span className="capitalize">{user.subscriptionTier || 'Free Plan'}</span>
+                </p>
+              </div>
             </div>
-            <div className="flex-1 min-w-0">
-              <h4 className={`text-xs font-bold truncate ${
-                darkMode ? 'text-[#F0EBF0]' : 'text-inherit'
-              }`}>{user.name}</h4>
-              <p className={`text-[9px] flex items-center space-x-1 ${
-                darkMode ? 'text-[#9A8AA0]' : 'text-[#7A7A7A]'
+            
+            <button onClick={handleLogout} title="Logout"
+              className={`w-9 h-9 shrink-0 rounded-full flex items-center justify-center transition-all ${
+                darkMode 
+                  ? 'hover:bg-white/10 text-[#9A8AA0] hover:text-white' 
+                  : 'hover:bg-black/5 text-[#A09A95] hover:text-[#222]'
               }`}>
-                <Sparkles size={8} className="text-[#D4A45B] shrink-0" />
-                <span className="capitalize font-semibold">{user.subscriptionTier || 'free'}</span>
-              </p>
-            </div>
-            <Link href="/dashboard/billing" className="p-1 hover:bg-white/80 rounded-lg text-[#7A7A7A] hover:text-[#5A3045] transition-all">
-              <Settings size={14} />
-            </Link>
+              <LogOut size={15} />
+            </button>
           </div>
-          <Button variant="ghost" size="sm" onClick={handleLogout}
-            className="w-full justify-center text-xs font-semibold text-[#7A7A7A] hover:text-[#5A3045] hover:bg-[#5A3045]/5 rounded-xl py-2">
-            <LogOut size={12} className="mr-1.5" />
-            Logout
-          </Button>
         </div>
       </aside>
 
       {/* ── Main Content ─────────────────────────── */}
-      <div className="pl-4 lg:pl-[296px] pr-4 py-4 flex flex-col flex-1 min-w-0 relative z-10">
+      <div className="p-4 lg:py-6 lg:pr-6 lg:pl-6 flex flex-col flex-1 min-w-0 relative z-10">
 
         {/* Premium Navbar */}
         <PremiumNavbar
@@ -294,14 +301,14 @@ function PremiumNavbar({ user, setSidebarOpen, handleLogout, darkMode, toggleDar
 
   return (
     <header className="w-full sticky top-4 z-30">
-      <div className={`backdrop-blur-xl border rounded-[28px] shadow-sm px-5 py-3.5 flex items-center gap-4 transition-colors duration-300 ${
+      <div className={`backdrop-blur-xl border rounded-[28px] shadow-sm px-3 sm:px-5 py-2.5 sm:py-3.5 flex items-center gap-2 sm:gap-4 transition-colors duration-300 ${
         darkMode
           ? 'bg-[#1E1520]/85 border-white/8 shadow-black/20'
           : 'bg-white/80 border-[rgba(90,48,69,0.09)] shadow-[#5A3045]/5'
       }`}>
 
         {/* ── LEFT ─── hamburger + greeting */}
-        <div className="flex items-center gap-3 shrink-0">
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           <button onClick={() => setSidebarOpen(true)}
             className="lg:hidden p-2 hover:bg-[#FAF7F3] rounded-xl text-[#7A7A7A] hover:text-[#5A3045] transition-colors border border-transparent hover:border-[rgba(90,48,69,0.08)]">
             <Menu size={17} />
@@ -321,11 +328,11 @@ function PremiumNavbar({ user, setSidebarOpen, handleLogout, darkMode, toggleDar
         </div>
 
         {/* ── CENTER ── search */}
-        <div className="flex-1 max-w-xl mx-auto">
+        <div className="flex-1 max-w-xl mx-auto min-w-0">
           <motion.div
             animate={{ scale: searchFocused ? 1.01 : 1 }}
             transition={{ duration: 0.2 }}
-            className={`relative flex items-center rounded-2xl px-4 py-2.5 transition-all duration-300 border ${
+            className={`relative flex items-center rounded-2xl px-3 sm:px-4 py-2 sm:py-2.5 transition-all duration-300 border min-w-0 ${
               darkMode
                 ? searchFocused
                   ? 'bg-white/10 border-[#D4A45B]/50 shadow-md shadow-[#D4A45B]/10'
@@ -335,7 +342,7 @@ function PremiumNavbar({ user, setSidebarOpen, handleLogout, darkMode, toggleDar
                   : 'bg-[#FAF7F3] border-[rgba(90,48,69,0.08)] hover:border-[rgba(90,48,69,0.15)]'
             }`}
           >
-            <Search size={14} className={`shrink-0 mr-3 transition-colors ${
+            <Search size={14} className={`shrink-0 mr-2 sm:mr-3 transition-colors ${
               searchFocused
                 ? 'text-[#D4A45B]'
                 : darkMode ? 'text-[#6A5A6A]' : 'text-[#B0A090]'
@@ -346,13 +353,13 @@ function PremiumNavbar({ user, setSidebarOpen, handleLogout, darkMode, toggleDar
               onChange={(e) => setSearchValue(e.target.value)}
               onFocus={() => setSearchFocused(true)}
               onBlur={() => setSearchFocused(false)}
-              placeholder="Search cards, leads, analytics..."
-              className={`flex-1 bg-transparent text-xs font-medium focus:outline-none ${
+              placeholder="Search..."
+              className={`flex-1 w-full min-w-0 bg-transparent text-[10px] sm:text-xs font-medium focus:outline-none ${
                 darkMode ? 'text-[#F0EBF0] placeholder-[#6A5A6A]' : 'text-inherit placeholder-[#B0A090]'
               }`}
             />
             {!searchFocused && !searchValue && (
-              <span className={`shrink-0 ml-2 text-[9px] font-black border px-2 py-0.5 rounded-md tracking-wider ${
+              <span className={`hidden sm:flex shrink-0 ml-2 text-[9px] font-black border px-2 py-0.5 rounded-md tracking-wider ${
                 darkMode ? 'text-[#6A5A6A] bg-white/5 border-white/10' : 'text-[#B0A090] bg-[#F0E8DE] border-[#E0D0C0]'
               }`}>⌘K</span>
             )}
@@ -367,7 +374,7 @@ function PremiumNavbar({ user, setSidebarOpen, handleLogout, darkMode, toggleDar
         </div>
 
         {/* ── RIGHT ── action icons */}
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
 
           {/* Quick Create */}
           <div className="relative" ref={quickRef}>

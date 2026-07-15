@@ -2,8 +2,9 @@
 
 import React from 'react';
 import { ShieldCheck, Command, Compass, Cpu, Layers, Disc, Database, Award } from 'lucide-react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import AnimatedSection from '@/components/ui/AnimatedSection.jsx';
+import { useSafeReducedMotion } from '@/hooks/useSafeReducedMotion.js';
 
 const brandLogos = [
   { name: 'Linear',    icon: Command   },
@@ -19,7 +20,7 @@ const brandLogos = [
 const scrollList = [...brandLogos, ...brandLogos, ...brandLogos, ...brandLogos];
 
 export const LogoStrip = () => {
-  const shouldReduceMotion = useReducedMotion();
+  const shouldReduceMotion = useSafeReducedMotion();
 
   return (
     <AnimatedSection>

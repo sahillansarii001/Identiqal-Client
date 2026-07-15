@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useRef } from 'react';
-import { motion, useInView, useReducedMotion } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
+import { useSafeReducedMotion } from '@/hooks/useSafeReducedMotion.js';
 
 /**
  * AnimatedSection — Viewport-triggered scroll reveal wrapper.
@@ -22,7 +23,7 @@ export default function AnimatedSection({
   as: Tag = 'div',
 }) {
   const ref = useRef(null);
-  const shouldReduceMotion = useReducedMotion();
+  const shouldReduceMotion = useSafeReducedMotion();
   const isInView = useInView(ref, { once: true, amount: threshold });
 
   const variants = {

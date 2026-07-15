@@ -5,7 +5,8 @@ import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import { useAuthStore } from '@/store/authStore.js';
 import { Menu, X, LayoutDashboard, LogOut } from 'lucide-react';
-import { motion, AnimatePresence, useReducedMotion, useScroll, useMotionValueEvent } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
+import { useSafeReducedMotion } from '@/hooks/useSafeReducedMotion.js';
 
 const navLinks = [
   { name: 'Home',      href: '/' },
@@ -19,7 +20,7 @@ export const Navbar = () => {
   const router        = useRouter();
   const pathname      = usePathname();
   const { isAuthenticated, clearAuth } = useAuthStore();
-  const shouldReduceMotion = useReducedMotion();
+  const shouldReduceMotion = useSafeReducedMotion();
 
   const [scrollY,          setScrollY]          = useState(0);
   const [mobileMenuOpen,   setMobileMenuOpen]   = useState(false);
