@@ -1,0 +1,34 @@
+# Tasks: Animations Suite, Routes, and Footer Redesign
+
+- [x] Install `framer-motion` in client workspace
+- [x] Create [PageTransition.jsx](file:///Users/admin/identiq/Identiqal-Client/src/components/ui/PageTransition.jsx) layout loader & scroll-to-top button
+- [x] Wrap root layout in `PageTransition` inside [layout.js](file:///Users/admin/identiq/Identiqal-Client/src/app/layout.js)
+- [x] Add spring sliding underline active indicators & fade load inside [Navbar.jsx](file:///Users/admin/identiq/Identiqal-Client/src/components/marketing/Navbar.jsx)
+- [x] Add hover pill backgrounds inside Navbar navigation links & Login button
+- [x] Add stagger heading text, button lifts, and widget floats inside [Hero.jsx](file:///Users/admin/identiq/Identiqal-Client/src/components/marketing/Hero.jsx)
+- [x] Speed up entry reveals and float loops in the Hero section
+- [x] Add scroll entry reveals and hover lift transitions inside [SectionShowcase.jsx](file:///Users/admin/identiq/Identiqal-Client/src/components/marketing/SectionShowcase.jsx) and [HowItWorks.jsx](file:///Users/admin/identiq/Identiqal-Client/src/components/marketing/HowItWorks.jsx)
+- [x] Create [FaqAccordion.jsx](file:///Users/admin/identiq/Identiqal-Client/src/components/ui/FaqAccordion.jsx) and integrate in [about/page.js](file:///Users/admin/identiq/Identiqal-Client/src/app/about/page.js) & [pricing/page.js](file:///Users/admin/identiq/Identiqal-Client/src/app/pricing/page.js)
+- [x] Create [Counter.jsx](file:///Users/admin/identiq/Identiqal-Client/src/components/ui/Counter.jsx) stats counting animation & integrate in [about/page.js](file:///Users/admin/identiq/Identiqal-Client/src/app/about/page.js)
+- [x] Introduce layouts transition scaling triggers inside [LivePreview.jsx](file:///Users/admin/identiq/Identiqal-Client/src/components/marketing/LivePreview.jsx)
+- [x] Restore original landing page layout as the main root page `/`
+- [x] Restore standalone Features page layout at `/features`
+- [x] Remove redudant `/home` directory from routing tree
+- [x] Add "Home" text in Navbar pointing to the root first page (`/`)
+- [x] Redesign [Footer.jsx](file:///Users/admin/identiq/Identiqal-Client/src/components/marketing/Footer.jsx) completely:
+  - [x] Replace CTA banner with premium "Why Choose Identiqal?" value block
+  - [x] Implement 4 features rows staggered from left
+  - [x] Build glassmorphism floating analytics dashboard sliding from right
+  - [x] Configure metrics view grids and animated progress bars
+  - [x] Render looping floating view notification components
+  - [x] Add bottom grayscale client logotypes with hover color transitions
+  - [x] Configure cream background (#F8F4F1), burgundy (#6B3A4A), and gold (#C89B5B) colors
+  - [x] Build circular spring-bounce glass social buttons (LinkedIn, GitHub, Instagram, X, Discord)
+  - [x] Configure bottom section centered copyright block
+- [x] Redesign [LivePreview.jsx](file:///Users/admin/identiq/Identiqal-Client/src/components/marketing/LivePreview.jsx) "Live Real-Time Theme Preview" section:
+  - [x] Add 6 detailed themes (Light Clean, Minimalist, Luxury Gold, Midnight, Glass, Gradient)
+  - [x] Create premium selection cards showing color dot palettes and description tags
+  - [x] Apply active card hover/click animations, check markers, and colored left-hand borders
+  - [x] Implement looping 6s float and 450ms scale-down morph transitions on the phone container
+  - [x] Add minimal background gradient blurs and floating circles
+- [x] Run production build (`npm run build`) compilation check successfully
