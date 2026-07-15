@@ -64,12 +64,12 @@ export default function LeadsDashboardPage() {
   };
 
   return (
-    <div className="space-y-8 max-w-5xl">
+    <div className="space-y-8 w-full">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-6 border-b border-[#E9E2DC]">
         <div>
           <span className="text-[10px] font-black uppercase tracking-widest text-[#C89B5B]">Capture Center</span>
-          <h1 className="text-2xl font-black text-[#1F1F1F] mt-1">Leads Hub</h1>
+          <h1 className="text-2xl font-black text-inherit mt-1">Leads Hub</h1>
           <p className="text-xs text-[#8A7A6A] mt-1">View contact inquiries and reverse-save capture data.</p>
         </div>
 
@@ -95,7 +95,7 @@ export default function LeadsDashboardPage() {
             <Inbox size={28} className="text-[#5A3342]" />
           </div>
           <div className="space-y-1">
-            <h3 className="text-sm font-bold text-[#1F1F1F]">No captured leads yet</h3>
+            <h3 className="text-sm font-bold text-inherit">No captured leads yet</h3>
             <p className="text-xs text-[#8A7A6A] max-w-xs mx-auto">Create and publish a card with an inquiry form to start capturing visitor leads.</p>
           </div>
           <Link href="/dashboard/cards" className="inline-block">
@@ -115,7 +115,7 @@ export default function LeadsDashboardPage() {
             <select
               value={selectedCardId}
               onChange={(e) => setSelectedCardId(e.target.value)}
-              className="bg-[#FAF8F6] border border-[#E9E2DC] rounded-xl text-xs p-2 text-[#1F1F1F] focus:outline-none focus:border-[#5A3342]/40 transition-colors font-semibold flex-1"
+              className="bg-[#FAF8F6] border border-[#E9E2DC] rounded-xl text-xs p-2 text-inherit focus:outline-none focus:border-[#5A3342]/40 transition-colors font-semibold flex-1"
             >
               {cards.map((c) => (
                 <option key={c._id} value={c._id}>
@@ -150,7 +150,7 @@ export default function LeadsDashboardPage() {
                         {lead.name?.charAt(0)?.toUpperCase() || '?'}
                       </div>
                       <div>
-                        <h4 className="text-sm font-bold text-[#1F1F1F]">{lead.name}</h4>
+                        <h4 className="text-sm font-bold text-inherit">{lead.name}</h4>
                         <div className="flex items-center space-x-3 mt-0.5">
                           <span className="text-[10px] text-[#8A7A6A] flex items-center space-x-1">
                             <Mail size={9} />
@@ -193,7 +193,7 @@ export default function LeadsDashboardPage() {
           <div className="w-14 h-14 bg-gradient-to-br from-[#5A3342] to-[#7A4A5E] rounded-2xl flex items-center justify-center text-[#C89B5B]">
             <Sparkles size={24} />
           </div>
-          <h3 className="font-black text-[#1F1F1F] text-base">Unlock CSV Export Logs</h3>
+          <h3 className="font-black text-inherit text-base">Unlock CSV Export Logs</h3>
           <p className="text-xs text-[#8A7A6A] max-w-xs leading-relaxed">
             CSV logs and export downloads are exclusive to Pro and Business plan members. Upgrade your tier to activate immediately.
           </p>

@@ -103,14 +103,14 @@ export default function BillingPage() {
   ];
 
   return (
-    <div className="space-y-10 max-w-5xl">
+    <div className="space-y-10 w-full">
 
       {/* ── Page Header ───────────────────────────── */}
       <div className="pb-6 border-b border-[#E9E2DC]">
         <span className="text-[10px] font-black uppercase tracking-widest text-[#C89B5B]">
           Account
         </span>
-        <h1 className="text-2xl font-black text-[#1F1F1F] mt-1">
+        <h1 className="text-2xl font-black text-inherit mt-1">
           Billing &amp; Subscriptions
         </h1>
         <p className="text-xs text-[#8A7A6A] mt-1">
@@ -212,12 +212,12 @@ export default function BillingPage() {
                   )}
                 </div>
 
-                <h3 className="text-base font-black text-[#1F1F1F]">{p.name}</h3>
+                <h3 className="text-base font-black text-inherit">{p.name}</h3>
                 <p className="text-[10px] text-[#8A7A6A] mt-0.5 mb-4">{p.tagline}</p>
 
                 {/* Price */}
                 <div className="flex items-baseline space-x-1 mb-5">
-                  <span className="text-4xl font-black text-[#1F1F1F]">{p.price}</span>
+                  <span className="text-4xl font-black text-inherit">{p.price}</span>
                   {p.period && (
                     <span className="text-xs text-[#8A7A6A] font-semibold">{p.period}</span>
                   )}
@@ -287,7 +287,7 @@ export default function BillingPage() {
               <Icon size={15} className="text-[#5A3342]" />
             </div>
             <div>
-              <p className="text-xs font-bold text-[#1F1F1F]">{label}</p>
+              <p className="text-xs font-bold text-inherit">{label}</p>
               <p className="text-[9px] text-[#8A7A6A]">{sub}</p>
             </div>
           </div>

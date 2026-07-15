@@ -33,12 +33,12 @@ export default function AnalyticsDashboardPage() {
   const referrers = analytics.referrers || {};
 
   return (
-    <div className="space-y-8 max-w-5xl">
+    <div className="space-y-8 w-full">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-6 border-b border-[#E9E2DC]">
         <div>
           <span className="text-[10px] font-black uppercase tracking-widest text-[#C89B5B]">Insights</span>
-          <h1 className="text-2xl font-black text-[#1F1F1F] mt-1">Performance Analytics</h1>
+          <h1 className="text-2xl font-black text-inherit mt-1">Performance Analytics</h1>
           <p className="text-xs text-[#8A7A6A] mt-1">Monitor views, scan events, and click rates across your cards.</p>
         </div>
       </div>
@@ -51,7 +51,7 @@ export default function AnalyticsDashboardPage() {
             <BarChart3 size={28} className="text-[#5A3342]" />
           </div>
           <div className="space-y-1">
-            <h3 className="text-sm font-bold text-[#1F1F1F]">No analytics data yet</h3>
+            <h3 className="text-sm font-bold text-inherit">No analytics data yet</h3>
             <p className="text-xs text-[#8A7A6A] max-w-xs mx-auto">Create and publish a digital business card to begin gathering analytics.</p>
           </div>
           <Link href="/dashboard/cards" className="inline-block">
@@ -71,7 +71,7 @@ export default function AnalyticsDashboardPage() {
             <select
               value={selectedCardId}
               onChange={(e) => setSelectedCardId(e.target.value)}
-              className="bg-[#FAF8F6] border border-[#E9E2DC] rounded-xl text-xs p-2 text-[#1F1F1F] focus:outline-none focus:border-[#5A3342]/40 transition-colors font-semibold flex-1"
+              className="bg-[#FAF8F6] border border-[#E9E2DC] rounded-xl text-xs p-2 text-inherit focus:outline-none focus:border-[#5A3342]/40 transition-colors font-semibold flex-1"
             >
               {cards.map((c) => (
                 <option key={c._id} value={c._id}>
@@ -118,7 +118,7 @@ export default function AnalyticsDashboardPage() {
                 <div className="space-y-3">
                   {Object.entries(devices).map(([device, val]) => (
                     <div key={device} className="flex items-center justify-between text-xs">
-                      <span className="capitalize text-[#1F1F1F] font-semibold">{device || 'Unknown'}</span>
+                      <span className="capitalize text-inherit font-semibold">{device || 'Unknown'}</span>
                       <span className="font-black text-[#5A3342] bg-[#5A3342]/5 px-2.5 py-0.5 rounded-full">{val} logs</span>
                     </div>
                   ))}
@@ -145,7 +145,7 @@ export default function AnalyticsDashboardPage() {
                 <div className="space-y-3">
                   {Object.entries(referrers).map(([ref, val]) => (
                     <div key={ref} className="flex items-center justify-between text-xs">
-                      <span className="text-[#1F1F1F] font-semibold">{ref || 'Direct Visit'}</span>
+                      <span className="text-inherit font-semibold">{ref || 'Direct Visit'}</span>
                       <span className="font-black text-[#C89B5B] bg-[#C89B5B]/10 px-2.5 py-0.5 rounded-full">{val} views</span>
                     </div>
                   ))}
@@ -167,7 +167,7 @@ const StatCard = ({ label, count, icon, accent }) => (
         {icon}
       </div>
     </div>
-    <div className="text-3xl font-black text-[#1F1F1F]">{count}</div>
+    <div className="text-3xl font-black text-inherit">{count}</div>
     <div className="flex items-center space-x-1 text-[9px] font-bold text-green-600">
       <TrendingUp size={10} />
       <span>Live tracking</span>

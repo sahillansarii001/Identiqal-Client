@@ -76,7 +76,7 @@ export default function DashboardOverviewPage() {
   const publishedCardsCount = cards.filter(c => c.isPublished).length;
 
   return (
-    <div className="space-y-8 max-w-6xl mx-auto pb-12">
+    <div className="space-y-8 w-full pb-12">
       {/* Welcome Banner: Premium Burgundy Gradient Card */}
       <div className="bg-gradient-to-br from-[#5A3045] via-[#4A2033] to-[#2E101E] border border-[rgba(90,48,69,0.15)] rounded-[24px] p-8 relative overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-lg shadow-[#5A3045]/5 group">
         {/* Decorative backdrop shapes */}
@@ -98,7 +98,7 @@ export default function DashboardOverviewPage() {
           </div>
           <div className="flex flex-wrap gap-3 pt-2">
             <Link href="/dashboard/cards">
-              <Button className="bg-[#D4A45B] hover:bg-[#c3934b] text-[#1F1F1F] font-bold text-xs shadow-md shadow-[#D4A45B]/10 rounded-xl px-5 py-2.5 flex items-center space-x-1.5 transition-all hover:scale-102">
+              <Button className="bg-[#D4A45B] hover:bg-[#c3934b] text-inherit font-bold text-xs shadow-md shadow-[#D4A45B]/10 rounded-xl px-5 py-2.5 flex items-center space-x-1.5 transition-all hover:scale-102">
                 <Plus size={14} />
                 <span>Create Card</span>
               </Button>
@@ -150,11 +150,11 @@ export default function DashboardOverviewPage() {
             {isLoading ? (
               <div className="h-9 w-16 bg-slate-100 rounded-lg animate-pulse" />
             ) : (
-              <div className="space-y-1">
-                <div className="text-3xl font-black text-[#1F1F1F] tracking-tight">
+            <div className="space-y-1">
+                <div className="text-3xl font-black tracking-tight" style={{ color: 'inherit' }}>
                   <CountUp value={totalCards} />
                 </div>
-                <div className="text-[10px] font-bold text-[#7A7A7A]">
+                <div className="text-[10px] font-bold" style={{ color: 'inherit', opacity: 0.6 }}>
                   ({publishedCardsCount} published cards)
                 </div>
               </div>
@@ -175,13 +175,13 @@ export default function DashboardOverviewPage() {
           </div>
           <div className="flex items-end justify-between">
             <div className="space-y-1">
-              <div className="text-3xl font-black text-[#1F1F1F] tracking-tight flex items-baseline space-x-1">
+              <div className="text-3xl font-black tracking-tight flex items-baseline space-x-1" style={{ color: 'inherit' }}>
                 <CountUp value={142} />
                 <span className="text-xs text-green-500 font-extrabold flex items-center">
                   ▲ +18%
                 </span>
               </div>
-              <div className="text-[10px] font-bold text-[#7A7A7A]">
+              <div className="text-[10px] font-bold" style={{ color: 'inherit', opacity: 0.6 }}>
                 Leads Hub • active capture
               </div>
             </div>
@@ -200,13 +200,13 @@ export default function DashboardOverviewPage() {
           </div>
           <div className="flex items-end justify-between">
             <div className="space-y-1">
-              <div className="text-3xl font-black text-[#1F1F1F] tracking-tight flex items-baseline space-x-1">
+              <div className="text-3xl font-black tracking-tight flex items-baseline space-x-1" style={{ color: 'inherit' }}>
                 <CountUp value={2400} />
                 <span className="text-xs text-green-500 font-extrabold flex items-center">
                   ▲ +24%
                 </span>
               </div>
-              <div className="text-[10px] font-bold text-[#7A7A7A]">
+              <div className="text-[10px] font-bold" style={{ color: 'inherit', opacity: 0.6 }}>
                 Analytics • live reporting
               </div>
             </div>
@@ -223,7 +223,7 @@ export default function DashboardOverviewPage() {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <div className="w-1 bg-[#5A3045] h-4 rounded-full" />
-              <h3 className="text-sm font-black text-[#1F1F1F] font-sans">Recent Digital Cards</h3>
+              <h3 className="text-sm font-black text-inherit font-sans">Recent Digital Cards</h3>
             </div>
             <Link href="/dashboard/cards" className="text-xs text-[#5A3045] hover:text-[#D4A45B] font-bold flex items-center space-x-1 transition-colors">
               <span>View All</span>
@@ -238,11 +238,11 @@ export default function DashboardOverviewPage() {
             </div>
           ) : totalCards === 0 ? (
             <div className="text-center py-12 border border-dashed border-[#5A3045]/15 rounded-[20px] space-y-4">
-              <div className="w-12 h-12 rounded-full bg-[#FAF7F3] border border-[rgba(90,48,69,0.08)] flex items-center justify-center mx-auto text-[#7A7A7A]">
+              <div className="w-12 h-12 rounded-full bg-slate-50 border border-[rgba(90,48,69,0.08)] flex items-center justify-center mx-auto text-[#7A7A7A]">
                 <Compass size={22} />
               </div>
               <div className="space-y-1">
-                <p className="text-xs font-bold text-[#1F1F1F]">No Business Cards Built Yet</p>
+                <p className="text-xs font-bold text-inherit">No Business Cards Built Yet</p>
                 <p className="text-[10px] text-[#7A7A7A] max-w-xs mx-auto">Create your first responsive business profile card to share with potential clients.</p>
               </div>
               <Link href="/dashboard/cards" className="inline-block">
@@ -256,7 +256,7 @@ export default function DashboardOverviewPage() {
               {cards.slice(0, 4).map((card) => (
                 <div
                   key={card._id}
-                  className="p-4 bg-[#FAF7F3]/70 hover:bg-white border border-[rgba(90,48,69,0.06)] hover:border-[#D4A45B]/30 rounded-2xl flex flex-col justify-between hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 group"
+                  className="p-4 bg-slate-50 hover:bg-white border border-[rgba(90,48,69,0.06)] hover:border-[#D4A45B]/30 rounded-2xl flex flex-col justify-between hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 group"
                 >
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
@@ -274,7 +274,7 @@ export default function DashboardOverviewPage() {
                     </div>
 
                     <div className="text-left space-y-0.5 pt-1">
-                      <h4 className="text-xs font-extrabold text-[#1F1F1F] truncate group-hover:text-[#5A3045] transition-colors">{card.title}</h4>
+                      <h4 className="text-xs font-extrabold text-inherit truncate group-hover:text-[#5A3045] transition-colors">{card.title}</h4>
                       <p className="text-[9px] text-[#7A7A7A] font-medium truncate">slug: /{card.slug}</p>
                     </div>
                   </div>
@@ -301,66 +301,41 @@ export default function DashboardOverviewPage() {
 
         {/* Right Column: Quick Tools & Timeline Activity (col-span-4) */}
         <div className="lg:col-span-4 space-y-6 flex flex-col">
-          {/* Quick Actions Panel */}
-          <div className="bg-white border border-[rgba(90,48,69,0.08)] rounded-[24px] p-5 space-y-4 shadow-xs">
-            <div className="flex items-center space-x-2">
-              <div className="w-1 bg-[#D4A45B] h-4 rounded-full" />
-              <h3 className="text-sm font-black text-[#1F1F1F] font-sans">Quick Actions</h3>
-            </div>
-            
-            <div className="grid grid-cols-2 gap-2 text-left">
-              <Link href="/dashboard/cards" className="flex flex-col p-3 bg-[#FAF7F3]/70 hover:bg-[#5A3045] border border-[rgba(90,48,69,0.06)] hover:border-[#5A3045] rounded-xl text-left transition-all duration-300 group hover:shadow-sm">
-                <Plus size={16} className="text-[#5A3045] mb-2 group-hover:text-[#D4A45B]" />
-                <span className="text-[10px] font-bold text-[#1F1F1F] group-hover:text-white">Create Card</span>
-              </Link>
-              <Link href="/dashboard/leads" className="flex flex-col p-3 bg-[#FAF7F3]/70 hover:bg-[#5A3045] border border-[rgba(90,48,69,0.06)] hover:border-[#5A3045] rounded-xl text-left transition-all duration-300 group hover:shadow-sm">
-                <Inbox size={16} className="text-[#5A3045] mb-2 group-hover:text-[#D4A45B]" />
-                <span className="text-[10px] font-bold text-[#1F1F1F] group-hover:text-white">Import Lead</span>
-              </Link>
-              <Link href="/dashboard/analytics" className="flex flex-col p-3 bg-[#FAF7F3]/70 hover:bg-[#5A3045] border border-[rgba(90,48,69,0.06)] hover:border-[#5A3045] rounded-xl text-left transition-all duration-300 group hover:shadow-sm">
-                <TrendingUp size={16} className="text-[#5A3045] mb-2 group-hover:text-[#D4A45B]" />
-                <span className="text-[10px] font-bold text-[#1F1F1F] group-hover:text-white">Analytics</span>
-              </Link>
-              <Link href="/templates" className="flex flex-col p-3 bg-[#FAF7F3]/70 hover:bg-[#5A3045] border border-[rgba(90,48,69,0.06)] hover:border-[#5A3045] rounded-xl text-left transition-all duration-300 group hover:shadow-sm">
-                <Sparkles size={16} className="text-[#5A3045] mb-2 group-hover:text-[#D4A45B]" />
-                <span className="text-[10px] font-bold text-[#1F1F1F] group-hover:text-white">Templates</span>
-              </Link>
-            </div>
-          </div>
+
 
           {/* Activity Timeline */}
           <div className="bg-white border border-[rgba(90,48,69,0.08)] rounded-[24px] p-5 space-y-4 shadow-xs flex-1">
             <div className="flex items-center space-x-2">
               <div className="w-1 bg-[#5A3045] h-4 rounded-full" />
-              <h3 className="text-sm font-black text-[#1F1F1F] font-sans">Recent Activity</h3>
+              <h3 className="text-sm font-black text-inherit font-sans">Recent Activity</h3>
             </div>
 
             <div className="space-y-4 relative pl-3 border-l border-[rgba(90,48,69,0.06)] ml-2 text-left pt-1">
               {/* Item 1 */}
               <div className="relative space-y-1">
                 <span className="absolute -left-[17px] top-1 w-2.5 h-2.5 rounded-full bg-[#D4A45B] border-2 border-white shadow-xs" />
-                <p className="text-[10px] font-extrabold text-[#1F1F1F]">Someone viewed your profile</p>
+                <p className="text-[10px] font-extrabold text-inherit">Someone viewed your profile</p>
                 <p className="text-[8px] text-[#7A7A7A] font-medium">Acme Inc. visit • 2 mins ago</p>
               </div>
 
               {/* Item 2 */}
               <div className="relative space-y-1">
                 <span className="absolute -left-[17px] top-1 w-2.5 h-2.5 rounded-full bg-[#5A3045] border-2 border-white shadow-xs animate-pulse" />
-                <p className="text-[10px] font-extrabold text-[#1F1F1F]">New lead captured: Sarah</p>
+                <p className="text-[10px] font-extrabold text-inherit">New lead captured: Sarah</p>
                 <p className="text-[8px] text-[#7A7A7A] font-medium">sarah@acme.com • 1 hour ago</p>
               </div>
 
               {/* Item 3 */}
               <div className="relative space-y-1">
                 <span className="absolute -left-[17px] top-1 w-2.5 h-2.5 rounded-full bg-green-500 border-2 border-white shadow-xs" />
-                <p className="text-[10px] font-extrabold text-[#1F1F1F]">QR code scanned</p>
+                <p className="text-[10px] font-extrabold text-inherit">QR code scanned</p>
                 <p className="text-[8px] text-[#7A7A7A] font-medium">San Francisco Conference • 3 hours ago</p>
               </div>
 
               {/* Item 4 */}
               <div className="relative space-y-1">
                 <span className="absolute -left-[17px] top-1 w-2.5 h-2.5 rounded-full bg-blue-500 border-2 border-white shadow-xs" />
-                <p className="text-[10px] font-extrabold text-[#1F1F1F]">Card shared on LinkedIn</p>
+                <p className="text-[10px] font-extrabold text-inherit">Card shared on LinkedIn</p>
                 <p className="text-[8px] text-[#7A7A7A] font-medium">Sync complete • Yesterday</p>
               </div>
             </div>

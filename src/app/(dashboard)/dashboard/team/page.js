@@ -118,11 +118,11 @@ export default function TeamWorkspacePage() {
   }
 
   return (
-    <div className="space-y-8 max-w-5xl">
+    <div className="space-y-8 w-full">
       {/* Header */}
       <div className="pb-6 border-b border-[#E9E2DC]">
         <span className="text-[10px] font-black uppercase tracking-widest text-[#C89B5B]">Collaboration</span>
-        <h1 className="text-2xl font-black text-[#1F1F1F] mt-1">Team Workspace</h1>
+        <h1 className="text-2xl font-black text-inherit mt-1">Team Workspace</h1>
         <p className="text-xs text-[#8A7A6A] mt-1">Configure shared templates and invite organization members.</p>
       </div>
 
@@ -149,7 +149,7 @@ export default function TeamWorkspacePage() {
               <Building2 size={28} />
             </div>
             <div className="space-y-2">
-              <h2 className="text-lg font-black text-[#1F1F1F]">Create a Team Workspace</h2>
+              <h2 className="text-lg font-black text-inherit">Create a Team Workspace</h2>
               <p className="text-xs text-[#8A7A6A] leading-relaxed max-w-sm mx-auto">
                 Unlock centralized branding locks, aggregated team reports, and collaborative seat allocations.
               </p>
@@ -210,7 +210,7 @@ export default function TeamWorkspacePage() {
                         {member.email?.charAt(0)?.toUpperCase()}
                       </div>
                       <div>
-                        <h5 className="text-xs font-bold text-[#1F1F1F]">{member.email}</h5>
+                        <h5 className="text-xs font-bold text-inherit">{member.email}</h5>
                         <span className="text-[9px] text-[#C89B5B] font-semibold capitalize">{member.role}</span>
                       </div>
                     </div>
@@ -247,7 +247,7 @@ export default function TeamWorkspacePage() {
                 <div className="flex flex-col space-y-1.5">
                   <label className="text-[10px] font-black uppercase tracking-widest text-[#8A7A6A]">Workspace Role</label>
                   <select
-                    className="bg-[#FAF8F6] border border-[#E9E2DC] rounded-xl text-xs p-2.5 text-[#1F1F1F] focus:outline-none focus:border-[#5A3342]/40 transition-colors font-semibold"
+                    className="bg-[#FAF8F6] border border-[#E9E2DC] rounded-xl text-xs p-2.5 text-inherit focus:outline-none focus:border-[#5A3342]/40 transition-colors font-semibold"
                     {...registerInvite('role')}
                   >
                     <option value="member">Member (Own Card Edit Only)</option>

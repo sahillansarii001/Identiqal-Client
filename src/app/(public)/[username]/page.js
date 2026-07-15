@@ -5,7 +5,7 @@ import { Compass, QrCode } from 'lucide-react';
 import AnalyticsLogger from './AnalyticsLogger.jsx';
 
 // Incremental Static Regeneration (ISR) revalidation limit
-export const revalidate = 60;
+export const revalidate = 0; // Set to 0 to disable cache during active development
 
 export default async function PublicCardPage({ params }) {
   const { username } = params;
