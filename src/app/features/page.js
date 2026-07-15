@@ -22,7 +22,7 @@ import {
   Star
 } from 'lucide-react';
 
-export default function Home() {
+export default function FeaturesPage() {
   const coreFeatures = [
     {
       icon: <Layers size={22} className="text-[#5A3342]" />,
