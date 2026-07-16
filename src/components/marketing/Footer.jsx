@@ -111,16 +111,17 @@ export const Footer = () => {
     hover: {
       y: -4,
       scale: 1.15,
-      transition: { type: 'spring', stiffness: 400, damping: 10 },
+      rotate: 12,
+      transition: { type: 'spring', stiffness: 400, damping: 12 },
     },
   };
 
   return (
     <motion.footer
-      initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 30, filter: 'blur(8px)' }}
+      whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
       viewport={{ once: true, margin: '-50px' }}
-      transition={{ duration: 0.8, ease: 'easeOut' }}
+      transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
       className="bg-[#F8F4F1] border-t border-[#E9E2DC] pt-20 pb-12 relative z-10 font-sans mt-auto"
     >
       <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12">
@@ -317,19 +318,29 @@ export const Footer = () => {
                 </div>
               ) : (
                 <form onSubmit={handleSubscribe} className="flex gap-2">
-                  <input
+                  <motion.input
                     type="email"
                     required
                     placeholder="Enter your email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="flex-1 px-3.5 py-2.5 text-xs bg-white/70 border border-[#E9E2DC] focus:border-[#C89B5B] rounded-lg outline-none transition-all focus:ring-2 focus:ring-[#C89B5B]/20"
+                    whileFocus={shouldReduceMotion ? {} : {
+                      boxShadow: '0 0 0 3px rgba(200, 155, 91, 0.18)',
+                      borderColor: '#C89B5B',
+                    }}
+                    transition={{ duration: 0.2 }}
+                    className="flex-1 px-3.5 py-2.5 text-xs bg-white/70 border border-[#E9E2DC] rounded-lg outline-none transition-colors duration-200"
                   />
                   <motion.button
                     type="submit"
-                    whileHover={shouldReduceMotion ? {} : { scale: 1.02 }}
-                    whileTap={shouldReduceMotion ? {} : { scale: 0.98 }}
-                    className="bg-[#6B3A4A] hover:bg-[#522c38] text-white px-4 py-2.5 text-xs font-bold rounded-lg transition-all hover:shadow-[0_0_15px_rgba(107,58,74,0.15)]"
+                    whileHover={shouldReduceMotion ? {} : {
+                      scale: 1.04,
+                      y: -1,
+                      boxShadow: '0 6px 20px rgba(107,58,74,0.22)',
+                    }}
+                    whileTap={shouldReduceMotion ? {} : { scale: 0.96 }}
+                    transition={{ type: 'spring', stiffness: 400, damping: 22 }}
+                    className="bg-[#6B3A4A] hover:bg-[#522c38] text-white px-4 py-2.5 text-xs font-bold rounded-lg transition-colors duration-200"
                   >
                     Subscribe
                   </motion.button>

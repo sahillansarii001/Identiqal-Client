@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { Navbar } from '@/components/marketing/Navbar.jsx';
 import { Footer } from '@/components/marketing/Footer.jsx';
@@ -774,11 +775,23 @@ export default function TemplatesPage() {
       <Footer />
 
       {/* FULLSCREEN PREVIEW MODAL */}
+      <AnimatePresence>
       {selectedTemplate && (
-        <div className="fixed inset-0 z-50 bg-[#1F1F1F]/80 backdrop-blur-sm flex flex-col items-center justify-center p-4 sm:p-6 transition-all duration-300">
+        <motion.div
+          key="previewModal"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25 }}
+          className="fixed inset-0 z-50 bg-[#1F1F1F]/80 backdrop-blur-sm flex flex-col items-center justify-center p-4 sm:p-6">
           
           {/* Modal Card wrapper */}
-          <div className="w-full max-w-5xl bg-[#FAF8F6] border border-[#E9E2DC] rounded-2xl shadow-2xl flex flex-col h-[90vh] overflow-hidden">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96, y: 20, filter: 'blur(6px)' }}
+            animate={{ opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, scale: 0.96, y: 20, filter: 'blur(6px)' }}
+            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            className="w-full max-w-5xl bg-[#FAF8F6] border border-[#E9E2DC] rounded-2xl shadow-2xl flex flex-col h-[90vh] overflow-hidden">
             
             {/* Modal Top Header */}
             <div className="bg-white border-b border-[#E9E2DC] px-6 py-4 flex items-center justify-between shrink-0">
@@ -854,72 +867,96 @@ export default function TemplatesPage() {
             {/* Modal Body: Active Viewport Device Mockup */}
             <div className="flex-1 p-6 flex justify-center items-center overflow-hidden bg-slate-100 relative">
               
-              {/* Dynamic device layout classes based on selection */}
-              <div
-                className={`transition-all duration-300 bg-white border border-[#E9E2DC] flex flex-col justify-between overflow-y-auto ${
+              {/* Device shell — viewport size changes */}
+              <motion.div
+                layout
+                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                className={`transition-[width,height,border-radius] duration-350 border flex flex-col justify-between overflow-hidden ${
                   previewViewport === 'desktop'
                     ? 'w-full max-w-4xl h-[70vh] rounded-xl shadow-lg'
                     : previewViewport === 'tablet'
                     ? 'w-[520px] h-[65vh] border-[8px] border-zinc-900 rounded-[28px] shadow-2xl'
                     : 'w-[290px] h-[60vh] border-[8px] border-zinc-900 rounded-[32px] shadow-2xl'
-                } ${previewTheme === 'dark' ? 'bg-zinc-950 text-white border-zinc-800' : 'bg-white text-[#1F1F1F] border-[#E9E2DC]'}`}
+                } ${previewTheme === 'dark' ? 'border-zinc-800' : 'border-[#E9E2DC]'}`}
               >
-                
-                {/* Embedded dynamic card representation elements */}
-                <div className={`p-6 space-y-5 flex flex-col justify-between min-h-full ${previewTheme === 'dark' ? 'bg-zinc-950' : 'bg-[#FAF8F6]'}`}>
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-[#5A3342] to-[#C89B5B] flex items-center justify-center text-white font-bold">
-                        AM
+                {/* Theme content — fades when switching light/dark */}
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={previewTheme}
+                    initial={{ opacity: 0, scale: 0.97, filter: 'blur(5px)' }}
+                    animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+                    exit={{ opacity: 0, scale: 0.97, filter: 'blur(5px)' }}
+                    transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                    className={`p-6 space-y-5 flex flex-col justify-between min-h-full h-full overflow-y-auto ${
+                      previewTheme === 'dark' ? 'bg-zinc-950' : 'bg-[#FAF8F6]'
+                    }`}
+                  >
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-[#5A3342] to-[#C89B5B] flex items-center justify-center text-white font-bold">
+                          AM
+                        </div>
+                        <span className={`text-[8px] font-bold px-2 py-0.5 rounded-full border uppercase ${
+                          previewTheme === 'dark' ? 'bg-zinc-900 text-zinc-400 border-zinc-800' : 'bg-slate-100 text-slate-600 border-[#E9E2DC]'
+                        }`}>
+                          ★ Active Blueprint
+                        </span>
                       </div>
-                      <span className={`text-[8px] font-bold px-2 py-0.5 rounded-full border uppercase ${previewTheme === 'dark' ? 'bg-zinc-900 text-zinc-400 border-zinc-800' : 'bg-slate-100 text-slate-650 border-[#E9E2DC]'}`}>
-                        ★ Active Blueprint
-                      </span>
+
+                      <div className="space-y-1 text-left">
+                        <h4 className={`font-black text-sm ${previewTheme === 'dark' ? 'text-white' : 'text-[#1F1F1F]'}`}>
+                          {selectedTemplate.name} Design
+                        </h4>
+                        <p className="text-[10px] text-[#5A3342] font-semibold">{selectedTemplate.category} Customizer</p>
+                        <p className={`text-[9px] ${previewTheme === 'dark' ? 'text-zinc-500' : 'text-[#6B6B6B]'}`}>
+                          {selectedTemplate.author}
+                        </p>
+                      </div>
+
+                      <p className={`text-[10px] leading-relaxed text-left border-t pt-3 ${
+                        previewTheme === 'dark' ? 'text-zinc-400 border-zinc-800' : 'text-[#6B6B6B] border-slate-200'
+                      }`}>
+                        {selectedTemplate.description}
+                      </p>
                     </div>
 
-                    <div className="space-y-1 text-left">
-                      <h4 className={`font-black text-sm ${previewTheme === 'dark' ? 'text-white' : 'text-[#1F1F1F]'}`}>{selectedTemplate.name} Design</h4>
-                      <p className="text-[10px] text-[#5A3342] font-semibold">{selectedTemplate.category} Customizer</p>
-                      <p className={`text-[9px] ${previewTheme === 'dark' ? 'text-zinc-500' : 'text-[#6B6B6B]'}`}>{selectedTemplate.author}</p>
+                    {/* Buttons */}
+                    <div className="space-y-1.5 my-4">
+                      <button className="w-full py-2 bg-[#5A3342] text-white text-[10px] font-bold rounded-lg hover:bg-[#6A3B4B] transition-colors">
+                        Save Contact Blueprint
+                      </button>
+                      <button className={`w-full py-2 text-[10px] font-semibold rounded-lg border transition-colors ${
+                        previewTheme === 'dark' ? 'bg-zinc-900 border-zinc-800 text-white' : 'bg-white border-[#E9E2DC] text-[#5A3342]'
+                      }`}>
+                        Explore Links
+                      </button>
                     </div>
 
-                    <p className={`text-[10px] leading-relaxed text-left border-t pt-3 ${previewTheme === 'dark' ? 'text-zinc-400 border-zinc-800' : 'text-[#6B6B6B] border-slate-150'}`}>
-                      {selectedTemplate.description}
-                    </p>
-                  </div>
-
-                  {/* Buttons */}
-                  <div className="space-y-1.5 my-4">
-                    <button className="w-full py-2 bg-[#5A3342] text-white text-[10px] font-bold rounded-lg hover:bg-[#6A3B4B]">
-                      Save Contact Blueprint
-                    </button>
-                    <button className={`w-full py-2 text-[10px] font-semibold rounded-lg border ${previewTheme === 'dark' ? 'bg-zinc-900 border-zinc-800 text-white' : 'bg-white border-[#E9E2DC] text-[#5A3342]'}`}>
-                      Explore Links
-                    </button>
-                  </div>
-
-                  {/* Contact lists */}
-                  <div className="space-y-2 text-left">
-                    <h5 className="text-[8px] font-black uppercase text-[#5A3342]">Social Registry Links</h5>
-                    <div className={`p-2.5 rounded-lg space-y-1.5 border ${previewTheme === 'dark' ? 'bg-zinc-900/60 border-zinc-800' : 'bg-white border-[#E9E2DC]'}`}>
-                      <div className="flex items-center space-x-2 text-[9px]">
-                        <span>📬</span>
-                        <span className={previewTheme === 'dark' ? 'text-zinc-300' : 'text-[#6B6B6B]'}>inquiry@company.com</span>
-                      </div>
-                      <div className="flex items-center space-x-2 text-[9px]">
-                        <span>💼</span>
-                        <span className={previewTheme === 'dark' ? 'text-zinc-300' : 'text-[#6B6B6B]'}>linkedin.com/in/alex</span>
+                    {/* Contact list */}
+                    <div className="space-y-2 text-left">
+                      <h5 className="text-[8px] font-black uppercase text-[#5A3342]">Social Registry Links</h5>
+                      <div className={`p-2.5 rounded-lg space-y-1.5 border ${
+                        previewTheme === 'dark' ? 'bg-zinc-900/60 border-zinc-800' : 'bg-white border-[#E9E2DC]'
+                      }`}>
+                        <div className="flex items-center space-x-2 text-[9px]">
+                          <span>📬</span>
+                          <span className={previewTheme === 'dark' ? 'text-zinc-300' : 'text-[#6B6B6B]'}>inquiry@company.com</span>
+                        </div>
+                        <div className="flex items-center space-x-2 text-[9px]">
+                          <span>💼</span>
+                          <span className={previewTheme === 'dark' ? 'text-zinc-300' : 'text-[#6B6B6B]'}>linkedin.com/in/alex</span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-
-              </div>
+                  </motion.div>
+                </AnimatePresence>
+              </motion.div>
             </div>
 
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       )}
+      </AnimatePresence>
     </div>
   );
 }

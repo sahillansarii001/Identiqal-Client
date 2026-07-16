@@ -19,8 +19,14 @@
   --animate-float-slow: float 9s ease-in-out infinite;
   --animate-float-fast: float 4s ease-in-out infinite;
   --animate-marquee: marquee 30s linear infinite;
+  --animate-marquee-slow: marquee 45s linear infinite;
   --animate-fade-in-up: fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   --animate-fade-in: fade-in 0.4s ease-out forwards;
+  --animate-blob-1: blobDrift1 22s ease-in-out infinite;
+  --animate-blob-2: blobDrift2 28s ease-in-out infinite;
+  --animate-blob-3: blobDrift3 18s ease-in-out infinite;
+  --animate-gradient-shift: gradientShift 8s ease-in-out infinite;
+  --animate-shimmer: shimmer 2.5s linear infinite;
 }
 
 body {
@@ -28,70 +34,240 @@ body {
   color: var(--foreground);
 }
 
+/* ─── Floating ─────────────────────────────────────────────────────────────── */
+
 @keyframes float {
-  0%, 100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-12px) rotate(1deg);
-  }
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50%       { transform: translateY(-12px) rotate(1deg); }
 }
+
+/* ─── Marquee ──────────────────────────────────────────────────────────────── */
 
 @keyframes marquee {
-  0% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
+  0%   { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
 }
 
+/* ─── Fade In Up ───────────────────────────────────────────────────────────── */
+
 @keyframes fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
-/* Custom premium scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-::-webkit-scrollbar-track {
-  background: #FAFAF8;
-}
-::-webkit-scrollbar-thumb {
-  background: #E5E5E0;
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #B88A44;
+/* ─── Background Gradient Blobs ─────────────────────────────────────────────── */
+
+@keyframes blobDrift1 {
+  0%   { transform: translate(0px,   0px)   scale(1); }
+  25%  { transform: translate(60px, -40px)  scale(1.05); }
+  50%  { transform: translate(-30px, 50px)  scale(0.95); }
+  75%  { transform: translate(40px,  20px)  scale(1.03); }
+  100% { transform: translate(0px,   0px)   scale(1); }
 }
 
-/* Utilities for glassmorphism */
+@keyframes blobDrift2 {
+  0%   { transform: translate(0px,   0px)   scale(1); }
+  33%  { transform: translate(-50px, 30px)  scale(1.06); }
+  66%  { transform: translate(40px, -60px)  scale(0.94); }
+  100% { transform: translate(0px,   0px)   scale(1); }
+}
+
+@keyframes blobDrift3 {
+  0%   { transform: translate(0px,  0px)    scale(1); }
+  20%  { transform: translate(30px, 50px)   scale(0.97); }
+  60%  { transform: translate(-40px, -30px) scale(1.04); }
+  100% { transform: translate(0px,  0px)    scale(1); }
+}
+
+/* ─── Animated Gradient Text ─────────────────────────────────────────────────── */
+
+@keyframes gradientShift {
+  0%   { background-position: 0%   50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0%   50%; }
+}
+
+.animated-gradient-text {
+  background: linear-gradient(
+    135deg,
+    #4A2C3A 0%,
+    #854558 25%,
+    #B88A44 50%,
+    #854558 75%,
+    #4A2C3A 100%
+  );
+  background-size: 200% 200%;
+  animation: gradientShift 6s ease-in-out infinite;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ─── Shimmer ───────────────────────────────────────────────────────────────── */
+
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+/* ─── Blob Utility Classes ───────────────────────────────────────────────────── */
+
+.blob-1 { animation: blobDrift1 22s ease-in-out infinite; }
+.blob-2 { animation: blobDrift2 28s ease-in-out infinite; }
+.blob-3 { animation: blobDrift3 18s ease-in-out infinite; }
+
+/* ─── Marquee utility ─────────────────────────────────────────────────────────── */
+
+.animate-marquee        { animation: marquee 30s linear infinite; }
+.animate-marquee-slow   { animation: marquee 50s linear infinite; }
+
+/* ─── Mask Fade (for marquee edges) ─────────────────────────────────────────── */
+
+.mask-fade {
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+/* ─── Premium Scrollbar ──────────────────────────────────────────────────────── */
+
+::-webkit-scrollbar        { width: 8px; height: 8px; }
+::-webkit-scrollbar-track  { background: #FAFAF8; }
+::-webkit-scrollbar-thumb  { background: #E5E5E0; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #B88A44; }
+
+/* ─── Glassmorphism Utilities ────────────────────────────────────────────────── */
+
 .glass-premium {
-  background: rgba(250, 250, 248, 0.7);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(74, 44, 58, 0.05);
+  background: rgba(250, 250, 248, 0.72);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(74, 44, 58, 0.06);
 }
 
 .glass-dark {
-  background: rgba(26, 26, 26, 0.8);
-  backdrop-filter: blur(12px);
+  background: rgba(26, 26, 26, 0.82);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+/* ─── Smooth Scroll ──────────────────────────────────────────────────────────── */
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* ─── Reduced Motion Overrides ───────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .blob-1, .blob-2, .blob-3 { animation: none; }
+  .animate-marquee, .animate-marquee-slow { animation-duration: 80s; }
+  .animated-gradient-text { animation: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   Dashboard Dark Mode — uses [data-dark="true"] attribute on the layout root.
+   All selectors use plain class names or element selectors — no Tailwind
+   escaped-bracket syntax that breaks PostCSS / Turbopack.
+═══════════════════════════════════════════════════════════════════════════════ */
+
+/* ─── Root wrapper ───────────────────────────────────────────────────────────── */
+[data-dark="true"] {
+  background-color: #151215;
+  color: #F0EBF0;
+}
+
+/* ─── White surfaces → dark ──────────────────────────────────────────────────── */
+[data-dark="true"] .bg-white {
+  background-color: #1E1820 !important;
+  border-color: rgba(255, 255, 255, 0.07) !important;
+}
+
+/* ─── Light-grey surfaces ────────────────────────────────────────────────────── */
+[data-dark="true"] .bg-slate-100,
+[data-dark="true"] .bg-slate-50 {
+  background-color: #251E2A !important;
+}
+
+/* ─── ALL text inside dark cards — force visible ────────────────────────────── */
+[data-dark="true"] .bg-white h1,
+[data-dark="true"] .bg-white h2,
+[data-dark="true"] .bg-white h3,
+[data-dark="true"] .bg-white h4,
+[data-dark="true"] .bg-white h5,
+[data-dark="true"] .bg-white h6,
+[data-dark="true"] .bg-white p,
+[data-dark="true"] .bg-white div,
+[data-dark="true"] .bg-white span,
+[data-dark="true"] .bg-white label {
+  color: #F0EBF0 !important;
+}
+
+/* ─── Re-allow intentional accent colors ─────────────────────────────────────── */
+[data-dark="true"] .bg-white .text-green-500,
+[data-dark="true"] .bg-white .text-green-400 {
+  color: #4ade80 !important;
+}
+[data-dark="true"] .bg-white .text-red-500,
+[data-dark="true"] .bg-white .text-red-400 {
+  color: #f87171 !important;
+}
+[data-dark="true"] .bg-white .text-yellow-500,
+[data-dark="true"] .bg-white .text-amber-500 {
+  color: #fbbf24 !important;
+}
+/* White text stays white */
+[data-dark="true"] .bg-white .text-white {
+  color: #ffffff !important;
+}
+
+/* ─── Muted / secondary text within dark cards ───────────────────────────────── */
+[data-dark="true"] .bg-white .text-slate-400,
+[data-dark="true"] .bg-white .text-slate-500,
+[data-dark="true"] .bg-white .text-slate-600 {
+  color: #9A8AA0 !important;
+}
+
+/* ─── Dividers ───────────────────────────────────────────────────────────────── */
+[data-dark="true"] .divide-y > * + * {
+  border-color: rgba(255, 255, 255, 0.06) !important;
+}
+[data-dark="true"] .border-slate-100,
+[data-dark="true"] .border-slate-200 {
+  border-color: rgba(255, 255, 255, 0.07) !important;
+}
+
+/* ─── Input fields ───────────────────────────────────────────────────────────── */
+[data-dark="true"] input:not([type="checkbox"]):not([type="radio"]),
+[data-dark="true"] textarea,
+[data-dark="true"] select {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  color: #F0EBF0 !important;
+  border-color: rgba(255, 255, 255, 0.10) !important;
+}
+[data-dark="true"] input::placeholder,
+[data-dark="true"] textarea::placeholder {
+  color: #6A5A6A !important;
+}
+
+/* ─── Card hover elevation in dark ──────────────────────────────────────────── */
+[data-dark="true"] .bg-white:hover {
+  box-shadow: 0 4px 28px rgba(0, 0, 0, 0.45) !important;
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────────────────────────── */
+[data-dark="true"] ::-webkit-scrollbar-track  { background: #1A1520; }
+[data-dark="true"] ::-webkit-scrollbar-thumb  { background: #3A2840; }
+[data-dark="true"] ::-webkit-scrollbar-thumb:hover { background: #D4A45B; }
+
+/* ─── Smooth color transitions on all elements ───────────────────────────────── */
+*, *::before, *::after {
+  transition-property: background-color, border-color, color, box-shadow;
+  transition-duration: 300ms;
+  transition-timing-function: ease;
+}

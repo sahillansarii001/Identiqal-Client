@@ -1,164 +1,272 @@
 'use client';
 
-import React from 'react';
+import React, { useRef, useCallback } from 'react';
 import Link from 'next/link';
-import { Sparkles, Play, Check, QrCode, TrendingUp, Sparkle, MessageSquare, UserCheck, ShieldCheck } from 'lucide-react';
-import { motion, useReducedMotion } from 'framer-motion';
+import {
+  Sparkles, Play, Check, QrCode, TrendingUp, Sparkle,
+  MessageSquare, UserCheck, ShieldCheck,
+} from 'lucide-react';
+import {
+  motion, useReducedMotion, useMotionValue, useSpring, useTransform,
+} from 'framer-motion';
+
+// ─── Word-by-word split helper ─────────────────────────────────────────────────
+function WordReveal({ text, className, staggerDelay = 0 }) {
+  const words = text.split(' ');
+  return (
+    <span className={className}>
+      {words.map((word, i) => (
+        <motion.span
+          key={i}
+          variants={{
+            hidden: { opacity: 0, y: 18, filter: 'blur(4px)' },
+            visible: {
+              opacity: 1,
+              y: 0,
+              filter: 'blur(0px)',
+              transition: {
+                duration: 0.5,
+                ease: [0.16, 1, 0.3, 1],
+                delay: staggerDelay + i * 0.04,
+              },
+            },
+          }}
+          className="inline-block mr-[0.28em]"
+        >
+          {word}
+        </motion.span>
+      ))}
+    </span>
+  );
+}
+
+// ─── Floating gradient blob ────────────────────────────────────────────────────
+function GradientBlob({ className }) {
+  return (
+    <div
+      className={`absolute rounded-full pointer-events-none ${className}`}
+      style={{ filter: 'blur(80px)', willChange: 'transform' }}
+    />
+  );
+}
+
+// ─── Floating widget card ──────────────────────────────────────────────────────
+function FloatingWidget({ children, animate, transition, className }) {
+  return (
+    <motion.div
+      animate={animate}
+      transition={{ ...transition, repeat: Infinity, repeatType: 'loop', ease: 'easeInOut' }}
+      className={`absolute bg-white/95 backdrop-blur-md border border-[#4A2C3A]/8 shadow-xl rounded-xl z-30 ${className}`}
+    >
+      {children}
+    </motion.div>
+  );
+}
 
 export const Hero = () => {
   const shouldReduceMotion = useReducedMotion();
+  const containerRef = useRef(null);
 
+  // ─── Mouse-tracking 3D tilt ──────────────────────────────────────────────────
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [4, -4]), {
+    stiffness: 150, damping: 30,
+  });
+  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-4, 4]), {
+    stiffness: 150, damping: 30,
+  });
+
+  const handleMouseMove = useCallback((e) => {
+    if (shouldReduceMotion) return;
+    const rect = containerRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    mouseX.set((e.clientX - rect.left) / rect.width - 0.5);
+    mouseY.set((e.clientY - rect.top)  / rect.height - 0.5);
+  }, [shouldReduceMotion, mouseX, mouseY]);
+
+  const handleMouseLeave = useCallback(() => {
+    mouseX.set(0);
+    mouseY.set(0);
+  }, [mouseX, mouseY]);
+
+  // ─── Stagger container ───────────────────────────────────────────────────────
   const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.08,
-        delayChildren: 0.05,
-      },
-    },
+    hidden:   { opacity: 0 },
+    visible:  { opacity: 1, transition: { staggerChildren: 0.08, delayChildren: 0.1 } },
   };
 
   const itemVariants = {
-    hidden: shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 15 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.35, ease: 'easeOut' },
-    },
+    hidden:   shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 20, filter: 'blur(4px)' },
+    visible:  { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] } },
   };
 
   return (
-    <section className="relative min-h-screen pt-32 pb-20 overflow-hidden bg-[#FAFAF8] flex items-center">
-      {/* Background gradients and glowing effects */}
+    <section className="relative min-h-screen pt-28 pb-20 overflow-hidden bg-[#FAFAF8] flex items-center">
+      {/* ── Animated gradient blobs ──────────────────────────── */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-        {/* Glow Top Left */}
-        <div className="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full bg-[#4A2C3A]/5 blur-[120px]" />
-        {/* Glow Right Center */}
-        <div className="absolute top-1/4 -right-20 w-[500px] h-[500px] rounded-full bg-[#B88A44]/10 blur-[130px]" />
-        {/* Glow Bottom Center */}
-        <div className="absolute -bottom-20 left-1/3 w-[450px] h-[450px] rounded-full bg-[#4A2C3A]/3 blur-[110px]" />
-        
-        {/* Grid pattern overlay */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#4a2c3a03_1px,transparent_1px),linear-gradient(to_bottom,#4a2c3a03_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
+        <GradientBlob className="blob-1 -top-40 -left-32 w-[640px] h-[640px] bg-[#4A2C3A]/6 opacity-70" />
+        <GradientBlob className="blob-2 top-1/4 -right-24 w-[520px] h-[520px] bg-[#B88A44]/8 opacity-60" />
+        <GradientBlob className="blob-3 -bottom-20 left-1/3 w-[480px] h-[480px] bg-[#4A2C3A]/4 opacity-50" />
+
+        {/* Fine grid overlay */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#4a2c3a04_1px,transparent_1px),linear-gradient(to_bottom,#4a2c3a04_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 w-full grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-        {/* LEFT SIDE: Copy & CTA */}
+
+        {/* ── LEFT: Copy & CTA ─────────────────────────────────── */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
           className="lg:col-span-6 text-left space-y-8"
         >
-          {/* Sparkles pill */}
+          {/* Badge */}
           <motion.div
             variants={itemVariants}
-            className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-[#4A2C3A]/5 border border-[#4A2C3A]/10 text-xs font-semibold text-[#4A2C3A]"
+            className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-[#4A2C3A]/6 border border-[#4A2C3A]/12 text-xs font-semibold text-[#4A2C3A]"
           >
-            <Sparkles size={13} className="text-[#B88A44]" />
+            <motion.div
+              animate={shouldReduceMotion ? {} : { scale: [1, 1.18, 1] }}
+              transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
+            >
+              <Sparkles size={13} className="text-[#B88A44]" />
+            </motion.div>
             <span>Presenting the Future of Networking</span>
           </motion.div>
 
-          {/* Heading */}
+          {/* Heading — word-by-word reveal */}
           <motion.h1
-            variants={itemVariants}
+            variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
             className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-[#1A1A1A] leading-[1.1] font-sans"
           >
-            Your Identity. <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4A2C3A] via-[#854558] to-[#B88A44]">
-              Smarter Than a Business Card.
+            <WordReveal text="Your Identity." staggerDelay={0.1} />
+            <br />
+            <span className="animated-gradient-text block mt-1">
+              <WordReveal text="Smarter Than a Business Card." staggerDelay={0.28} />
             </span>
           </motion.h1>
 
-          {/* Subheading */}
-          <motion.p
-            variants={itemVariants}
-            className="text-base sm:text-lg text-[#6B6B6B] leading-relaxed max-w-xl"
-          >
-            Create beautiful digital profiles, share them instantly, collect leads, analyze visitors, and let AI help you make the perfect first impression.
+          {/* Description */}
+          <motion.p variants={itemVariants} className="text-base sm:text-lg text-[#6B6B6B] leading-relaxed max-w-xl">
+            Create beautiful digital profiles, share them instantly, collect leads, analyze visitors,
+            and let AI help you make the perfect first impression.
           </motion.p>
 
-          {/* Buttons CTA */}
+          {/* CTA Buttons */}
           <motion.div
             variants={itemVariants}
             className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-3 sm:space-y-0 sm:space-x-4"
           >
             <Link href="/signup" className="w-full sm:w-auto">
               <motion.button
-                whileHover={shouldReduceMotion ? {} : { scale: 1.03, y: -2 }}
-                whileTap={shouldReduceMotion ? {} : { scale: 0.98 }}
-                className="relative group overflow-hidden bg-[#4A2C3A] text-[#FAFAF8] font-semibold px-8 py-4 rounded-xl shadow-lg shadow-[#4A2C3A]/10 border border-[#4A2C3A] text-center w-full"
+                whileHover={shouldReduceMotion ? {} : {
+                  scale: 1.04,
+                  y: -3,
+                  boxShadow: '0 16px 40px rgba(74, 44, 58, 0.28)',
+                }}
+                whileTap={shouldReduceMotion ? {} : { scale: 0.96 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 22 }}
+                className="relative group overflow-hidden bg-[#4A2C3A] text-[#FAFAF8] font-semibold px-8 py-4 rounded-xl border border-[#4A2C3A] text-center w-full"
               >
-                <div className="absolute inset-0 bg-[#B88A44] translate-y-full group-hover:translate-y-0 transition-transform duration-300 -z-10" />
+                <span className="absolute inset-0 bg-gradient-to-r from-[#B88A44] to-[#C89B5B] translate-y-full group-hover:translate-y-0 transition-transform duration-300 rounded-xl" />
                 <span className="relative z-10">Create Your Card</span>
               </motion.button>
             </Link>
+
             <motion.button
-              whileHover={shouldReduceMotion ? {} : { scale: 1.03, y: -2 }}
-              whileTap={shouldReduceMotion ? {} : { scale: 0.98 }}
-              className="inline-flex items-center justify-center space-x-2 px-8 py-4 rounded-xl border border-[#4A2C3A]/10 bg-white/50 backdrop-blur-sm text-[#4A2C3A] font-semibold hover:bg-white hover:border-[#4A2C3A]/20 transition-all duration-300 group w-full sm:w-auto"
+              whileHover={shouldReduceMotion ? {} : {
+                scale: 1.04,
+                y: -3,
+                boxShadow: '0 8px 32px rgba(74, 44, 58, 0.10)',
+              }}
+              whileTap={shouldReduceMotion ? {} : { scale: 0.96 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 22 }}
+              className="inline-flex items-center justify-center space-x-2 px-8 py-4 rounded-xl border border-[#4A2C3A]/12 bg-white/60 backdrop-blur-sm text-[#4A2C3A] font-semibold hover:bg-white hover:border-[#4A2C3A]/22 transition-colors duration-300 group w-full sm:w-auto"
             >
-              <Play size={15} fill="currentColor" className="text-[#B88A44] group-hover:scale-110 transition-transform" />
+              <motion.div
+                whileHover={shouldReduceMotion ? {} : { scale: 1.2, rotate: 5 }}
+                transition={{ type: 'spring', stiffness: 400 }}
+              >
+                <Play size={15} fill="currentColor" className="text-[#B88A44]" />
+              </motion.div>
               <span>Watch Demo</span>
             </motion.button>
           </motion.div>
 
-          {/* Small Trust Badges */}
+          {/* Trust badges */}
           <motion.div
             variants={itemVariants}
-            className="pt-4 border-t border-[#4A2C3A]/5 flex flex-wrap gap-x-8 gap-y-3"
+            className="pt-4 border-t border-[#4A2C3A]/6 flex flex-wrap gap-x-8 gap-y-3"
           >
-            <div className="flex items-center space-x-2 text-xs font-semibold text-[#6B6B6B]">
-              <div className="w-5 h-5 rounded-full bg-[#B88A44]/15 flex items-center justify-center text-[#B88A44]">
-                <Check size={11} strokeWidth={3} />
-              </div>
-              <span>Free Forever</span>
-            </div>
-            <div className="flex items-center space-x-2 text-xs font-semibold text-[#6B6B6B]">
-              <div className="w-5 h-5 rounded-full bg-[#B88A44]/15 flex items-center justify-center text-[#B88A44]">
-                <Check size={11} strokeWidth={3} />
-              </div>
-              <span>No Coding Required</span>
-            </div>
-            <div className="flex items-center space-x-2 text-xs font-semibold text-[#6B6B6B]">
-              <div className="w-5 h-5 rounded-full bg-[#B88A44]/15 flex items-center justify-center text-[#B88A44]">
-                <Check size={11} strokeWidth={3} />
-              </div>
-              <span>QR Sharing</span>
-            </div>
+            {['Free Forever', 'No Coding Required', 'QR Sharing'].map((badge, i) => (
+              <motion.div
+                key={badge}
+                whileHover={shouldReduceMotion ? {} : { x: 2 }}
+                className="flex items-center space-x-2 text-xs font-semibold text-[#6B6B6B]"
+              >
+                <motion.div
+                  animate={shouldReduceMotion ? {} : { scale: [1, 1.12, 1] }}
+                  transition={{ duration: 3, repeat: Infinity, delay: i * 0.6, ease: 'easeInOut' }}
+                  className="w-5 h-5 rounded-full bg-[#B88A44]/15 flex items-center justify-center text-[#B88A44]"
+                >
+                  <Check size={11} strokeWidth={3} />
+                </motion.div>
+                <span>{badge}</span>
+              </motion.div>
+            ))}
           </motion.div>
         </motion.div>
 
-        {/* RIGHT SIDE: CSS-Based Laptop & Mobile mockups with floating widgets */}
+        {/* ── RIGHT: Dashboard mockup with 3D tilt ──────────────── */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.96 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.45, ease: 'easeOut', delay: 0.15 }}
-          className="lg:col-span-6 relative mt-12 lg:mt-0 flex justify-center lg:justify-end items-center h-[500px]"
+          ref={containerRef}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+          initial={{ opacity: 0, scale: 0.94, filter: 'blur(8px)' }}
+          animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.22 }}
+          className="lg:col-span-6 relative mt-12 lg:mt-0 flex justify-center lg:justify-end items-center"
+          style={{ perspective: 1000 }}
         >
-          {/* Relative wrapper anchor to tie widgets tightly to the laptop mockup */}
           <div className="relative w-full max-w-[480px]">
-            {/* Laptop Mockup */}
+
+            {/* Main dashboard card with float + tilt */}
             <motion.div
-              animate={{ y: [0, -12, 0] }}
-              transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut' }}
-              className="relative w-full max-w-[480px] bg-white rounded-2xl shadow-[0_25px_60px_-15px_rgba(74,44,58,0.15)] border border-[#4A2C3A]/5 overflow-hidden z-10"
+              style={shouldReduceMotion ? {} : { rotateX, rotateY }}
+              animate={shouldReduceMotion ? {} : { y: [0, -12, 0] }}
+              transition={{ repeat: Infinity, duration: 5, ease: 'easeInOut' }}
+              className="relative w-full bg-white rounded-2xl shadow-[0_32px_72px_-16px_rgba(74,44,58,0.18)] border border-[#4A2C3A]/6 overflow-hidden z-10"
             >
-              {/* Screen Top Bar */}
-              <div className="bg-[#FAFAF8] border-b border-[#4A2C3A]/5 px-4 py-3 flex items-center space-x-1.5">
-                <div className="w-3 h-3 rounded-full bg-red-400/20 border border-red-400" />
-                <div className="w-3 h-3 rounded-full bg-yellow-400/20 border border-yellow-400" />
-                <div className="w-3 h-3 rounded-full bg-green-400/20 border border-green-400" />
-                <div className="w-2/3 h-4 bg-[#4A2C3A]/5 rounded-md mx-auto text-[9px] text-[#6B6B6B] flex items-center justify-center font-mono">
-                  identiqal.com/jane-doe
+              {/* Animated shadow behind the card */}
+              <motion.div
+                animate={shouldReduceMotion ? {} : {
+                  boxShadow: [
+                    '0 30px 60px -10px rgba(74,44,58,0.12)',
+                    '0 48px 80px -8px rgba(74,44,58,0.20)',
+                    '0 30px 60px -10px rgba(74,44,58,0.12)',
+                  ],
+                }}
+                transition={{ repeat: Infinity, duration: 5, ease: 'easeInOut' }}
+                className="absolute inset-0 rounded-2xl pointer-events-none"
+              />
+
+              {/* Browser chrome bar */}
+              <div className="bg-[#FAFAF8] border-b border-[#4A2C3A]/6 px-4 py-3 flex items-center space-x-1.5">
+                <div className="w-3 h-3 rounded-full bg-red-400/40 border border-red-400/60" />
+                <div className="w-3 h-3 rounded-full bg-yellow-400/40 border border-yellow-400/60" />
+                <div className="w-3 h-3 rounded-full bg-green-400/40 border border-green-400/60" />
+                <div className="flex-1 mx-4 h-5 bg-[#4A2C3A]/5 rounded-md flex items-center justify-center">
+                  <span className="text-[9px] text-[#6B6B6B] font-mono">identiqal.com/jane-doe</span>
                 </div>
               </div>
 
-              {/* Laptop Screen Content - Active Profile */}
+              {/* Screen content */}
               <div className="p-5 bg-white space-y-4">
                 <div className="flex items-center space-x-3.5 pb-4 border-b border-[#4A2C3A]/5">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-[#4A2C3A] to-[#B88A44] flex items-center justify-center text-[#FAFAF8] font-bold text-base shadow-sm">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-[#4A2C3A] to-[#B88A44] flex items-center justify-center text-[#FAFAF8] font-bold text-base shadow-sm shrink-0">
                     JD
                   </div>
                   <div>
@@ -167,82 +275,70 @@ export const Hero = () => {
                   </div>
                 </div>
 
-                {/* Grid content mock */}
                 <div className="grid grid-cols-2 gap-2 text-[10px]">
-                  <div className="p-2 bg-[#FAFAF8] border border-[#4A2C3A]/5 rounded-lg flex items-center space-x-2">
-                    <span className="text-[#4A2C3A]">💼</span>
-                    <span className="font-medium text-[#1A1A1A]">Work Portfolio</span>
-                  </div>
-                  <div className="p-2 bg-[#FAFAF8] border border-[#4A2C3A]/5 rounded-lg flex items-center space-x-2">
-                    <span className="text-[#4A2C3A]">📬</span>
-                    <span className="font-medium text-[#1A1A1A]">Book Consultation</span>
-                  </div>
-                  <div className="p-2 bg-[#FAFAF8] border border-[#4A2C3A]/5 rounded-lg flex items-center space-x-2">
-                    <span className="text-[#4A2C3A]">📷</span>
-                    <span className="font-medium text-[#1A1A1A]">Design Gallery</span>
-                  </div>
-                  <div className="p-2 bg-[#FAFAF8] border border-[#4A2C3A]/5 rounded-lg flex items-center space-x-2">
-                    <span className="text-[#4A2C3A]">📝</span>
-                    <span className="font-medium text-[#1A1A1A]">Latest Insights</span>
-                  </div>
+                  {[
+                    { emoji: '💼', label: 'Work Portfolio' },
+                    { emoji: '📬', label: 'Book Consultation' },
+                    { emoji: '📷', label: 'Design Gallery' },
+                    { emoji: '📝', label: 'Latest Insights' },
+                  ].map(({ emoji, label }, i) => (
+                    <motion.div
+                      key={label}
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.5 + i * 0.07, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                      className="p-2 bg-[#FAFAF8] border border-[#4A2C3A]/5 rounded-lg flex items-center space-x-2"
+                    >
+                      <span>{emoji}</span>
+                      <span className="font-medium text-[#1A1A1A]">{label}</span>
+                    </motion.div>
+                  ))}
+                </div>
+
+                {/* Analytics mini bar */}
+                <div className="grid grid-cols-3 gap-2 pt-2 border-t border-[#4A2C3A]/5">
+                  {[
+                    { label: 'Views',   value: '1.2K', color: '#4A2C3A' },
+                    { label: 'Clicks',  value: '384',  color: '#B88A44' },
+                    { label: 'Leads',   value: '47',   color: '#854558' },
+                  ].map(({ label, value, color }, i) => (
+                    <motion.div
+                      key={label}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.7 + i * 0.08, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                      className="text-center"
+                    >
+                      <div className="text-sm font-black" style={{ color }}>{value}</div>
+                      <div className="text-[9px] text-[#6B6B6B] font-medium">{label}</div>
+                    </motion.div>
+                  ))}
                 </div>
               </div>
             </motion.div>
 
-            {/* Overlapping Mobile Mockup */}
-            <motion.div
-              animate={{ y: [0, -18, 0] }}
-              transition={{ repeat: Infinity, duration: 3.6, ease: 'easeInOut' }}
-              className="absolute -bottom-28 -left-36 w-[190px] bg-white rounded-[26px] shadow-[0_20px_50px_rgba(74,44,58,0.2)] border-[5px] border-[#4A2C3A] overflow-hidden hidden sm:block z-20 hover:scale-105 transition-all duration-300"
+            {/* ── Floating Widget Cards ─────────────────────────── */}
+
+            {/* QR Code widget — top right */}
+            <FloatingWidget
+              animate={shouldReduceMotion ? {} : { y: [0, -14, 0], x: [0, 6, 0] }}
+              transition={{ duration: 3.2 }}
+              className="-top-5 -right-16 p-2.5 flex items-center space-x-2.5 hidden sm:flex"
             >
-              {/* Speaker & Camera notch */}
-              <div className="absolute top-0 inset-x-0 h-4 bg-[#4A2C3A] flex justify-center items-center">
-                <div className="w-12 h-1.5 bg-[#FAFAF8]/20 rounded-full" />
-              </div>
-
-              {/* Mobile Content */}
-              <div className="pt-6 pb-4 px-3 bg-[#FAFAF8] space-y-3">
-                <div className="text-center space-y-1">
-                  <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-[#4A2C3A] to-[#B88A44] mx-auto flex items-center justify-center text-white font-bold text-xs">
-                    JD
-                  </div>
-                  <h5 className="font-bold text-[#1A1A1A] text-[10px]">Jane Doe</h5>
-                  <p className="text-[8px] text-[#6B6B6B]">Acme Inc.</p>
-                </div>
-
-                {/* Mobile Quick Contacts */}
-                <div className="space-y-1.5">
-                  <div className="w-full py-1.5 bg-[#4A2C3A] text-white text-[8px] font-bold rounded-md flex items-center justify-center shadow-sm">
-                    Save Contact
-                  </div>
-                  <div className="w-full py-1.5 bg-white border border-[#4A2C3A]/10 text-[#4A2C3A] text-[8px] font-medium rounded-md flex items-center justify-center">
-                    Get in Touch
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* FLOATING UI CARDS */}
-            {/* 1. QR Code Card */}
-            <motion.div
-              animate={{ y: [0, -18, 0], x: [0, 8, 0] }}
-              transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
-              className="absolute -top-4 -right-20 bg-white/95 backdrop-blur-sm p-2.5 rounded-xl border border-[#4A2C3A]/5 shadow-lg flex items-center space-x-2.5 z-35"
-            >
-              <div className="w-8 h-8 rounded-lg bg-[#4A2C3A]/5 flex items-center justify-center text-[#4A2C3A]">
+              <div className="w-8 h-8 rounded-lg bg-[#4A2C3A]/6 flex items-center justify-center text-[#4A2C3A]">
                 <QrCode size={16} />
               </div>
               <div>
                 <p className="text-[9px] text-[#6B6B6B] font-medium">QR Profile Code</p>
                 <p className="text-[10px] text-[#1A1A1A] font-bold">Instant Sharing</p>
               </div>
-            </motion.div>
+            </FloatingWidget>
 
-            {/* 2. Analytics Card */}
-            <motion.div
-              animate={{ y: [0, -22, 0], x: [0, -8, 0] }}
-              transition={{ repeat: Infinity, duration: 3.4, ease: 'easeInOut' }}
-              className="absolute top-1/2 -right-24 -translate-y-1/2 bg-white/95 backdrop-blur-sm p-3 rounded-xl border border-[#4A2C3A]/5 shadow-lg flex flex-col space-y-1 z-35"
+            {/* Analytics widget — center right */}
+            <FloatingWidget
+              animate={shouldReduceMotion ? {} : { y: [0, -18, 0], x: [0, -6, 0] }}
+              transition={{ duration: 3.8 }}
+              className="top-1/2 -right-20 -translate-y-1/2 p-3 flex flex-col space-y-1 hidden sm:flex"
             >
               <div className="flex items-center justify-between space-x-4">
                 <p className="text-[9px] text-[#6B6B6B] font-medium">Visitor Analytics</p>
@@ -252,47 +348,60 @@ export const Hero = () => {
                 <span className="text-sm font-bold text-[#1A1A1A]">+384</span>
                 <span className="text-[8px] text-green-500 font-bold">+12%</span>
               </div>
-            </motion.div>
+            </FloatingWidget>
 
-            {/* 3. AI Suggestions */}
-            <motion.div
-              animate={{ y: [0, -16, 0] }}
-              transition={{ repeat: Infinity, duration: 2.8, ease: 'easeInOut' }}
-              className="absolute -top-16 left-12 bg-white/95 backdrop-blur-sm p-3 rounded-xl border border-[#4A2C3A]/5 shadow-lg flex items-center space-x-2.5 z-35"
+            {/* AI Suggestion — top left */}
+            <FloatingWidget
+              animate={shouldReduceMotion ? {} : { y: [0, -12, 0] }}
+              transition={{ duration: 3 }}
+              className="-top-14 left-8 p-3 flex items-center space-x-2.5 hidden sm:flex"
             >
-              <div className="w-6 h-6 rounded-full bg-[#B88A44]/10 flex items-center justify-center text-[#B88A44]">
+              <motion.div
+                animate={shouldReduceMotion ? {} : { scale: [1, 1.2, 1] }}
+                transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
+                className="w-6 h-6 rounded-full bg-[#B88A44]/12 flex items-center justify-center text-[#B88A44]"
+              >
                 <Sparkle size={12} fill="currentColor" />
-              </div>
-              <div className="text-left">
+              </motion.div>
+              <div>
                 <p className="text-[9px] text-[#6B6B6B] font-medium">AI Profile Suggestion</p>
                 <p className="text-[10px] text-[#1A1A1A] font-bold">Add "React 19" to bio</p>
               </div>
-            </motion.div>
+            </FloatingWidget>
 
-            {/* 4. Lead Notification */}
-            <motion.div
-              animate={{ y: [0, -20, 0], x: [0, 6, 0] }}
-              transition={{ repeat: Infinity, duration: 3.6, ease: 'easeInOut' }}
-              className="absolute -bottom-28 left-4 bg-white/95 backdrop-blur-sm px-3 py-2.5 rounded-xl border border-[#4A2C3A]/5 shadow-lg flex items-center space-x-2 z-35"
+            {/* Lead notification — bottom left */}
+            <FloatingWidget
+              animate={shouldReduceMotion ? {} : { y: [0, -16, 0], x: [0, 5, 0] }}
+              transition={{ duration: 4 }}
+              className="-bottom-20 left-4 px-3 py-2.5 flex items-center space-x-2 hidden sm:flex"
             >
-              <div className="w-5 h-5 rounded-full bg-[#4A2C3A] flex items-center justify-center text-[#FAFAF8]">
+              <div className="w-5 h-5 rounded-full bg-[#4A2C3A] flex items-center justify-center text-[#FAFAF8] shrink-0">
                 <MessageSquare size={10} />
               </div>
               <div>
                 <p className="text-[9px] text-[#6B6B6B] font-medium">New Inquiry Lead</p>
                 <p className="text-[10px] text-[#1A1A1A] font-semibold">Sarah: "Let's collaborate!"</p>
               </div>
-            </motion.div>
+            </FloatingWidget>
 
-            {/* 5. Contact Saved */}
-            <motion.div
-              animate={{ y: [0, -12, 0] }}
-              transition={{ repeat: Infinity, duration: 2.4, ease: 'easeInOut' }}
-              className="absolute -bottom-12 right-12 bg-white/95 backdrop-blur-sm px-3 py-2 rounded-full border border-[#4A2C3A]/5 shadow-md flex items-center space-x-1.5 z-35"
+            {/* Contact saved pill — bottom right */}
+            <FloatingWidget
+              animate={shouldReduceMotion ? {} : { y: [0, -10, 0] }}
+              transition={{ duration: 2.6 }}
+              className="-bottom-8 right-10 px-3 py-2 flex items-center space-x-1.5 rounded-full hidden sm:flex"
             >
               <UserCheck size={11} className="text-[#B88A44]" />
               <span className="text-[9px] text-[#1A1A1A] font-bold">Contact Saved</span>
-            </motion.div>
+            </FloatingWidget>
+
+            {/* Soft glow beneath the dashboard */}
+            <div
+              className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-3/4 h-20 rounded-full pointer-events-none"
+              style={{
+                background: 'radial-gradient(ellipse at center, rgba(74,44,58,0.12) 0%, transparent 70%)',
+                filter: 'blur(16px)',
+              }}
+            />
           </div>
         </motion.div>
       </div>
