@@ -21,7 +21,7 @@ export default function BillingPage() {
     setLoadingTier(tier);
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'}/billing/checkout`,
+        `${process.env.NEXT_PUBLIC_API_URL}/billing/checkout`,
         {
           method: 'POST',
           headers: {
@@ -119,7 +119,7 @@ export default function BillingPage() {
       </div>
 
       {/* ── Active Plan Banner ────────────────────── */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#3D1F2B] via-[#5A3342] to-[#7A4555] p-8 shadow-xl shadow-[#5A3342]/25">
+      <div className="relative overflow-hidden rounded-3xl bg-linear-to-br from-[#3D1F2B] via-[#5A3342] to-[#7A4555] p-8 shadow-xl shadow-[#5A3342]/25">
         {/* glow orbs */}
         <div className="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-[#C89B5B]/15 blur-[80px] pointer-events-none" />
         <div className="absolute -bottom-16 left-10 w-48 h-48 rounded-full bg-white/5 blur-[60px] pointer-events-none" />
@@ -181,7 +181,7 @@ export default function BillingPage() {
                 key={p.id}
                 className={`relative flex flex-col rounded-3xl border p-6 transition-all duration-300 ${
                   p.highlight
-                    ? 'border-[#C89B5B]/50 shadow-lg shadow-[#C89B5B]/10 bg-gradient-to-b from-white to-[#FDF8EF]'
+                    ? 'border-[#C89B5B]/50 shadow-lg shadow-[#C89B5B]/10 bg-linear-to-b from-white to-[#FDF8EF]'
                     : isActive
                     ? 'border-[#5A3342]/30 shadow-md shadow-[#5A3342]/8 bg-white'
                     : 'border-[#E9E2DC] bg-white hover:border-[#5A3342]/20 hover:shadow-md hover:shadow-[#5A3342]/5'
@@ -190,9 +190,9 @@ export default function BillingPage() {
                 {/* Most popular badge */}
                 {p.highlight && (
                   <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
-                    <span className="inline-flex items-center space-x-1 bg-gradient-to-r from-[#5A3342] to-[#7A4555] text-white text-[9px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full shadow-md">
+                    <span className="inline-flex items-center space-x-1 bg-linear-to-r from-[#5A3342] to-[#7A4555] text-white text-[9px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full shadow-md">
                       <Star size={8} fill="currentColor" />
-                      <span>Most Popular</span>
+                      <span>Most Popular</span> 
                     </span>
                   </div>
                 )}
