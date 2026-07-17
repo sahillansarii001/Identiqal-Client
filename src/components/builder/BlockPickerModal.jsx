@@ -101,7 +101,7 @@ export const BlockPickerModal = () => {
 
           <div className="flex flex-1 overflow-hidden">
             {/* Sidebar Tabs */}
-            <div className="w-64 border-r border-gray-100 bg-gray-50/50 py-6 pl-12 pr-6 flex-shrink-0">
+            <div className="w-64 border-r border-gray-100 dark:border-white/10 bg-gray-50/50 dark:bg-black/20 py-6 pl-12 pr-6 flex-shrink-0">
               <div className="space-y-1">
                 {LIBRARY_COMPONENTS.map((group) => (
                   <button
@@ -109,8 +109,8 @@ export const BlockPickerModal = () => {
                     onClick={() => { setActiveTab(group.category); setSearchQuery(''); }}
                     className={`w-full text-left px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
                       activeTab === group.category && !searchQuery
-                        ? 'bg-white shadow-sm text-primary border border-gray-200'
-                        : 'text-gray-600 hover:bg-gray-100'
+                        ? 'bg-white dark:bg-white/15 shadow-sm text-primary dark:text-white border border-gray-200 dark:border-white/10'
+                        : 'text-gray-600 dark:text-white/60 hover:bg-gray-100 dark:hover:bg-white/5'
                     }`}
                   >
                     {group.category}
@@ -166,7 +166,7 @@ export const BlockPickerModal = () => {
                           
                           {/* Add button overlay on hover */}
                           <div className="absolute right-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 transition-all duration-300">
-                            <div className="px-5 py-2 bg-gray-900 text-white text-xs font-bold rounded-full shadow-lg pointer-events-none">
+                            <div className="px-5 py-2 bg-primary text-white text-xs font-bold rounded-full shadow-lg shadow-primary/20 pointer-events-none">
                               Add
                             </div>
                           </div>

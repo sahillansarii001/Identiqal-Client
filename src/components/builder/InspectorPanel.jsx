@@ -21,30 +21,30 @@ export const InspectorPanel = () => {
   const activeSection = sections.find((s) => s.sectionId === activeSectionId);
 
   return (
-    <div className="flex flex-col h-full bg-white relative z-10 w-full overflow-hidden">
+    <div className="flex flex-col h-full bg-white dark:!bg-[#181518] relative z-10 w-full overflow-hidden">
       
       {/* Dynamic Header */}
-      <div className="p-4 border-b border-gray-100 bg-white/90 backdrop-blur-md sticky top-0 z-20 flex items-center justify-between">
+      <div className="p-4 border-b border-gray-100 dark:!border-white/10 bg-white/90 dark:!bg-[#181518]/90 backdrop-blur-md sticky top-0 z-20 flex items-center justify-between">
         {activeSection ? (
           <div className="flex items-center gap-3">
             <button 
               onClick={() => setActiveSection(null)}
-              className="p-1.5 hover:bg-gray-100 rounded-full transition-colors text-gray-500 hover:text-gray-900 -ml-2"
+              className="p-1.5 hover:bg-gray-100 dark:hover:!bg-white/10 rounded-full transition-colors text-gray-500 dark:!text-gray-300 hover:text-gray-900 dark:hover:!text-white -ml-2"
             >
               <ChevronLeft size={20} />
             </button>
-            <h3 className="font-semibold text-gray-900 capitalize flex items-center gap-2 text-[15px]">
+            <h3 className="font-semibold text-gray-900 dark:!text-white capitalize flex items-center gap-2 text-[15px]">
               {activeSection.type} Settings
             </h3>
           </div>
         ) : (
-          <h3 className="font-bold text-gray-900 text-lg">Card Settings</h3>
+          <h3 className="font-bold text-gray-900 dark:!text-white text-lg">Card Settings</h3>
         )}
 
         {!activeSection && (
           <button 
             onClick={() => setBlockPickerOpen(true)}
-            className="w-8 h-8 flex items-center justify-center bg-gray-900 text-white rounded-full hover:bg-gray-800 transition-colors shadow-sm"
+            className="w-8 h-8 flex items-center justify-center bg-gray-900 text-white hover:bg-gray-800 dark:!bg-white dark:!text-black dark:hover:!bg-gray-200 rounded-full transition-colors shadow-sm"
           >
             <Plus size={16} />
           </button>
@@ -86,7 +86,7 @@ export const InspectorPanel = () => {
                     <p className="text-sm text-gray-400 mb-3">Your card is empty.</p>
                     <button 
                       onClick={() => setBlockPickerOpen(true)}
-                      className="px-4 py-2 bg-primary/10 text-primary hover:bg-primary/20 rounded-full text-sm font-semibold transition-colors inline-flex items-center gap-2"
+                      className="px-4 py-2 bg-primary/10 text-primary dark:!bg-white/10 dark:!text-white hover:bg-primary/20 dark:hover:!bg-white/20 rounded-full text-sm font-semibold transition-colors inline-flex items-center gap-2"
                     >
                       <Plus size={16} /> Add First Block
                     </button>
@@ -257,7 +257,7 @@ const ThemeCustomizer = () => {
             <button 
               key={c}
               onClick={() => updateThemeConfig({ primaryColor: c })}
-              className={`w-8 h-8 rounded-full border-2 transition-all ${themeConfig.primaryColor === c ? 'border-gray-900 scale-110 shadow-md' : 'border-transparent'}`}
+              className={`w-8 h-8 rounded-full border-2 transition-all ${themeConfig.primaryColor === c ? 'border-gray-900 dark:!border-white scale-110 shadow-md' : 'border-transparent'}`}
               style={{ backgroundColor: c }}
             />
           ))}
@@ -270,7 +270,7 @@ const ThemeCustomizer = () => {
             <button 
               key={f}
               onClick={() => updateThemeConfig({ fontFamily: f })}
-              className={`py-2 px-3 text-sm rounded-xl border transition-all ${themeConfig.fontFamily === f ? 'border-primary bg-primary/5 text-primary font-semibold' : 'border-gray-200 text-gray-600 hover:bg-gray-50'}`}
+              className={`py-2 px-3 text-sm rounded-xl border transition-all ${themeConfig.fontFamily === f ? 'border-primary dark:!border-white bg-primary/5 dark:!bg-white/10 text-primary dark:!text-white font-semibold' : 'border-gray-200 dark:!border-white/20 text-gray-600 dark:!text-gray-300 hover:bg-gray-50 dark:hover:!bg-white/5'}`}
               style={{ fontFamily: f }}
             >
               {f}

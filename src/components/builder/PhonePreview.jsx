@@ -58,7 +58,7 @@ export default function PhonePreview() {
   const isDesktop = previewDevice === 'desktop';
 
   return (
-    <div className={`flex-1 min-w-0 bg-gray-50/50 flex overflow-hidden relative h-[calc(100vh-4rem)] ${isPhone ? 'py-2 px-4' : 'p-4 sm:p-8 lg:p-12'}`}>
+    <div className={`flex-1 min-w-0 bg-gray-50/50 dark:!bg-transparent flex overflow-hidden relative h-[calc(100vh-4rem)] ${isPhone ? 'py-2 px-4' : 'p-4 sm:p-8 lg:p-12'}`}>
       {/* Background Decorative Elements */}
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
       <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-blue-500/5 rounded-full blur-3xl pointer-events-none"></div>
