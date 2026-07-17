@@ -128,7 +128,7 @@ export default function DashboardOverviewPage() {
             </div>
             <div>
               <p className="text-[9px] font-bold text-white leading-none truncate">{user?.name}</p>
-              <p className="text-[6px] text-slate-300 font-medium">identiqal.com/{user?.name?.toLowerCase()?.replace(/\s+/g, '')}</p>
+              <p className="text-[6px] text-slate-300 font-medium">identiqal.com/{user?.username || user?.name?.toLowerCase()?.replace(/\s+/g, '')}</p>
             </div>
           </motion.div>
           {/* Subtle gold shadow halo */}
