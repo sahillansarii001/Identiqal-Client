@@ -1,8 +1,8 @@
 import axiosInstance from './axiosInstance.js';
 
 export const authService = {
-  signup: async (name, email, password) => {
-    return await axiosInstance.post('/auth/signup', { name, email, password });
+  signup: async (name, email, password, username) => {
+    return await axiosInstance.post('/auth/signup', { name, email, password, username });
   },
 
   login: async (email, password) => {

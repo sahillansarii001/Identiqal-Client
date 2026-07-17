@@ -20,6 +20,11 @@ export const signupSchema = yup.object({
     .string()
     .email('Must be a valid email address')
     .required('Email is required'),
+  username: yup
+    .string()
+    .required('Username is required')
+    .min(3, 'Username must be at least 3 characters')
+    .matches(/^[a-zA-Z0-9_]+$/, 'Username can only contain letters, numbers, and underscores'),
   password: yup
     .string()
     .min(6, 'Password must be at least 6 characters')
