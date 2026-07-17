@@ -209,6 +209,7 @@ export default function SignupPage() {
                         errors.username ? 'border-red-500' : 'border-[#E9E2DC]'
                       }`}
                       placeholder="username"
+                      autoComplete="off"
                       {...register('username')}
                     />
                   </div>
@@ -221,6 +222,7 @@ export default function SignupPage() {
                   label="Password"
                   type={showPassword ? "text" : "password"}
                   placeholder="Min 6 characters"
+                  autoComplete="new-password"
                   error={errors.password?.message}
                   {...register('password')}
                   rightElement={
@@ -242,6 +244,7 @@ export default function SignupPage() {
                   label="Confirm Password"
                   type={showPassword ? "text" : "password"}
                   placeholder="Re-enter password"
+                  autoComplete="new-password"
                   error={errors.confirmPassword?.message}
                   {...register('confirmPassword')}
                   rightElement={

@@ -30,8 +30,14 @@ export default function OnboardingFlow() {
   const handleNext = async (stepName, payload) => {
     setIsLoading(true);
     try {
+      if (stepName === 'subscription' && payload.plan === 'pro') {
+        await axiosInstance.post('/onboarding/update', { step: stepName, data: payload });
+        setStep(1.5);
+        return;
+      }
+      
       await axiosInstance.post('/onboarding/update', { step: stepName, data: payload });
-      setStep(step + 1);
+      setStep(Math.floor(step) + 1);
     } catch (error) {
       console.error('Failed to update onboarding step', error);
     } finally {
@@ -40,7 +46,7 @@ export default function OnboardingFlow() {
   };
 
   const handleSkip = () => {
-    setStep(step + 1);
+    setStep(Math.floor(step) + 1);
   };
 
   const handleComplete = async () => {
@@ -131,6 +137,51 @@ export default function OnboardingFlow() {
                 isLoading={isLoading}
               >
                 Continue <ArrowRight size={16} className="ml-2" />
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {/* Step 1.5: Payment Mock */}
+        {step === 1.5 && (
+          <div className="animate-in fade-in slide-in-from-right-4 duration-500">
+            <h2 className="text-3xl font-extrabold text-[#1F1F1F] text-center mb-2">Upgrade to Pro</h2>
+            <p className="text-gray-500 text-center mb-8">Secure your Pro features by completing the payment.</p>
+            
+            <div className="bg-[#FAF8F6] p-6 rounded-2xl border border-[#E9E2DC] mb-8">
+              <div className="flex justify-between items-center mb-4 pb-4 border-b border-[#E9E2DC]">
+                <span className="font-bold text-[#1F1F1F]">Identiqal Pro (Monthly)</span>
+                <span className="font-black text-2xl text-[#5A3342]">$5.00</span>
+              </div>
+              <div className="space-y-4">
+                 <Input label="Card Number" placeholder="**** **** **** 1234" />
+                 <div className="grid grid-cols-2 gap-4">
+                    <Input label="Expiry Date" placeholder="MM/YY" />
+                    <Input label="CVC" placeholder="123" />
+                 </div>
+              </div>
+            </div>
+            
+            <div className="mt-8 flex justify-end space-x-4">
+              <button 
+                onClick={() => setStep(1)}
+                className="px-6 py-2.5 rounded-full border-2 border-gray-200 text-gray-600 font-bold hover:bg-gray-50 transition-colors"
+                disabled={isLoading}
+              >
+                Go Back
+              </button>
+              <Button 
+                onClick={() => {
+                   setIsLoading(true);
+                   setTimeout(() => {
+                     setIsLoading(false);
+                     setStep(2);
+                   }, 1500);
+                }}
+                className="w-full sm:w-auto px-8"
+                isLoading={isLoading}
+              >
+                Pay & Continue <ArrowRight size={16} className="ml-2" />
               </Button>
             </div>
           </div>
