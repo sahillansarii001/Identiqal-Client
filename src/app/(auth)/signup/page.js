@@ -20,6 +20,7 @@ export default function SignupPage() {
   const [agreedTerms, setAgreedTerms] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [step, setStep] = useState(1);
+  const [otp, setOtp] = useState('');
 
   const {
     register,
@@ -55,13 +56,36 @@ export default function SignupPage() {
       // We will need to update authService.js later
       const response = await authService.signup(data.name, data.email, data.password, data.username);
       if (response.success) {
-        // Redirect to OTP verification page instead of logging in
-        router.push(`/verify-otp?email=${encodeURIComponent(data.email)}&type=signup`);
+        setStep(3);
       } else {
         setErrorMsg(response.message || 'Registration failed');
       }
     } catch (err) {
       setErrorMsg(err.message || 'An error occurred during sign up');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const onVerifyOtp = async (e) => {
+    e.preventDefault();
+    if (otp.length < 6) {
+      setErrorMsg('Please enter a valid 6-digit code');
+      return;
+    }
+    setErrorMsg('');
+    setIsLoading(true);
+    try {
+      const email = getValues('email');
+      const response = await authService.verifyOtp(email, otp);
+      if (response.success) {
+        setAuth(response.data.token, response.data.user);
+        router.push('/onboarding');
+      } else {
+        setErrorMsg(response.message || 'Verification failed');
+      }
+    } catch (err) {
+      setErrorMsg(err.message || 'Invalid or expired OTP');
     } finally {
       setIsLoading(false);
     }
@@ -90,10 +114,10 @@ export default function SignupPage() {
             </div>
             
             <h2 className="text-3xl font-extrabold text-[#1F1F1F] font-sans tracking-tight">
-              {step === 1 ? 'Create an Account' : 'Complete your profile'}
+              {step === 1 ? 'Create an Account' : step === 2 ? 'Complete your profile' : 'Verify Your Email'}
             </h2>
             <p className="text-sm text-brand-secondary mt-2 font-medium">
-              {step === 1 ? 'Get started with your free digital business card' : 'Choose a unique username and secure password'}
+              {step === 1 ? 'Get started with your free digital business card' : step === 2 ? 'Choose a unique username and secure password' : `We sent a 6-digit code to ${getValues('email')}`}
             </p>
           </div>
 
@@ -106,7 +130,7 @@ export default function SignupPage() {
           )}
 
           {/* Form */}
-          <form onSubmit={step === 2 ? handleSubmit(onSubmit) : (e) => { e.preventDefault(); handleNextStep(); }} className="space-y-4 text-left">
+          <form onSubmit={step === 3 ? onVerifyOtp : step === 2 ? handleSubmit(onSubmit) : (e) => { e.preventDefault(); handleNextStep(); }} className="space-y-4 text-left">
             
             {step === 1 && (
               <div className="animate-in fade-in slide-in-from-right-4 duration-300 space-y-4">
@@ -220,6 +244,20 @@ export default function SignupPage() {
                   placeholder="Re-enter password"
                   error={errors.confirmPassword?.message}
                   {...register('confirmPassword')}
+                  rightElement={
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="focus:outline-none"
+                      tabIndex="-1"
+                    >
+                      {showPassword ? (
+                        <EyeOff size={18} />
+                      ) : (
+                        <Eye size={18} />
+                      )}
+                    </button>
+                  }
                 />
 
                 {/* Terms & Conditions Box */}
@@ -232,7 +270,7 @@ export default function SignupPage() {
                   >
                     {agreedTerms && <Check size={10} className="text-white" strokeWidth={3} />}
                   </button>
-                  <span className="text-[#6B6B6B]">
+                  <span className="text-brand-secondary">
                     I agree to the{' '}
                     <Link href="/terms" className="text-[#5A3342] hover:underline">
                       Terms of Service
@@ -251,10 +289,28 @@ export default function SignupPage() {
               </div>
             )}
             
+            {step === 3 && (
+              <div className="animate-in fade-in slide-in-from-right-4 duration-300 space-y-4">
+                <Input
+                  label="Verification Code"
+                  type="text"
+                  maxLength={6}
+                  placeholder="123456"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                />
+                
+                <Button type="submit" className="w-full py-4 mt-2 text-base font-bold rounded-full" isLoading={isLoading}>
+                  <span>Verify & Continue</span>
+                  <ArrowRight size={14} className="ml-2" />
+                </Button>
+              </div>
+            )}
+            
           </form>
 
           {/* Footer Link */}
-          <div className="mt-8 text-center text-sm text-[#6B6B6B] border-t border-[#E9E2DC] pt-6 font-semibold">
+          <div className="mt-8 text-center text-sm text-brand-secondary border-t border-[#E9E2DC] pt-6 font-semibold">
             Already have an account?{' '}
             <Link href="/login" className="text-[#5A3342] font-extrabold hover:underline">
               Log in
@@ -270,9 +326,9 @@ export default function SignupPage() {
          
          <div className="relative text-center">
             <h2 className="text-4xl font-black text-[#5A3342] mb-6">One link to rule them all.</h2>
-            <div className="relative w-[320px] h-[650px] bg-white rounded-[40px] shadow-2xl p-2 border-[8px] border-[#5A3342]/10 mx-auto">
+            <div className="relative w-[320px] h-[650px] bg-white rounded-[40px] shadow-2xl p-2 border-8 border-[#5A3342]/10 mx-auto">
               <div className="w-full h-full bg-gray-50 rounded-[30px] overflow-hidden flex flex-col items-center pt-16">
-                 <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-[#5A3342] to-[#C89B5B] shadow-lg mb-4"></div>
+                 <div className="w-24 h-24 rounded-full bg-linear-to-tr from-[#5A3342] to-[#C89B5B] shadow-lg mb-4"></div>
                  <div className="w-32 h-6 bg-gray-200 rounded-full mb-8"></div>
                  
                  <div className="w-full px-6 space-y-4">

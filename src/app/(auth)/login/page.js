@@ -152,9 +152,9 @@ export default function LoginPage() {
          <div className="absolute bottom-[-20%] left-[-10%] w-[500px] h-[500px] rounded-full bg-white/20 blur-[80px]"></div>
          
          {/* Mock Phone UI */}
-         <div className="relative w-[320px] h-[650px] bg-white rounded-[40px] shadow-2xl p-2 border-[8px] border-[#5A3342]/10 flex flex-col items-center">
+         <div className="relative w-[320px] h-[650px] bg-white rounded-[40px] shadow-2xl p-2 border-8 border-[#5A3342]/10 flex flex-col items-center">
             <div className="w-1/3 h-5 bg-[#5A3342]/10 rounded-b-xl absolute top-0"></div>
-            <div className="mt-16 w-24 h-24 rounded-full bg-gradient-to-tr from-[#5A3342] to-[#C89B5B]"></div>
+            <div className="mt-16 w-24 h-24 rounded-full bg-linear-to-tr from-[#5A3342] to-[#C89B5B]"></div>
             <h3 className="mt-4 text-xl font-bold text-gray-800">Your Brand</h3>
             <p className="text-sm text-gray-500">Everything you are. In one simple link.</p>
             
