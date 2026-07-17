@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap');
 @import "tailwindcss";
 
 :root {
@@ -224,6 +225,13 @@ html {
 /* White text stays white */
 [data-dark="true"] .bg-white .text-white {
   color: #ffffff !important;
+}
+
+/* Fix Button text colors on hover in dark mode */
+[data-dark="true"] .bg-white .btn-hover-dark-text:hover,
+[data-dark="true"] .bg-white .btn-hover-dark-text:hover span,
+[data-dark="true"] .bg-white .btn-hover-dark-text:hover svg {
+  color: #1F1F1F !important;
 }
 
 /* ─── Muted / secondary text within dark cards ───────────────────────────────── */
