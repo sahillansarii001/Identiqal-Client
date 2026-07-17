@@ -39,7 +39,10 @@ export default function OnboardingFlow() {
       await axiosInstance.post('/onboarding/update', { step: stepName, data: payload });
       setStep(Math.floor(step) + 1);
     } catch (error) {
-      console.error('Failed to update onboarding step', error);
+      console.error('Failed to update onboarding step. Message:', error.message);
+      console.error('Response data:', error.response?.data);
+      console.error('Config URL:', error.config?.url);
+      alert('Network Error: Could not reach the server. Please check your connection or backend server.');
     } finally {
       setIsLoading(false);
     }
