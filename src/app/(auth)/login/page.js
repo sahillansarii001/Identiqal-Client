@@ -35,7 +35,11 @@ export default function LoginPage() {
       const response = await authService.login(data.email, data.password);
       if (response.success) {
         setAuth(response.data.token, response.data.user);
-        router.push('/dashboard');
+        if (response.data.user.role === 'admin' || response.data.user.role === 'owner') {
+          router.push('/admin');
+        } else {
+          router.push('/dashboard');
+        }
       } else {
         if (response.requiresVerification) {
           router.push(`/verify-otp?email=${encodeURIComponent(data.email)}&type=signup`);
