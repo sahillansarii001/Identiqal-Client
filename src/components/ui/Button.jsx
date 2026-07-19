@@ -17,15 +17,15 @@ export const Button = React.forwardRef(
 
     const variants = {
       primary:
-        "bg-[#5A3342] hover:bg-[#6A3B4B] text-white shadow-md shadow-[#5A3342]/10 focus:ring-[#5A3342]",
+        "bg-[#2563EB] hover:bg-[#6A3B4B] text-white shadow-md shadow-[#2563EB]/10 focus:ring-[#2563EB]",
       secondary:
-        "bg-white hover:bg-[#FAF8F6] text-[#5A3342] focus:ring-[#5A3342] border border-[#5A3342]",
+        "bg-white hover:bg-[#F8FAFC] text-[#2563EB] focus:ring-[#2563EB] border border-[#2563EB]",
       outline:
-        "btn-hover-dark-text bg-transparent border border-[#E9E2DC] hover:bg-[#FAF8F6] hover:border-[#5A3342]/30 text-brand-secondary hover:text-[#1F1F1F] focus:ring-[#5A3342]",
+        "btn-hover-dark-text bg-transparent border border-[#E2E8F0] hover:bg-[#F8FAFC] hover:border-[#2563EB]/30 text-brand-secondary hover:text-[#0F172A] focus:ring-[#2563EB]",
       danger:
         "bg-red-650 hover:bg-red-600 text-white shadow-md focus:ring-red-500",
       ghost:
-        "btn-hover-dark-text bg-transparent hover:bg-[#FAF8F6] text-brand-secondary hover:text-[#1F1F1F] focus:ring-[#5A3342]",
+        "btn-hover-dark-text bg-transparent hover:bg-[#F8FAFC] text-brand-secondary hover:text-[#0F172A] focus:ring-[#2563EB]",
     };
 
     const sizes = {
@@ -73,3 +73,4 @@ export const Button = React.forwardRef(
 );
 
 Button.displayName = "Button";
+

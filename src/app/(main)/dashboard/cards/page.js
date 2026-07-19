@@ -235,7 +235,7 @@ export default function CardsPage() {
             Design, update, and manage your premium visual networking cards. Share them seamlessly across any platform.
           </p>
         </div>
-        <Button onClick={() => setIsModalOpen(true)} className="bg-[#D4A45B] hover:bg-[#c3934b] text-[#1F1F1F] shadow-lg shadow-[#D4A45B]/20 hover:shadow-xl transition-all space-x-2 py-3 px-6 rounded-2xl font-black z-10">
+        <Button onClick={() => setIsModalOpen(true)} className="bg-[#D4A45B] hover:bg-[#c3934b] text-[#0F172A] shadow-lg shadow-[#D4A45B]/20 hover:shadow-xl transition-all space-x-2 py-3 px-6 rounded-2xl font-black z-10">
           <Plus size={18} />
           <span>New Card</span>
         </Button>
@@ -317,3 +317,4 @@ export default function CardsPage() {
     </div>
   );
 }
+

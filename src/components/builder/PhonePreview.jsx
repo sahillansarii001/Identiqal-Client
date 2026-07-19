@@ -59,7 +59,7 @@ export default function PhonePreview() {
           className="w-full h-full relative"
           style={{
             backgroundColor: themeConfig?.backgroundColor || "#ffffff",
-            color: themeConfig?.darkMode ? "#ffffff" : "#1A1A1A",
+            color: themeConfig?.darkMode ? "#ffffff" : "#0F172A",
             fontFamily: themeConfig?.fontFamily || "Inter, sans-serif",
           }}
         >
@@ -170,3 +170,4 @@ export default function PhonePreview() {
     </div>
   );
 }
+

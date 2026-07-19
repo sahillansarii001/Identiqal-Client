@@ -36,9 +36,9 @@ export default function AnalyticsDashboardPage() {
   return (
     <div className="space-y-8 w-full">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-6 border-b border-[#E9E2DC]">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-6 border-b border-[#E2E8F0]">
         <div>
-          <span className="text-[10px] font-black uppercase tracking-widest text-[#C89B5B]">
+          <span className="text-[10px] font-black uppercase tracking-widest text-[#3B82F6]">
             Insights
           </span>
           <h1 className="text-2xl font-black text-inherit mt-1">
@@ -53,9 +53,9 @@ export default function AnalyticsDashboardPage() {
       {loadingCards ? (
         <div className="h-20 bg-[#F5EFE9] rounded-2xl animate-pulse" />
       ) : cards.length === 0 ? (
-        <div className="text-center py-24 bg-white border border-[#E9E2DC] rounded-3xl space-y-5 shadow-sm shadow-[#5A3342]/3">
-          <div className="w-16 h-16 bg-[#5A3342]/5 rounded-2xl flex items-center justify-center mx-auto">
-            <BarChart3 size={28} className="text-[#5A3342]" />
+        <div className="text-center py-24 bg-white border border-[#E2E8F0] rounded-3xl space-y-5 shadow-sm shadow-[#2563EB]/3">
+          <div className="w-16 h-16 bg-[#2563EB]/5 rounded-2xl flex items-center justify-center mx-auto">
+            <BarChart3 size={28} className="text-[#2563EB]" />
           </div>
           <div className="space-y-1">
             <h3 className="text-sm font-bold text-inherit">
@@ -67,7 +67,7 @@ export default function AnalyticsDashboardPage() {
             </p>
           </div>
           <Link href="/dashboard/cards" className="inline-block">
-            <span className="inline-flex items-center bg-[#5A3342] hover:bg-[#6A3B4B] text-white font-semibold text-xs px-5 py-2.5 rounded-xl transition-all cursor-pointer">
+            <span className="inline-flex items-center bg-[#2563EB] hover:bg-[#6A3B4B] text-white font-semibold text-xs px-5 py-2.5 rounded-xl transition-all cursor-pointer">
               Go to My Cards
             </span>
           </Link>
@@ -75,9 +75,9 @@ export default function AnalyticsDashboardPage() {
       ) : (
         <div className="space-y-8">
           {/* Card filter */}
-          <div className="flex items-center space-x-3 bg-white border border-[#E9E2DC] p-4 rounded-2xl shadow-sm shadow-[#5A3342]/3">
-            <div className="w-8 h-8 rounded-xl bg-[#5A3342]/5 flex items-center justify-center">
-              <Layers size={15} className="text-[#5A3342]" />
+          <div className="flex items-center space-x-3 bg-white border border-[#E2E8F0] p-4 rounded-2xl shadow-sm shadow-[#2563EB]/3">
+            <div className="w-8 h-8 rounded-xl bg-[#2563EB]/5 flex items-center justify-center">
+              <Layers size={15} className="text-[#2563EB]" />
             </div>
             <span className="text-[10px] text-[#8A7A6A] font-black uppercase tracking-widest">
               Active Card:
@@ -85,7 +85,7 @@ export default function AnalyticsDashboardPage() {
             <select
               value={selectedCardId}
               onChange={(e) => setSelectedCardId(e.target.value)}
-              className="bg-[#FAF8F6] border border-[#E9E2DC] rounded-xl text-xs p-2 text-inherit focus:outline-none focus:border-[#5A3342]/40 transition-colors font-semibold flex-1"
+              className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl text-xs p-2 text-inherit focus:outline-none focus:border-[#2563EB]/40 transition-colors font-semibold flex-1"
             >
               {cards.map((c) => (
                 <option key={c._id} value={c._id}>
@@ -110,28 +110,28 @@ export default function AnalyticsDashboardPage() {
               <StatCard
                 label="Page Views"
                 count={stats.view}
-                icon={<Eye size={18} className="text-[#5A3342]" />}
-                accent="#5A3342"
+                icon={<Eye size={18} className="text-[#2563EB]" />}
+                accent="#2563EB"
               />
               <StatCard
                 label="Link Clicks"
                 count={stats.click}
                 icon={
-                  <MousePointerClick size={18} className="text-[#C89B5B]" />
+                  <MousePointerClick size={18} className="text-[#3B82F6]" />
                 }
-                accent="#C89B5B"
+                accent="#3B82F6"
               />
               <StatCard
                 label="QR Scans"
                 count={stats.scan}
-                icon={<QrCode size={18} className="text-[#5A3342]" />}
-                accent="#5A3342"
+                icon={<QrCode size={18} className="text-[#2563EB]" />}
+                accent="#2563EB"
               />
               <StatCard
                 label="Contacts Saved"
                 count={stats.save}
-                icon={<Download size={18} className="text-[#C89B5B]" />}
-                accent="#C89B5B"
+                icon={<Download size={18} className="text-[#3B82F6]" />}
+                accent="#3B82F6"
               />
             </div>
           )}
@@ -139,10 +139,10 @@ export default function AnalyticsDashboardPage() {
           {/* Device & Referrer */}
           <div className="grid md:grid-cols-2 gap-6">
             {/* Devices */}
-            <div className="bg-white border border-[#E9E2DC] rounded-2xl p-6 space-y-4 shadow-sm shadow-[#5A3342]/3">
+            <div className="bg-white border border-[#E2E8F0] rounded-2xl p-6 space-y-4 shadow-sm shadow-[#2563EB]/3">
               <div className="flex items-center space-x-2 border-b border-[#F0E8E0] pb-3">
-                <div className="w-7 h-7 rounded-lg bg-[#5A3342]/5 flex items-center justify-center">
-                  <Smartphone size={13} className="text-[#5A3342]" />
+                <div className="w-7 h-7 rounded-lg bg-[#2563EB]/5 flex items-center justify-center">
+                  <Smartphone size={13} className="text-[#2563EB]" />
                 </div>
                 <h3 className="text-[10px] font-black uppercase tracking-widest text-[#8A7A6A]">
                   Device Types
@@ -167,7 +167,7 @@ export default function AnalyticsDashboardPage() {
                       <span className="capitalize text-inherit font-semibold">
                         {device || "Unknown"}
                       </span>
-                      <span className="font-black text-[#5A3342] bg-[#5A3342]/5 px-2.5 py-0.5 rounded-full">
+                      <span className="font-black text-[#2563EB] bg-[#2563EB]/5 px-2.5 py-0.5 rounded-full">
                         {val} logs
                       </span>
                     </div>
@@ -177,10 +177,10 @@ export default function AnalyticsDashboardPage() {
             </div>
 
             {/* Referrers */}
-            <div className="bg-white border border-[#E9E2DC] rounded-2xl p-6 space-y-4 shadow-sm shadow-[#5A3342]/3">
+            <div className="bg-white border border-[#E2E8F0] rounded-2xl p-6 space-y-4 shadow-sm shadow-[#2563EB]/3">
               <div className="flex items-center space-x-2 border-b border-[#F0E8E0] pb-3">
-                <div className="w-7 h-7 rounded-lg bg-[#C89B5B]/10 flex items-center justify-center">
-                  <Globe size={13} className="text-[#C89B5B]" />
+                <div className="w-7 h-7 rounded-lg bg-[#3B82F6]/10 flex items-center justify-center">
+                  <Globe size={13} className="text-[#3B82F6]" />
                 </div>
                 <h3 className="text-[10px] font-black uppercase tracking-widest text-[#8A7A6A]">
                   Referrer Sources
@@ -205,7 +205,7 @@ export default function AnalyticsDashboardPage() {
                       <span className="text-inherit font-semibold">
                         {ref || "Direct Visit"}
                       </span>
-                      <span className="font-black text-[#C89B5B] bg-[#C89B5B]/10 px-2.5 py-0.5 rounded-full">
+                      <span className="font-black text-[#3B82F6] bg-[#3B82F6]/10 px-2.5 py-0.5 rounded-full">
                         {val} views
                       </span>
                     </div>
@@ -221,7 +221,7 @@ export default function AnalyticsDashboardPage() {
 }
 
 const StatCard = ({ label, count, icon, accent }) => (
-  <div className="bg-white border border-[#E9E2DC] rounded-2xl p-5 space-y-3 hover:shadow-md hover:shadow-[#5A3342]/5 hover:border-[#5A3342]/20 transition-all duration-300 group">
+  <div className="bg-white border border-[#E2E8F0] rounded-2xl p-5 space-y-3 hover:shadow-md hover:shadow-[#2563EB]/5 hover:border-[#2563EB]/20 transition-all duration-300 group">
     <div className="flex items-center justify-between">
       <span className="text-[9px] font-black text-[#8A7A6A] uppercase tracking-widest">
         {label}
@@ -240,3 +240,4 @@ const StatCard = ({ label, count, icon, accent }) => (
     </div>
   </div>
 );
+

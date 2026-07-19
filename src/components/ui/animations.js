@@ -85,14 +85,14 @@ export const cardHover = {
     y: 0,
     scale: 1,
     rotate: 0,
-    boxShadow: "0 4px 20px -8px rgba(74, 44, 58, 0.06)",
+    boxShadow: "0 4px 20px -8px rgba(30, 64, 175, 0.06)",
     transition: { duration: 0.3, ease: easings.smooth },
   },
   hover: {
     y: -8,
     scale: 1.02,
     rotate: 1,
-    boxShadow: "0 24px 48px -16px rgba(74, 44, 58, 0.14)",
+    boxShadow: "0 24px 48px -16px rgba(30, 64, 175, 0.14)",
     transition: springs.smooth,
   },
 };
@@ -197,3 +197,4 @@ export const badgePulse = {
     },
   },
 };
+

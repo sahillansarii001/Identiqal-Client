@@ -129,7 +129,7 @@ export default function TeamWorkspacePage() {
   if (loading) {
     return (
       <div className="flex h-96 items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-2 border-[#5A3342] border-t-transparent" />
+        <div className="animate-spin rounded-full h-8 w-8 border-2 border-[#2563EB] border-t-transparent" />
       </div>
     );
   }
@@ -137,8 +137,8 @@ export default function TeamWorkspacePage() {
   return (
     <div className="space-y-8 w-full">
       {/* Header */}
-      <div className="pb-6 border-b border-[#E9E2DC]">
-        <span className="text-[10px] font-black uppercase tracking-widest text-[#C89B5B]">
+      <div className="pb-6 border-b border-[#E2E8F0]">
+        <span className="text-[10px] font-black uppercase tracking-widest text-[#3B82F6]">
           Collaboration
         </span>
         <h1 className="text-2xl font-black text-inherit mt-1">
@@ -165,10 +165,10 @@ export default function TeamWorkspacePage() {
 
       {!org ? (
         /* Create Org Callout */
-        <div className="bg-white border border-[#E9E2DC] rounded-3xl p-10 space-y-6 max-w-xl mx-auto text-center relative overflow-hidden shadow-sm shadow-[#5A3342]/3">
-          <div className="absolute top-0 right-0 w-56 h-56 bg-[#C89B5B]/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="bg-white border border-[#E2E8F0] rounded-3xl p-10 space-y-6 max-w-xl mx-auto text-center relative overflow-hidden shadow-sm shadow-[#2563EB]/3">
+          <div className="absolute top-0 right-0 w-56 h-56 bg-[#3B82F6]/5 rounded-full blur-3xl pointer-events-none" />
           <div className="relative z-10 space-y-6">
-            <div className="w-16 h-16 bg-linear-to-br from-[#5A3342] to-[#7A4A5E] rounded-2xl flex items-center justify-center mx-auto text-[#C89B5B] shadow-md shadow-[#5A3342]/20">
+            <div className="w-16 h-16 bg-linear-to-br from-[#2563EB] to-[#7A4A5E] rounded-2xl flex items-center justify-center mx-auto text-[#3B82F6] shadow-md shadow-[#2563EB]/20">
               <Building2 size={28} />
             </div>
             <div className="space-y-2">
@@ -183,7 +183,7 @@ export default function TeamWorkspacePage() {
 
             <form
               onSubmit={handleSubmitOrg(handleCreateOrg)}
-              className="space-y-4 text-left border-t border-[#E9E2DC] pt-6"
+              className="space-y-4 text-left border-t border-[#E2E8F0] pt-6"
             >
               <Input
                 label="Organization Name"
@@ -200,7 +200,7 @@ export default function TeamWorkspacePage() {
               <button
                 type="submit"
                 disabled={isCreatingOrg}
-                className="w-full py-3 bg-[#5A3342] hover:bg-[#6A3B4B] text-white font-bold text-xs rounded-xl transition-all cursor-pointer flex items-center justify-center space-x-2 shadow-sm shadow-[#5A3342]/20"
+                className="w-full py-3 bg-[#2563EB] hover:bg-[#6A3B4B] text-white font-bold text-xs rounded-xl transition-all cursor-pointer flex items-center justify-center space-x-2 shadow-sm shadow-[#2563EB]/20"
               >
                 {isCreatingOrg ? (
                   <span className="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -218,17 +218,17 @@ export default function TeamWorkspacePage() {
         <div className="grid md:grid-cols-12 gap-6">
           {/* Member List */}
           <div className="md:col-span-7 space-y-5">
-            <div className="bg-white border border-[#E9E2DC] rounded-2xl p-6 space-y-4 shadow-sm shadow-[#5A3342]/3">
+            <div className="bg-white border border-[#E2E8F0] rounded-2xl p-6 space-y-4 shadow-sm shadow-[#2563EB]/3">
               <div className="flex items-center justify-between border-b border-[#F0E8E0] pb-4">
                 <div className="flex items-center space-x-2">
-                  <div className="w-7 h-7 rounded-lg bg-[#5A3342]/5 flex items-center justify-center">
-                    <Users size={13} className="text-[#5A3342]" />
+                  <div className="w-7 h-7 rounded-lg bg-[#2563EB]/5 flex items-center justify-center">
+                    <Users size={13} className="text-[#2563EB]" />
                   </div>
                   <h3 className="text-[10px] font-black uppercase tracking-widest text-[#8A7A6A]">
                     Workspace Members
                   </h3>
                 </div>
-                <span className="text-[9px] bg-[#FAF8F6] border border-[#E9E2DC] text-[#8A7A6A] px-3 py-1 rounded-full font-black">
+                <span className="text-[9px] bg-[#F8FAFC] border border-[#E2E8F0] text-[#8A7A6A] px-3 py-1 rounded-full font-black">
                   {org.seatsUsed} / {org.seatLimit} seats
                 </span>
               </div>
@@ -237,17 +237,17 @@ export default function TeamWorkspacePage() {
                 {org.members.map((member, idx) => (
                   <div
                     key={idx}
-                    className="flex items-center justify-between p-3.5 bg-[#FAF8F6] border border-[#E9E2DC] rounded-xl hover:border-[#5A3342]/20 transition-colors"
+                    className="flex items-center justify-between p-3.5 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl hover:border-[#2563EB]/20 transition-colors"
                   >
                     <div className="flex items-center space-x-3">
-                      <div className="w-8 h-8 rounded-xl bg-linear-to-br from-[#5A3342] to-[#7A4A5E] flex items-center justify-center text-white font-black text-xs shrink-0">
+                      <div className="w-8 h-8 rounded-xl bg-linear-to-br from-[#2563EB] to-[#7A4A5E] flex items-center justify-center text-white font-black text-xs shrink-0">
                         {member.email?.charAt(0)?.toUpperCase()}
                       </div>
                       <div>
                         <h5 className="text-xs font-bold text-inherit">
                           {member.email}
                         </h5>
-                        <span className="text-[9px] text-[#C89B5B] font-semibold capitalize">
+                        <span className="text-[9px] text-[#3B82F6] font-semibold capitalize">
                           {member.role}
                         </span>
                       </div>
@@ -269,10 +269,10 @@ export default function TeamWorkspacePage() {
 
           {/* Invitation Form */}
           <div className="md:col-span-5 space-y-5">
-            <div className="bg-white border border-[#E9E2DC] rounded-2xl p-6 space-y-4 shadow-sm shadow-[#5A3342]/3">
+            <div className="bg-white border border-[#E2E8F0] rounded-2xl p-6 space-y-4 shadow-sm shadow-[#2563EB]/3">
               <div className="flex items-center space-x-2 border-b border-[#F0E8E0] pb-4">
-                <div className="w-7 h-7 rounded-lg bg-[#C89B5B]/10 flex items-center justify-center">
-                  <Mail size={13} className="text-[#C89B5B]" />
+                <div className="w-7 h-7 rounded-lg bg-[#3B82F6]/10 flex items-center justify-center">
+                  <Mail size={13} className="text-[#3B82F6]" />
                 </div>
                 <h3 className="text-[10px] font-black uppercase tracking-widest text-[#8A7A6A]">
                   Invite Member
@@ -294,7 +294,7 @@ export default function TeamWorkspacePage() {
                     Workspace Role
                   </label>
                   <select
-                    className="bg-[#FAF8F6] border border-[#E9E2DC] rounded-xl text-xs p-2.5 text-inherit focus:outline-none focus:border-[#5A3342]/40 transition-colors font-semibold"
+                    className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl text-xs p-2.5 text-inherit focus:outline-none focus:border-[#2563EB]/40 transition-colors font-semibold"
                     {...registerInvite("role")}
                   >
                     <option value="member">Member (Own Card Edit Only)</option>
@@ -304,7 +304,7 @@ export default function TeamWorkspacePage() {
                 <button
                   type="submit"
                   disabled={isInviting}
-                  className="w-full py-2.5 bg-[#5A3342] hover:bg-[#6A3B4B] text-white font-bold text-xs rounded-xl transition-all cursor-pointer flex items-center justify-center space-x-2 shadow-sm shadow-[#5A3342]/20"
+                  className="w-full py-2.5 bg-[#2563EB] hover:bg-[#6A3B4B] text-white font-bold text-xs rounded-xl transition-all cursor-pointer flex items-center justify-center space-x-2 shadow-sm shadow-[#2563EB]/20"
                 >
                   {isInviting ? (
                     <span className="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -319,12 +319,12 @@ export default function TeamWorkspacePage() {
             </div>
 
             {/* Styling lock info */}
-            <div className="p-5 bg-linear-to-br from-[#FAF8F6] to-[#FDF4E8] border border-[#C89B5B]/20 rounded-2xl flex items-start space-x-3">
-              <div className="w-9 h-9 bg-[#C89B5B]/10 rounded-xl flex items-center justify-center shrink-0">
-                <Lock size={15} className="text-[#C89B5B]" />
+            <div className="p-5 bg-linear-to-br from-[#F8FAFC] to-[#FDF4E8] border border-[#3B82F6]/20 rounded-2xl flex items-start space-x-3">
+              <div className="w-9 h-9 bg-[#3B82F6]/10 rounded-xl flex items-center justify-center shrink-0">
+                <Lock size={15} className="text-[#3B82F6]" />
               </div>
               <div className="space-y-0.5">
-                <h5 className="text-xs font-black text-[#5A3342]">
+                <h5 className="text-xs font-black text-[#2563EB]">
                   Centralized theme locks
                 </h5>
                 <p className="text-[9px] text-[#8A7A6A] leading-relaxed">
@@ -339,3 +339,4 @@ export default function TeamWorkspacePage() {
     </div>
   );
 }
+

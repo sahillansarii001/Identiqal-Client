@@ -64,26 +64,26 @@ function VerifyOtpContent() {
   };
 
   return (
-    <div className="flex min-h-screen bg-[#FAF8F6] items-center justify-center p-4">
-      <div className="relative w-full max-w-md bg-white border border-[#E9E2DC] rounded-3xl p-8 shadow-xl">
-        <div className="absolute top-0 inset-x-0 h-1.5 bg-linear-to-r from-[#5A3342] to-[#C89B5B] rounded-t-3xl" />
+    <div className="flex min-h-screen bg-[#F8FAFC] items-center justify-center p-4">
+      <div className="relative w-full max-w-md bg-white border border-[#E2E8F0] rounded-3xl p-8 shadow-xl">
+        <div className="absolute top-0 inset-x-0 h-1.5 bg-linear-to-r from-[#2563EB] to-[#3B82F6] rounded-t-3xl" />
 
         <div className="text-center mb-8">
           <Link
             href="/"
-            className="inline-flex items-center space-x-2 text-2xl font-black tracking-tight text-[#1F1F1F] mb-4"
+            className="inline-flex items-center space-x-2 text-2xl font-black tracking-tight text-[#0F172A] mb-4"
           >
-            <span className="w-8 h-8 rounded-lg bg-linear-to-tr from-[#5A3342] to-[#C89B5B] flex items-center justify-center text-white font-bold text-base shadow-sm">
+            <span className="w-8 h-8 rounded-lg bg-linear-to-tr from-[#2563EB] to-[#3B82F6] flex items-center justify-center text-white font-bold text-base shadow-sm">
               I
             </span>
             <span className="font-sans">Identiqal</span>
           </Link>
-          <h2 className="text-xl font-bold text-[#1F1F1F]">
+          <h2 className="text-xl font-bold text-[#0F172A]">
             Verify Your Email
           </h2>
           <p className="text-xs text-brand-secondary mt-2">
             We sent a 6-digit code to{" "}
-            <span className="font-bold text-[#5A3342]">{email}</span>
+            <span className="font-bold text-[#2563EB]">{email}</span>
           </p>
         </div>
 
@@ -127,3 +127,4 @@ export default function VerifyOtpPage() {
     </Suspense>
   );
 }
+

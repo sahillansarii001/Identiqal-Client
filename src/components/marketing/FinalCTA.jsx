@@ -14,7 +14,7 @@ export const FinalCTA = () => {
     <section className="py-20 bg-brand-bg relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
         <AnimatedSection>
-          <div className="relative rounded-[36px] bg-primary border border-accent/25 px-8 py-16 sm:px-16 sm:py-24 text-center overflow-hidden shadow-[0_30px_70px_rgba(74,44,58,0.28)]">
+          <div className="relative rounded-[36px] bg-primary border border-accent/25 px-8 py-16 sm:px-16 sm:py-24 text-center overflow-hidden shadow-[0_30px_70px_rgba(30, 64, 175,0.28)]">
             {/* Animated radial glow */}
             <motion.div
               animate={
@@ -64,7 +64,7 @@ export const FinalCTA = () => {
                 }}
                 style={{
                   background:
-                    "linear-gradient(135deg, #B88A44 0%, #E2B96B 40%, #C89B5B 70%, #B88A44 100%)",
+                    "linear-gradient(135deg, #2563EB 0%, #E2B96B 40%, #3B82F6 70%, #2563EB 100%)",
                   backgroundSize: "200% 200%",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
@@ -137,3 +137,5 @@ export const FinalCTA = () => {
     </section>
   );
 };
+
+

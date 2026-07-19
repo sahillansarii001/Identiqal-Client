@@ -55,7 +55,7 @@ export const LogoStrip = () => {
                   transition={{ type: "spring", stiffness: 400, damping: 22 }}
                   className="flex items-center space-x-2 text-primary/60 hover:text-primary transition-colors duration-200 cursor-default"
                 >
-                  <Icon size={18} color={isGold ? "#B88A44" : "#4A2C3A"} />
+                  <Icon size={18} color={isGold ? "#2563EB" : "#1E40AF"} />
                   <span className="font-sans font-bold text-sm tracking-tight text-brand-text">
                     {logo.name}
                   </span>
@@ -68,3 +68,4 @@ export const LogoStrip = () => {
     </AnimatedSection>
   );
 };
+

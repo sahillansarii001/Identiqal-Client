@@ -132,7 +132,7 @@ export const PricingTeaser = () => {
                         scale: 1.02,
                         boxShadow: isPro
                           ? "0 28px 60px -12px rgba(184, 138, 68, 0.22)"
-                          : "0 24px 52px -12px rgba(74, 44, 58, 0.12)",
+                          : "0 24px 52px -12px rgba(30, 64, 175, 0.12)",
                       }
                 }
                 className={`flex flex-col border rounded-[28px] p-8 relative transition-colors duration-300 bg-white/65 backdrop-blur-md cursor-pointer ${
@@ -223,8 +223,8 @@ export const PricingTeaser = () => {
                             scale: 1.03,
                             y: -2,
                             boxShadow: isPro
-                              ? "0 8px 24px rgba(74, 44, 58, 0.24)"
-                              : "0 6px 16px rgba(74, 44, 58, 0.10)",
+                              ? "0 8px 24px rgba(30, 64, 175, 0.24)"
+                              : "0 6px 16px rgba(30, 64, 175, 0.10)",
                           }
                     }
                     whileTap={shouldReduceMotion ? {} : { scale: 0.97 }}
@@ -246,3 +246,4 @@ export const PricingTeaser = () => {
     </section>
   );
 };
+

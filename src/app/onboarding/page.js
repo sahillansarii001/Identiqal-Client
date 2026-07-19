@@ -132,8 +132,8 @@ export default function OnboardingFlow() {
     const showSkip = step >= 2 && step <= 6;
     return (
       <div className="absolute top-0 inset-x-0 h-16 flex items-center justify-between px-8 bg-white/50 backdrop-blur-sm z-50">
-        <div className="flex items-center space-x-2 font-black tracking-tight text-[#1F1F1F]">
-          <span className="w-8 h-8 rounded-lg bg-linear-to-tr from-[#5A3342] to-[#C89B5B] flex items-center justify-center text-white font-bold text-base shadow-sm">
+        <div className="flex items-center space-x-2 font-black tracking-tight text-[#0F172A]">
+          <span className="w-8 h-8 rounded-lg bg-linear-to-tr from-[#2563EB] to-[#3B82F6] flex items-center justify-center text-white font-bold text-base shadow-sm">
             I
           </span>
           <span className="font-sans">Identiqal</span>
@@ -151,20 +151,20 @@ export default function OnboardingFlow() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF8F6] relative overflow-hidden flex flex-col items-center justify-center py-20 px-4">
+    <div className="min-h-screen bg-[#F8FAFC] relative overflow-hidden flex flex-col items-center justify-center py-20 px-4">
       {/* Decorative Background */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] rounded-full bg-[#5A3342]/5 blur-[120px]" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[450px] h-[450px] rounded-full bg-[#C89B5B]/5 blur-[100px]" />
+        <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] rounded-full bg-[#2563EB]/5 blur-[120px]" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[450px] h-[450px] rounded-full bg-[#3B82F6]/5 blur-[100px]" />
       </div>
 
       {renderTopBar()}
 
-      <div className="relative z-10 w-full max-w-2xl bg-white rounded-3xl p-8 sm:p-12 shadow-xl shadow-[#5A3342]/5 border border-[#E9E2DC]">
+      <div className="relative z-10 w-full max-w-2xl bg-white rounded-3xl p-8 sm:p-12 shadow-xl shadow-[#2563EB]/5 border border-[#E2E8F0]">
         {/* Step 1: Subscription */}
         {step === 1 && (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <h2 className="text-3xl font-extrabold text-[#1F1F1F] text-center mb-2">
+            <h2 className="text-3xl font-extrabold text-[#0F172A] text-center mb-2">
               Choose your plan
             </h2>
             <p className="text-gray-500 text-center mb-8">
@@ -173,7 +173,7 @@ export default function OnboardingFlow() {
             <div className="grid sm:grid-cols-2 gap-4">
               <button
                 onClick={() => setSelectedPlan("free")}
-                className={`p-6 rounded-2xl border-2 text-left transition-all ${selectedPlan === "free" ? "border-[#5A3342] bg-[#5A3342]/5" : "border-gray-200 hover:border-gray-300"}`}
+                className={`p-6 rounded-2xl border-2 text-left transition-all ${selectedPlan === "free" ? "border-[#2563EB] bg-[#2563EB]/5" : "border-gray-200 hover:border-gray-300"}`}
               >
                 <h3 className="text-xl font-bold mb-2">Free Plan</h3>
                 <p className="text-3xl font-black mb-4">
@@ -197,9 +197,9 @@ export default function OnboardingFlow() {
               </button>
               <button
                 onClick={() => setSelectedPlan("pro")}
-                className={`p-6 rounded-2xl border-2 text-left transition-all ${selectedPlan === "pro" ? "border-[#5A3342] bg-[#5A3342]/5" : "border-gray-200 hover:border-gray-300"}`}
+                className={`p-6 rounded-2xl border-2 text-left transition-all ${selectedPlan === "pro" ? "border-[#2563EB] bg-[#2563EB]/5" : "border-gray-200 hover:border-gray-300"}`}
               >
-                <h3 className="text-xl font-bold mb-2 text-transparent bg-clip-text bg-linear-to-r from-[#5A3342] to-[#C89B5B]">
+                <h3 className="text-xl font-bold mb-2 text-transparent bg-clip-text bg-linear-to-r from-[#2563EB] to-[#3B82F6]">
                   Pro Plan
                 </h3>
                 <p className="text-3xl font-black mb-4">
@@ -240,19 +240,19 @@ export default function OnboardingFlow() {
         {/* Step 1.5: Payment Mock */}
         {step === 1.5 && (
           <div className="animate-in fade-in slide-in-from-right-4 duration-500">
-            <h2 className="text-3xl font-extrabold text-[#1F1F1F] text-center mb-2">
+            <h2 className="text-3xl font-extrabold text-[#0F172A] text-center mb-2">
               Upgrade to Pro
             </h2>
             <p className="text-gray-500 text-center mb-8">
               Secure your Pro features by completing the payment.
             </p>
 
-            <div className="bg-[#FAF8F6] p-6 rounded-2xl border border-[#E9E2DC] mb-8">
-              <div className="flex justify-between items-center mb-4 pb-4 border-b border-[#E9E2DC]">
-                <span className="font-bold text-[#1F1F1F]">
+            <div className="bg-[#F8FAFC] p-6 rounded-2xl border border-[#E2E8F0] mb-8">
+              <div className="flex justify-between items-center mb-4 pb-4 border-b border-[#E2E8F0]">
+                <span className="font-bold text-[#0F172A]">
                   Identiqal Pro (Monthly)
                 </span>
-                <span className="font-black text-2xl text-[#5A3342]">
+                <span className="font-black text-2xl text-[#2563EB]">
                   $5.00
                 </span>
               </div>
@@ -293,7 +293,7 @@ export default function OnboardingFlow() {
         {/* Step 2: Goal */}
         {step === 2 && (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <h2 className="text-3xl font-extrabold text-[#1F1F1F] text-center mb-2">
+            <h2 className="text-3xl font-extrabold text-[#0F172A] text-center mb-2">
               What's your goal?
             </h2>
             <p className="text-gray-500 text-center mb-8">
@@ -306,7 +306,7 @@ export default function OnboardingFlow() {
                   onClick={() => setSelectedGoal(goal.toLowerCase())}
                   className={`w-full p-4 rounded-xl border-2 text-left transition-all ${
                     selectedGoal === goal.toLowerCase()
-                      ? "border-[#5A3342] bg-[#5A3342]/5"
+                      ? "border-[#2563EB] bg-[#2563EB]/5"
                       : "border-gray-200 hover:border-gray-300"
                   }`}
                 >
@@ -330,7 +330,7 @@ export default function OnboardingFlow() {
         {/* Step 3: Theme */}
         {step === 3 && (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <h2 className="text-3xl font-extrabold text-[#1F1F1F] text-center mb-2">
+            <h2 className="text-3xl font-extrabold text-[#0F172A] text-center mb-2">
               Pick a starting theme
             </h2>
             <p className="text-gray-500 text-center mb-8">
@@ -344,7 +344,7 @@ export default function OnboardingFlow() {
                     onClick={() => setSelectedTheme(`theme_${idx}`)}
                     className={`relative overflow-hidden rounded-2xl aspect-9/16 border-4 transition-all ${
                       selectedTheme === `theme_${idx}`
-                        ? "border-[#5A3342]"
+                        ? "border-[#2563EB]"
                         : "border-transparent hover:border-gray-200"
                     }`}
                   >
@@ -383,7 +383,7 @@ export default function OnboardingFlow() {
         {/* Step 4: Platform Selection */}
         {step === 4 && (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <h2 className="text-3xl font-extrabold text-[#1F1F1F] text-center mb-2">
+            <h2 className="text-3xl font-extrabold text-[#0F172A] text-center mb-2">
               Where are you available?
             </h2>
             <p className="text-gray-500 text-center mb-8">
@@ -415,7 +415,7 @@ export default function OnboardingFlow() {
                     }}
                     className={`flex items-center p-4 rounded-xl border-2 transition-all ${
                       isSelected
-                        ? "border-[#5A3342] bg-[#5A3342]/5"
+                        ? "border-[#2563EB] bg-[#2563EB]/5"
                         : "border-gray-200 hover:border-gray-300"
                     }`}
                   >
@@ -446,7 +446,7 @@ export default function OnboardingFlow() {
         {/* Step 5: Links */}
         {step === 5 && (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <h2 className="text-3xl font-extrabold text-[#1F1F1F] text-center mb-2">
+            <h2 className="text-3xl font-extrabold text-[#0F172A] text-center mb-2">
               Add your links
             </h2>
             <p className="text-gray-500 text-center mb-8">
@@ -487,7 +487,7 @@ export default function OnboardingFlow() {
         {/* Step 6: Profile */}
         {step === 6 && (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <h2 className="text-3xl font-extrabold text-[#1F1F1F] text-center mb-2">
+            <h2 className="text-3xl font-extrabold text-[#0F172A] text-center mb-2">
               Complete your profile
             </h2>
             <p className="text-gray-500 text-center mb-8">
@@ -503,11 +503,11 @@ export default function OnboardingFlow() {
                 }
               />
               <div className="space-y-1">
-                <label className="block text-sm font-bold text-[#1F1F1F]">
+                <label className="block text-sm font-bold text-[#0F172A]">
                   Short Bio
                 </label>
                 <textarea
-                  className="w-full px-4 py-3 rounded-xl border border-[#E9E2DC] text-sm focus:ring-2 focus:ring-[#5A3342]/20 focus:border-[#5A3342] transition-colors resize-none"
+                  className="w-full px-4 py-3 rounded-xl border border-[#E2E8F0] text-sm focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] transition-colors resize-none"
                   rows={4}
                   placeholder="I am a creator building awesome things!"
                   value={profile.bio}
@@ -535,7 +535,7 @@ export default function OnboardingFlow() {
             <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl shadow-green-100">
               <Check size={48} className="text-green-600" />
             </div>
-            <h2 className="text-3xl font-extrabold text-[#1F1F1F] mb-4">
+            <h2 className="text-3xl font-extrabold text-[#0F172A] mb-4">
               You're all set!
             </h2>
             <p className="text-gray-500 mb-8 max-w-sm mx-auto">
@@ -555,3 +555,4 @@ export default function OnboardingFlow() {
     </div>
   );
 }
+

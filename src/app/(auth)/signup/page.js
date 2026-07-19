@@ -116,21 +116,21 @@ export default function SignupPage() {
                   onClick={() => setStep(1)}
                   className="p-2 -ml-2 rounded-full hover:bg-gray-100 transition-colors"
                 >
-                  <ChevronLeft size={20} className="text-[#1F1F1F]" />
+                  <ChevronLeft size={20} className="text-[#0F172A]" />
                 </button>
               )}
               <Link
                 href="/"
-                className="inline-flex items-center space-x-2 text-2xl font-black tracking-tight text-[#1F1F1F]"
+                className="inline-flex items-center space-x-2 text-2xl font-black tracking-tight text-[#0F172A]"
               >
-                <span className="w-8 h-8 rounded-lg bg-linear-to-tr from-[#5A3342] to-[#C89B5B] flex items-center justify-center text-white font-bold text-base shadow-sm">
+                <span className="w-8 h-8 rounded-lg bg-linear-to-tr from-[#2563EB] to-[#3B82F6] flex items-center justify-center text-white font-bold text-base shadow-sm">
                   I
                 </span>
                 <span className="font-sans">Identiqal</span>
               </Link>
             </div>
 
-            <h2 className="text-3xl font-extrabold text-[#1F1F1F] font-sans tracking-tight">
+            <h2 className="text-3xl font-extrabold text-[#0F172A] font-sans tracking-tight">
               {step === 1
                 ? "Create an Account"
                 : step === 2
@@ -188,7 +188,7 @@ export default function SignupPage() {
                 {/* Dividers */}
                 <div className="relative my-6 text-center">
                   <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t border-[#E9E2DC]" />
+                    <div className="w-full border-t border-[#E2E8F0]" />
                   </div>
                   <span className="relative bg-white px-3 text-[10px] font-bold text-[#8A8A8A] uppercase tracking-wider">
                     Or continue with
@@ -200,7 +200,7 @@ export default function SignupPage() {
                   <button
                     type="button"
                     onClick={() => router.push("/dashboard")}
-                    className="flex items-center justify-center space-x-2 py-2.5 px-4 bg-white border border-[#E9E2DC] hover:border-[#5A3342]/30 rounded-xl text-xs font-bold text-[#1F1F1F] hover:bg-[#FAF8F6] transition-all"
+                    className="flex items-center justify-center space-x-2 py-2.5 px-4 bg-white border border-[#E2E8F0] hover:border-[#2563EB]/30 rounded-xl text-xs font-bold text-[#0F172A] hover:bg-[#F8FAFC] transition-all"
                   >
                     {/* Google SVG */}
                     <svg
@@ -230,7 +230,7 @@ export default function SignupPage() {
                   <button
                     type="button"
                     onClick={() => router.push("/dashboard")}
-                    className="flex items-center justify-center space-x-2 py-2.5 px-4 bg-white border border-[#E9E2DC] hover:border-[#5A3342]/30 rounded-xl text-xs font-bold text-[#1F1F1F] hover:bg-[#FAF8F6] transition-all"
+                    className="flex items-center justify-center space-x-2 py-2.5 px-4 bg-white border border-[#E2E8F0] hover:border-[#2563EB]/30 rounded-xl text-xs font-bold text-[#0F172A] hover:bg-[#F8FAFC] transition-all"
                   >
                     {/* Github SVG */}
                     <svg
@@ -261,7 +261,7 @@ export default function SignupPage() {
                 />
 
                 <div className="space-y-1">
-                  <label className="block text-xs font-bold text-[#1F1F1F]">
+                  <label className="block text-xs font-bold text-[#0F172A]">
                     Username
                   </label>
                   <div className="relative">
@@ -272,8 +272,8 @@ export default function SignupPage() {
                     </div>
                     <input
                       type="text"
-                      className={`block w-full pl-28 pr-3 py-3 rounded-xl border text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-[#5A3342]/20 focus:border-[#5A3342] ${
-                        errors.username ? "border-red-500" : "border-[#E9E2DC]"
+                      className={`block w-full pl-28 pr-3 py-3 rounded-xl border text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] ${
+                        errors.username ? "border-red-500" : "border-[#E2E8F0]"
                       }`}
                       placeholder="username"
                       autoComplete="off"
@@ -331,8 +331,8 @@ export default function SignupPage() {
                     onClick={() => setAgreedTerms(!agreedTerms)}
                     className="flex items-center justify-center w-4 h-4 rounded border transition-all mt-0.5 shrink-0"
                     style={{
-                      borderColor: agreedTerms ? "#5A3342" : "#E9E2DC",
-                      backgroundColor: agreedTerms ? "#5A3342" : "transparent",
+                      borderColor: agreedTerms ? "#2563EB" : "#E2E8F0",
+                      backgroundColor: agreedTerms ? "#2563EB" : "transparent",
                     }}
                   >
                     {agreedTerms && (
@@ -343,14 +343,14 @@ export default function SignupPage() {
                     I agree to the{" "}
                     <Link
                       href="/terms"
-                      className="text-[#5A3342] hover:underline"
+                      className="text-[#2563EB] hover:underline"
                     >
                       Terms of Service
                     </Link>{" "}
                     &{" "}
                     <Link
                       href="/privacy"
-                      className="text-[#5A3342] hover:underline"
+                      className="text-[#2563EB] hover:underline"
                     >
                       Privacy Policy
                     </Link>
@@ -393,11 +393,11 @@ export default function SignupPage() {
           </form>
 
           {/* Footer Link */}
-          <div className="mt-8 text-center text-sm text-brand-secondary border-t border-[#E9E2DC] pt-6 font-semibold">
+          <div className="mt-8 text-center text-sm text-brand-secondary border-t border-[#E2E8F0] pt-6 font-semibold">
             Already have an account?{" "}
             <Link
               href="/login"
-              className="text-[#5A3342] font-extrabold hover:underline"
+              className="text-[#2563EB] font-extrabold hover:underline"
             >
               Log in
             </Link>
@@ -407,16 +407,16 @@ export default function SignupPage() {
 
       {/* Right Side - Imagery */}
       <div className="hidden lg:flex relative w-0 flex-1 bg-[#F5E6D3] items-center justify-center overflow-hidden">
-        <div className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] rounded-full bg-[#5A3342]/20 blur-[100px]"></div>
+        <div className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] rounded-full bg-[#2563EB]/20 blur-[100px]"></div>
         <div className="absolute bottom-[-20%] left-[-10%] w-[500px] h-[500px] rounded-full bg-white/20 blur-[80px]"></div>
 
         <div className="relative text-center">
-          <h2 className="text-4xl font-black text-[#5A3342] mb-6">
+          <h2 className="text-4xl font-black text-[#2563EB] mb-6">
             One link to rule them all.
           </h2>
-          <div className="relative w-[320px] h-[650px] bg-white rounded-[40px] shadow-2xl p-2 border-8 border-[#5A3342]/10 mx-auto">
+          <div className="relative w-[320px] h-[650px] bg-white rounded-[40px] shadow-2xl p-2 border-8 border-[#2563EB]/10 mx-auto">
             <div className="w-full h-full bg-gray-50 rounded-[30px] overflow-hidden flex flex-col items-center pt-16">
-              <div className="w-24 h-24 rounded-full bg-linear-to-tr from-[#5A3342] to-[#C89B5B] shadow-lg mb-4"></div>
+              <div className="w-24 h-24 rounded-full bg-linear-to-tr from-[#2563EB] to-[#3B82F6] shadow-lg mb-4"></div>
               <div className="w-32 h-6 bg-gray-200 rounded-full mb-8"></div>
 
               <div className="w-full px-6 space-y-4">
@@ -440,3 +440,4 @@ export default function SignupPage() {
     </div>
   );
 }
+

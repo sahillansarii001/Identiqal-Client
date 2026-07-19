@@ -74,14 +74,14 @@ export default function LoginPage() {
           <div className="text-left mb-8">
             <Link
               href="/"
-              className="inline-flex items-center space-x-2 text-2xl font-black tracking-tight text-[#1F1F1F] mb-6"
+              className="inline-flex items-center space-x-2 text-2xl font-black tracking-tight text-[#0F172A] mb-6"
             >
-              <span className="w-8 h-8 rounded-lg bg-linear-to-tr from-[#5A3342] to-[#C89B5B] flex items-center justify-center text-white font-bold text-base shadow-sm">
+              <span className="w-8 h-8 rounded-lg bg-linear-to-tr from-[#2563EB] to-[#3B82F6] flex items-center justify-center text-white font-bold text-base shadow-sm">
                 I
               </span>
               <span className="font-sans">Identiqal</span>
             </Link>
-            <h2 className="text-3xl font-extrabold text-[#1F1F1F] font-sans tracking-tight">
+            <h2 className="text-3xl font-extrabold text-[#0F172A] font-sans tracking-tight">
               Welcome Back
             </h2>
             <p className="text-sm text-brand-secondary mt-2 font-medium">
@@ -132,13 +132,13 @@ export default function LoginPage() {
               <button
                 type="button"
                 onClick={() => setRememberMe(!rememberMe)}
-                className="flex items-center space-x-2 text-brand-secondary hover:text-[#1F1F1F]"
+                className="flex items-center space-x-2 text-brand-secondary hover:text-[#0F172A]"
               >
                 <div
                   className={`w-4 h-4 rounded border flex items-center justify-center transition-all ${
                     rememberMe
-                      ? "bg-[#5A3342] border-[#5A3342]"
-                      : "border-[#E9E2DC]"
+                      ? "bg-[#2563EB] border-[#2563EB]"
+                      : "border-[#E2E8F0]"
                   }`}
                 >
                   {rememberMe && (
@@ -149,7 +149,7 @@ export default function LoginPage() {
               </button>
               <Link
                 href="/forgot-password"
-                className="text-[#5A3342] hover:underline"
+                className="text-[#2563EB] hover:underline"
               >
                 Forgot Password?
               </Link>
@@ -169,7 +169,7 @@ export default function LoginPage() {
             Don't have an account?{" "}
             <Link
               href="/signup"
-              className="text-[#5A3342] font-extrabold hover:underline"
+              className="text-[#2563EB] font-extrabold hover:underline"
             >
               Sign up
             </Link>
@@ -180,13 +180,13 @@ export default function LoginPage() {
       {/* Right Side - Imagery */}
       <div className="hidden lg:flex relative w-0 flex-1 bg-[#D1A054] items-center justify-center overflow-hidden">
         {/* Decorative abstract elements */}
-        <div className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] rounded-full bg-[#5A3342]/20 blur-[100px]"></div>
+        <div className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] rounded-full bg-[#2563EB]/20 blur-[100px]"></div>
         <div className="absolute bottom-[-20%] left-[-10%] w-[500px] h-[500px] rounded-full bg-white/20 blur-[80px]"></div>
 
         {/* Mock Phone UI */}
-        <div className="relative w-[320px] h-[650px] bg-white rounded-[40px] shadow-2xl p-2 border-8 border-[#5A3342]/10 flex flex-col items-center">
-          <div className="w-1/3 h-5 bg-[#5A3342]/10 rounded-b-xl absolute top-0"></div>
-          <div className="mt-16 w-24 h-24 rounded-full bg-linear-to-tr from-[#5A3342] to-[#C89B5B]"></div>
+        <div className="relative w-[320px] h-[650px] bg-white rounded-[40px] shadow-2xl p-2 border-8 border-[#2563EB]/10 flex flex-col items-center">
+          <div className="w-1/3 h-5 bg-[#2563EB]/10 rounded-b-xl absolute top-0"></div>
+          <div className="mt-16 w-24 h-24 rounded-full bg-linear-to-tr from-[#2563EB] to-[#3B82F6]"></div>
           <h3 className="mt-4 text-xl font-bold text-gray-800">Your Brand</h3>
           <p className="text-sm text-gray-500">
             Everything you are. In one simple link.
@@ -202,3 +202,4 @@ export default function LoginPage() {
     </div>
   );
 }
+

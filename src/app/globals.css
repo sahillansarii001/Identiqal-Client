@@ -3,19 +3,19 @@
 @variant dark (&:where(.dark, .dark *));
 
 :root {
-  --background: #FAFAF8;
-  --foreground: #1A1A1A;
+  --background: #F8FAFC;
+  --foreground: #0F172A;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   
-  --color-brand-bg: #FAFAF8;
-  --color-primary: #4A2C3A;
-  --color-accent: #B88A44;
-  --color-brand-text: #1A1A1A;
-  --color-brand-secondary: #6B6B6B;
+  --color-brand-bg: #F8FAFC;
+  --color-primary: #2563EB;
+  --color-accent: #3B82F6;
+  --color-brand-text: #0F172A;
+  --color-brand-secondary: #64748B;
   
   --animate-float: float 6s ease-in-out infinite;
   --animate-float-slow: float 9s ease-in-out infinite;
@@ -97,11 +97,11 @@ body {
 .animated-gradient-text {
   background: linear-gradient(
     135deg,
-    #4A2C3A 0%,
-    #854558 25%,
-    #B88A44 50%,
-    #854558 75%,
-    #4A2C3A 100%
+    #1E3A8A 0%,
+    #2563EB 25%,
+    #3B82F6 50%,
+    #2563EB 75%,
+    #1E3A8A 100%
   );
   background-size: 200% 200%;
   animation: gradientShift 6s ease-in-out infinite;
@@ -138,17 +138,17 @@ body {
 /* ─── Premium Scrollbar ──────────────────────────────────────────────────────── */
 
 ::-webkit-scrollbar        { width: 8px; height: 8px; }
-::-webkit-scrollbar-track  { background: #FAFAF8; }
+::-webkit-scrollbar-track  { background: #F8FAFC; }
 ::-webkit-scrollbar-thumb  { background: #E5E5E0; border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: #B88A44; }
+::-webkit-scrollbar-thumb:hover { background: #2563EB; }
 
 /* ─── Glassmorphism Utilities ────────────────────────────────────────────────── */
 
 .glass-premium {
-  background: rgba(250, 250, 248, 0.72);
+  background: rgba(248, 250, 252, 0.72);
   backdrop-filter: blur(16px) saturate(180%);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
-  border: 1px solid rgba(74, 44, 58, 0.06);
+  border: 1px solid rgba(30, 64, 175, 0.06);
 }
 
 .glass-dark {
@@ -232,7 +232,7 @@ html {
 [data-dark="true"] .bg-white .btn-hover-dark-text:hover,
 [data-dark="true"] .bg-white .btn-hover-dark-text:hover span,
 [data-dark="true"] .bg-white .btn-hover-dark-text:hover svg {
-  color: #1F1F1F !important;
+  color: #0F172A !important;
 }
 
 /* ─── Muted / secondary text within dark cards ───────────────────────────────── */
@@ -280,3 +280,5 @@ html {
   transition-duration: 300ms;
   transition-timing-function: ease;
 }
+
+

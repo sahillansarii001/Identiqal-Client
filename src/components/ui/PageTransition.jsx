@@ -49,8 +49,8 @@ export default function PageTransition({ children }) {
                 : {
                     scale: 1.12,
                     y: -2,
-                    boxShadow: "0 12px 32px rgba(90, 51, 66, 0.22)",
-                    backgroundColor: "#5A3342",
+                    boxShadow: "0 12px 32px rgba(37, 99, 235, 0.22)",
+                    backgroundColor: "#2563EB",
                   }
             }
             whileTap={shouldReduceMotion ? {} : { scale: 0.92 }}
@@ -58,12 +58,12 @@ export default function PageTransition({ children }) {
             onHoverStart={() => setIsHoveringScrollBtn(true)}
             onHoverEnd={() => setIsHoveringScrollBtn(false)}
             onClick={scrollToTop}
-            className="fixed bottom-6 right-6 z-40 w-11 h-11 bg-white border border-[#E9E2DC] hover:border-[#5A3342]/30 text-[#5A3342] hover:text-white rounded-full shadow-lg shadow-[#5A3342]/8 cursor-pointer flex items-center justify-center transition-colors duration-300 overflow-hidden"
+            className="fixed bottom-6 right-6 z-40 w-11 h-11 bg-white border border-[#E2E8F0] hover:border-[#2563EB]/30 text-[#2563EB] hover:text-white rounded-full shadow-lg shadow-[#2563EB]/8 cursor-pointer flex items-center justify-center transition-colors duration-300 overflow-hidden"
             title="Scroll To Top"
           >
             {/* Gold bg fill animates in on hover */}
             <motion.span
-              className="absolute inset-0 rounded-full bg-[#5A3342]"
+              className="absolute inset-0 rounded-full bg-[#2563EB]"
               initial={{ scale: 0, opacity: 0 }}
               animate={
                 isHoveringScrollBtn
@@ -89,3 +89,5 @@ export default function PageTransition({ children }) {
     </div>
   );
 }
+
+

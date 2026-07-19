@@ -81,7 +81,7 @@ export default function PricingPage() {
   ];
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#FAF8F6] text-[#1F1F1F]">
+    <div className="flex flex-col min-h-screen bg-[#F8FAFC] text-[#0F172A]">
       <Navbar />
 
       <main className="flex-1 py-24">
@@ -90,7 +90,7 @@ export default function PricingPage() {
           <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-accent/10 text-xs font-semibold text-accent tracking-wider uppercase mb-4">
             <span>Pricing Options</span>
           </div>
-          <h1 className="text-4xl sm:text-5xl font-black text-[#1F1F1F] tracking-tight mb-4 font-sans">
+          <h1 className="text-4xl sm:text-5xl font-black text-[#0F172A] tracking-tight mb-4 font-sans">
             Simple, honest pricing.
           </h1>
           <p className="text-brand-secondary text-base max-w-2xl mx-auto font-medium">
@@ -100,13 +100,13 @@ export default function PricingPage() {
 
           {/* Toggle */}
           <div className="mt-8 flex justify-center">
-            <div className="relative border border-[#E9E2DC] rounded-xl p-1 bg-white flex space-x-1 shadow-sm">
+            <div className="relative border border-[#E2E8F0] rounded-xl p-1 bg-white flex space-x-1 shadow-sm">
               <button
                 onClick={() => setBillingPeriod("monthly")}
                 className={`px-4 py-2 text-xs font-bold rounded-lg transition-all ${
                   billingPeriod === "monthly"
-                    ? "bg-[#5A3342] text-white"
-                    : "text-brand-secondary hover:text-[#1F1F1F]"
+                    ? "bg-[#2563EB] text-white"
+                    : "text-brand-secondary hover:text-[#0F172A]"
                 }`}
               >
                 Monthly Billing
@@ -115,8 +115,8 @@ export default function PricingPage() {
                 onClick={() => setBillingPeriod("yearly")}
                 className={`px-4 py-2 text-xs font-bold rounded-lg transition-all ${
                   billingPeriod === "yearly"
-                    ? "bg-[#5A3342] text-white"
-                    : "text-brand-secondary hover:text-[#1F1F1F]"
+                    ? "bg-[#2563EB] text-white"
+                    : "text-brand-secondary hover:text-[#0F172A]"
                 }`}
               >
                 Yearly Billing (Save 20%)
@@ -133,23 +133,23 @@ export default function PricingPage() {
                 key={index}
                 className={`flex flex-col border rounded-[28px] p-8 bg-white relative transition-all duration-300 ${
                   plan.featured
-                    ? "border-[#C89B5B] border-2 shadow-[0_20px_50px_-10px_rgba(90,51,66,0.12)] md:scale-[1.03] z-10"
-                    : "border-[#E9E2DC] hover:border-[#5A3342]/30 hover:scale-[1.01]"
+                    ? "border-[#3B82F6] border-2 shadow-[0_20px_50px_-10px_rgba(37, 99, 235,0.12)] md:scale-[1.03] z-10"
+                    : "border-[#E2E8F0] hover:border-[#2563EB]/30 hover:scale-[1.01]"
                 }`}
               >
                 {plan.featured && (
-                  <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-3.5 py-1 bg-[#C89B5B] rounded-full text-[9px] font-bold text-white uppercase tracking-wider shadow-md shadow-[#C89B5B]/25 flex items-center space-x-1">
+                  <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-3.5 py-1 bg-[#3B82F6] rounded-full text-[9px] font-bold text-white uppercase tracking-wider shadow-md shadow-[#3B82F6]/25 flex items-center space-x-1">
                     <Star size={8} fill="currentColor" />
                     <span>Most Popular</span>
                   </span>
                 )}
 
                 <div className="mb-6 text-left">
-                  <h3 className="text-lg font-bold text-[#1F1F1F] mb-2">
+                  <h3 className="text-lg font-bold text-[#0F172A] mb-2">
                     {plan.name}
                   </h3>
                   <div className="flex items-baseline space-x-1 mb-2">
-                    <span className="text-3xl sm:text-4xl font-black text-[#1F1F1F]">
+                    <span className="text-3xl sm:text-4xl font-black text-[#0F172A]">
                       {plan.price}
                     </span>
                     {plan.period && (
@@ -163,7 +163,7 @@ export default function PricingPage() {
                   </p>
                 </div>
 
-                <div className="flex-1 space-y-3.5 mb-8 border-t border-[#E9E2DC] pt-6 text-left">
+                <div className="flex-1 space-y-3.5 mb-8 border-t border-[#E2E8F0] pt-6 text-left">
                   {plan.features.map((feature, i) => (
                     <div
                       key={i}
@@ -171,7 +171,7 @@ export default function PricingPage() {
                     >
                       <Check
                         size={14}
-                        className="text-[#C89B5B] shrink-0 mt-0.5"
+                        className="text-[#3B82F6] shrink-0 mt-0.5"
                         strokeWidth={3}
                       />
                       <span>{feature}</span>
@@ -183,8 +183,8 @@ export default function PricingPage() {
                   <button
                     className={`w-full py-3.5 px-4 rounded-xl text-xs font-bold transition-all duration-300 border ${
                       plan.featured
-                        ? "bg-[#5A3342] text-white border-[#5A3342] hover:bg-[#6A3B4B] shadow-md shadow-[#5A3342]/10"
-                        : "bg-white text-[#5A3342] border-[#E9E2DC] hover:border-[#5A3342]/30 hover:bg-[#FAF8F6]"
+                        ? "bg-[#2563EB] text-white border-[#2563EB] hover:bg-[#6A3B4B] shadow-md shadow-[#2563EB]/10"
+                        : "bg-white text-[#2563EB] border-[#E2E8F0] hover:border-[#2563EB]/30 hover:bg-[#F8FAFC]"
                     }`}
                   >
                     {plan.buttonText}
@@ -197,47 +197,47 @@ export default function PricingPage() {
 
         {/* Feature Comparison Table */}
         <section className="max-w-4xl mx-auto px-6 mb-24 text-left">
-          <h2 className="text-2xl font-bold text-[#1F1F1F] text-center mb-12">
+          <h2 className="text-2xl font-bold text-[#0F172A] text-center mb-12">
             Detailed Feature Comparison
           </h2>
-          <div className="overflow-x-auto rounded-2xl border border-[#E9E2DC] shadow-sm shadow-[#5A3342]/3 bg-white">
+          <div className="overflow-x-auto rounded-2xl border border-[#E2E8F0] shadow-sm shadow-[#2563EB]/3 bg-white">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-[#E9E2DC] bg-[#FAF8F6] font-bold text-xs uppercase tracking-wider text-[#5A3342]">
+                <tr className="border-b border-[#E2E8F0] bg-[#F8FAFC] font-bold text-xs uppercase tracking-wider text-[#2563EB]">
                   <th className="p-4">Feature</th>
                   <th className="p-4">Free Draft</th>
                   <th className="p-4">Pro Networker</th>
                   <th className="p-4">Business Team</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#E9E2DC] text-xs font-semibold">
-                <tr className="hover:bg-[#FAF8F6]/50">
-                  <td className="p-4 font-bold text-[#1F1F1F]">Active Cards</td>
+              <tbody className="divide-y divide-[#E2E8F0] text-xs font-semibold">
+                <tr className="hover:bg-[#F8FAFC]/50">
+                  <td className="p-4 font-bold text-[#0F172A]">Active Cards</td>
                   <td className="p-4 text-brand-secondary">1 Card</td>
-                  <td className="p-4 text-[#1F1F1F]">Unlimited</td>
-                  <td className="p-4 text-[#1F1F1F]">Unlimited</td>
+                  <td className="p-4 text-[#0F172A]">Unlimited</td>
+                  <td className="p-4 text-[#0F172A]">Unlimited</td>
                 </tr>
-                <tr className="hover:bg-[#FAF8F6]/50">
-                  <td className="p-4 font-bold text-[#1F1F1F]">
+                <tr className="hover:bg-[#F8FAFC]/50">
+                  <td className="p-4 font-bold text-[#0F172A]">
                     Inquiry Forms
                   </td>
                   <td className="p-4 text-brand-secondary">Standard</td>
-                  <td className="p-4 text-[#1F1F1F]">Custom Form Blocks</td>
-                  <td className="p-4 text-[#1F1F1F]">Workspace Control</td>
+                  <td className="p-4 text-[#0F172A]">Custom Form Blocks</td>
+                  <td className="p-4 text-[#0F172A]">Workspace Control</td>
                 </tr>
-                <tr className="hover:bg-[#FAF8F6]/50">
-                  <td className="p-4 font-bold text-[#1F1F1F]">
+                <tr className="hover:bg-[#F8FAFC]/50">
+                  <td className="p-4 font-bold text-[#0F172A]">
                     Design customization
                   </td>
                   <td className="p-4 text-brand-secondary">Default Templates</td>
-                  <td className="p-4 text-[#1F1F1F]">Full Hex Custom Theme</td>
-                  <td className="p-4 text-[#1F1F1F]">Admin Theme Locks</td>
+                  <td className="p-4 text-[#0F172A]">Full Hex Custom Theme</td>
+                  <td className="p-4 text-[#0F172A]">Admin Theme Locks</td>
                 </tr>
-                <tr className="hover:bg-[#FAF8F6]/50">
-                  <td className="p-4 font-bold text-[#1F1F1F]">Member Seats</td>
+                <tr className="hover:bg-[#F8FAFC]/50">
+                  <td className="p-4 font-bold text-[#0F172A]">Member Seats</td>
                   <td className="p-4 text-brand-secondary">1 Seat</td>
                   <td className="p-4 text-brand-secondary">1 Seat</td>
-                  <td className="p-4 text-[#1F1F1F]">Up to 10 Seats</td>
+                  <td className="p-4 text-[#0F172A]">Up to 10 Seats</td>
                 </tr>
               </tbody>
             </table>
@@ -245,9 +245,9 @@ export default function PricingPage() {
         </section>
 
         {/* FAQ Area */}
-        <div className="max-w-4xl mx-auto px-6 border-t border-[#E9E2DC] pt-20">
-          <h2 className="text-2xl font-bold text-[#1F1F1F] text-center mb-12 flex items-center justify-center space-x-2">
-            <HelpCircle className="text-[#C89B5B]" size={24} />
+        <div className="max-w-4xl mx-auto px-6 border-t border-[#E2E8F0] pt-20">
+          <h2 className="text-2xl font-bold text-[#0F172A] text-center mb-12 flex items-center justify-center space-x-2">
+            <HelpCircle className="text-[#3B82F6]" size={24} />
             <span>Pricing FAQs</span>
           </h2>
           <div className="max-w-2xl mx-auto">
@@ -257,8 +257,8 @@ export default function PricingPage() {
 
         {/* Final CTA Banner */}
         <section className="max-w-7xl mx-auto px-6 pt-24 text-center">
-          <div className="bg-[#5A3342] border border-[#E9E2DC] rounded-3xl p-12 sm:p-16 relative overflow-hidden shadow-xl shadow-[#5A3342]/10 text-center">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-[#C89B5B]/10 blur-[80px] pointer-events-none" />
+          <div className="bg-[#2563EB] border border-[#E2E8F0] rounded-3xl p-12 sm:p-16 relative overflow-hidden shadow-xl shadow-[#2563EB]/10 text-center">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-[#3B82F6]/10 blur-[80px] pointer-events-none" />
             <div className="relative z-10 space-y-6">
               <h3 className="text-2xl sm:text-3xl font-black text-white">
                 Choose the smart solution today.
@@ -269,7 +269,7 @@ export default function PricingPage() {
               </p>
               <div className="flex items-center justify-center gap-4 pt-2">
                 <Link href="/signup">
-                  <button className="bg-[#C89B5B] hover:bg-[#b0874c] text-white font-bold text-xs px-6 py-3 rounded-lg shadow-md transition-all">
+                  <button className="bg-[#3B82F6] hover:bg-[#b0874c] text-white font-bold text-xs px-6 py-3 rounded-lg shadow-md transition-all">
                     Create Your Card Free
                   </button>
                 </Link>
@@ -288,3 +288,5 @@ export default function PricingPage() {
     </div>
   );
 }
+
+

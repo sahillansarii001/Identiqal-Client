@@ -79,7 +79,7 @@ const ColorPaletteEditor = () => {
     "#ffffff",
     "#f8f5f2",
     "#f0f4f8",
-    "#1a1a1a",
+    "#0F172A",
     "#0D0B0D",
     "#151215",
   ];
@@ -119,3 +119,4 @@ const ColorPaletteEditor = () => {
     </div>
   );
 };
+

@@ -27,7 +27,7 @@ export const Input = React.forwardRef(
             className={`w-full px-4 py-2.5 bg-white border ${
               error
                 ? "border-red-500 focus:ring-red-500"
-                : "border-[#E9E2DC] focus:ring-[#5A3342] focus:border-[#5A3342]"
+                : "border-[#E2E8F0] focus:ring-[#2563EB] focus:border-[#2563EB]"
             } rounded-xl text-slate-900 placeholder-slate-400 text-sm transition-all focus:outline-none focus:ring-2 ${
               rightElement ? "pr-10" : ""
             }`}
@@ -51,3 +51,4 @@ export const Input = React.forwardRef(
 );
 
 Input.displayName = "Input";
+

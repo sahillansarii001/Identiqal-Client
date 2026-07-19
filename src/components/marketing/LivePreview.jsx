@@ -18,7 +18,7 @@ const themes = [
     id: "light",
     label: "Light Clean",
     sub: "Corporate • Elegant",
-    colors: ["#FFFFFF", "#6B3A4A", "#E9E2DC", "#6B6B6B"],
+    colors: ["#FFFFFF", "#6B3A4A", "#E2E8F0", "#6B6B6B"],
     borderClass: "border-l-4 border-l-[#6B3A4A]",
   },
   {
@@ -32,14 +32,14 @@ const themes = [
     id: "luxury",
     label: "Luxury Gold",
     sub: "Premium • Luxury",
-    colors: ["#FDFBF7", "#C89B5B", "#6B3A4A", "#3F3F46"],
-    borderClass: "border-l-4 border-l-[#C89B5B]",
+    colors: ["#FDFBF7", "#3B82F6", "#6B3A4A", "#3F3F46"],
+    borderClass: "border-l-4 border-l-[#3B82F6]",
   },
   {
     id: "midnight",
     label: "Midnight",
     sub: "Dark • Modern",
-    colors: ["#000000", "#18181B", "#A855F7", "#FAFAF8"],
+    colors: ["#000000", "#18181B", "#A855F7", "#F8FAFC"],
     borderClass: "border-l-4 border-l-[#A855F7]",
   },
   {
@@ -134,13 +134,13 @@ function ThemeMockup({ themeId }) {
     case "luxury":
       return (
         <div className="bg-[#FDFBF7] min-h-[500px] p-6 flex flex-col justify-between font-serif text-left select-none relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-[#C89B5B]/5 rounded-full blur-xl pointer-events-none" />
+          <div className="absolute top-0 right-0 w-24 h-24 bg-[#3B82F6]/5 rounded-full blur-xl pointer-events-none" />
           <div className="space-y-6 pt-4 relative z-10">
             <div className="flex items-center justify-between">
-              <div className="w-14 h-14 rounded-full border-2 border-[#C89B5B] bg-white flex items-center justify-center text-[#6B3A4A] font-bold text-lg shadow-sm">
+              <div className="w-14 h-14 rounded-full border-2 border-[#3B82F6] bg-white flex items-center justify-center text-[#6B3A4A] font-bold text-lg shadow-sm">
                 AM
               </div>
-              <div className="text-[9px] font-semibold tracking-widest text-[#C89B5B] bg-[#C89B5B]/5 border border-[#C89B5B]/30 px-3 py-1 rounded-full uppercase">
+              <div className="text-[9px] font-semibold tracking-widest text-[#3B82F6] bg-[#3B82F6]/5 border border-[#3B82F6]/30 px-3 py-1 rounded-full uppercase">
                 ★ Pro Member
               </div>
             </div>
@@ -148,7 +148,7 @@ function ThemeMockup({ themeId }) {
               <h4 className="text-xl font-extrabold text-primary tracking-tight">
                 {profile.name}
               </h4>
-              <p className="text-xs font-medium text-[#C89B5B] italic">
+              <p className="text-xs font-medium text-[#3B82F6] italic">
                 {profile.title}
               </p>
               <p className="text-[10px] text-zinc-500 font-sans tracking-wide uppercase font-semibold">
@@ -160,15 +160,15 @@ function ThemeMockup({ themeId }) {
             </p>
           </div>
           <div className="space-y-2.5 my-6 relative z-10">
-            <button className="w-full py-2.5 bg-linear-to-r from-[#C89B5B] to-[#b0874c] text-white text-xs font-bold rounded-full shadow-md font-sans">
+            <button className="w-full py-2.5 bg-linear-to-r from-[#3B82F6] to-[#b0874c] text-white text-xs font-bold rounded-full shadow-md font-sans">
               Save Contact Card
             </button>
-            <button className="w-full py-2.5 bg-transparent border border-[#C89B5B] text-[#C89B5B] text-xs font-bold rounded-full font-sans">
+            <button className="w-full py-2.5 bg-transparent border border-[#3B82F6] text-[#3B82F6] text-xs font-bold rounded-full font-sans">
               Connect Online
             </button>
           </div>
           <div className="space-y-2 relative z-10">
-            <h5 className="text-[9px] font-bold uppercase tracking-widest text-[#C89B5B] font-sans">
+            <h5 className="text-[9px] font-bold uppercase tracking-widest text-[#3B82F6] font-sans">
               Contact info
             </h5>
             <div className="p-3 bg-white border border-accent/10 rounded-xl space-y-2 shadow-sm">
@@ -181,7 +181,7 @@ function ThemeMockup({ themeId }) {
                   key={v}
                   className="flex items-center space-x-2 text-[10px] text-primary font-sans font-medium"
                 >
-                  <I size={10} className="text-[#C89B5B]" />
+                  <I size={10} className="text-[#3B82F6]" />
                   <span>{v}</span>
                 </div>
               ))}
@@ -378,7 +378,7 @@ function ThemeMockup({ themeId }) {
         <div className="bg-white min-h-[500px] p-6 flex flex-col justify-between font-sans text-left select-none">
           <div className="space-y-5 pt-4">
             <div className="flex items-center justify-between">
-              <div className="w-14 h-14 rounded-full bg-linear-to-tr from-[#6B3A4A] to-[#C89B5B] flex items-center justify-center text-white font-bold text-lg shadow-sm border border-white">
+              <div className="w-14 h-14 rounded-full bg-linear-to-tr from-[#6B3A4A] to-[#3B82F6] flex items-center justify-center text-white font-bold text-lg shadow-sm border border-white">
                 AM
               </div>
               <div className="text-[8px] font-extrabold tracking-widest text-[#6B3A4A] bg-[#6B3A4A]/5 border border-[#6B3A4A]/10 px-2.5 py-1 rounded-full uppercase">
@@ -386,7 +386,7 @@ function ThemeMockup({ themeId }) {
               </div>
             </div>
             <div className="space-y-1">
-              <h4 className="font-extrabold text-lg tracking-tight text-[#1F1F1F]">
+              <h4 className="font-extrabold text-lg tracking-tight text-[#0F172A]">
                 {profile.name}
               </h4>
               <p className="text-xs font-semibold text-[#6B3A4A]">
@@ -396,7 +396,7 @@ function ThemeMockup({ themeId }) {
                 {profile.company}
               </p>
             </div>
-            <p className="text-[11px] leading-relaxed text-brand-secondary border-t border-[#E9E2DC]/50 pt-3">
+            <p className="text-[11px] leading-relaxed text-brand-secondary border-t border-[#E2E8F0]/50 pt-3">
               {profile.bio}
             </p>
           </div>
@@ -404,7 +404,7 @@ function ThemeMockup({ themeId }) {
             <button className="w-full py-2.5 bg-[#6B3A4A] text-white text-xs font-bold rounded-xl shadow-md">
               Save Contact Card
             </button>
-            <button className="w-full py-2.5 bg-white border border-[#E9E2DC] text-brand-secondary text-xs font-semibold rounded-xl">
+            <button className="w-full py-2.5 bg-white border border-[#E2E8F0] text-brand-secondary text-xs font-semibold rounded-xl">
               Connect Online
             </button>
           </div>
@@ -412,7 +412,7 @@ function ThemeMockup({ themeId }) {
             <h5 className="text-[9px] font-bold uppercase tracking-wider text-[#6B3A4A]">
               Contact info
             </h5>
-            <div className="p-3 bg-white border border-[#E9E2DC] rounded-xl space-y-2 shadow-sm">
+            <div className="p-3 bg-white border border-[#E2E8F0] rounded-xl space-y-2 shadow-sm">
               {[
                 [Mail, profile.email],
                 [Phone, profile.phone],
@@ -420,9 +420,9 @@ function ThemeMockup({ themeId }) {
               ].map(([I, v]) => (
                 <div
                   key={v}
-                  className="flex items-center space-x-2 text-[10px] text-[#1F1F1F] font-medium"
+                  className="flex items-center space-x-2 text-[10px] text-[#0F172A] font-medium"
                 >
-                  <I size={10} className="text-[#C89B5B]" />
+                  <I size={10} className="text-[#3B82F6]" />
                   <span>{v}</span>
                 </div>
               ))}
@@ -481,13 +481,13 @@ export const LivePreview = () => {
   return (
     <section
       id="templates"
-      className="py-24 bg-brand-bg border-t border-[#E9E2DC]/80 scroll-mt-16 relative overflow-hidden"
+      className="py-24 bg-brand-bg border-t border-[#E2E8F0]/80 scroll-mt-16 relative overflow-hidden"
     >
       {/* Background elements */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-        <div className="blob-1 absolute top-1/3 left-1/4 w-[400px] h-[400px] rounded-full bg-[#C89B5B]/6 blur-[120px]" />
+        <div className="blob-1 absolute top-1/3 left-1/4 w-[400px] h-[400px] rounded-full bg-[#3B82F6]/6 blur-[120px]" />
         <div className="blob-2 absolute bottom-1/3 right-1/4 w-[350px] h-[350px] rounded-full bg-[#6B3A4A]/4 blur-[100px]" />
-        <div className="absolute inset-0 bg-[radial-gradient(#C89B5B_1px,transparent_1px)] bg-size-[24px_24px] opacity-[0.06] mask-[radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(#3B82F6_1px,transparent_1px)] bg-size-[24px_24px] opacity-[0.06] mask-[radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
@@ -497,7 +497,7 @@ export const LivePreview = () => {
             <div className="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-[#6B3A4A]/6 border border-[#6B3A4A]/10 text-xs font-semibold text-[#6B3A4A] tracking-wider uppercase">
               <span>Interactive Sandbox</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#1F1F1F] tracking-tight leading-tight font-sans">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight leading-tight font-sans">
               Live Real-Time <br />
               Theme Preview
             </h2>
@@ -525,11 +525,11 @@ export const LivePreview = () => {
                   className={`flex flex-col text-left p-4 rounded-2xl border text-sm transition-all duration-300 relative overflow-hidden cursor-pointer ${
                     isActive
                       ? `bg-white ${theme.borderClass} border-zinc-200 shadow-md shadow-[#6B3A4A]/6 scale-[1.01]`
-                      : "bg-white/60 border-[#E9E2DC]/80 hover:bg-white hover:border-[#C89B5B]/30"
+                      : "bg-white/60 border-[#E2E8F0]/80 hover:bg-white hover:border-[#3B82F6]/30"
                   }`}
                 >
                   <div className="flex justify-between items-center w-full mb-1.5">
-                    <span className="font-extrabold text-sm text-[#1F1F1F] font-sans">
+                    <span className="font-extrabold text-sm text-[#0F172A] font-sans">
                       {theme.label}
                     </span>
                     <AnimatePresence>
@@ -544,7 +544,7 @@ export const LivePreview = () => {
                             damping: 22,
                           }}
                         >
-                          <Check size={12} className="text-[#C89B5B]" />
+                          <Check size={12} className="text-[#3B82F6]" />
                         </motion.div>
                       )}
                     </AnimatePresence>
@@ -603,9 +603,9 @@ export const LivePreview = () => {
                   ? {}
                   : {
                       boxShadow: [
-                        "0 30px 70px -10px rgba(74,44,58,0.22)",
-                        "0 48px 90px -6px rgba(74,44,58,0.30)",
-                        "0 30px 70px -10px rgba(74,44,58,0.22)",
+                        "0 30px 70px -10px rgba(30, 64, 175,0.22)",
+                        "0 48px 90px -6px rgba(30, 64, 175,0.30)",
+                        "0 30px 70px -10px rgba(30, 64, 175,0.22)",
                       ],
                     }
               }
@@ -647,3 +647,5 @@ export const LivePreview = () => {
     </section>
   );
 };
+
+

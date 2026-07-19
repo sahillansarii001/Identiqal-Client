@@ -83,7 +83,7 @@ export const Testimonials = () => {
                   : {
                       y: -6,
                       scale: 1.02,
-                      boxShadow: "0 20px 40px -12px rgba(74, 44, 58, 0.12)",
+                      boxShadow: "0 20px 40px -12px rgba(30, 64, 175, 0.12)",
                     }
               }
               transition={{ type: "spring", stiffness: 300, damping: 26 }}
@@ -116,7 +116,7 @@ export const Testimonials = () => {
                     >
                       <Star
                         size={13}
-                        fill="#B88A44"
+                        fill="#2563EB"
                         className="text-accent"
                       />
                     </motion.div>
@@ -149,3 +149,5 @@ export const Testimonials = () => {
     </section>
   );
 };
+
+

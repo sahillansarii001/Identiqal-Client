@@ -153,7 +153,7 @@ export const Footer = () => {
       whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
-      className="bg-[#F8F4F1] border-t border-[#E9E2DC] pt-20 pb-12 relative z-10 font-sans mt-auto"
+      className="bg-[#F8F4F1] border-t border-[#E2E8F0] pt-20 pb-12 relative z-10 font-sans mt-auto"
     >
       <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12">
         {/* 1. TOP PREMIUM "WHY CHOOSE IDENTIQAL?" SECTION */}
@@ -163,11 +163,11 @@ export const Footer = () => {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.8 }}
-            className="bg-white border border-[#E9E2DC] rounded-[32px] p-8 sm:p-12 lg:p-16 shadow-[0_24px_50px_rgba(107,58,74,0.02)] relative overflow-hidden"
+            className="bg-white border border-[#E2E8F0] rounded-[32px] p-8 sm:p-12 lg:p-16 shadow-[0_24px_50px_rgba(107,58,74,0.02)] relative overflow-hidden"
           >
             {/* Soft decorative glow */}
             <div className="absolute inset-0 z-0 pointer-events-none">
-              <div className="absolute top-1/4 right-1/4 w-[450px] h-[450px] rounded-full bg-[#C89B5B]/5 blur-[120px]" />
+              <div className="absolute top-1/4 right-1/4 w-[450px] h-[450px] rounded-full bg-[#3B82F6]/5 blur-[120px]" />
               <div className="absolute bottom-1/4 left-1/4 w-[350px] h-[350px] rounded-full bg-[#6B3A4A]/3 blur-[100px]" />
             </div>
 
@@ -175,12 +175,12 @@ export const Footer = () => {
               {/* Left Column: Heading + Features */}
               <div className="lg:col-span-6 space-y-8 text-left">
                 <div className="space-y-4">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-[#C89B5B] bg-[#C89B5B]/10 px-2.5 py-1 rounded-full border border-[#C89B5B]/20 inline-block">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-[#3B82F6] bg-[#3B82F6]/10 px-2.5 py-1 rounded-full border border-[#3B82F6]/20 inline-block">
                     Platform Value
                   </span>
-                  <h3 className="text-3xl sm:text-4xl font-extrabold text-[#1F1F1F] tracking-tight leading-tight font-sans">
+                  <h3 className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight leading-tight font-sans">
                     Why Professionals <br />
-                    <span className="text-transparent bg-clip-text bg-linear-to-r from-[#6B3A4A] to-[#C89B5B]">
+                    <span className="text-transparent bg-clip-text bg-linear-to-r from-[#6B3A4A] to-[#3B82F6]">
                       Choose Identiqal
                     </span>
                   </h3>
@@ -217,11 +217,11 @@ export const Footer = () => {
                       }}
                       className="flex items-start space-x-4 group cursor-default"
                     >
-                      <div className="w-10 h-10 rounded-xl bg-[#C89B5B]/10 text-[#C89B5B] border border-[#C89B5B]/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300 shadow-sm">
+                      <div className="w-10 h-10 rounded-xl bg-[#3B82F6]/10 text-[#3B82F6] border border-[#3B82F6]/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300 shadow-sm">
                         {feat.icon}
                       </div>
                       <div className="space-y-1">
-                        <h4 className="font-extrabold text-sm text-[#1F1F1F] group-hover:text-[#6B3A4A] transition-colors duration-300 font-sans">
+                        <h4 className="font-extrabold text-sm text-[#0F172A] group-hover:text-[#6B3A4A] transition-colors duration-300 font-sans">
                           {feat.title}
                         </h4>
                         <p className="text-xs text-brand-secondary leading-relaxed font-sans max-w-md">
@@ -242,10 +242,10 @@ export const Footer = () => {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.7, ease: "easeOut" }}
-                  className="w-full max-w-[420px] bg-white/80 backdrop-blur-md border border-[#E9E2DC] rounded-[24px] p-6 shadow-xl relative z-10"
+                  className="w-full max-w-[420px] bg-white/80 backdrop-blur-md border border-[#E2E8F0] rounded-[24px] p-6 shadow-xl relative z-10"
                 >
                   {/* Dashboard Header */}
-                  <div className="flex justify-between items-center pb-4 border-b border-[#E9E2DC] mb-5">
+                  <div className="flex justify-between items-center pb-4 border-b border-[#E2E8F0] mb-5">
                     <span className="text-[10px] font-black text-[#6B3A4A] tracking-wider font-sans uppercase">
                       Visitor Dashboard
                     </span>
@@ -262,7 +262,7 @@ export const Footer = () => {
                           {m.label}
                         </span>
                         <div className="flex items-baseline space-x-1.5">
-                          <span className="text-2xl font-black text-[#1F1F1F] font-sans">
+                          <span className="text-2xl font-black text-[#0F172A] font-sans">
                             {m.value}
                           </span>
                           <span className="text-[9px] font-bold text-green-600 bg-green-500/10 px-1 py-0.5 rounded">
@@ -270,7 +270,7 @@ export const Footer = () => {
                           </span>
                         </div>
                         {/* Progress Bar */}
-                        <div className="w-full h-1.5 bg-[#E9E2DC]/50 rounded-full overflow-hidden relative">
+                        <div className="w-full h-1.5 bg-[#E2E8F0]/50 rounded-full overflow-hidden relative">
                           <motion.div
                             initial={{ width: 0 }}
                             whileInView={{ width: m.progress }}
@@ -280,7 +280,7 @@ export const Footer = () => {
                               ease: "easeOut",
                               delay: 0.2,
                             }}
-                            className="h-full bg-linear-to-r from-[#6B3A4A] to-[#C89B5B] rounded-full"
+                            className="h-full bg-linear-to-r from-[#6B3A4A] to-[#3B82F6] rounded-full"
                           />
                         </div>
                       </div>
@@ -296,9 +296,9 @@ export const Footer = () => {
                       duration: 4,
                       ease: "easeInOut",
                     }}
-                    className="absolute -top-4 -right-4 bg-white border border-[#E9E2DC] shadow-lg px-3 py-2.5 rounded-xl text-[10px] font-extrabold text-[#1F1F1F] flex items-center space-x-2 backdrop-blur-sm z-20"
+                    className="absolute -top-4 -right-4 bg-white border border-[#E2E8F0] shadow-lg px-3 py-2.5 rounded-xl text-[10px] font-extrabold text-[#0F172A] flex items-center space-x-2 backdrop-blur-sm z-20"
                   >
-                    <div className="w-5 h-5 rounded-full bg-[#C89B5B]/20 text-[#C89B5B] flex items-center justify-center text-[9px] font-black">
+                    <div className="w-5 h-5 rounded-full bg-[#3B82F6]/20 text-[#3B82F6] flex items-center justify-center text-[9px] font-black">
                       S
                     </div>
                     <span>Sarah viewed your profile</span>
@@ -316,7 +316,7 @@ export const Footer = () => {
                     }}
                     className="absolute -bottom-4 -left-4 bg-[#6B3A4A] text-white shadow-lg px-3 py-2.5 rounded-xl text-[10px] font-extrabold flex items-center space-x-2 z-20"
                   >
-                    <Sparkles size={10} className="text-[#C89B5B]" />
+                    <Sparkles size={10} className="text-[#3B82F6]" />
                     <span>+12 new profile visits</span>
                   </motion.div>
                 </motion.div>
@@ -324,7 +324,7 @@ export const Footer = () => {
             </div>
 
             {/* Bottom Section: Grayscale client logos */}
-            <div className="mt-16 pt-10 border-t border-[#E9E2DC] text-center">
+            <div className="mt-16 pt-10 border-t border-[#E2E8F0] text-center">
               <span className="text-[10px] uppercase font-bold text-[#8A8A8A] tracking-widest block mb-8">
                 Trusted by professionals worldwide
               </span>
@@ -358,17 +358,17 @@ export const Footer = () => {
             <div className="flex items-center space-x-3.5">
               <Link href="/" className="flex items-center space-x-3">
                 <div className="w-[50px] h-[50px] rounded-xl bg-[#6B3A4A] flex items-center justify-center shadow-md relative overflow-hidden">
-                  <div className="absolute inset-0 bg-linear-to-tr from-[#C89B5B]/30 to-transparent" />
+                  <div className="absolute inset-0 bg-linear-to-tr from-[#3B82F6]/30 to-transparent" />
                   <span className="font-sans font-black text-lg text-white tracking-wider">
                     iQ
                   </span>
                 </div>
-                <span className="text-xl font-extrabold tracking-tight text-[#1F1F1F] font-sans">
+                <span className="text-xl font-extrabold tracking-tight text-[#0F172A] font-sans">
                   Identiqal
                 </span>
               </Link>
 
-              <span className="inline-flex items-center space-x-0.5 bg-[#C89B5B]/10 text-[#C89B5B] border border-[#C89B5B]/20 px-2 py-0.5 rounded-full text-[9px] font-black tracking-wide uppercase">
+              <span className="inline-flex items-center space-x-0.5 bg-[#3B82F6]/10 text-[#3B82F6] border border-[#3B82F6]/20 px-2 py-0.5 rounded-full text-[9px] font-black tracking-wide uppercase">
                 <Sparkles size={8} className="fill-current" />
                 <span>Built with AI</span>
               </span>
@@ -400,11 +400,11 @@ export const Footer = () => {
                         ? {}
                         : {
                             boxShadow: "0 0 0 3px rgba(200, 155, 91, 0.18)",
-                            borderColor: "#C89B5B",
+                            borderColor: "#3B82F6",
                           }
                     }
                     transition={{ duration: 0.2 }}
-                    className="flex-1 px-3.5 py-2.5 text-xs bg-white/70 border border-[#E9E2DC] rounded-lg outline-none transition-colors duration-200"
+                    className="flex-1 px-3.5 py-2.5 text-xs bg-white/70 border border-[#E2E8F0] rounded-lg outline-none transition-colors duration-200"
                   />
                   <motion.button
                     type="submit"
@@ -498,7 +498,7 @@ export const Footer = () => {
                   variants={socialBounceVariants}
                   whileHover="hover"
                   aria-label={item.name}
-                  className="w-10 h-10 rounded-full bg-white/40 backdrop-blur-sm border border-[#E9E2DC]/60 flex items-center justify-center text-[#6B3A4A] hover:bg-[#6B3A4A] hover:text-[#C89B5B] hover:shadow-md hover:border-[#6B3A4A] transition-colors duration-300"
+                  className="w-10 h-10 rounded-full bg-white/40 backdrop-blur-sm border border-[#E2E8F0]/60 flex items-center justify-center text-[#6B3A4A] hover:bg-[#6B3A4A] hover:text-[#3B82F6] hover:shadow-md hover:border-[#6B3A4A] transition-colors duration-300"
                 >
                   {item.icon}
                 </motion.a>
@@ -515,7 +515,7 @@ export const Footer = () => {
 
           {/* Column 2 (Product) */}
           <motion.div variants={columnVariants} className="space-y-6">
-            <h4 className="text-[11px] font-extrabold text-[#1F1F1F] uppercase tracking-widest font-sans">
+            <h4 className="text-[11px] font-extrabold text-[#0F172A] uppercase tracking-widest font-sans">
               Product
             </h4>
             <ul className="space-y-4 text-xs font-medium">
@@ -527,7 +527,7 @@ export const Footer = () => {
                 >
                   <Link
                     href={link.href}
-                    className="text-brand-secondary hover:text-[#6B3A4A] relative py-1 hover:after:w-full after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-[#C89B5B] after:transition-all after:duration-300 transition-colors"
+                    className="text-brand-secondary hover:text-[#6B3A4A] relative py-1 hover:after:w-full after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-[#3B82F6] after:transition-all after:duration-300 transition-colors"
                   >
                     {link.name}
                   </Link>
@@ -538,7 +538,7 @@ export const Footer = () => {
 
           {/* Column 3 (Resources) */}
           <motion.div variants={columnVariants} className="space-y-6">
-            <h4 className="text-[11px] font-extrabold text-[#1F1F1F] uppercase tracking-widest font-sans">
+            <h4 className="text-[11px] font-extrabold text-[#0F172A] uppercase tracking-widest font-sans">
               Resources
             </h4>
             <ul className="space-y-4 text-xs font-medium">
@@ -550,7 +550,7 @@ export const Footer = () => {
                 >
                   <Link
                     href={link.href}
-                    className="text-brand-secondary hover:text-[#6B3A4A] relative py-1 hover:after:w-full after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-[#C89B5B] after:transition-all after:duration-300 transition-colors"
+                    className="text-brand-secondary hover:text-[#6B3A4A] relative py-1 hover:after:w-full after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-[#3B82F6] after:transition-all after:duration-300 transition-colors"
                   >
                     {link.name}
                   </Link>
@@ -561,7 +561,7 @@ export const Footer = () => {
 
           {/* Column 4 (Company) */}
           <motion.div variants={columnVariants} className="space-y-6">
-            <h4 className="text-[11px] font-extrabold text-[#1F1F1F] uppercase tracking-widest font-sans">
+            <h4 className="text-[11px] font-extrabold text-[#0F172A] uppercase tracking-widest font-sans">
               Company
             </h4>
             <ul className="space-y-4 text-xs font-medium">
@@ -573,7 +573,7 @@ export const Footer = () => {
                 >
                   <Link
                     href={link.href}
-                    className="text-brand-secondary hover:text-[#6B3A4A] relative py-1 hover:after:w-full after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-[#C89B5B] after:transition-all after:duration-300 transition-colors"
+                    className="text-brand-secondary hover:text-[#6B3A4A] relative py-1 hover:after:w-full after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-[#3B82F6] after:transition-all after:duration-300 transition-colors"
                   >
                     {link.name}
                   </Link>
@@ -584,7 +584,7 @@ export const Footer = () => {
 
           {/* Column 5 (Legal) */}
           <motion.div variants={columnVariants} className="space-y-6">
-            <h4 className="text-[11px] font-extrabold text-[#1F1F1F] uppercase tracking-widest font-sans">
+            <h4 className="text-[11px] font-extrabold text-[#0F172A] uppercase tracking-widest font-sans">
               Legal
             </h4>
             <ul className="space-y-4 text-xs font-medium">
@@ -596,7 +596,7 @@ export const Footer = () => {
                 >
                   <Link
                     href={link.href}
-                    className="text-brand-secondary hover:text-[#6B3A4A] relative py-1 hover:after:w-full after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-[#C89B5B] after:transition-all after:duration-300 transition-colors"
+                    className="text-brand-secondary hover:text-[#6B3A4A] relative py-1 hover:after:w-full after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-[#3B82F6] after:transition-all after:duration-300 transition-colors"
                   >
                     {link.name}
                   </Link>
@@ -607,7 +607,7 @@ export const Footer = () => {
         </motion.div>
 
         {/* 3. LIGHT BOTTOM DIVIDER */}
-        <div className="h-px bg-[#E9E2DC]/50 w-full mb-8" />
+        <div className="h-px bg-[#E2E8F0]/50 w-full mb-8" />
 
         {/* 4. BOTTOM SECTION */}
         <div className="text-center text-xs text-brand-secondary font-medium">
@@ -617,3 +617,4 @@ export const Footer = () => {
     </motion.footer>
   );
 };
+

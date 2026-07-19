@@ -69,7 +69,7 @@ export const AIFeatures = () => {
                 : {
                     y: -8,
                     scale: 1.02,
-                    boxShadow: "0 24px 52px -12px rgba(74, 44, 58, 0.14)",
+                    boxShadow: "0 24px 52px -12px rgba(30, 64, 175, 0.14)",
                   }
             }
             transition={{ type: "spring", stiffness: 300, damping: 28 }}
@@ -141,7 +141,7 @@ export const AIFeatures = () => {
                 : {
                     y: -8,
                     scale: 1.02,
-                    boxShadow: "0 24px 52px -12px rgba(74, 44, 58, 0.14)",
+                    boxShadow: "0 24px 52px -12px rgba(30, 64, 175, 0.14)",
                   }
             }
             transition={{ type: "spring", stiffness: 300, damping: 28 }}
@@ -214,7 +214,7 @@ export const AIFeatures = () => {
                 : {
                     y: -8,
                     scale: 1.02,
-                    boxShadow: "0 24px 52px -12px rgba(74, 44, 58, 0.14)",
+                    boxShadow: "0 24px 52px -12px rgba(30, 64, 175, 0.14)",
                   }
             }
             transition={{ type: "spring", stiffness: 300, damping: 28 }}
@@ -290,3 +290,4 @@ export const AIFeatures = () => {
     </section>
   );
 };
+
