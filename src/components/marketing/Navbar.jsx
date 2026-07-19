@@ -19,7 +19,10 @@ const navLinks = [
 export const Navbar = () => {
   const router        = useRouter();
   const pathname      = usePathname();
-  const { isAuthenticated, clearAuth } = useAuthStore();
+  const { isAuthenticated, user, clearAuth } = useAuthStore();
+
+  const isAdmin = user?.role === 'admin' || user?.role === 'owner';
+  const dashboardHref = isAdmin ? '/admin' : '/dashboard';
   const shouldReduceMotion = useSafeReducedMotion();
 
   const [scrollY,          setScrollY]          = useState(0);
@@ -128,7 +131,7 @@ export const Navbar = () => {
           <div className="hidden md:flex items-center space-x-3">
             {isAuthenticated ? (
               <>
-                <Link href="/dashboard">
+                <Link href={dashboardHref}>
                   <motion.button
                     whileHover={shouldReduceMotion ? {} : { scale: 1.03, y: -1 }}
                     whileTap={shouldReduceMotion   ? {} : { scale: 0.97 }}
@@ -269,7 +272,7 @@ export const Navbar = () => {
               <div className="border-t border-[#5A3342]/8 mt-3 pt-3 space-y-2 px-2">
                 {isAuthenticated ? (
                   <>
-                    <Link href="/dashboard" className="block w-full" onClick={() => setMobileMenuOpen(false)}>
+                    <Link href={dashboardHref} className="block w-full" onClick={() => setMobileMenuOpen(false)}>
                       <button className="w-full justify-center inline-flex items-center space-x-1.5 px-4 py-2.5 text-sm font-semibold text-[#5A3342] bg-[#5A3342]/6 hover:bg-[#5A3342]/12 rounded-xl transition-all">
                         Dashboard
                       </button>
