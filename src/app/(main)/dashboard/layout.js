@@ -69,7 +69,7 @@ export default function DashboardLayout({ children }) {
 
   if (isCheckingAuth || !isAuthenticated || !user) {
     return (
-      <div className="flex h-screen bg-[#FAF7F3] items-center justify-center">
+      <div className="flex h-[100dvh] bg-[#FAF7F3] items-center justify-center">
         <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-[#5A3045]" />
       </div>
     );
@@ -120,7 +120,7 @@ export default function DashboardLayout({ children }) {
   return (
     <div
       data-dark={darkMode ? "true" : undefined}
-      className={`flex min-h-screen font-sans relative transition-colors duration-300 ${
+      className={`flex min-h-[100dvh] font-sans relative transition-colors duration-300 ${
         darkMode ? "bg-[#151215] text-[#F0EBF0]" : "bg-[#FAF7F3] text-inherit"
       }`}
     >
@@ -143,7 +143,7 @@ export default function DashboardLayout({ children }) {
 
       {/* ── Sidebar ─────────────────────────────── */}
       <aside
-        className={`fixed lg:sticky top-0 h-screen w-[260px] border-r flex flex-col z-50 transition-all duration-300 shrink-0 ${
+        className={`fixed lg:sticky top-0 h-[100dvh] w-[260px] border-r flex flex-col z-50 transition-all duration-300 shrink-0 ${
           sidebarOpen ? "left-0" : "left-[-260px] lg:left-0"
         } ${
           darkMode
@@ -181,7 +181,7 @@ export default function DashboardLayout({ children }) {
         </div>
 
         {/* Nav links */}
-        <nav className="flex-1 py-6 overflow-y-auto no-scrollbar flex flex-col gap-1">
+        <nav className="flex-1 min-h-0 py-6 overflow-y-auto no-scrollbar flex flex-col gap-1">
           <p
             className={`text-[10px] font-bold uppercase tracking-[0.15em] px-8 mb-2 ${
               darkMode ? "text-[#6A5A70]" : "text-[#A09A95]"

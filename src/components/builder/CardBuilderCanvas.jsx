@@ -12,7 +12,7 @@ export const CardBuilderCanvas = () => {
   const { activeTab } = useCardBuilderStore();
 
   return (
-    <div className="flex flex-col h-[calc(100vh-120px)] overflow-hidden bg-[#f8f5f2] dark:bg-[#151215]!">
+    <div className="flex flex-col h-[calc(100dvh-120px)] overflow-hidden bg-[#f8f5f2] dark:bg-[#151215]!">
       {/* Top Toolbar */}
       <TopToolbar />
 

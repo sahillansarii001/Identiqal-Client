@@ -41,7 +41,7 @@ export default function PhonePreview() {
   return (
     <div
       className="flex-1 min-w-0 bg-[#F8F6F4] dark:bg-[#0D0B0D]! flex overflow-auto relative justify-center items-start pt-[40px] px-4 sm:px-8 lg:px-12 pb-[120px] scroll-smooth"
-      style={{ height: "calc(100vh - 120px)" }}
+      style={{ height: "calc(100dvh - 120px)" }}
     >
       {/* Background Decorative Ambient Glow */}
       <div className="absolute top-[10%] left-[20%] w-[500px] h-[500px] bg-[#D4A45B]/10 rounded-full blur-[120px] pointer-events-none"></div>
