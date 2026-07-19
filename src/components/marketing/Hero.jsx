@@ -22,11 +22,11 @@ export const Hero = () => {
   return (
     <section 
       ref={containerRef}
-      className="relative min-h-[100dvh] pt-32 pb-20 overflow-hidden bg-slate-50 flex flex-col items-center justify-center text-center px-4 sm:px-6 lg:px-8"
+      className="relative min-h-dvh pt-32 pb-20 overflow-hidden bg-slate-50 flex flex-col items-center justify-center text-center px-4 sm:px-6 lg:px-8"
     >
       {/* Background Mesh/Grid */}
       <div className="absolute inset-0 z-0 pointer-events-none flex items-center justify-center">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_60%_at_50%_40%,#000_20%,transparent_100%)] opacity-60" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-size-[4rem_4rem] mask-[radial-gradient(ellipse_80%_60%_at_50%_40%,#000_20%,transparent_100%)] opacity-60" />
         <div className="absolute top-1/4 -translate-y-1/2 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-blue-400/20 rounded-full blur-[120px]" />
       </div>
 
@@ -54,7 +54,7 @@ export const Hero = () => {
           className="text-5xl md:text-7xl font-extrabold tracking-tight text-slate-900"
         >
           Your Identity. <br className="hidden sm:block" />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-500">
+          <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-600 to-indigo-500">
             Smarter Than a Business Card.
           </span>
         </motion.h1>
@@ -102,7 +102,7 @@ export const Hero = () => {
             <CheckCircle2 size={16} className="text-emerald-500" />
             <span>No Coding</span>
           </div>
-          <div className="flex items-center space-x-2 hidden sm:flex">
+          <div className="flex items-center space-x-2 sm:flex">
             <CheckCircle2 size={16} className="text-emerald-500" />
             <span>QR Sharing</span>
           </div>

@@ -13,7 +13,7 @@ import { Footer } from "@/components/marketing/Footer";
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen bg-[#F8FAFC] text-[#0F172A]">
+    <div className="flex flex-col min-h-screen bg-brand-bg text-brand-text">
       <Navbar />
       <main className="flex-1">
         <Hero />
