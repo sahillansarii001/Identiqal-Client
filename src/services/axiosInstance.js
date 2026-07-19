@@ -1,13 +1,13 @@
-import axios from 'axios';
-import { useAuthStore } from '../store/authStore.js';
+import axios from "axios";
+import { useAuthStore } from "../store/authStore.js";
 
 const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
   withCredentials: true, // sends the HTTP-only refresh cookie
   headers: {
-    'Cache-Control': 'no-cache',
-    'Pragma': 'no-cache',
-    'Expires': '0',
+    "Cache-Control": "no-cache",
+    Pragma: "no-cache",
+    Expires: "0",
   },
 });
 
@@ -35,7 +35,7 @@ axiosInstance.interceptors.request.use(
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 
 // Response interceptor to handle token refresh on 401
@@ -69,7 +69,7 @@ axiosInstance.interceptors.response.use(
         const refreshResponse = await axios.post(
           `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`,
           {},
-          { withCredentials: true }
+          { withCredentials: true },
         );
 
         const newToken = refreshResponse.data?.data?.token;
@@ -83,7 +83,7 @@ axiosInstance.interceptors.response.use(
           processQueue(null, newToken);
           return axiosInstance(originalRequest);
         } else {
-          throw new Error('Refresh token rejected');
+          throw new Error("Refresh token rejected");
         }
       } catch (refreshError) {
         processQueue(refreshError, null);
@@ -96,7 +96,7 @@ axiosInstance.interceptors.response.use(
     }
 
     return Promise.reject(error.response?.data || error);
-  }
+  },
 );
 
 export default axiosInstance;

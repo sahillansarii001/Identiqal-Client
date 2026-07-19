@@ -1,36 +1,37 @@
-import * as yup from 'yup';
+import * as yup from "yup";
 
 export const loginSchema = yup.object({
   email: yup
     .string()
-    .email('Must be a valid email address')
-    .required('Email is required'),
-  password: yup
-    .string()
-    .required('Password is required'),
+    .email("Must be a valid email address")
+    .required("Email is required"),
+  password: yup.string().required("Password is required"),
 });
 
 export const signupSchema = yup.object({
   name: yup
     .string()
-    .required('Name is required')
-    .min(2, 'Name must be at least 2 characters')
+    .required("Name is required")
+    .min(2, "Name must be at least 2 characters")
     .trim(),
   email: yup
     .string()
-    .email('Must be a valid email address')
-    .required('Email is required'),
+    .email("Must be a valid email address")
+    .required("Email is required"),
   username: yup
     .string()
-    .required('Username is required')
-    .min(3, 'Username must be at least 3 characters')
-    .matches(/^[a-zA-Z0-9_]+$/, 'Username can only contain letters, numbers, and underscores'),
+    .required("Username is required")
+    .min(3, "Username must be at least 3 characters")
+    .matches(
+      /^[a-zA-Z0-9_]+$/,
+      "Username can only contain letters, numbers, and underscores",
+    ),
   password: yup
     .string()
-    .min(6, 'Password must be at least 6 characters')
-    .required('Password is required'),
+    .min(6, "Password must be at least 6 characters")
+    .required("Password is required"),
   confirmPassword: yup
     .string()
-    .oneOf([yup.ref('password'), null], 'Passwords must match')
-    .required('Confirm password is required'),
+    .oneOf([yup.ref("password"), null], "Passwords must match")
+    .required("Confirm password is required"),
 });

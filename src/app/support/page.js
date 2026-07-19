@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { Navbar } from '@/components/marketing/Navbar.jsx';
-import { Footer } from '@/components/marketing/Footer.jsx';
-import { Button } from '@/components/ui/Button.jsx';
-import { Input } from '@/components/ui/Input.jsx';
-import { HelpCircle, Mail, MessageSquare, CheckCircle2 } from 'lucide-react';
+import React, { useState } from "react";
+import { Navbar } from "@/components/marketing/Navbar.jsx";
+import { Footer } from "@/components/marketing/Footer.jsx";
+import { Button } from "@/components/ui/Button.jsx";
+import { Input } from "@/components/ui/Input.jsx";
+import { HelpCircle, Mail, MessageSquare, CheckCircle2 } from "lucide-react";
 
 export default function SupportPage() {
   const [submitted, setSubmitted] = useState(false);
@@ -23,11 +23,10 @@ export default function SupportPage() {
   return (
     <div className="flex flex-col min-h-screen bg-zinc-50">
       <Navbar />
-      
+
       <main className="flex-1 py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-12 gap-8 items-stretch">
-            
             {/* Left Side: Contact Info */}
             <div className="md:col-span-5 space-y-6">
               <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
@@ -36,24 +35,37 @@ export default function SupportPage() {
                     Contact Support
                   </h1>
                   <p className="text-xs text-slate-650 leading-relaxed">
-                    Have questions about customized layout sections, billing invoices, or seat allocations? Get in touch with our team.
+                    Have questions about customized layout sections, billing
+                    invoices, or seat allocations? Get in touch with our team.
                   </p>
                 </div>
 
                 <div className="space-y-4 pt-4 border-t border-slate-100">
                   <div className="flex items-start space-x-3 text-xs">
-                    <Mail className="text-indigo-650 shrink-0 mt-0.5" size={16} />
+                    <Mail
+                      className="text-indigo-650 shrink-0 mt-0.5"
+                      size={16}
+                    />
                     <div>
-                      <h4 className="font-bold text-slate-900">Email Support</h4>
-                      <p className="text-slate-600 mt-0.5">support@identiqal.com</p>
+                      <h4 className="font-bold text-slate-900">
+                        Email Support
+                      </h4>
+                      <p className="text-slate-600 mt-0.5">
+                        support@identiqal.com
+                      </p>
                     </div>
                   </div>
 
                   <div className="flex items-start space-x-3 text-xs">
-                    <MessageSquare className="text-indigo-650 shrink-0 mt-0.5" size={16} />
+                    <MessageSquare
+                      className="text-indigo-650 shrink-0 mt-0.5"
+                      size={16}
+                    />
                     <div>
                       <h4 className="font-bold text-slate-900">Live Chat</h4>
-                      <p className="text-slate-600 mt-0.5">Available Mon-Fri | 9am - 5pm EST</p>
+                      <p className="text-slate-600 mt-0.5">
+                        Available Mon-Fri | 9am - 5pm EST
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -69,12 +81,20 @@ export default function SupportPage() {
                       <CheckCircle2 size={24} />
                     </div>
                     <div className="space-y-1">
-                      <h3 className="text-base font-bold text-slate-900">Message Received!</h3>
+                      <h3 className="text-base font-bold text-slate-900">
+                        Message Received!
+                      </h3>
                       <p className="text-xs text-slate-600 max-w-xs mx-auto">
-                        Thank you for reaching out. A support coordinator will respond to your registered email address within 24 hours.
+                        Thank you for reaching out. A support coordinator will
+                        respond to your registered email address within 24
+                        hours.
                       </p>
                     </div>
-                    <Button variant="secondary" size="sm" onClick={() => setSubmitted(false)}>
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      onClick={() => setSubmitted(false)}
+                    >
                       Send Another Inquiry
                     </Button>
                   </div>
@@ -85,11 +105,7 @@ export default function SupportPage() {
                       <span>Submit a Support Request</span>
                     </h3>
 
-                    <Input
-                      label="Your Name"
-                      placeholder="Jane Doe"
-                      required
-                    />
+                    <Input label="Your Name" placeholder="Jane Doe" required />
                     <Input
                       label="Email Address"
                       placeholder="jane@company.com"
@@ -97,7 +113,9 @@ export default function SupportPage() {
                       required
                     />
                     <div className="flex flex-col space-y-1.5">
-                      <label className="text-xs font-semibold uppercase tracking-wider text-slate-600">Inquiry Message</label>
+                      <label className="text-xs font-semibold uppercase tracking-wider text-slate-600">
+                        Inquiry Message
+                      </label>
                       <textarea
                         className="w-full px-4 py-2.5 bg-white border border-slate-250 focus:ring-2 focus:ring-indigo-500 rounded-xl text-slate-900 placeholder-slate-400 text-sm focus:outline-none"
                         rows={4}
@@ -106,14 +124,17 @@ export default function SupportPage() {
                       />
                     </div>
 
-                    <Button type="submit" className="w-full py-3" isLoading={loading}>
+                    <Button
+                      type="submit"
+                      className="w-full py-3"
+                      isLoading={loading}
+                    >
                       Send Message
                     </Button>
                   </form>
                 )}
               </div>
             </div>
-
           </div>
         </div>
       </main>

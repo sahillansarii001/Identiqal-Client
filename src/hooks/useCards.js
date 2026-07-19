@@ -1,11 +1,11 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { cardService } from '../services/cardService.js';
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { cardService } from "../services/cardService.js";
 
 export const useCards = () => {
   const queryClient = useQueryClient();
 
   const cardsQuery = useQuery({
-    queryKey: ['cards'],
+    queryKey: ["cards"],
     queryFn: async () => {
       const response = await cardService.getCards();
       return response.data;
@@ -18,7 +18,7 @@ export const useCards = () => {
       return response.data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['cards'] });
+      queryClient.invalidateQueries({ queryKey: ["cards"] });
     },
   });
 
@@ -28,9 +28,9 @@ export const useCards = () => {
       return response.data;
     },
     onSuccess: (data, variables) => {
-      queryClient.invalidateQueries({ queryKey: ['cards'] });
-      queryClient.invalidateQueries({ queryKey: ['card', variables.cardId] });
-      queryClient.invalidateQueries({ queryKey: ['public-card', data.slug] });
+      queryClient.invalidateQueries({ queryKey: ["cards"] });
+      queryClient.invalidateQueries({ queryKey: ["card", variables.cardId] });
+      queryClient.invalidateQueries({ queryKey: ["public-card", data.slug] });
     },
   });
 
@@ -40,9 +40,9 @@ export const useCards = () => {
       return response.data;
     },
     onSuccess: (data, variables) => {
-      queryClient.invalidateQueries({ queryKey: ['cards'] });
-      queryClient.invalidateQueries({ queryKey: ['card', variables.cardId] });
-      queryClient.invalidateQueries({ queryKey: ['public-card', data.slug] });
+      queryClient.invalidateQueries({ queryKey: ["cards"] });
+      queryClient.invalidateQueries({ queryKey: ["card", variables.cardId] });
+      queryClient.invalidateQueries({ queryKey: ["public-card", data.slug] });
     },
   });
 
@@ -52,7 +52,7 @@ export const useCards = () => {
       return response.data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['cards'] });
+      queryClient.invalidateQueries({ queryKey: ["cards"] });
     },
   });
 
@@ -62,16 +62,16 @@ export const useCards = () => {
     isError: cardsQuery.isError,
     error: cardsQuery.error,
     refetch: cardsQuery.refetch,
-    
+
     createCard: createCardMutation.mutateAsync,
     isCreating: createCardMutation.isPending,
-    
+
     updateCard: updateCardMutation.mutateAsync,
     isUpdating: updateCardMutation.isPending,
-    
+
     publishCard: publishCardMutation.mutateAsync,
     isPublishing: publishCardMutation.isPending,
-    
+
     deleteCard: deleteCardMutation.mutateAsync,
     isDeleting: deleteCardMutation.isPending,
   };

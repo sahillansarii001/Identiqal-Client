@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import React from 'react';
-import Link from 'next/link';
-import { Navbar } from '@/components/marketing/Navbar.jsx';
-import { Footer } from '@/components/marketing/Footer.jsx';
-import FaqAccordion from '@/components/ui/FaqAccordion.jsx';
-import Counter from '@/components/ui/Counter.jsx';
+import React from "react";
+import Link from "next/link";
+import { Navbar } from "@/components/marketing/Navbar.jsx";
+import { Footer } from "@/components/marketing/Footer.jsx";
+import FaqAccordion from "@/components/ui/FaqAccordion.jsx";
+import Counter from "@/components/ui/Counter.jsx";
 import {
   Sparkles,
   Heart,
@@ -17,81 +17,87 @@ import {
   HelpCircle,
   Clock,
   Briefcase,
-  Lightbulb
-} from 'lucide-react';
+  Lightbulb,
+} from "lucide-react";
 
 export default function AboutPage() {
   const values = [
     {
       icon: <Heart size={20} className="text-[#5A3342]" />,
-      title: 'Integrity First',
-      description: 'We believe professional networks should be built on trust, transparency, and data ownership principles.',
+      title: "Integrity First",
+      description:
+        "We believe professional networks should be built on trust, transparency, and data ownership principles.",
     },
     {
       icon: <Lightbulb size={20} className="text-[#C89B5B]" />,
-      title: 'Continuous Innovation',
-      description: 'Integrating modern machine learning to automate the tedious aspects of networking and follow-ups.',
+      title: "Continuous Innovation",
+      description:
+        "Integrating modern machine learning to automate the tedious aspects of networking and follow-ups.",
     },
     {
       icon: <Globe size={20} className="text-[#5A3342]" />,
-      title: 'Global Connectivity',
-      description: 'Building tools that empower creators and corporate developers across borders to share credentials seamlessly.',
+      title: "Global Connectivity",
+      description:
+        "Building tools that empower creators and corporate developers across borders to share credentials seamlessly.",
     },
   ];
 
   const team = [
     {
-      name: 'Alexander Mercer',
-      role: 'CEO & Co-Founder',
-      initials: 'AM',
-      bio: 'Ex-Apple Lead Designer, advisor to next-gen AI startups.',
+      name: "Alexander Mercer",
+      role: "CEO & Co-Founder",
+      initials: "AM",
+      bio: "Ex-Apple Lead Designer, advisor to next-gen AI startups.",
     },
     {
-      name: 'Dr. Evelyn Foster',
-      role: 'CTO & Head of AI',
-      initials: 'EF',
-      bio: 'Ph.D. in Machine Learning from MIT. Ex-Google Brain scientist.',
+      name: "Dr. Evelyn Foster",
+      role: "CTO & Head of AI",
+      initials: "EF",
+      bio: "Ph.D. in Machine Learning from MIT. Ex-Google Brain scientist.",
     },
     {
-      name: 'Kento Tanaka',
-      role: 'Head of Product',
-      initials: 'KT',
-      bio: 'Product veteran. Led workspace design scaling at Vercel.',
+      name: "Kento Tanaka",
+      role: "Head of Product",
+      initials: "KT",
+      bio: "Product veteran. Led workspace design scaling at Vercel.",
     },
   ];
 
   const stats = [
-    { number: '10M+', label: 'Cards Shared Worldwide' },
-    { number: '99.9%', label: 'Platform Uptime SLA' },
-    { number: '150+', label: 'Countries Supported' },
+    { number: "10M+", label: "Cards Shared Worldwide" },
+    { number: "99.9%", label: "Platform Uptime SLA" },
+    { number: "150+", label: "Countries Supported" },
   ];
 
   const history = [
     {
-      year: '2024',
-      title: 'The Seed Idea',
-      description: 'Founded with the mission to eradicate paper waste and modernise static corporate cards.',
+      year: "2024",
+      title: "The Seed Idea",
+      description:
+        "Founded with the mission to eradicate paper waste and modernise static corporate cards.",
     },
     {
-      year: '2025',
-      title: 'AI Expansion',
-      description: 'Launched smart bio writer models, geolocation views, and custom team integrations.',
+      year: "2025",
+      title: "AI Expansion",
+      description:
+        "Launched smart bio writer models, geolocation views, and custom team integrations.",
     },
     {
-      year: '2026',
-      title: 'Workspace Phase',
-      description: 'Upgraded team workspaces, styling permission locks, and unified NFC systems.',
+      year: "2026",
+      title: "Workspace Phase",
+      description:
+        "Upgraded team workspaces, styling permission locks, and unified NFC systems.",
     },
   ];
 
   const faqs = [
     {
-      q: 'How does NFC card integration work?',
-      a: 'You can hook any standard NFC business card to your Identiqal slug. Tapping the physical card on a smartphone redirects readers instantly to your digital profile.',
+      q: "How does NFC card integration work?",
+      a: "You can hook any standard NFC business card to your Identiqal slug. Tapping the physical card on a smartphone redirects readers instantly to your digital profile.",
     },
     {
-      q: 'Can we manage multiple cards under one workspace?',
-      a: 'Yes! The Business plan supports organization workspace locking where admins manage cards for all team members, locks styles, and aggregates statistics.',
+      q: "Can we manage multiple cards under one workspace?",
+      a: "Yes! The Business plan supports organization workspace locking where admins manage cards for all team members, locks styles, and aggregates statistics.",
     },
   ];
 
@@ -115,13 +121,15 @@ export default function AboutPage() {
 
             <h1 className="text-5xl sm:text-6xl font-black tracking-tight leading-tight text-[#1F1F1F] max-w-4xl mx-auto font-sans">
               Redefining the First <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#5A3342] to-[#C89B5B]">
+              <span className="text-transparent bg-clip-text bg-linear-to-r from-[#5A3342] to-[#C89B5B]">
                 Professional Impression.
               </span>
             </h1>
 
-            <p className="text-base sm:text-lg text-[#6B6B6B] max-w-2xl mx-auto font-medium">
-              We believe networking shouldn't rely on paper waste. Our mission is to build highly interactive, customizable, and secure digital identities that help you stand out.
+            <p className="text-base sm:text-lg text-brand-secondary max-w-2xl mx-auto font-medium">
+              We believe networking shouldn't rely on paper waste. Our mission
+              is to build highly interactive, customizable, and secure digital
+              identities that help you stand out.
             </p>
           </div>
         </section>
@@ -133,8 +141,10 @@ export default function AboutPage() {
               <Compass size={20} />
             </div>
             <h3 className="text-xl font-bold text-[#1F1F1F]">Our Mission</h3>
-            <p className="text-xs text-[#6B6B6B] leading-relaxed">
-              To build a secure, planet-friendly digital identity ecosystem that streamlines contact sharing, eliminates printing costs, and automates marketing lead pipelines for businesses and creators.
+            <p className="text-xs text-brand-secondary leading-relaxed">
+              To build a secure, planet-friendly digital identity ecosystem that
+              streamlines contact sharing, eliminates printing costs, and
+              automates marketing lead pipelines for businesses and creators.
             </p>
           </div>
 
@@ -143,8 +153,10 @@ export default function AboutPage() {
               <Lightbulb size={20} />
             </div>
             <h3 className="text-xl font-bold text-[#1F1F1F]">Our Vision</h3>
-            <p className="text-xs text-[#6B6B6B] leading-relaxed">
-              To transform the traditional contact exchange into a secure, insights-driven digital gateway. We imagine a future where professional contacts sync instantly and intelligently.
+            <p className="text-xs text-brand-secondary leading-relaxed">
+              To transform the traditional contact exchange into a secure,
+              insights-driven digital gateway. We imagine a future where
+              professional contacts sync instantly and intelligently.
             </p>
           </div>
         </section>
@@ -153,14 +165,16 @@ export default function AboutPage() {
         <section className="py-20 bg-white border-y border-[#E9E2DC] my-12">
           <div className="max-w-7xl mx-auto px-6 grid sm:grid-cols-3 gap-8 text-center">
             {stats.map((stat, idx) => {
-              const numPart = stat.number.match(/[0-9.]+/)?.[0] || '';
-              const suffixPart = stat.number.replace(/[0-9.]/g, '') || '';
+              const numPart = stat.number.match(/[0-9.]+/)?.[0] || "";
+              const suffixPart = stat.number.replace(/[0-9.]/g, "") || "";
               return (
                 <div key={idx} className="space-y-2">
-                  <span className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#5A3342] to-[#C89B5B]">
+                  <span className="text-5xl font-black text-transparent bg-clip-text bg-linear-to-r from-[#5A3342] to-[#C89B5B]">
                     <Counter value={numPart} suffix={suffixPart} />
                   </span>
-                  <p className="text-xs font-bold text-[#6B6B6B] uppercase tracking-wider">{stat.label}</p>
+                  <p className="text-xs font-bold text-brand-secondary uppercase tracking-wider">
+                    {stat.label}
+                  </p>
                 </div>
               );
             })}
@@ -169,15 +183,23 @@ export default function AboutPage() {
 
         {/* TIMELINE */}
         <section className="max-w-4xl mx-auto px-6 py-12 text-left">
-          <h3 className="text-2xl font-extrabold text-[#1F1F1F] mb-12 text-center">How We Grew</h3>
+          <h3 className="text-2xl font-extrabold text-[#1F1F1F] mb-12 text-center">
+            How We Grew
+          </h3>
           <div className="relative border-l border-[#E9E2DC] ml-4 space-y-12">
             {history.map((hist, idx) => (
               <div key={idx} className="relative pl-8 group">
                 {/* timeline node icon */}
                 <div className="absolute top-0 left-[-10px] w-5 h-5 rounded-full bg-[#5A3342] border-4 border-white shadow-sm flex items-center justify-center z-10 group-hover:scale-110 transition-transform duration-300" />
-                <span className="text-xs font-black text-[#C89B5B] uppercase tracking-wider">{hist.year}</span>
-                <h4 className="font-extrabold text-base text-[#1F1F1F] mt-1">{hist.title}</h4>
-                <p className="text-xs text-[#6B6B6B] mt-2 leading-relaxed">{hist.description}</p>
+                <span className="text-xs font-black text-[#C89B5B] uppercase tracking-wider">
+                  {hist.year}
+                </span>
+                <h4 className="font-extrabold text-base text-[#1F1F1F] mt-1">
+                  {hist.title}
+                </h4>
+                <p className="text-xs text-brand-secondary mt-2 leading-relaxed">
+                  {hist.description}
+                </p>
               </div>
             ))}
           </div>
@@ -186,7 +208,9 @@ export default function AboutPage() {
         {/* CORE VALUES */}
         <section className="py-20 bg-white border-y border-[#E9E2DC] my-12">
           <div className="max-w-7xl mx-auto px-6">
-            <h3 className="text-2xl font-extrabold text-[#1F1F1F] mb-12 text-center">Our Core Values</h3>
+            <h3 className="text-2xl font-extrabold text-[#1F1F1F] mb-12 text-center">
+              Our Core Values
+            </h3>
             <div className="grid md:grid-cols-3 gap-8">
               {values.map((val, idx) => (
                 <div
@@ -197,8 +221,12 @@ export default function AboutPage() {
                     {val.icon}
                   </div>
                   <div>
-                    <h4 className="font-extrabold text-base text-[#1F1F1F]">{val.title}</h4>
-                    <p className="text-xs text-[#6B6B6B] leading-relaxed pt-1.5">{val.description}</p>
+                    <h4 className="font-extrabold text-base text-[#1F1F1F]">
+                      {val.title}
+                    </h4>
+                    <p className="text-xs text-brand-secondary leading-relaxed pt-1.5">
+                      {val.description}
+                    </p>
                   </div>
                 </div>
               ))}
@@ -208,7 +236,9 @@ export default function AboutPage() {
 
         {/* MEET THE TEAM */}
         <section className="max-w-7xl mx-auto px-6 py-12 text-center">
-          <h3 className="text-2xl font-extrabold text-[#1F1F1F] mb-12">Meet the Team</h3>
+          <h3 className="text-2xl font-extrabold text-[#1F1F1F] mb-12">
+            Meet the Team
+          </h3>
           <div className="grid md:grid-cols-3 gap-8">
             {team.map((member, idx) => (
               <div
@@ -216,15 +246,21 @@ export default function AboutPage() {
                 className="bg-white border border-[#E9E2DC] hover:border-[#5A3342]/30 rounded-2xl p-6 transition-all duration-300 hover:shadow-md text-left space-y-4 relative overflow-hidden"
               >
                 <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-[#5A3342] to-[#C89B5B] flex items-center justify-center text-white font-bold text-base shadow-sm">
+                  <div className="w-12 h-12 rounded-full bg-linear-to-tr from-[#5A3342] to-[#C89B5B] flex items-center justify-center text-white font-bold text-base shadow-sm">
                     {member.initials}
                   </div>
                   <div>
-                    <h4 className="font-extrabold text-sm text-[#1F1F1F]">{member.name}</h4>
-                    <p className="text-[10px] text-[#C89B5B] font-bold uppercase">{member.role}</p>
+                    <h4 className="font-extrabold text-sm text-[#1F1F1F]">
+                      {member.name}
+                    </h4>
+                    <p className="text-[10px] text-[#C89B5B] font-bold uppercase">
+                      {member.role}
+                    </p>
                   </div>
                 </div>
-                <p className="text-xs text-[#6B6B6B] leading-relaxed">{member.bio}</p>
+                <p className="text-xs text-brand-secondary leading-relaxed">
+                  {member.bio}
+                </p>
               </div>
             ))}
           </div>
@@ -246,9 +282,12 @@ export default function AboutPage() {
           <div className="bg-[#5A3342] border border-[#E9E2DC] rounded-3xl p-12 sm:p-16 relative overflow-hidden shadow-xl shadow-[#5A3342]/10 text-center">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-[#C89B5B]/10 blur-[80px] pointer-events-none" />
             <div className="relative z-10 space-y-6">
-              <h3 className="text-2xl sm:text-3xl font-black text-white">Join the digital networking era.</h3>
+              <h3 className="text-2xl sm:text-3xl font-black text-white">
+                Join the digital networking era.
+              </h3>
               <p className="text-xs sm:text-sm text-zinc-300 max-w-lg mx-auto">
-                No setup fees. Easily manage profiles, share custom links, and review analytics instantly.
+                No setup fees. Easily manage profiles, share custom links, and
+                review analytics instantly.
               </p>
               <div className="flex items-center justify-center gap-4 pt-2">
                 <Link href="/signup">

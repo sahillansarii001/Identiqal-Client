@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { useAuthStore } from '@/store/authStore.js';
-import { authService } from '@/services/authService.js';
+import { useState, useEffect } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useAuthStore } from "@/store/authStore.js";
+import { authService } from "@/services/authService.js";
 
 export default function Providers({ children }) {
   const [queryClient] = useState(
@@ -16,7 +16,7 @@ export default function Providers({ children }) {
             retry: 1,
           },
         },
-      })
+      }),
   );
 
   const { setAuth, clearAuth } = useAuthStore();
@@ -26,9 +26,11 @@ export default function Providers({ children }) {
     const initAuth = async () => {
       try {
         const response = await authService.refresh();
-        const token = response.data?.token || response.data?.data?.token || response.token;
-        const user = response.data?.user || response.data?.data?.user || response.user;
-        
+        const token =
+          response.data?.token || response.data?.data?.token || response.token;
+        const user =
+          response.data?.user || response.data?.data?.user || response.user;
+
         if (token && user && mounted) {
           setAuth(token, user);
         } else if (mounted) {
@@ -39,15 +41,13 @@ export default function Providers({ children }) {
       }
     };
     initAuth();
-    
+
     return () => {
       mounted = false;
     };
   }, [setAuth, clearAuth]);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      {children}
-    </QueryClientProvider>
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   );
 }

@@ -156,7 +156,7 @@ export default function SingleCardDashboard() {
         className="group transition-all duration-500 flex flex-col xl:flex-row gap-6 w-full items-start"
       >
         {/* Left Column: Live Profile Preview */}
-        <div className="sticky top-6 relative bg-slate-50 border border-[rgba(90,48,69,0.08)] rounded-[32px] shadow-sm xl:w-[320px] shrink-0 flex flex-col pt-12 items-center overflow-hidden">
+        <div className="sticky top-6 bg-slate-50 border border-[rgba(90,48,69,0.08)] rounded-[32px] shadow-sm xl:w-[320px] shrink-0 flex flex-col pt-12 items-center overflow-hidden">
           <div className="absolute top-5 right-5 z-20">
             <button
               onClick={() => togglePublishStatus(card._id, card.isPublished)}
@@ -182,7 +182,7 @@ export default function SingleCardDashboard() {
           
           {/* Header: Title and Actions */}
           <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4 border-b border-[rgba(90,48,69,0.06)] pb-5">
-            <h3 className="font-black text-inherit text-2xl xl:text-3xl truncate text-[#251E2A]">
+            <h3 className="font-black text-inherit text-2xl xl:text-3xl truncate">
               {name}
             </h3>
             <div className="flex flex-wrap items-center gap-2">
@@ -196,7 +196,7 @@ export default function SingleCardDashboard() {
                 <Trash2 size={18} />
               </button>
               <Link href={`/dashboard/cards/${card.slug}/edit`}>
-                <Button className="h-10 bg-[#5A3045] hover:bg-[#4A2C3A] text-white border-none shadow-md shadow-[#5A3045]/20 font-bold space-x-2 transition-transform hover:scale-[1.02] rounded-lg text-sm px-5 ml-1">
+                <Button className="h-10 bg-[#5A3045] hover:bg-primary text-white border-none shadow-md shadow-[#5A3045]/20 font-bold space-x-2 transition-transform hover:scale-[1.02] rounded-lg text-sm px-5 ml-1">
                   <Edit size={16} />
                   <span>Edit</span>
                 </Button>
@@ -225,11 +225,11 @@ export default function SingleCardDashboard() {
           </div>
 
           {/* Share Center Box */}
-          <div className="flex-1 bg-gradient-to-br from-[#5A3045]/5 to-[#D4A45B]/5 border border-[#5A3045]/10 rounded-[24px] p-6 flex flex-col xl:flex-row gap-6 items-center justify-between overflow-hidden">
+          <div className="flex-1 bg-linear-to-br from-[#5A3045]/5 to-[#D4A45B]/5 border border-[#5A3045]/10 rounded-[24px] p-6 flex flex-col xl:flex-row gap-6 items-center justify-between overflow-hidden">
             
             {/* QR Code Container (Left Side) */}
             <div className="w-[150px] h-[150px] rounded-3xl bg-white border border-white shadow-xl shadow-[#5A3045]/10 flex flex-col items-center justify-center p-3 shrink-0 relative overflow-hidden group-hover:border-[#D4A45B]/30 transition-colors">
-              <div className="absolute inset-0 bg-gradient-to-br from-[#5A3045]/5 to-[#D4A45B]/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="absolute inset-0 bg-linear-to-br from-[#5A3045]/5 to-[#D4A45B]/5 opacity-0 group-hover:opacity-100 transition-opacity" />
               <QRCodeSVG 
                 id={`qr-${card._id}`}
                 value={publicUrl}

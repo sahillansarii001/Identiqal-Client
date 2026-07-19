@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
-export function SkeletonLoader({ type = 'table', rows = 5 }) {
-  if (type === 'card') {
+export function SkeletonLoader({ type = "table", rows = 5 }) {
+  if (type === "card") {
     return (
       <div className="bg-white dark:bg-[#1A1116] rounded-xl border border-gray-100 dark:border-white/5 p-5 w-full animate-pulse">
         <div className="flex justify-between items-start mb-4">
@@ -15,7 +15,7 @@ export function SkeletonLoader({ type = 'table', rows = 5 }) {
     );
   }
 
-  if (type === 'table') {
+  if (type === "table") {
     return (
       <div className="w-full bg-white dark:bg-[#1A1116] rounded-xl border border-gray-100 dark:border-white/5 overflow-hidden">
         <div className="p-4 border-b border-gray-100 dark:border-white/5 flex justify-between items-center bg-gray-50/50 dark:bg-white/5">

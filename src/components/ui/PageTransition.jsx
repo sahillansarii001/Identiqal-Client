@@ -1,9 +1,14 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
-import { ArrowUp } from 'lucide-react';
-import { useSafeReducedMotion } from '@/hooks/useSafeReducedMotion.js';
+import React, { useState } from "react";
+import {
+  motion,
+  AnimatePresence,
+  useScroll,
+  useMotionValueEvent,
+} from "framer-motion";
+import { ArrowUp } from "lucide-react";
+import { useSafeReducedMotion } from "@/hooks/useSafeReducedMotion.js";
 
 export default function PageTransition({ children }) {
   const { scrollY } = useScroll();
@@ -11,16 +16,20 @@ export default function PageTransition({ children }) {
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [isHoveringScrollBtn, setIsHoveringScrollBtn] = useState(false);
 
-  useMotionValueEvent(scrollY, 'change', (v) => setShowScrollTop(v > 300));
+  useMotionValueEvent(scrollY, "change", (v) => setShowScrollTop(v > 300));
 
-  const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
   return (
     <div className="relative min-h-screen flex flex-col w-full">
       {/* ── Page fade-in ─────────────────────────────────────── */}
       <motion.div
-        initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 12, filter: 'blur(4px)' }}
-        animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+        initial={
+          shouldReduceMotion
+            ? { opacity: 0 }
+            : { opacity: 0, y: 12, filter: "blur(4px)" }
+        }
+        animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
         transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
         className="flex-1 flex flex-col w-full"
       >
@@ -34,14 +43,18 @@ export default function PageTransition({ children }) {
             initial={{ opacity: 0, scale: 0.6, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.6, y: 20 }}
-            whileHover={shouldReduceMotion ? {} : {
-              scale: 1.12,
-              y: -2,
-              boxShadow: '0 12px 32px rgba(90, 51, 66, 0.22)',
-              backgroundColor: '#5A3342',
-            }}
+            whileHover={
+              shouldReduceMotion
+                ? {}
+                : {
+                    scale: 1.12,
+                    y: -2,
+                    boxShadow: "0 12px 32px rgba(90, 51, 66, 0.22)",
+                    backgroundColor: "#5A3342",
+                  }
+            }
             whileTap={shouldReduceMotion ? {} : { scale: 0.92 }}
-            transition={{ type: 'spring', stiffness: 400, damping: 24 }}
+            transition={{ type: "spring", stiffness: 400, damping: 24 }}
             onHoverStart={() => setIsHoveringScrollBtn(true)}
             onHoverEnd={() => setIsHoveringScrollBtn(false)}
             onClick={scrollToTop}
@@ -52,12 +65,20 @@ export default function PageTransition({ children }) {
             <motion.span
               className="absolute inset-0 rounded-full bg-[#5A3342]"
               initial={{ scale: 0, opacity: 0 }}
-              animate={isHoveringScrollBtn ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
-              transition={{ type: 'spring', stiffness: 380, damping: 25 }}
+              animate={
+                isHoveringScrollBtn
+                  ? { scale: 1, opacity: 1 }
+                  : { scale: 0, opacity: 0 }
+              }
+              transition={{ type: "spring", stiffness: 380, damping: 25 }}
             />
             <motion.div
-              animate={isHoveringScrollBtn && !shouldReduceMotion ? { y: -2 } : { y: 0 }}
-              transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+              animate={
+                isHoveringScrollBtn && !shouldReduceMotion
+                  ? { y: -2 }
+                  : { y: 0 }
+              }
+              transition={{ type: "spring", stiffness: 400, damping: 20 }}
               className="relative z-10"
             >
               <ArrowUp size={16} strokeWidth={2.5} />

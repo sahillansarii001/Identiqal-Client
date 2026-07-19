@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React, { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
-import { useSafeReducedMotion } from '@/hooks/useSafeReducedMotion.js';
+import React, { useRef } from "react";
+import { motion, useInView } from "framer-motion";
+import { useSafeReducedMotion } from "@/hooks/useSafeReducedMotion.js";
 
 /**
  * AnimatedSection — Viewport-triggered scroll reveal wrapper.
@@ -18,9 +18,9 @@ import { useSafeReducedMotion } from '@/hooks/useSafeReducedMotion.js';
 export default function AnimatedSection({
   children,
   delay = 0,
-  className = '',
+  className = "",
   threshold = 0.12,
-  as: Tag = 'div',
+  as: Tag = "div",
 }) {
   const ref = useRef(null);
   const shouldReduceMotion = useSafeReducedMotion();
@@ -29,14 +29,14 @@ export default function AnimatedSection({
   const variants = {
     hidden: shouldReduceMotion
       ? { opacity: 0 }
-      : { opacity: 0, y: 32, scale: 0.97, filter: 'blur(8px)' },
+      : { opacity: 0, y: 32, scale: 0.97, filter: "blur(8px)" },
     visible: shouldReduceMotion
       ? { opacity: 1 }
       : {
           opacity: 1,
           y: 0,
           scale: 1,
-          filter: 'blur(0px)',
+          filter: "blur(0px)",
         },
   };
 
@@ -45,7 +45,7 @@ export default function AnimatedSection({
       ref={ref}
       variants={variants}
       initial="hidden"
-      animate={isInView ? 'visible' : 'hidden'}
+      animate={isInView ? "visible" : "hidden"}
       transition={{
         duration: 0.7,
         ease: [0.16, 1, 0.3, 1],

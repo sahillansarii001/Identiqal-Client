@@ -1,12 +1,12 @@
-import axiosInstance from './axiosInstance.js';
+import axiosInstance from "./axiosInstance.js";
 
 export const cardService = {
   getCards: async () => {
-    return await axiosInstance.get('/cards');
+    return await axiosInstance.get("/cards");
   },
 
   createCard: async (slug, title) => {
-    return await axiosInstance.post('/cards', { slug, title });
+    return await axiosInstance.post("/cards", { slug, title });
   },
 
   updateCard: async (cardId, cardData) => {
@@ -27,10 +27,10 @@ export const cardService = {
   },
 
   saveTheme: async (themeData) => {
-    return await axiosInstance.post('/themes', themeData);
+    return await axiosInstance.post("/themes", themeData);
   },
 
   getTheme: async () => {
-    return await axiosInstance.get('/themes');
+    return await axiosInstance.get("/themes");
   },
 };

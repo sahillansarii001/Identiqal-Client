@@ -1,7 +1,7 @@
-import { create } from 'zustand';
-import React, { useEffect } from 'react';
-import { CheckCircle2, XCircle, AlertCircle, Info, X } from 'lucide-react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { create } from "zustand";
+import React, { useEffect } from "react";
+import { CheckCircle2, XCircle, AlertCircle, Info, X } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 
 // Store
 export const useToastStore = create((set) => ({
@@ -17,10 +17,14 @@ export const useToastStore = create((set) => ({
 }));
 
 export const toast = {
-  success: (message) => useToastStore.getState().addToast({ type: 'success', message }),
-  error: (message) => useToastStore.getState().addToast({ type: 'error', message }),
-  warning: (message) => useToastStore.getState().addToast({ type: 'warning', message }),
-  info: (message) => useToastStore.getState().addToast({ type: 'info', message }),
+  success: (message) =>
+    useToastStore.getState().addToast({ type: "success", message }),
+  error: (message) =>
+    useToastStore.getState().addToast({ type: "error", message }),
+  warning: (message) =>
+    useToastStore.getState().addToast({ type: "warning", message }),
+  info: (message) =>
+    useToastStore.getState().addToast({ type: "info", message }),
 };
 
 // Component
@@ -61,8 +65,13 @@ function ToastItem({ toast, onRemove }) {
       className="pointer-events-auto flex items-center gap-3 bg-white dark:bg-[#1E1520] border border-gray-100 dark:border-white/10 shadow-xl rounded-xl p-4 min-w-[300px]"
     >
       <div className="shrink-0">{icons[toast.type]}</div>
-      <p className="flex-1 text-sm font-semibold text-gray-800 dark:text-gray-100">{toast.message}</p>
-      <button onClick={onRemove} className="shrink-0 text-gray-400 hover:text-gray-600 transition-colors">
+      <p className="flex-1 text-sm font-semibold text-gray-800 dark:text-gray-100">
+        {toast.message}
+      </p>
+      <button
+        onClick={onRemove}
+        className="shrink-0 text-gray-400 hover:text-gray-600 transition-colors"
+      >
         <X size={16} />
       </button>
     </motion.div>

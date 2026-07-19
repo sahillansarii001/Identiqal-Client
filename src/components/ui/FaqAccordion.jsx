@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown } from 'lucide-react';
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronDown } from "lucide-react";
 
 export default function FaqAccordion({ items }) {
   const [openIndex, setOpenIndex] = useState(null);
@@ -27,7 +27,7 @@ export default function FaqAccordion({ items }) {
               <span>{item.q}</span>
               <motion.div
                 animate={{ rotate: isOpen ? 180 : 0 }}
-                transition={{ duration: 0.3, ease: 'easeInOut' }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
                 className="text-[#C89B5B]"
               >
                 <ChevronDown size={18} />
@@ -38,12 +38,12 @@ export default function FaqAccordion({ items }) {
               {isOpen && (
                 <motion.div
                   initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: 'auto', opacity: 1 }}
+                  animate={{ height: "auto", opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.35, ease: 'easeInOut' }}
+                  transition={{ duration: 0.35, ease: "easeInOut" }}
                   className="overflow-hidden"
                 >
-                  <div className="px-6 pb-5 pt-1 text-xs text-[#6B6B6B] leading-relaxed border-t border-[#E9E2DC]/50">
+                  <div className="px-6 pb-5 pt-1 text-xs text-brand-secondary leading-relaxed border-t border-[#E9E2DC]/50">
                     {item.a}
                   </div>
                 </motion.div>

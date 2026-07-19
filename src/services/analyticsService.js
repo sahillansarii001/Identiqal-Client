@@ -1,8 +1,8 @@
-import axiosInstance from './axiosInstance.js';
+import axiosInstance from "./axiosInstance.js";
 
 export const analyticsService = {
   logEvent: async (cardId, type, metadata = {}) => {
-    return await axiosInstance.post('/analytics/events', {
+    return await axiosInstance.post("/analytics/events", {
       cardId,
       type,
       metadata,

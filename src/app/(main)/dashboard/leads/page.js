@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { useCards } from '@/hooks/useCards.js';
-import { useLeads } from '@/hooks/useLeads.js';
-import { useAuthStore } from '@/store/authStore.js';
-import { Modal } from '@/components/ui/Modal.jsx';
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import { useCards } from "@/hooks/useCards.js";
+import { useLeads } from "@/hooks/useLeads.js";
+import { useAuthStore } from "@/store/authStore.js";
+import { Modal } from "@/components/ui/Modal.jsx";
 import {
   Inbox,
   Download,
@@ -17,12 +17,12 @@ import {
   Mail,
   Phone,
   ExternalLink,
-} from 'lucide-react';
+} from "lucide-react";
 
 export default function LeadsDashboardPage() {
   const { user } = useAuthStore();
   const { cards, isLoading: loadingCards } = useCards();
-  const [selectedCardId, setSelectedCardId] = useState('');
+  const [selectedCardId, setSelectedCardId] = useState("");
   const [upgradeModalOpen, setUpgradeModalOpen] = useState(false);
 
   const { leads, isLoading: loadingLeads, refetch } = useLeads(selectedCardId);
@@ -34,30 +34,33 @@ export default function LeadsDashboardPage() {
   }, [cards, selectedCardId]);
 
   const handleDownloadCsv = () => {
-    if (user?.subscriptionTier === 'free') {
+    if (user?.subscriptionTier === "free") {
       setUpgradeModalOpen(true);
       return;
     }
     if (leads.length === 0) {
-      alert('No leads to download');
+      alert("No leads to download");
       return;
     }
-    const headers = ['Name', 'Email', 'Phone', 'Message', 'Source', 'Date'];
+    const headers = ["Name", "Email", "Phone", "Message", "Source", "Date"];
     const rows = leads.map((l) => [
       l.name,
       l.email,
-      l.phone || '',
-      l.message.replace(/\n/g, ' '),
+      l.phone || "",
+      l.message.replace(/\n/g, " "),
       l.source,
       new Date(l.createdAt).toLocaleDateString(),
     ]);
     const csvContent =
-      'data:text/csv;charset=utf-8,' +
-      [headers.join(','), ...rows.map((r) => r.map((cell) => `"${cell}"`).join(','))].join('\n');
+      "data:text/csv;charset=utf-8," +
+      [
+        headers.join(","),
+        ...rows.map((r) => r.map((cell) => `"${cell}"`).join(",")),
+      ].join("\n");
     const encodedUri = encodeURI(csvContent);
-    const link = document.createElement('a');
-    link.setAttribute('href', encodedUri);
-    link.setAttribute('download', `leads_card_${selectedCardId}.csv`);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `leads_card_${selectedCardId}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -68,9 +71,13 @@ export default function LeadsDashboardPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-6 border-b border-[#E9E2DC]">
         <div>
-          <span className="text-[10px] font-black uppercase tracking-widest text-[#C89B5B]">Capture Center</span>
+          <span className="text-[10px] font-black uppercase tracking-widest text-[#C89B5B]">
+            Capture Center
+          </span>
           <h1 className="text-2xl font-black text-inherit mt-1">Leads Hub</h1>
-          <p className="text-xs text-[#8A7A6A] mt-1">View contact inquiries and reverse-save capture data.</p>
+          <p className="text-xs text-[#8A7A6A] mt-1">
+            View contact inquiries and reverse-save capture data.
+          </p>
         </div>
 
         {cards.length > 0 && (
@@ -80,8 +87,10 @@ export default function LeadsDashboardPage() {
           >
             <Download size={13} />
             <span>Download CSV</span>
-            {user?.subscriptionTier === 'free' && (
-              <span className="text-[8px] bg-[#C89B5B] text-white px-1.5 py-0.5 rounded-md uppercase font-black ml-1">Pro</span>
+            {user?.subscriptionTier === "free" && (
+              <span className="text-[8px] bg-[#C89B5B] text-white px-1.5 py-0.5 rounded-md uppercase font-black ml-1">
+                Pro
+              </span>
             )}
           </button>
         )}
@@ -95,8 +104,13 @@ export default function LeadsDashboardPage() {
             <Inbox size={28} className="text-[#5A3342]" />
           </div>
           <div className="space-y-1">
-            <h3 className="text-sm font-bold text-inherit">No captured leads yet</h3>
-            <p className="text-xs text-[#8A7A6A] max-w-xs mx-auto">Create and publish a card with an inquiry form to start capturing visitor leads.</p>
+            <h3 className="text-sm font-bold text-inherit">
+              No captured leads yet
+            </h3>
+            <p className="text-xs text-[#8A7A6A] max-w-xs mx-auto">
+              Create and publish a card with an inquiry form to start capturing
+              visitor leads.
+            </p>
           </div>
           <Link href="/dashboard/cards" className="inline-block">
             <span className="inline-flex items-center bg-[#5A3342] hover:bg-[#6A3B4B] text-white font-semibold text-xs px-5 py-2.5 rounded-xl transition-all cursor-pointer">
@@ -111,7 +125,9 @@ export default function LeadsDashboardPage() {
             <div className="w-8 h-8 rounded-xl bg-[#5A3342]/5 flex items-center justify-center">
               <Layers size={15} className="text-[#5A3342]" />
             </div>
-            <span className="text-[10px] text-[#8A7A6A] font-black uppercase tracking-widest">Active Card:</span>
+            <span className="text-[10px] text-[#8A7A6A] font-black uppercase tracking-widest">
+              Active Card:
+            </span>
             <select
               value={selectedCardId}
               onChange={(e) => setSelectedCardId(e.target.value)}
@@ -134,7 +150,9 @@ export default function LeadsDashboardPage() {
           ) : leads.length === 0 ? (
             <div className="text-center py-16 bg-[#FAF8F6] border border-[#E9E2DC] rounded-2xl">
               <Inbox size={32} className="mx-auto text-[#C89B5B]/50 mb-3" />
-              <p className="text-xs text-[#8A7A6A] font-semibold">No lead captures registered for this card yet.</p>
+              <p className="text-xs text-[#8A7A6A] font-semibold">
+                No lead captures registered for this card yet.
+              </p>
             </div>
           ) : (
             <div className="space-y-4">
@@ -146,11 +164,13 @@ export default function LeadsDashboardPage() {
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div className="flex items-center space-x-3">
                       {/* Avatar */}
-                      <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#5A3342] to-[#7A4A5E] flex items-center justify-center text-white font-black text-sm shrink-0">
-                        {lead.name?.charAt(0)?.toUpperCase() || '?'}
+                      <div className="w-9 h-9 rounded-xl bg-linear-to-br from-[#5A3342] to-[#7A4A5E] flex items-center justify-center text-white font-black text-sm shrink-0">
+                        {lead.name?.charAt(0)?.toUpperCase() || "?"}
                       </div>
                       <div>
-                        <h4 className="text-sm font-bold text-inherit">{lead.name}</h4>
+                        <h4 className="text-sm font-bold text-inherit">
+                          {lead.name}
+                        </h4>
                         <div className="flex items-center space-x-3 mt-0.5">
                           <span className="text-[10px] text-[#8A7A6A] flex items-center space-x-1">
                             <Mail size={9} />
@@ -171,7 +191,9 @@ export default function LeadsDashboardPage() {
                       </span>
                       <span className="text-[9px] text-[#8A7A6A] flex items-center space-x-1 bg-[#FAF8F6] border border-[#E9E2DC] px-2.5 py-1 rounded-full">
                         <Calendar size={9} />
-                        <span>{new Date(lead.createdAt).toLocaleDateString()}</span>
+                        <span>
+                          {new Date(lead.createdAt).toLocaleDateString()}
+                        </span>
                       </span>
                     </div>
                   </div>
@@ -188,14 +210,21 @@ export default function LeadsDashboardPage() {
       )}
 
       {/* Upgrade Modal */}
-      <Modal isOpen={upgradeModalOpen} onClose={() => setUpgradeModalOpen(false)} title="Upgrade to Pro Plan">
+      <Modal
+        isOpen={upgradeModalOpen}
+        onClose={() => setUpgradeModalOpen(false)}
+        title="Upgrade to Pro Plan"
+      >
         <div className="flex flex-col items-center space-y-4 py-4 text-center">
-          <div className="w-14 h-14 bg-gradient-to-br from-[#5A3342] to-[#7A4A5E] rounded-2xl flex items-center justify-center text-[#C89B5B]">
+          <div className="w-14 h-14 bg-linear-to-br from-[#5A3342] to-[#7A4A5E] rounded-2xl flex items-center justify-center text-[#C89B5B]">
             <Sparkles size={24} />
           </div>
-          <h3 className="font-black text-inherit text-base">Unlock CSV Export Logs</h3>
+          <h3 className="font-black text-inherit text-base">
+            Unlock CSV Export Logs
+          </h3>
           <p className="text-xs text-[#8A7A6A] max-w-xs leading-relaxed">
-            CSV logs and export downloads are exclusive to Pro and Business plan members. Upgrade your tier to activate immediately.
+            CSV logs and export downloads are exclusive to Pro and Business plan
+            members. Upgrade your tier to activate immediately.
           </p>
           <div className="flex space-x-3 pt-4 border-t border-[#E9E2DC] w-full justify-end">
             <button

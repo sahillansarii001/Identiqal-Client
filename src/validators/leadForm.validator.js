@@ -1,4 +1,4 @@
-import * as yup from 'yup';
+import * as yup from "yup";
 
 /**
  * Dynamically builds a Yup validation schema based on custom form fields.
@@ -11,8 +11,8 @@ export const buildLeadFormSchema = (fields = []) => {
   fields.forEach((field) => {
     let fieldValidator = yup.string().trim();
 
-    if (field.type === 'email') {
-      fieldValidator = fieldValidator.email('Must be a valid email address');
+    if (field.type === "email") {
+      fieldValidator = fieldValidator.email("Must be a valid email address");
     }
 
     if (field.required) {
@@ -27,7 +27,7 @@ export const buildLeadFormSchema = (fields = []) => {
   // Always require consent checkbox for GDPR compliance
   shape.consentGiven = yup
     .boolean()
-    .oneOf([true], 'You must give consent to submit your details')
+    .oneOf([true], "You must give consent to submit your details")
     .required();
 
   return yup.object(shape);

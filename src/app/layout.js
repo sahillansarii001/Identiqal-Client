@@ -1,17 +1,18 @@
-import { Inter } from 'next/font/google';
-import Providers from './providers.js';
-import './globals.css';
+import { Inter } from "next/font/google";
+import Providers from "./providers.js";
+import "./globals.css";
 
 const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-sans',
+  subsets: ["latin"],
+  variable: "--font-sans",
 });
 
-import PageTransition from '@/components/ui/PageTransition.jsx';
+import PageTransition from "@/components/ui/PageTransition.jsx";
 
 export const metadata = {
-  title: 'Identiqal — Configurable Smart Business Cards',
-  description: 'Design and share professional, interactive, digital business cards with contact forms, custom themes, and deep visitor analytics.',
+  title: "Identiqal — Configurable Smart Business Cards",
+  description:
+    "Design and share professional, interactive, digital business cards with contact forms, custom themes, and deep visitor analytics.",
 };
 
 export default function RootLayout({ children }) {
@@ -19,9 +20,7 @@ export default function RootLayout({ children }) {
     <html lang="en" className={`${inter.variable} h-full antialiased`}>
       <body className="min-h-full font-sans bg-zinc-50 text-slate-900 flex flex-col">
         <Providers>
-          <PageTransition>
-            {children}
-          </PageTransition>
+          <PageTransition>{children}</PageTransition>
         </Providers>
       </body>
     </html>

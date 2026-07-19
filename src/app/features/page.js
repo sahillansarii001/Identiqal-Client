@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import React from 'react';
-import Link from 'next/link';
-import { Navbar } from '@/components/marketing/Navbar.jsx';
-import { Footer } from '@/components/marketing/Footer.jsx';
+import React from "react";
+import Link from "next/link";
+import { Navbar } from "@/components/marketing/Navbar.jsx";
+import { Footer } from "@/components/marketing/Footer.jsx";
 import {
   Layers,
   QrCode,
@@ -19,50 +19,58 @@ import {
   Database,
   Search,
   Zap,
-  Star
-} from 'lucide-react';
+  Star,
+} from "lucide-react";
 
 export default function FeaturesPage() {
   const coreFeatures = [
     {
       icon: <Layers size={22} className="text-[#5A3342]" />,
-      title: 'Drag & Drop Builder',
-      description: 'Easily compose and reorder bio details, contact cards, portfolio displays, and social links on an interactive canvas layout block editor.',
+      title: "Drag & Drop Builder",
+      description:
+        "Easily compose and reorder bio details, contact cards, portfolio displays, and social links on an interactive canvas layout block editor.",
     },
     {
       icon: <QrCode size={22} className="text-[#C89B5B]" />,
-      title: 'Smart QR Modes',
-      description: 'Generate dynamic QR codes redirectable instantly. Toggle between sharing your full contacts page or your direct custom booking form.',
+      title: "Smart QR Modes",
+      description:
+        "Generate dynamic QR codes redirectable instantly. Toggle between sharing your full contacts page or your direct custom booking form.",
     },
     {
       icon: <Sparkles size={22} className="text-[#5A3342]" />,
-      title: 'Smart Introduction Generator',
-      description: 'Leverage built-in AI models to scan your professional qualifications and draft a high-converting elevator pitch bio summary in one click.',
+      title: "Smart Introduction Generator",
+      description:
+        "Leverage built-in AI models to scan your professional qualifications and draft a high-converting elevator pitch bio summary in one click.",
     },
     {
       icon: <TrendingUp size={22} className="text-[#C89B5B]" />,
-      title: 'Profile Replay Analytics',
-      description: 'Monitor click-through metrics, geolocation traffic origins, device platforms, and visitor session patterns directly inside your dashboard.',
+      title: "Profile Replay Analytics",
+      description:
+        "Monitor click-through metrics, geolocation traffic origins, device platforms, and visitor session patterns directly inside your dashboard.",
     },
     {
       icon: <ShieldCheck size={22} className="text-[#5A3342]" />,
-      title: 'AI Profile Health Score',
-      description: 'Get automated structural feedback and completeness reviews to ensure contact forms, social tags, and downloads are fully active.',
+      title: "AI Profile Health Score",
+      description:
+        "Get automated structural feedback and completeness reviews to ensure contact forms, social tags, and downloads are fully active.",
     },
     {
       icon: <Inbox size={22} className="text-[#C89B5B]" />,
-      title: 'Lead Collection',
-      description: 'Capture prospective clients with customizable inquiry forms. Inbound messages are delivered directly with instant email logs.',
+      title: "Lead Collection",
+      description:
+        "Capture prospective clients with customizable inquiry forms. Inbound messages are delivered directly with instant email logs.",
     },
     {
       icon: <Smartphone size={22} className="text-[#5A3342]" />,
-      title: 'Mobile Friendly Design',
-      description: 'Templates are meticulously built to adapt dynamically. Ensure a premium loading visual across all screen breakpoints.',
+      title: "Mobile Friendly Design",
+      description:
+        "Templates are meticulously built to adapt dynamically. Ensure a premium loading visual across all screen breakpoints.",
     },
     {
       icon: <Cpu size={22} className="text-[#C89B5B]" />,
-      title: 'App Integrations',
-      description: 'Directly hook into third-party tools like Calendly booking schedulers, HubSpot pipelines, Zapier tasks, and corporate email signatures.',
+      title: "App Integrations",
+      description:
+        "Directly hook into third-party tools like Calendly booking schedulers, HubSpot pipelines, Zapier tasks, and corporate email signatures.",
     },
   ];
 
@@ -83,16 +91,18 @@ export default function FeaturesPage() {
               <Sparkles size={12} className="text-[#C89B5B]" />
               <span>Full Product Suite Capabilities</span>
             </div>
-            
+
             <h1 className="text-5xl sm:text-6xl font-black tracking-tight leading-tight text-[#1F1F1F] max-w-4xl mx-auto font-sans">
               Advanced Digital Identity. <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#5A3342] to-[#C89B5B]">
+              <span className="text-transparent bg-clip-text bg-linear-to-r from-[#5A3342] to-[#C89B5B]">
                 Engineered for Professionals.
               </span>
             </h1>
 
-            <p className="text-base sm:text-lg text-[#6B6B6B] max-w-2xl mx-auto font-medium">
-              Take complete control of how you network. Drag-and-drop custom pages, utilize deep analytics, embed custom capture forms, and optimize search discovery with AI.
+            <p className="text-base sm:text-lg text-brand-secondary max-w-2xl mx-auto font-medium">
+              Take complete control of how you network. Drag-and-drop custom
+              pages, utilize deep analytics, embed custom capture forms, and
+              optimize search discovery with AI.
             </p>
 
             <div className="flex items-center justify-center gap-4 pt-2">
@@ -111,12 +121,23 @@ export default function FeaturesPage() {
         </section>
 
         {/* MOCKUP PREVIEW GRID BLOCK */}
-        <section id="suite" className="max-w-7xl mx-auto px-6 py-12 grid lg:grid-cols-12 gap-8 items-center border-t border-[#E9E2DC]">
+        <section
+          id="suite"
+          className="max-w-7xl mx-auto px-6 py-12 grid lg:grid-cols-12 gap-8 items-center border-t border-[#E9E2DC]"
+        >
           <div className="lg:col-span-5 space-y-6 text-left">
-            <span className="text-[10px] font-black uppercase tracking-wider text-[#C89B5B]">Interactive Sandbox</span>
-            <h2 className="text-3xl font-extrabold text-[#1F1F1F]">Drag & Drop Layout Blocks</h2>
-            <p className="text-xs text-[#6B6B6B] leading-relaxed">
-              Design a page that fits your exact workflow. Add and organize visual layout elements: personal descriptions, direct calendar bookings, picture showcases, lead contact forms, and testimonial quote headers. Reorder instantly and save live updates in real-time.
+            <span className="text-[10px] font-black uppercase tracking-wider text-[#C89B5B]">
+              Interactive Sandbox
+            </span>
+            <h2 className="text-3xl font-extrabold text-[#1F1F1F]">
+              Drag & Drop Layout Blocks
+            </h2>
+            <p className="text-xs text-brand-secondary leading-relaxed">
+              Design a page that fits your exact workflow. Add and organize
+              visual layout elements: personal descriptions, direct calendar
+              bookings, picture showcases, lead contact forms, and testimonial
+              quote headers. Reorder instantly and save live updates in
+              real-time.
             </p>
             <div className="space-y-2 pt-2">
               <div className="flex items-center space-x-2 text-xs font-semibold text-[#1F1F1F]">
@@ -129,26 +150,36 @@ export default function FeaturesPage() {
               </div>
             </div>
           </div>
-          
+
           <div className="lg:col-span-7 bg-white border border-[#E9E2DC] rounded-2xl p-6 shadow-sm shadow-[#5A3342]/3 flex justify-center items-center">
             {/* Visual Builder mockup preview */}
             <div className="w-full max-w-md bg-[#FAF8F6] border border-[#E9E2DC] p-5 rounded-xl space-y-4">
               <div className="flex justify-between items-center pb-3 border-b border-[#E9E2DC]">
-                <span className="text-[10px] font-black text-[#5A3342]">BUILDER CANVAS</span>
-                <span className="text-[9px] font-bold text-green-500 bg-green-500/10 px-2 py-0.5 rounded-full">● Online Live</span>
+                <span className="text-[10px] font-black text-[#5A3342]">
+                  BUILDER CANVAS
+                </span>
+                <span className="text-[9px] font-bold text-green-500 bg-green-500/10 px-2 py-0.5 rounded-full">
+                  ● Online Live
+                </span>
               </div>
               {/* Blocks */}
               <div className="p-3 bg-white border border-[#E9E2DC] rounded-lg shadow-sm flex justify-between items-center text-xs text-[#1F1F1F] font-semibold">
                 <span>👤 Header Biography block</span>
-                <span className="text-[10px] text-[#C89B5B] uppercase font-bold">Active</span>
+                <span className="text-[10px] text-[#C89B5B] uppercase font-bold">
+                  Active
+                </span>
               </div>
               <div className="p-3 bg-white border border-[#E9E2DC] rounded-lg shadow-sm flex justify-between items-center text-xs text-[#1F1F1F] font-semibold">
                 <span>🔗 Dynamic Links List block</span>
-                <span className="text-[10px] text-[#C89B5B] uppercase font-bold">Active</span>
+                <span className="text-[10px] text-[#C89B5B] uppercase font-bold">
+                  Active
+                </span>
               </div>
               <div className="p-3 bg-white border border-[#E9E2DC] rounded-lg shadow-sm flex justify-between items-center text-xs text-[#1F1F1F] font-semibold">
                 <span>📬 Inbound Lead Message Form</span>
-                <span className="text-[10px] text-green-500 uppercase font-bold">Visible</span>
+                <span className="text-[10px] text-green-500 uppercase font-bold">
+                  Visible
+                </span>
               </div>
             </div>
           </div>
@@ -158,10 +189,15 @@ export default function FeaturesPage() {
         <section className="py-20 bg-white border-y border-[#E9E2DC]">
           <div className="max-w-7xl mx-auto px-6">
             <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-              <span className="text-[10px] font-black uppercase tracking-wider text-[#C89B5B]">Deep Dive</span>
-              <h2 className="text-3xl font-extrabold text-[#1F1F1F]">Everything you need to grow your network</h2>
-              <p className="text-xs text-[#6B6B6B]">
-                Discover features engineered to simplify modern connections, automate capture logic, and analyze visual interactions.
+              <span className="text-[10px] font-black uppercase tracking-wider text-[#C89B5B]">
+                Deep Dive
+              </span>
+              <h2 className="text-3xl font-extrabold text-[#1F1F1F]">
+                Everything you need to grow your network
+              </h2>
+              <p className="text-xs text-brand-secondary">
+                Discover features engineered to simplify modern connections,
+                automate capture logic, and analyze visual interactions.
               </p>
             </div>
 
@@ -175,8 +211,12 @@ export default function FeaturesPage() {
                     {feat.icon}
                   </div>
                   <div>
-                    <h4 className="font-extrabold text-base text-[#1F1F1F] font-sans">{feat.title}</h4>
-                    <p className="text-xs text-[#6B6B6B] leading-relaxed pt-1.5 font-sans">{feat.description}</p>
+                    <h4 className="font-extrabold text-base text-[#1F1F1F] font-sans">
+                      {feat.title}
+                    </h4>
+                    <p className="text-xs text-brand-secondary leading-relaxed pt-1.5 font-sans">
+                      {feat.description}
+                    </p>
                   </div>
                 </div>
               ))}
@@ -191,9 +231,14 @@ export default function FeaturesPage() {
             <div className="w-12 h-12 rounded-xl bg-[#5A3342]/5 flex items-center justify-center text-[#5A3342]">
               <ShieldCheck size={24} />
             </div>
-            <h3 className="text-xl font-bold text-[#1F1F1F]">Enterprise Grade Security</h3>
-            <p className="text-xs text-[#6B6B6B] leading-relaxed">
-              We care deeply about details. Your digital contact database is secured behind top-tier TLS/SSL encryption models. Export inquiry logs securely, lock admin-seat styling parameters, and manage team workspaces.
+            <h3 className="text-xl font-bold text-[#1F1F1F]">
+              Enterprise Grade Security
+            </h3>
+            <p className="text-xs text-brand-secondary leading-relaxed">
+              We care deeply about details. Your digital contact database is
+              secured behind top-tier TLS/SSL encryption models. Export inquiry
+              logs securely, lock admin-seat styling parameters, and manage team
+              workspaces.
             </p>
             <div className="grid grid-cols-2 gap-4 text-xs font-semibold pt-2">
               <div className="flex items-center space-x-2">
@@ -212,13 +257,27 @@ export default function FeaturesPage() {
             <div className="w-12 h-12 rounded-xl bg-[#C89B5B]/5 flex items-center justify-center text-[#C89B5B]">
               <Cpu size={24} />
             </div>
-            <h3 className="text-xl font-bold text-[#1F1F1F]">Seamless App Integrations</h3>
-            <p className="text-xs text-[#6B6B6B] leading-relaxed">
-              Identiqal seamlessly connects with your existing daily tech tools. Collect contact card data and feed it directly to automation processes, email tags, and customer relations management panels.
+            <h3 className="text-xl font-bold text-[#1F1F1F]">
+              Seamless App Integrations
+            </h3>
+            <p className="text-xs text-brand-secondary leading-relaxed">
+              Identiqal seamlessly connects with your existing daily tech tools.
+              Collect contact card data and feed it directly to automation
+              processes, email tags, and customer relations management panels.
             </p>
             <div className="flex flex-wrap gap-2 pt-2">
-              {['Calendly', 'Hubspot', 'Zapier', 'Mailchimp', 'Google Maps', 'ActiveCampaign'].map((tool) => (
-                <span key={tool} className="text-[10px] font-bold bg-[#FAF8F6] text-[#6B6B6B] border border-[#E9E2DC] px-3 py-1.5 rounded-full">
+              {[
+                "Calendly",
+                "Hubspot",
+                "Zapier",
+                "Mailchimp",
+                "Google Maps",
+                "ActiveCampaign",
+              ].map((tool) => (
+                <span
+                  key={tool}
+                  className="text-[10px] font-bold bg-[#FAF8F6] text-brand-secondary border border-[#E9E2DC] px-3 py-1.5 rounded-full"
+                >
                   {tool}
                 </span>
               ))}
@@ -231,9 +290,12 @@ export default function FeaturesPage() {
           <div className="bg-[#5A3342] border border-[#E9E2DC] rounded-3xl p-12 sm:p-16 relative overflow-hidden shadow-xl shadow-[#5A3342]/10 text-center">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-[#C89B5B]/10 blur-[80px] pointer-events-none" />
             <div className="relative z-10 space-y-6">
-              <h3 className="text-2xl sm:text-3xl font-black text-white">Unlock full networking capabilities.</h3>
+              <h3 className="text-2xl sm:text-3xl font-black text-white">
+                Unlock full networking capabilities.
+              </h3>
               <p className="text-xs sm:text-sm text-zinc-300 max-w-lg mx-auto">
-                Join professionals worldwide replacing outdated paper business cards with clean, AI-powered smart digital profiles.
+                Join professionals worldwide replacing outdated paper business
+                cards with clean, AI-powered smart digital profiles.
               </p>
               <div className="flex items-center justify-center gap-4 pt-2">
                 <Link href="/signup">
