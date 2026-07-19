@@ -4,7 +4,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { adminService } from '@/services/adminService';
 import {
   LayoutTemplate, Plus, Edit2, Trash2, Copy, Search,
-  X, Check, ChevronDown, Globe, FileText, Star, Users,
+  X, Check, ChevronDown, Globe, FileText, Star, Users, Database
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from '@/components/ui/Toast';
@@ -506,6 +506,20 @@ export default function AdminTemplatesPage() {
     }
   };
 
+  const handleSeed = async () => {
+    try {
+      setLoading(true);
+      const res = await adminService.seedCardTemplates();
+      if (res.success) {
+        toast.success('Demo templates loaded successfully!');
+        fetchTemplates(); // refresh the list
+      }
+    } catch {
+      toast.error('Failed to load demo templates');
+      setLoading(false);
+    }
+  };
+
   const filtered = templates.filter(t => {
     const matchFilter = filter === 'all' || t.status === filter;
     const matchSearch = !search || (t.name || '').toLowerCase().includes(search.toLowerCase()) || (t.category || '').toLowerCase().includes(search.toLowerCase());
@@ -528,11 +542,18 @@ export default function AdminTemplatesPage() {
             Manage pre-built card templates for users to choose from.
           </p>
         </div>
-        <button id="create-template-btn" onClick={openCreate}
-          className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-[#5A3045] hover:bg-[#7A4055] rounded-lg transition-colors shadow-sm">
-          <Plus size={15} />
-          New Template
-        </button>
+        <div className="flex items-center gap-3">
+          <button onClick={handleSeed}
+            className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 dark:bg-transparent dark:text-gray-300 dark:border-white/20 dark:hover:bg-white/5 transition-colors shadow-sm">
+            <Database size={15} />
+            Load Demo Templates
+          </button>
+          <button id="create-template-btn" onClick={openCreate}
+            className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-[#5A3045] hover:bg-[#7A4055] rounded-lg transition-colors shadow-sm">
+            <Plus size={15} />
+            New Template
+          </button>
+        </div>
       </div>
 
       {/* Toolbar */}

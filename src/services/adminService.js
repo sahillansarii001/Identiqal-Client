@@ -86,4 +86,8 @@ export const adminService = {
     const response = await axiosInstance.delete(`/admin/card-templates/${id}`);
     return response;
   },
+  seedCardTemplates: async () => {
+    const response = await axiosInstance.post('/admin/templates/seed');
+    return response;
+  },
 };
