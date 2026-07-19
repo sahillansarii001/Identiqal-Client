@@ -26,8 +26,8 @@ export default function Home() {
         <Testimonials />
         <PricingTeaser />
         <FinalCTA />
+        <Footer />
       </main>
-      <Footer />
     </div>
   );
 }

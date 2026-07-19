@@ -286,7 +286,7 @@ export default function DashboardOverviewPage() {
                       <span>Clicks: 42</span>
                     </div>
                     
-                    <Link href={`/dashboard/cards/${card._id}/edit`}>
+                    <Link href={`/dashboard/cards/${card.slug}/edit`}>
                       <span className="inline-flex items-center justify-center font-bold text-xs px-3 py-1.5 rounded-lg border border-[rgba(90,48,69,0.08)] bg-white text-[#5A3045] hover:bg-[#5A3045] hover:text-white hover:border-[#5A3045] transition-all duration-200 shadow-xs cursor-pointer space-x-1">
                         <span>Edit</span>
                         <ArrowUpRight size={10} />

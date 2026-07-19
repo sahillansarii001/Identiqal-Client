@@ -89,7 +89,7 @@ const DashboardCard = ({ card, handleTogglePublish, handleDelete, handleDuplicat
 
   return (
     <motion.div
-      onClick={() => router.push(`/dashboard/cards/${card._id}`)}
+      onClick={() => router.push(`/dashboard/cards/${card.slug}`)}
       variants={{
         hidden: { opacity: 0, y: 30 },
         show: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 300, damping: 25 } }
@@ -131,7 +131,7 @@ const DashboardCard = ({ card, handleTogglePublish, handleDelete, handleDuplicat
             
             {/* Quick Actions */}
             <div className="flex items-center gap-2">
-              <Link href={`/dashboard/cards/${card._id}/edit`} onClick={(e) => e.stopPropagation()} className="w-8 h-8 flex items-center justify-center rounded-lg bg-slate-50 text-slate-400 hover:text-[#5A3045] hover:bg-[#FAF7F3] transition-colors border border-transparent hover:border-[#D4A45B]/30" title="Edit Card">
+              <Link href={`/dashboard/cards/${card.slug}/edit`} onClick={(e) => e.stopPropagation()} className="w-8 h-8 flex items-center justify-center rounded-lg bg-slate-50 text-slate-400 hover:text-[#5A3045] hover:bg-[#FAF7F3] transition-colors border border-transparent hover:border-[#D4A45B]/30" title="Edit Card">
                 <Edit size={14} />
               </Link>
               <button 

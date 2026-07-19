@@ -11,7 +11,7 @@ import { Loader2 } from 'lucide-react';
 export default function CardEditBuilderPage() {
   const params = useParams();
   const router = useRouter();
-  const cardId = params.cardId;
+  const slug = params.slug;
 
   const {
     setCard,
@@ -26,7 +26,7 @@ export default function CardEditBuilderPage() {
       setIsLoading(true);
       try {
         const cardResponse = await cardService.getCards();
-        const activeCard = cardResponse.data.find(c => c._id === cardId);
+        const activeCard = cardResponse.data.find(c => c.slug === slug);
         if (!activeCard) {
           alert('Card not found');
           router.push('/dashboard/cards');
@@ -48,8 +48,8 @@ export default function CardEditBuilderPage() {
       }
     };
 
-    if (cardId) fetchCardData();
-  }, [cardId, setCard]);
+    if (slug) fetchCardData();
+  }, [slug, setCard]);
 
   if (isLoading) {
     return (

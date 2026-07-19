@@ -37,7 +37,7 @@ export default function SingleCardDashboard() {
   const [showEmailOptions, setShowEmailOptions] = useState(false);
   const [origin, setOrigin] = useState('');
   
-  const card = cards.find(c => c._id === params.cardId);
+  const card = cards.find(c => c.slug === params.slug);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -195,7 +195,7 @@ export default function SingleCardDashboard() {
               <button onClick={handleDelete} className="action-btn text-slate-400 hover:bg-red-50 hover:text-red-500 hover:border-red-100" title="Delete Card">
                 <Trash2 size={18} />
               </button>
-              <Link href={`/dashboard/cards/${card._id}/edit`}>
+              <Link href={`/dashboard/cards/${card.slug}/edit`}>
                 <Button className="h-10 bg-[#5A3045] hover:bg-[#4A2C3A] text-white border-none shadow-md shadow-[#5A3045]/20 font-bold space-x-2 transition-transform hover:scale-[1.02] rounded-lg text-sm px-5 ml-1">
                   <Edit size={16} />
                   <span>Edit</span>
