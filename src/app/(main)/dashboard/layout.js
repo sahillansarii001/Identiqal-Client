@@ -69,8 +69,8 @@ export default function DashboardLayout({ children }) {
 
   if (isCheckingAuth || !isAuthenticated || !user) {
     return (
-      <div className="flex h-[100dvh] bg-[#FAF7F3] items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-[#5A3045]" />
+      <div className="flex h-[100dvh] bg-[#F8FAFC] items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-[#2563EB]" />
       </div>
     );
   }
@@ -111,22 +111,22 @@ export default function DashboardLayout({ children }) {
 
   const activeCls = darkMode
     ? "bg-white/10 text-white font-semibold rounded-xl shadow-sm"
-    : "bg-[#5A3045]/[0.06] text-[#5A3045] font-bold rounded-xl";
+    : "bg-[#2563EB]/[0.06] text-[#2563EB] font-bold rounded-xl";
 
   const inactiveCls = darkMode
-    ? "text-[#9A8AA0] hover:bg-white/5 hover:text-white rounded-xl transition-colors"
-    : "text-[#8A8582] hover:bg-black/5 hover:text-[#222] rounded-xl transition-colors";
+    ? "text-[#94A3B8] hover:bg-white/5 hover:text-white rounded-xl transition-colors"
+    : "text-[#64748B] hover:bg-black/5 hover:text-[#222] rounded-xl transition-colors";
 
   return (
     <div
       data-dark={darkMode ? "true" : undefined}
       className={`flex min-h-[100dvh] font-sans relative transition-colors duration-300 ${
-        darkMode ? "bg-[#151215] text-[#F0EBF0]" : "bg-[#FAF7F3] text-inherit"
+        darkMode ? "bg-[#0F172A] text-[#F1F5F9]" : "bg-[#F8FAFC] text-inherit"
       }`}
     >
       {/* Ambient glow */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-[#D4A45B]/3 blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-[#5A3045]/2 blur-[100px] pointer-events-none" />
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-[#3B82F6]/3 blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-[#2563EB]/2 blur-[100px] pointer-events-none" />
 
       {/* Mobile backdrop */}
       <AnimatePresence>
@@ -147,8 +147,8 @@ export default function DashboardLayout({ children }) {
           sidebarOpen ? "left-0" : "left-[-260px] lg:left-0"
         } ${
           darkMode
-            ? "bg-[#120F12] border-white/10"
-            : "bg-[#FDFCFB] border-[rgba(0,0,0,0.06)]"
+            ? "bg-[#020617] border-white/10"
+            : "bg-[#FFFFFF] border-[rgba(0,0,0,0.06)]"
         }`}
       >
         {/* Brand */}
@@ -163,7 +163,7 @@ export default function DashboardLayout({ children }) {
               darkMode ? "text-white" : "text-brand-text"
             }`}
           >
-            <div className="w-8 h-8 rounded-xl bg-linear-to-tr from-[#5A3045] to-[#D4A45B] flex items-center justify-center text-white shadow-md shadow-[#5A3045]/20">
+            <div className="w-8 h-8 rounded-xl bg-linear-to-tr from-[#2563EB] to-[#3B82F6] flex items-center justify-center text-white shadow-md shadow-[#2563EB]/20">
               <CreditCard size={15} strokeWidth={2.5} />
             </div>
             <span>Identiqal</span>
@@ -171,7 +171,7 @@ export default function DashboardLayout({ children }) {
           <button
             className={`lg:hidden p-1.5 rounded-lg ${
               darkMode
-                ? "hover:bg-white/8 text-[#9A8AA0]"
+                ? "hover:bg-white/8 text-[#94A3B8]"
                 : "hover:bg-black/5 text-[#7A7A7A]"
             }`}
             onClick={() => setSidebarOpen(false)}
@@ -184,7 +184,7 @@ export default function DashboardLayout({ children }) {
         <nav className="flex-1 min-h-0 py-6 overflow-y-auto no-scrollbar flex flex-col gap-1">
           <p
             className={`text-[10px] font-bold uppercase tracking-[0.15em] px-8 mb-2 ${
-              darkMode ? "text-[#6A5A70]" : "text-[#A09A95]"
+              darkMode ? "text-[#64748B]" : "text-[#94A3B8]"
             }`}
           >
             Main Menu
@@ -202,10 +202,10 @@ export default function DashboardLayout({ children }) {
                   <span
                     className={`transition-transform duration-200 group-hover:scale-110 ${
                       active
-                        ? "text-[#D4A45B]"
+                        ? "text-[#3B82F6]"
                         : darkMode
                           ? "text-[#8A7A90] group-hover:text-white"
-                          : "text-[#A09A95] group-hover:text-[#222]"
+                          : "text-[#94A3B8] group-hover:text-[#222]"
                     }`}
                   >
                     {item.icon}
@@ -222,7 +222,7 @@ export default function DashboardLayout({ children }) {
             <>
               <p
                 className={`text-[10px] font-bold uppercase tracking-[0.15em] px-8 mt-6 mb-2 ${
-                  darkMode ? "text-[#6A5A70]" : "text-[#A09A95]"
+                  darkMode ? "text-[#64748B]" : "text-[#94A3B8]"
                 }`}
               >
                 Organization
@@ -239,10 +239,10 @@ export default function DashboardLayout({ children }) {
                       <span
                         className={`transition-transform duration-200 group-hover:scale-110 ${
                           active
-                            ? "text-[#D4A45B]"
+                            ? "text-[#3B82F6]"
                             : darkMode
                               ? "text-[#8A7A90] group-hover:text-white"
-                              : "text-[#A09A95] group-hover:text-[#222]"
+                              : "text-[#94A3B8] group-hover:text-[#222]"
                         }`}
                       >
                         {item.icon}
@@ -268,7 +268,7 @@ export default function DashboardLayout({ children }) {
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3 min-w-0">
-              <div className="w-10 h-10 rounded-full bg-linear-to-br from-[#5A3045] to-[#8A5065] flex items-center justify-center font-black text-white text-sm shadow-inner shrink-0">
+              <div className="w-10 h-10 rounded-full bg-linear-to-br from-[#2563EB] to-[#3B82F6] flex items-center justify-center font-black text-white text-sm shadow-inner shrink-0">
                 {user.name[0].toUpperCase()}
               </div>
               <div className="flex-1 min-w-0 pr-2">
@@ -281,10 +281,10 @@ export default function DashboardLayout({ children }) {
                 </h4>
                 <p
                   className={`text-[10px] font-semibold flex items-center space-x-1 mt-0.5 ${
-                    darkMode ? "text-[#9A8AA0]" : "text-[#8A8582]"
+                    darkMode ? "text-[#94A3B8]" : "text-[#64748B]"
                   }`}
                 >
-                  <Sparkles size={10} className="text-[#D4A45B]" />
+                  <Sparkles size={10} className="text-[#3B82F6]" />
                   <span className="capitalize">
                     {user.subscriptionTier || "Free Plan"}
                   </span>
@@ -297,8 +297,8 @@ export default function DashboardLayout({ children }) {
               title="Logout"
               className={`w-9 h-9 shrink-0 rounded-full flex items-center justify-center transition-all ${
                 darkMode
-                  ? "hover:bg-white/10 text-[#9A8AA0] hover:text-white"
-                  : "hover:bg-black/5 text-[#A09A95] hover:text-[#222]"
+                  ? "hover:bg-white/10 text-[#94A3B8] hover:text-white"
+                  : "hover:bg-black/5 text-[#94A3B8] hover:text-[#222]"
               }`}
             >
               <LogOut size={15} />
@@ -409,8 +409,8 @@ function PremiumNavbar({
 
   /* shared icon button style — dark-mode-aware */
   const iconBtn = darkMode
-    ? "w-9 h-9 rounded-xl bg-white/6 border border-white/10 hover:border-[#D4A45B]/40 hover:bg-white/12 flex items-center justify-center text-[#C0B0C0] hover:text-[#D4A45B] transition-all"
-    : "w-9 h-9 rounded-xl bg-[#FAF7F3] border border-[rgba(90,48,69,0.08)] hover:border-[#D4A45B]/40 hover:bg-white flex items-center justify-center text-[#7A7A7A] hover:text-[#5A3045] transition-all";
+    ? "w-9 h-9 rounded-xl bg-white/6 border border-white/10 hover:border-[#3B82F6]/40 hover:bg-white/12 flex items-center justify-center text-[#C0B0C0] hover:text-[#3B82F6] transition-all"
+    : "w-9 h-9 rounded-xl bg-[#F8FAFC] border border-[rgba(37,99,235,0.08)] hover:border-[#3B82F6]/40 hover:bg-white flex items-center justify-center text-[#7A7A7A] hover:text-[#2563EB] transition-all";
 
   return (
     <header className="w-full sticky top-4 z-30">
@@ -418,21 +418,21 @@ function PremiumNavbar({
         className={`backdrop-blur-xl border rounded-[28px] shadow-sm px-3 sm:px-5 py-2.5 sm:py-3.5 flex items-center gap-2 sm:gap-4 transition-colors duration-300 ${
           darkMode
             ? "bg-[#1E1520]/85 border-white/8 shadow-black/20"
-            : "bg-white/80 border-[rgba(90,48,69,0.09)] shadow-[#5A3045]/5"
+            : "bg-white/80 border-[rgba(37,99,235,0.09)] shadow-[#2563EB]/5"
         }`}
       >
         {/* ── LEFT ─── hamburger + greeting */}
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           <button
             onClick={() => setSidebarOpen(true)}
-            className="lg:hidden p-2 hover:bg-[#FAF7F3] rounded-xl text-[#7A7A7A] hover:text-[#5A3045] transition-colors border border-transparent hover:border-[rgba(90,48,69,0.08)]"
+            className="lg:hidden p-2 hover:bg-[#F8FAFC] rounded-xl text-[#7A7A7A] hover:text-[#2563EB] transition-colors border border-transparent hover:border-[rgba(37,99,235,0.08)]"
           >
             <Menu size={17} />
           </button>
           <div className="hidden xl:block">
             <p
               className={`text-sm font-black leading-tight whitespace-nowrap ${
-                darkMode ? "text-[#F0EBF0]" : "text-inherit"
+                darkMode ? "text-[#F1F5F9]" : "text-inherit"
               }`}
             >
               {greeting}, {firstName} {emoji}
@@ -455,18 +455,18 @@ function PremiumNavbar({
             className={`relative flex items-center rounded-2xl px-3 sm:px-4 py-2 sm:py-2.5 transition-all duration-300 border min-w-0 ${
               darkMode
                 ? searchFocused
-                  ? "bg-white/10 border-[#D4A45B]/50 shadow-md shadow-[#D4A45B]/10"
+                  ? "bg-white/10 border-[#3B82F6]/50 shadow-md shadow-[#3B82F6]/10"
                   : "bg-white/6 border-white/10 hover:border-white/20"
                 : searchFocused
-                  ? "border-[#D4A45B]/60 shadow-md shadow-[#D4A45B]/10 bg-white"
-                  : "bg-[#FAF7F3] border-[rgba(90,48,69,0.08)] hover:border-[rgba(90,48,69,0.15)]"
+                  ? "border-[#3B82F6]/60 shadow-md shadow-[#3B82F6]/10 bg-white"
+                  : "bg-[#F8FAFC] border-[rgba(37,99,235,0.08)] hover:border-[rgba(37,99,235,0.15)]"
             }`}
           >
             <Search
               size={14}
               className={`shrink-0 mr-2 sm:mr-3 transition-colors ${
                 searchFocused
-                  ? "text-[#D4A45B]"
+                  ? "text-[#3B82F6]"
                   : darkMode
                     ? "text-[#6A5A6A]"
                     : "text-[#B0A090]"
@@ -481,7 +481,7 @@ function PremiumNavbar({
               placeholder="Search..."
               className={`flex-1 w-full min-w-0 bg-transparent text-[10px] sm:text-xs font-medium focus:outline-none ${
                 darkMode
-                  ? "text-[#F0EBF0] placeholder-[#6A5A6A]"
+                  ? "text-[#F1F5F9] placeholder-[#6A5A6A]"
                   : "text-inherit placeholder-[#B0A090]"
               }`}
             />
@@ -501,8 +501,8 @@ function PremiumNavbar({
                 onClick={() => setSearchValue("")}
                 className={`shrink-0 ml-2 transition-colors ${
                   darkMode
-                    ? "text-[#6A5A6A] hover:text-[#D4A45B]"
-                    : "text-[#B0A090] hover:text-[#5A3045]"
+                    ? "text-[#6A5A6A] hover:text-[#3B82F6]"
+                    : "text-[#B0A090] hover:text-[#2563EB]"
                 }`}
               >
                 <X size={12} />
@@ -520,7 +520,7 @@ function PremiumNavbar({
               whileHover={{ scale: 1.08, rotate: 90 }}
               whileTap={{ scale: 0.95 }}
               transition={{ type: "spring", stiffness: 400, damping: 20 }}
-              className="w-9 h-9 rounded-xl bg-linear-to-br from-[#5A3045] to-[#7A4055] text-white flex items-center justify-center shadow-md shadow-[#5A3045]/25 hover:shadow-lg hover:shadow-[#5A3045]/35 transition-shadow"
+              className="w-9 h-9 rounded-xl bg-linear-to-br from-[#2563EB] to-[#7A4055] text-white flex items-center justify-center shadow-md shadow-[#2563EB]/25 hover:shadow-lg hover:shadow-[#2563EB]/35 transition-shadow"
             >
               <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
                 <path
@@ -538,7 +538,7 @@ function PremiumNavbar({
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.92, y: -6 }}
                   transition={{ duration: 0.18 }}
-                  className="absolute right-0 top-12 w-52 bg-white/95 backdrop-blur-xl border border-[rgba(90,48,69,0.1)] rounded-2xl shadow-xl shadow-[#5A3045]/10 p-2 z-50"
+                  className="absolute right-0 top-12 w-52 bg-white/95 backdrop-blur-xl border border-[rgba(37,99,235,0.1)] rounded-2xl shadow-xl shadow-[#2563EB]/10 p-2 z-50"
                 >
                   <p className="text-[9px] font-black uppercase tracking-widest text-[#B0A090] px-3 py-1.5">
                     Quick Actions
@@ -548,10 +548,10 @@ function PremiumNavbar({
                       key={a.href}
                       href={a.href}
                       onClick={() => setQuickOpen(false)}
-                      className="flex items-center space-x-3 px-3 py-2 rounded-xl hover:bg-[#FAF7F3] transition-colors group"
+                      className="flex items-center space-x-3 px-3 py-2 rounded-xl hover:bg-[#F8FAFC] transition-colors group"
                     >
                       <span className="text-base">{a.icon}</span>
-                      <span className="text-xs font-semibold text-inherit group-hover:text-[#5A3045]">
+                      <span className="text-xs font-semibold text-inherit group-hover:text-[#2563EB]">
                         {a.label}
                       </span>
                     </Link>
@@ -579,8 +579,8 @@ function PremiumNavbar({
                 <Bell size={15} />
               </motion.div>
               {notifications.length > 0 && (
-                <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-[#D4A45B] border border-white">
-                  <span className="absolute inset-0 rounded-full bg-[#D4A45B] animate-ping opacity-75" />
+                <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-[#3B82F6] border border-white">
+                  <span className="absolute inset-0 rounded-full bg-[#3B82F6] animate-ping opacity-75" />
                 </span>
               )}
             </motion.button>
@@ -591,7 +591,7 @@ function PremiumNavbar({
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.94, y: -6 }}
                   transition={{ duration: 0.18 }}
-                  className="absolute right-0 top-12 w-80 bg-white/95 backdrop-blur-xl border border-[rgba(90,48,69,0.1)] rounded-2xl shadow-xl shadow-[#5A3045]/10 p-3 z-50"
+                  className="absolute right-0 top-12 w-80 bg-white/95 backdrop-blur-xl border border-[rgba(37,99,235,0.1)] rounded-2xl shadow-xl shadow-[#2563EB]/10 p-3 z-50"
                 >
                   <div className="flex items-center justify-between px-1 pb-2 border-b border-[#F0E8E0] mb-2">
                     <span className="text-xs font-black text-inherit">
@@ -601,12 +601,12 @@ function PremiumNavbar({
                       {notifications.length > 0 && (
                         <button
                           onClick={() => setNotifications([])}
-                          className="text-[9px] font-bold text-[#7A7A7A] hover:text-[#5A3045] underline transition-colors"
+                          className="text-[9px] font-bold text-[#7A7A7A] hover:text-[#2563EB] underline transition-colors"
                         >
                           Mark all as read
                         </button>
                       )}
-                      <span className="text-[9px] font-black text-[#D4A45B] bg-[#D4A45B]/10 px-2 py-0.5 rounded-full">
+                      <span className="text-[9px] font-black text-[#3B82F6] bg-[#3B82F6]/10 px-2 py-0.5 rounded-full">
                         {notifications.length} new
                       </span>
                     </div>
@@ -625,13 +625,13 @@ function PremiumNavbar({
                       notifications.map((n, i) => (
                         <div
                           key={i}
-                          className="flex items-start space-x-3 p-2.5 rounded-xl hover:bg-[#FAF7F3] transition-colors cursor-pointer group"
+                          className="flex items-start space-x-3 p-2.5 rounded-xl hover:bg-[#F8FAFC] transition-colors cursor-pointer group"
                         >
                           <span className="text-lg shrink-0 mt-0.5">
                             {n.icon}
                           </span>
                           <div className="flex-1 min-w-0">
-                            <p className="text-xs font-bold text-inherit group-hover:text-[#5A3045] transition-colors">
+                            <p className="text-xs font-bold text-inherit group-hover:text-[#2563EB] transition-colors">
                               {n.title}
                             </p>
                             <p className="text-[10px] text-[#8A7A6A] truncate">
@@ -707,18 +707,18 @@ function PremiumNavbar({
             whileHover={{ scale: 1.02 }}
             className={`hidden md:flex items-center space-x-2 px-3 py-2 rounded-xl cursor-pointer transition-all group ${
               darkMode
-                ? "bg-white/6 border border-white/10 hover:border-[#D4A45B]/40 hover:bg-white/12"
-                : "bg-[#FAF7F3] border border-[rgba(90,48,69,0.08)] hover:border-[#D4A45B]/40 hover:bg-white"
+                ? "bg-white/6 border border-white/10 hover:border-[#3B82F6]/40 hover:bg-white/12"
+                : "bg-[#F8FAFC] border border-[rgba(37,99,235,0.08)] hover:border-[#3B82F6]/40 hover:bg-white"
             }`}
           >
-            <div className="w-5 h-5 rounded-md bg-linear-to-br from-[#5A3045] to-[#D4A45B] flex items-center justify-center text-white text-[8px] font-black shrink-0">
+            <div className="w-5 h-5 rounded-md bg-linear-to-br from-[#2563EB] to-[#3B82F6] flex items-center justify-center text-white text-[8px] font-black shrink-0">
               {user?.name?.[0]?.toUpperCase()}
             </div>
             <span
               className={`text-[10px] font-black max-w-[80px] truncate transition-colors ${
                 darkMode
-                  ? "text-[#F0EBF0] group-hover:text-[#D4A45B]"
-                  : "text-inherit group-hover:text-[#5A3045]"
+                  ? "text-[#F1F5F9] group-hover:text-[#3B82F6]"
+                  : "text-inherit group-hover:text-[#2563EB]"
               }`}
             >
               {user?.organizationId ? "Team Workspace" : "Personal"}
@@ -749,7 +749,7 @@ function PremiumNavbar({
               }}
               whileHover={{ scale: 1.06 }}
               whileTap={{ scale: 0.96 }}
-              className="relative w-9 h-9 rounded-xl bg-linear-to-br from-[#5A3045] to-[#8A5065] flex items-center justify-center font-black text-white text-sm shadow-md shadow-[#5A3045]/20 hover:shadow-lg hover:shadow-[#5A3045]/30 transition-all cursor-pointer"
+              className="relative w-9 h-9 rounded-xl bg-linear-to-br from-[#2563EB] to-[#3B82F6] flex items-center justify-center font-black text-white text-sm shadow-md shadow-[#2563EB]/20 hover:shadow-lg hover:shadow-[#2563EB]/30 transition-all cursor-pointer"
             >
               {user?.name?.[0]?.toUpperCase()}
               <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-green-400 border-2 border-white" />
@@ -762,12 +762,12 @@ function PremiumNavbar({
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.94, y: -6 }}
                   transition={{ duration: 0.18 }}
-                  className="absolute right-0 top-12 w-60 bg-white/95 backdrop-blur-xl border border-[rgba(90,48,69,0.1)] rounded-2xl shadow-xl shadow-[#5A3045]/10 overflow-hidden z-50"
+                  className="absolute right-0 top-12 w-60 bg-white/95 backdrop-blur-xl border border-[rgba(37,99,235,0.1)] rounded-2xl shadow-xl shadow-[#2563EB]/10 overflow-hidden z-50"
                 >
                   {/* Header */}
-                  <div className="p-4 bg-linear-to-br from-[#FAF7F3] to-[#F5EDE4] border-b border-[#F0E8E0]">
+                  <div className="p-4 bg-linear-to-br from-[#F8FAFC] to-[#F5EDE4] border-b border-[#F0E8E0]">
                     <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 rounded-xl bg-linear-to-br from-[#5A3045] to-[#8A5065] flex items-center justify-center font-black text-white shadow-md">
+                      <div className="w-10 h-10 rounded-xl bg-linear-to-br from-[#2563EB] to-[#3B82F6] flex items-center justify-center font-black text-white shadow-md">
                         {user?.name?.[0]?.toUpperCase()}
                       </div>
                       <div className="min-w-0">
@@ -777,7 +777,7 @@ function PremiumNavbar({
                         <p className="text-[9px] text-[#8A7A6A] truncate">
                           {user?.email}
                         </p>
-                        <span className="inline-flex items-center space-x-1 mt-0.5 text-[8px] bg-[#D4A45B]/15 text-[#A07030] border border-[#D4A45B]/25 px-2 py-0.5 rounded-full font-black capitalize">
+                        <span className="inline-flex items-center space-x-1 mt-0.5 text-[8px] bg-[#3B82F6]/15 text-[#A07030] border border-[#3B82F6]/25 px-2 py-0.5 rounded-full font-black capitalize">
                           <Sparkles size={7} />
                           <span>{user?.subscriptionTier || "free"} plan</span>
                         </span>
@@ -809,10 +809,10 @@ function PremiumNavbar({
                         key={item.label}
                         href={item.href}
                         onClick={() => setProfileOpen(false)}
-                        className="flex items-center space-x-3 px-3 py-2 rounded-xl hover:bg-[#FAF7F3] transition-colors group"
+                        className="flex items-center space-x-3 px-3 py-2 rounded-xl hover:bg-[#F8FAFC] transition-colors group"
                       >
                         <span className="text-sm">{item.icon}</span>
-                        <span className="text-xs font-semibold text-inherit group-hover:text-[#5A3045] transition-colors">
+                        <span className="text-xs font-semibold text-inherit group-hover:text-[#2563EB] transition-colors">
                           {item.label}
                         </span>
                       </Link>
@@ -838,3 +838,4 @@ function PremiumNavbar({
     </header>
   );
 }
+

@@ -78,7 +78,7 @@ export default function AdminLayout({ children }) {
   if (isCheckingAuth || !isAuthenticated || !user || (user.role !== 'admin' && user.role !== 'owner')) {
     return (
       <div className="flex h-screen bg-gray-50 dark:bg-[#0A0A0A] items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-[#5A3045]" />
+        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-[#2563EB]" />
       </div>
     );
   }
@@ -153,7 +153,7 @@ export default function AdminLayout({ children }) {
         {/* Brand */}
         <div className="h-16 px-6 flex items-center justify-between border-b border-gray-200 dark:border-white/10 shrink-0">
           <Link href="/admin" className="flex items-center space-x-2 text-sm font-semibold text-gray-900 dark:text-white">
-            <div className="w-6 h-6 rounded bg-[#5A3045] flex items-center justify-center text-white">
+            <div className="w-6 h-6 rounded bg-[#2563EB] flex items-center justify-center text-white">
               <span className="text-[10px] font-black">I</span>
             </div>
             <span>Identiqal Admin</span>
@@ -223,12 +223,12 @@ export default function AdminLayout({ children }) {
           <div className="flex items-center gap-3">
             <button className="p-2 text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors relative">
               <Bell size={18} />
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-[#D4A45B] rounded-full"></span>
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-[#3B82F6] rounded-full"></span>
             </button>
             <button onClick={toggleDarkMode} className="p-2 text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">
               {darkMode ? <Sun size={18} /> : <Moon size={18} />}
             </button>
-            <Link href="/dashboard" className="ml-2 px-3 py-1.5 rounded-md bg-[#5A3045] hover:bg-[#7A4055] text-white text-[12px] font-medium transition-colors">
+            <Link href="/dashboard" className="ml-2 px-3 py-1.5 rounded-md bg-[#2563EB] hover:bg-[#6366F1] text-white text-[12px] font-medium transition-colors">
               User App
             </Link>
           </div>

@@ -22,11 +22,11 @@ const defaultForm = {
   description: '',
   badge: '',
   status: 'draft',
-  primary: '#5A3045',
-  secondary: '#D4A45B',
+  primary: '#2563EB',
+  secondary: '#3B82F6',
   background: '#FFFFFF',
   text: '#1E1520',
-  accent: '#D4A45B',
+  accent: '#3B82F6',
   fontFamily: 'Inter',
   layoutStyle: 'minimal',
   buttonStyle: 'rounded',
@@ -95,11 +95,11 @@ function TemplateDrawer({ isOpen, onClose, editingTemplate, onSaved }) {
         description: editingTemplate.description || '',
         badge: editingTemplate.badge || '',
         status: editingTemplate.status || 'draft',
-        primary: editingTemplate.colors?.primary || '#5A3045',
-        secondary: editingTemplate.colors?.secondary || '#D4A45B',
+        primary: editingTemplate.colors?.primary || '#2563EB',
+        secondary: editingTemplate.colors?.secondary || '#3B82F6',
         background: editingTemplate.colors?.background || '#FFFFFF',
         text: editingTemplate.colors?.text || '#1E1520',
-        accent: editingTemplate.colors?.accent || '#D4A45B',
+        accent: editingTemplate.colors?.accent || '#3B82F6',
         fontFamily: editingTemplate.font?.family || 'Inter',
         layoutStyle: editingTemplate.layoutStyle || 'minimal',
         buttonStyle: editingTemplate.buttonStyle || 'rounded',
@@ -186,7 +186,7 @@ function TemplateDrawer({ isOpen, onClose, editingTemplate, onSaved }) {
                   <label className="block text-[11px] font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-1.5">Template Name *</label>
                   <input type="text" required value={form.name} onChange={e => set('name')(e.target.value)}
                     placeholder="e.g. Gold Luxury"
-                    className="w-full px-3 py-2 text-sm border border-gray-200 dark:border-white/10 rounded-lg bg-white dark:bg-white/5 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#5A3045]/30 focus:border-[#5A3045]" />
+                    className="w-full px-3 py-2 text-sm border border-gray-200 dark:border-white/10 rounded-lg bg-white dark:bg-white/5 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#2563EB]/30 focus:border-[#2563EB]" />
                 </div>
 
                 {/* Category + Badge row */}
@@ -195,7 +195,7 @@ function TemplateDrawer({ isOpen, onClose, editingTemplate, onSaved }) {
                     <label className="block text-[11px] font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-1.5">Category</label>
                     <div className="relative">
                       <select value={form.category} onChange={e => set('category')(e.target.value)}
-                        className="w-full appearance-none px-3 py-2 text-sm border border-gray-200 dark:border-white/10 rounded-lg bg-white dark:bg-white/5 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#5A3045]/30 pr-8">
+                        className="w-full appearance-none px-3 py-2 text-sm border border-gray-200 dark:border-white/10 rounded-lg bg-white dark:bg-white/5 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#2563EB]/30 pr-8">
                         {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
                       </select>
                       <ChevronDown size={13} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
@@ -205,7 +205,7 @@ function TemplateDrawer({ isOpen, onClose, editingTemplate, onSaved }) {
                     <label className="block text-[11px] font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-1.5">Badge</label>
                     <div className="relative">
                       <select value={form.badge} onChange={e => set('badge')(e.target.value)}
-                        className="w-full appearance-none px-3 py-2 text-sm border border-gray-200 dark:border-white/10 rounded-lg bg-white dark:bg-white/5 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#5A3045]/30 pr-8">
+                        className="w-full appearance-none px-3 py-2 text-sm border border-gray-200 dark:border-white/10 rounded-lg bg-white dark:bg-white/5 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#2563EB]/30 pr-8">
                         {BADGE_OPTIONS.map(b => <option key={b} value={b}>{b || '— None —'}</option>)}
                       </select>
                       <ChevronDown size={13} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
@@ -218,7 +218,7 @@ function TemplateDrawer({ isOpen, onClose, editingTemplate, onSaved }) {
                   <label className="block text-[11px] font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-1.5">Description</label>
                   <textarea rows={3} value={form.description} onChange={e => set('description')(e.target.value)}
                     placeholder="Briefly describe this template's style and best use case..."
-                    className="w-full px-3 py-2 text-sm border border-gray-200 dark:border-white/10 rounded-lg bg-white dark:bg-white/5 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#5A3045]/30 resize-none" />
+                    className="w-full px-3 py-2 text-sm border border-gray-200 dark:border-white/10 rounded-lg bg-white dark:bg-white/5 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#2563EB]/30 resize-none" />
                 </div>
 
                 {/* Status */}
@@ -250,7 +250,7 @@ function TemplateDrawer({ isOpen, onClose, editingTemplate, onSaved }) {
                     <p className="text-[10px] text-gray-500 dark:text-gray-400 mt-0.5">Restrict this theme to paid users only.</p>
                   </div>
                   <button type="button" onClick={() => set('isPremium')(!form.isPremium)}
-                    className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-[#5A3045] focus:ring-offset-2 transition-colors ${
+                    className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-[#2563EB] focus:ring-offset-2 transition-colors ${
                       form.isPremium ? 'bg-amber-500' : 'bg-gray-200 dark:bg-gray-700'
                     }`}
                   >
@@ -277,7 +277,7 @@ function TemplateDrawer({ isOpen, onClose, editingTemplate, onSaved }) {
                   <label className="block text-[11px] font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-1.5">Font Family</label>
                   <div className="relative">
                     <select value={form.fontFamily} onChange={e => set('fontFamily')(e.target.value)}
-                      className="w-full appearance-none px-3 py-2 text-sm border border-gray-200 dark:border-white/10 rounded-lg bg-white dark:bg-white/5 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#5A3045]/30 pr-8">
+                      className="w-full appearance-none px-3 py-2 text-sm border border-gray-200 dark:border-white/10 rounded-lg bg-white dark:bg-white/5 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#2563EB]/30 pr-8">
                       {FONT_OPTIONS.map(f => <option key={f} value={f}>{f}</option>)}
                     </select>
                     <ChevronDown size={13} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
@@ -292,7 +292,7 @@ function TemplateDrawer({ isOpen, onClose, editingTemplate, onSaved }) {
                       <button key={style} type="button" onClick={() => set('layoutStyle')(style)}
                         className={`py-2 text-xs font-medium rounded-lg border capitalize transition-colors ${
                           form.layoutStyle === style
-                            ? 'border-[#5A3045] bg-[#5A3045] text-white'
+                            ? 'border-[#2563EB] bg-[#2563EB] text-white'
                             : 'border-gray-200 dark:border-white/10 text-gray-600 dark:text-gray-400 hover:border-gray-300'
                         }`}>
                         {style}
@@ -309,7 +309,7 @@ function TemplateDrawer({ isOpen, onClose, editingTemplate, onSaved }) {
                       <button key={style} type="button" onClick={() => set('buttonStyle')(style)}
                         className={`py-2 text-xs font-medium rounded-lg border capitalize transition-colors ${
                           form.buttonStyle === style
-                            ? 'border-[#5A3045] bg-[#5A3045] text-white'
+                            ? 'border-[#2563EB] bg-[#2563EB] text-white'
                             : 'border-gray-200 dark:border-white/10 text-gray-600 dark:text-gray-400 hover:border-gray-300'
                         }`}>
                         {style}
@@ -321,7 +321,7 @@ function TemplateDrawer({ isOpen, onClose, editingTemplate, onSaved }) {
                 {/* Save button */}
                 <div className="pt-4 border-t border-gray-100 dark:border-white/10">
                   <button type="submit" disabled={saving}
-                    className="w-full py-2.5 text-sm font-semibold text-white bg-[#5A3045] hover:bg-[#7A4055] rounded-lg transition-colors disabled:opacity-50 flex items-center justify-center gap-2">
+                    className="w-full py-2.5 text-sm font-semibold text-white bg-[#2563EB] hover:bg-[#6366F1] rounded-lg transition-colors disabled:opacity-50 flex items-center justify-center gap-2">
                     {saving ? <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" /> : <Check size={15} />}
                     {saving ? 'Saving...' : editingTemplate ? 'Save Changes' : 'Create Template'}
                   </button>
@@ -395,8 +395,8 @@ function TemplateCard({ template, onEdit, onDuplicate, onDelete }) {
   };
 
   const { colors = {}, buttonStyle, layoutStyle } = template;
-  const btnBg = buttonStyle === 'outline' ? 'transparent' : colors.primary || '#5A3045';
-  const btnBorder = buttonStyle === 'outline' ? `1px solid ${colors.primary || '#5A3045'}` : 'none';
+  const btnBg = buttonStyle === 'outline' ? 'transparent' : colors.primary || '#2563EB';
+  const btnBorder = buttonStyle === 'outline' ? `1px solid ${colors.primary || '#2563EB'}` : 'none';
   const btnRadius = buttonStyle === 'rounded' ? '999px' : buttonStyle === 'square' ? '2px' : '6px';
 
   return (
@@ -404,10 +404,10 @@ function TemplateCard({ template, onEdit, onDuplicate, onDelete }) {
       {/* Visual preview */}
       <div className="h-40 relative overflow-hidden" style={{ backgroundColor: colors.background || '#fff' }}>
         {/* Header band */}
-        <div className="absolute top-0 left-0 right-0 h-14" style={{ backgroundColor: colors.primary || '#5A3045' }} />
+        <div className="absolute top-0 left-0 right-0 h-14" style={{ backgroundColor: colors.primary || '#2563EB' }} />
         {/* Avatar */}
         <div className="absolute top-7 left-4 w-11 h-11 rounded-full border-2 shadow flex items-center justify-center text-xs font-black"
-          style={{ backgroundColor: colors.secondary || '#D4A45B', borderColor: colors.background || '#fff', color: '#fff' }}>
+          style={{ backgroundColor: colors.secondary || '#3B82F6', borderColor: colors.background || '#fff', color: '#fff' }}>
           JD
         </div>
         {/* Fake links */}
@@ -580,7 +580,7 @@ export default function AdminTemplatesPage() {
             Load Demo Templates
           </button>
           <button id="create-template-btn" onClick={openCreate}
-            className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-[#5A3045] hover:bg-[#7A4055] rounded-lg transition-colors shadow-sm">
+            className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-[#2563EB] hover:bg-[#6366F1] rounded-lg transition-colors shadow-sm">
             <Plus size={15} />
             New Template
           </button>
@@ -607,7 +607,7 @@ export default function AdminTemplatesPage() {
         <div className="relative w-full sm:w-56">
           <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
           <input type="text" placeholder="Search templates..." value={search} onChange={e => setSearch(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 text-sm border border-gray-200 dark:border-white/10 rounded-lg bg-white dark:bg-transparent dark:text-white focus:outline-none focus:ring-2 focus:ring-[#5A3045]/20 focus:border-[#5A3045]/50 transition-all" />
+            className="w-full pl-9 pr-4 py-2 text-sm border border-gray-200 dark:border-white/10 rounded-lg bg-white dark:bg-transparent dark:text-white focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB]/50 transition-all" />
         </div>
       </div>
 
@@ -637,7 +637,7 @@ export default function AdminTemplatesPage() {
           </p>
           {!search && (
             <button onClick={openCreate}
-              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-[#5A3045] hover:bg-[#7A4055] rounded-lg transition-colors">
+              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-[#2563EB] hover:bg-[#6366F1] rounded-lg transition-colors">
               <Plus size={14} /> Create Template
             </button>
           )}

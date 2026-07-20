@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useCallback } from 'react';
 import axiosInstance from '@/services/axiosInstance';
-import { Plus, Edit2, Trash2, Copy, Search, X, Check, LayoutTemplate, Eye } from 'lucide-react';
+import { Plus, Edit2, Trash2, Copy, Search, X, Check, LayoutTemplate } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from '@/components/ui/Toast';
 

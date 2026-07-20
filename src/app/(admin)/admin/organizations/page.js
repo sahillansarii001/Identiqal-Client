@@ -68,7 +68,7 @@ export default function AdminOrganizationsPage() {
               placeholder="Search organizations..."
               value={search}
               onChange={e => setSearch(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 text-sm border border-gray-200 dark:border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D4A45B]/50 bg-white dark:bg-transparent dark:text-white"
+              className="w-full pl-9 pr-4 py-2 text-sm border border-gray-200 dark:border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3B82F6]/50 bg-white dark:bg-transparent dark:text-white"
             />
           </div>
           <span className="text-xs text-gray-500 dark:text-gray-400">{filtered.length} workspaces</span>
@@ -93,7 +93,7 @@ export default function AdminOrganizationsPage() {
                   <tr key={org._id} className="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors group">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-[#5A3045]/10 flex items-center justify-center text-[#5A3045] dark:bg-[#D4A45B]/10 dark:text-[#D4A45B] font-bold text-xs">
+                        <div className="w-8 h-8 rounded-lg bg-[#2563EB]/10 flex items-center justify-center text-[#2563EB] dark:bg-[#3B82F6]/10 dark:text-[#3B82F6] font-bold text-xs">
                           {(org.name || '?')[0].toUpperCase()}
                         </div>
                         <span className="font-medium text-gray-900 dark:text-white">{org.name}</span>
@@ -116,7 +116,7 @@ export default function AdminOrganizationsPage() {
                     <td className="px-6 py-4 text-right">
                       <button
                         onClick={() => { setSelectedOrg(org); setIsDrawerOpen(true); }}
-                        className="p-1.5 text-gray-400 hover:text-[#5A3045] hover:bg-[#5A3045]/10 rounded-md transition-colors opacity-0 group-hover:opacity-100"
+                        className="p-1.5 text-gray-400 hover:text-[#2563EB] hover:bg-[#2563EB]/10 rounded-md transition-colors opacity-0 group-hover:opacity-100"
                       >
                         <Edit2 size={15} />
                       </button>
@@ -141,7 +141,7 @@ export default function AdminOrganizationsPage() {
         {selectedOrg && (
           <div className="space-y-5">
             <div className="flex items-center gap-4 pb-5 border-b border-gray-100 dark:border-white/10">
-              <div className="w-14 h-14 rounded-xl bg-[#5A3045]/10 dark:bg-[#D4A45B]/10 flex items-center justify-center text-2xl font-black text-[#5A3045] dark:text-[#D4A45B]">
+              <div className="w-14 h-14 rounded-xl bg-[#2563EB]/10 dark:bg-[#3B82F6]/10 flex items-center justify-center text-2xl font-black text-[#2563EB] dark:text-[#3B82F6]">
                 {(selectedOrg.name || '?')[0].toUpperCase()}
               </div>
               <div>
