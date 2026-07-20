@@ -8,6 +8,7 @@ import { Menu, X, LayoutDashboard, LogOut } from "lucide-react";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 
 const navLinks = [
+  { name: "Home", href: "/" },
   { name: "Features", href: "/features" },
   { name: "Pricing", href: "/pricing" },
   { name: "Templates", href: "/templates" },
@@ -33,12 +34,12 @@ export const Navbar = () => {
   };
 
   return (
-    <div className="fixed top-0 inset-x-0 z-50 flex justify-center pt-6 px-4">
+    <div className="sticky top-0 w-full z-50 flex justify-center items-start pt-6 px-4 -mb-24 h-24 pointer-events-none">
       <motion.nav
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className={`w-full max-w-4xl rounded-full transition-all duration-300 border backdrop-blur-xl ${
+        className={`w-full max-w-4xl rounded-full transition-all duration-300 border backdrop-blur-xl pointer-events-auto ${
           isScrolled
             ? "bg-white/80 border-slate-200/50 shadow-lg shadow-slate-200/20 py-2.5 px-4"
             : "bg-white/60 border-transparent shadow-none py-3 px-4"
