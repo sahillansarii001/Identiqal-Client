@@ -196,21 +196,57 @@ html {
   background-color: #251E2A !important;
 }
 
-/* ─── ALL text inside dark cards — force visible ────────────────────────────── */
-[data-dark="true"] .bg-white h1,
-[data-dark="true"] .bg-white h2,
-[data-dark="true"] .bg-white h3,
-[data-dark="true"] .bg-white h4,
-[data-dark="true"] .bg-white h5,
-[data-dark="true"] .bg-white h6,
-[data-dark="true"] .bg-white p,
-[data-dark="true"] .bg-white div,
-[data-dark="true"] .bg-white span,
-[data-dark="true"] .bg-white label {
+/* ─── ALL children inside dark slate-bg surface — force readable ─────────────── */
+[data-dark="true"] .bg-slate-50 *,
+[data-dark="true"] .bg-slate-100 * {
   color: #F0EBF0 !important;
 }
 
-/* ─── Re-allow intentional accent colors ─────────────────────────────────────── */
+/* ─── Re-allow accent colors in slate-bg cards ──────────────────────────────── */
+[data-dark="true"] .bg-slate-50 .text-green-500,
+[data-dark="true"] .bg-slate-50 .text-green-400,
+[data-dark="true"] .bg-slate-100 .text-green-500,
+[data-dark="true"] .bg-slate-100 .text-green-400 {
+  color: #4ade80 !important;
+}
+[data-dark="true"] .bg-slate-50 .text-red-500,
+[data-dark="true"] .bg-slate-50 .text-red-400,
+[data-dark="true"] .bg-slate-100 .text-red-500,
+[data-dark="true"] .bg-slate-100 .text-red-400 {
+  color: #f87171 !important;
+}
+[data-dark="true"] .bg-slate-50 .text-yellow-500,
+[data-dark="true"] .bg-slate-50 .text-amber-500,
+[data-dark="true"] .bg-slate-100 .text-yellow-500,
+[data-dark="true"] .bg-slate-100 .text-amber-500 {
+  color: #fbbf24 !important;
+}
+[data-dark="true"] .bg-slate-50 .text-slate-400,
+[data-dark="true"] .bg-slate-50 .text-slate-500,
+[data-dark="true"] .bg-slate-50 .text-slate-600,
+[data-dark="true"] .bg-slate-50 .text-slate-700,
+[data-dark="true"] .bg-slate-100 .text-slate-400,
+[data-dark="true"] .bg-slate-100 .text-slate-500,
+[data-dark="true"] .bg-slate-100 .text-slate-600,
+[data-dark="true"] .bg-slate-100 .text-slate-700 {
+  color: #9A8AA0 !important;
+}
+[data-dark="true"] .bg-slate-50 .text-white,
+[data-dark="true"] .bg-slate-100 .text-white {
+  color: #ffffff !important;
+}
+/* Gold accent preserved */
+[data-dark="true"] .bg-slate-50 [class*="text-[#D4A45B]"],
+[data-dark="true"] .bg-slate-100 [class*="text-[#D4A45B]"] {
+  color: #D4A45B !important;
+}
+
+/* ─── ALL children inside dark bg-white surface — force readable ─────────────── */
+[data-dark="true"] .bg-white * {
+  color: #F0EBF0 !important;
+}
+
+/* ─── Re-allow intentional accent colors inside bg-white ─────────────────────── */
 [data-dark="true"] .bg-white .text-green-500,
 [data-dark="true"] .bg-white .text-green-400 {
   color: #4ade80 !important;
@@ -223,9 +259,20 @@ html {
 [data-dark="true"] .bg-white .text-amber-500 {
   color: #fbbf24 !important;
 }
+/* Muted text */
+[data-dark="true"] .bg-white .text-slate-400,
+[data-dark="true"] .bg-white .text-slate-500,
+[data-dark="true"] .bg-white .text-slate-600,
+[data-dark="true"] .bg-white .text-slate-700 {
+  color: #9A8AA0 !important;
+}
 /* White text stays white */
 [data-dark="true"] .bg-white .text-white {
   color: #ffffff !important;
+}
+/* Gold accent preserved */
+[data-dark="true"] .bg-white [class*="text-[#D4A45B]"] {
+  color: #D4A45B !important;
 }
 
 /* Fix Button text colors on hover in dark mode */
@@ -233,13 +280,6 @@ html {
 [data-dark="true"] .bg-white .btn-hover-dark-text:hover span,
 [data-dark="true"] .bg-white .btn-hover-dark-text:hover svg {
   color: #1F1F1F !important;
-}
-
-/* ─── Muted / secondary text within dark cards ───────────────────────────────── */
-[data-dark="true"] .bg-white .text-slate-400,
-[data-dark="true"] .bg-white .text-slate-500,
-[data-dark="true"] .bg-white .text-slate-600 {
-  color: #9A8AA0 !important;
 }
 
 /* ─── Dividers ───────────────────────────────────────────────────────────────── */
@@ -273,6 +313,8 @@ html {
 [data-dark="true"] ::-webkit-scrollbar-track  { background: #1A1520; }
 [data-dark="true"] ::-webkit-scrollbar-thumb  { background: #3A2840; }
 [data-dark="true"] ::-webkit-scrollbar-thumb:hover { background: #D4A45B; }
+
+
 
 /* ─── Smooth color transitions on all elements ───────────────────────────────── */
 *, *::before, *::after {

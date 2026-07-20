@@ -3,7 +3,7 @@ import { useCardBuilderStore } from '@/store/cardBuilderStore';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SectionRenderer } from './SectionRenderer';
 
-const PreviewSection = ({ section, activeSectionId, setActiveSection }) => {
+const PreviewSection = ({ section, theme, activeSectionId, setActiveSection }) => {
   const isActive = activeSectionId === section.sectionId;
 
   if (!section.isVisible) return null;
@@ -18,7 +18,7 @@ const PreviewSection = ({ section, activeSectionId, setActiveSection }) => {
       }`}
     >
       <div className="w-full relative pointer-events-none [&_*]:pointer-events-auto">
-        <SectionRenderer section={section} previewMode={true} />
+        <SectionRenderer section={section} theme={theme} previewMode={true} />
       </div>
       
       {/* Active overlay indicator */}
@@ -30,7 +30,21 @@ const PreviewSection = ({ section, activeSectionId, setActiveSection }) => {
 };
 
 export default function PhonePreview() {
-  const { sections, activeSectionId, setActiveSection, setBlockPickerOpen, themeConfig } = useCardBuilderStore();
+  const { sections, activeSectionId, setActiveSection, setBlockPickerOpen, colorTheme, displayPreset } = useCardBuilderStore();
+
+  // Map colorTheme (store shape) → theme (SectionRenderer shape)
+  const theme = {
+    colors: {
+      primary: colorTheme?.primary || '#000000',
+      text: colorTheme?.text || '#1A1A1A',
+      background: colorTheme?.background || '#ffffff',
+      accent: colorTheme?.accent || '#000000',
+    },
+    font: {
+      heading: 'Inter, sans-serif',
+      body: 'Inter, sans-serif',
+    },
+  };
 
   return (
     <div 
@@ -46,16 +60,19 @@ export default function PhonePreview() {
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ type: "spring", stiffness: 200, damping: 25 }}
-        className="relative shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1),0_0_0_1px_rgba(0,0,0,0.03)] overflow-hidden flex-shrink-0 z-10 transition-all duration-300 rounded-[24px] bg-white dark:bg-[#151215] w-full max-w-[400px] h-fit min-h-[560px]"
+        className="relative overflow-hidden flex-shrink-0 z-10 transition-all duration-300 rounded-[24px] w-full max-w-[400px] h-fit min-h-[560px]"
+        style={{
+          boxShadow: '0 0 0 1.5px rgba(255,255,255,0.22), 0 24px 64px -12px rgba(0,0,0,0.55)',
+        }}
+        data-card-preview="true"
       >
-        
         {/* Card Content Area */}
         <div 
           className="w-full h-full relative"
           style={{ 
-            backgroundColor: themeConfig?.backgroundColor || '#ffffff',
-            color: themeConfig?.darkMode ? '#ffffff' : '#1A1A1A',
-            fontFamily: themeConfig?.fontFamily || 'Inter, sans-serif'
+            backgroundColor: colorTheme?.background || '#ffffff',
+            color: colorTheme?.text || '#1A1A1A',
+            fontFamily: 'Inter, sans-serif'
           }}
         >
           
@@ -88,7 +105,7 @@ export default function PhonePreview() {
                   <button 
                     onClick={() => setBlockPickerOpen(true)}
                     className="w-full py-3.5 px-6 text-sm text-white rounded-xl font-semibold shadow-lg shadow-primary/20 transition-all hover:-translate-y-0.5 active:scale-95 flex items-center justify-center gap-2"
-                    style={{ backgroundColor: themeConfig?.primaryColor || '#5A3045' }}
+                    style={{ backgroundColor: colorTheme?.primary || '#5A3045' }}
                   >
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                     Add First Block
@@ -110,7 +127,8 @@ export default function PhonePreview() {
                       transition={{ type: "spring", stiffness: 300, damping: 25 }}
                     >
                       <PreviewSection 
-                        section={section} 
+                        section={section}
+                        theme={theme}
                         activeSectionId={activeSectionId}
                         setActiveSection={setActiveSection}
                       />

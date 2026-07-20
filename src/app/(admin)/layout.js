@@ -96,7 +96,9 @@ export default function AdminLayout({ children }) {
       items: [
         { label: 'Users', href: '/admin/users', icon: <Users size={16} /> },
         { label: 'Organizations', href: '/admin/organizations', icon: <Layers size={16} /> },
-        { label: 'Themes', href: '/admin/themes', icon: <Sparkles size={16} /> },
+        { label: 'Display Presets', href: '/admin/display-presets', icon: <LayoutTemplate size={16} /> },
+        { label: 'Color Themes', href: '/admin/color-themes', icon: <Sparkles size={16} /> },
+        { label: 'Footer Presets', href: '/admin/footer-presets', icon: <FileText size={16} /> },
         { label: 'Templates', href: '/admin/templates', icon: <LayoutTemplate size={16} /> }
       ]
     },

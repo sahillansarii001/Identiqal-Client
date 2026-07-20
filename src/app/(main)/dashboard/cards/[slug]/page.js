@@ -131,18 +131,21 @@ export default function SingleCardDashboard() {
         .action-btn {
           @apply h-10 w-10 rounded-xl flex items-center justify-center text-slate-400 hover:bg-white hover:text-slate-800 transition-all border border-transparent hover:border-slate-200 hover:shadow-sm shrink-0;
         }
+        [data-dark="true"] .action-btn {
+          @apply text-slate-400 hover:bg-white/10 hover:text-[#F0EBF0] hover:border-white/10;
+        }
       `}</style>
       
       {/* Back button and Page Header */}
       <div className="flex items-center gap-4 mb-2">
-        <Link href="/dashboard/cards" className="h-10 w-10 rounded-full border border-slate-200 bg-white flex items-center justify-center text-slate-500 hover:text-slate-800 hover:shadow-sm transition-all">
+        <Link href="/dashboard/cards" className="h-10 w-10 rounded-full border border-slate-200 dark:border-white/10 bg-white flex items-center justify-center text-slate-500 dark:text-[#9A8AA0] hover:text-slate-800 dark:hover:text-white hover:shadow-sm transition-all">
           <ArrowLeft size={18} />
         </Link>
         <div>
-          <h1 className="text-2xl font-black text-[#251E2A] flex items-center gap-3">
+          <h1 className="text-2xl font-black text-[#251E2A] dark:text-[#F0EBF0] flex items-center gap-3">
             Card Control Center
           </h1>
-          <p className="text-sm font-medium text-slate-500 mt-1">Manage and monitor {name}</p>
+          <p className="text-sm font-medium text-slate-500 dark:text-[#9A8AA0] mt-1">Manage and monitor {name}</p>
         </div>
       </div>
 
@@ -182,7 +185,7 @@ export default function SingleCardDashboard() {
           
           {/* Header: Title and Actions */}
           <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4 border-b border-[rgba(90,48,69,0.06)] pb-5">
-            <h3 className="font-black text-inherit text-2xl xl:text-3xl truncate text-[#251E2A]">
+            <h3 className="font-black text-inherit text-2xl xl:text-3xl truncate text-[#251E2A] dark:text-[#F0EBF0]">
               {name}
             </h3>
             <div className="flex flex-wrap items-center gap-2">
@@ -208,19 +211,19 @@ export default function SingleCardDashboard() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="bg-slate-50 rounded-2xl p-4 border border-[rgba(90,48,69,0.06)] flex flex-col justify-center transition-colors hover:border-[rgba(90,48,69,0.15)]">
               <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5 mb-0.5"><Sparkles size={12} className="text-[#D4A45B]"/> Total Views</p>
-              <p className="text-2xl font-black text-[#5A3045]">{stats[0].value}</p>
+              <p className="text-2xl font-black text-[#5A3045] dark:text-[#D4A45B]">{stats[0].value}</p>
             </div>
             <div className="bg-slate-50 rounded-2xl p-4 border border-[rgba(90,48,69,0.06)] flex flex-col justify-center transition-colors hover:border-[rgba(90,48,69,0.15)]">
               <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5 mb-0.5"><Copy size={12} className="text-[#D4A45B]"/> Total Saves</p>
-              <p className="text-2xl font-black text-[#5A3045]">{stats[2].value}</p>
+              <p className="text-2xl font-black text-[#5A3045] dark:text-[#D4A45B]">{stats[2].value}</p>
             </div>
             <div className="bg-slate-50 rounded-2xl p-4 border border-[rgba(90,48,69,0.06)] flex flex-col justify-center transition-colors hover:border-[rgba(90,48,69,0.15)]">
               <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5 mb-0.5"><QrCode size={12} className="text-[#D4A45B]"/> Total Scans</p>
-              <p className="text-2xl font-black text-[#5A3045]">{stats[1].value}</p>
+              <p className="text-2xl font-black text-[#5A3045] dark:text-[#D4A45B]">{stats[1].value}</p>
             </div>
-            <Link href={`/dashboard/analytics?card=${card._id}`} className="bg-[#FAF7F3] rounded-2xl p-4 border border-[#D4A45B]/20 flex flex-col justify-center items-center text-center transition-colors hover:bg-[#D4A45B]/10 hover:border-[#D4A45B]/30 group">
+            <Link href={`/dashboard/analytics?card=${card._id}`} className="bg-[#FAF7F3] dark:bg-[#251E2A] rounded-2xl p-4 border border-[#D4A45B]/20 flex flex-col justify-center items-center text-center transition-colors hover:bg-[#D4A45B]/10 dark:hover:bg-[#D4A45B]/15 hover:border-[#D4A45B]/30 group">
               <BarChart3 size={20} className="text-[#D4A45B] mb-1.5 group-hover:scale-110 transition-transform" />
-              <p className="text-xs font-bold text-[#5A3045]">View all analytics</p>
+              <p className="text-xs font-bold text-[#5A3045] dark:text-[#F0EBF0]">View all analytics</p>
             </Link>
           </div>
 
@@ -252,10 +255,10 @@ export default function SingleCardDashboard() {
             {/* Share Links (Right Side) */}
             <div className="flex-1 space-y-6 w-full max-w-sm">
               <div>
-                <h4 className="text-lg font-black text-[#251E2A] mb-3">Share your card</h4>
+                <h4 className="text-lg font-black text-[#251E2A] dark:text-[#F0EBF0] mb-3">Share your card</h4>
                 <button 
                   onClick={() => copyToClipboard(publicUrl, setCopiedLink)}
-                  className="w-full flex items-center justify-center gap-2 bg-white border border-[rgba(90,48,69,0.1)] hover:border-[#5A3045]/30 hover:shadow-md transition-all rounded-xl p-3.5 font-bold text-[#5A3045] text-base"
+                  className="w-full flex items-center justify-center gap-2 bg-white dark:bg-transparent border border-[rgba(90,48,69,0.1)] dark:border-white/10 hover:border-[#5A3045]/30 dark:hover:border-white/20 hover:shadow-md dark:hover:bg-white/5 transition-all rounded-xl p-3.5 font-bold text-[#5A3045] dark:text-[#F0EBF0] text-base cursor-pointer"
                 >
                   {copiedLink ? <Check size={18} /> : <Copy size={18} />}
                   {copiedLink ? 'Link Copied!' : 'Copy Link'}
@@ -267,7 +270,7 @@ export default function SingleCardDashboard() {
                 <div className="flex gap-2">
                   <button 
                     onClick={handleEmailShare}
-                    className="flex-1 flex items-center justify-center gap-1.5 bg-white border border-[rgba(90,48,69,0.1)] hover:bg-slate-50 transition-all rounded-lg py-2.5 px-1 font-semibold text-xs text-slate-700 hover:border-[rgba(90,48,69,0.2)]"
+                    className="flex-1 flex items-center justify-center gap-1.5 bg-white dark:bg-transparent border border-[rgba(90,48,69,0.1)] dark:border-white/10 hover:bg-slate-50 dark:hover:bg-white/5 transition-all rounded-lg py-2.5 px-1 font-semibold text-xs text-slate-700 dark:text-[#F0EBF0] hover:border-[rgba(90,48,69,0.2)] dark:hover:border-white/20 cursor-pointer"
                   >
                     <Share2 size={14} /> Email
                   </button>
@@ -275,7 +278,7 @@ export default function SingleCardDashboard() {
                     href={`https://wa.me/?text=${encodedShareText}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 flex items-center justify-center gap-1.5 bg-white border border-[rgba(90,48,69,0.1)] hover:bg-green-50 transition-all rounded-lg py-2.5 px-1 font-semibold text-xs text-slate-700 hover:border-green-200 hover:text-green-700"
+                    className="flex-1 flex items-center justify-center gap-1.5 bg-white dark:bg-transparent border border-[rgba(90,48,69,0.1)] dark:border-white/10 hover:bg-green-50 dark:hover:bg-green-500/10 transition-all rounded-lg py-2.5 px-1 font-semibold text-xs text-slate-700 dark:text-[#F0EBF0] hover:border-green-200 dark:hover:border-green-500/20 hover:text-green-700 dark:hover:text-green-400 cursor-pointer"
                   >
                     <MessageCircle size={14} /> WhatsApp
                   </a>
@@ -288,24 +291,24 @@ export default function SingleCardDashboard() {
 
           {/* Leads Placeholder */}
           <div className="border border-[rgba(90,48,69,0.06)] rounded-[24px] p-6 flex flex-col gap-4">
-            <h4 className="text-lg font-black text-[#251E2A]">Recent Leads Captured</h4>
+            <h4 className="text-lg font-black text-[#251E2A] dark:text-[#F0EBF0]">Recent Leads Captured</h4>
             <div className="bg-slate-50 border border-slate-100 rounded-xl p-8 flex flex-col items-center justify-center text-center">
               <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm mb-3 text-slate-300">
                 <CopyPlus size={20} />
               </div>
-              <p className="text-sm font-bold text-slate-700">No leads captured yet</p>
+              <p className="text-sm font-bold text-slate-700 dark:text-[#F0EBF0]">No leads captured yet</p>
               <p className="text-xs text-slate-400 mt-1">When someone saves your contact info, they will appear here.</p>
             </div>
           </div>
 
           {/* Activity Placeholder */}
           <div className="border border-[rgba(90,48,69,0.06)] rounded-[24px] p-6 flex flex-col gap-4">
-            <h4 className="text-lg font-black text-[#251E2A]">Recent Activity</h4>
+            <h4 className="text-lg font-black text-[#251E2A] dark:text-[#F0EBF0]">Recent Activity</h4>
             <div className="bg-slate-50 border border-slate-100 rounded-xl p-8 flex flex-col items-center justify-center text-center">
               <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm mb-3 text-slate-300">
                 <Sparkles size={20} />
               </div>
-              <p className="text-sm font-bold text-slate-700">No recent activity</p>
+              <p className="text-sm font-bold text-slate-700 dark:text-[#F0EBF0]">No recent activity</p>
               <p className="text-xs text-slate-400 mt-1">Share your card to start seeing views and scans.</p>
             </div>
           </div>

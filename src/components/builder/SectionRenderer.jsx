@@ -24,29 +24,57 @@ export const SectionRenderer = ({ section, theme = {}, previewMode = false }) =>
 
   switch (type) {
     case 'about':
+      const hasHeader = !!data.headerUrl;
+      const zoom = data.headerZoom ? data.headerZoom / 100 : 1;
+      const panX = data.headerPanX || 0;
+      const panY = data.headerPanY || 0;
+      const blur = data.headerBlur || 0;
+      const brightness = data.headerBrightness ? data.headerBrightness / 100 : 1;
+      const overlay = data.headerOverlay ? data.headerOverlay / 100 : 0;
+
       return (
         <div 
-          className="px-6 py-10 sm:px-10 sm:py-12 text-center space-y-6"
+          className="text-center pb-10 sm:pb-12"
           style={{ color: colors.text || '#212529' }}
         >
-          {data.avatarUrl && (
-            <img 
-              src={data.avatarUrl} 
-              alt={data.headline} 
-              className="w-20 h-20 rounded-full mx-auto object-cover border-2 shadow-md"
-              style={{ borderColor: colors.primary || '#000000' }}
-            />
+          {hasHeader && (
+            <div className="w-full h-[200px] sm:h-[250px] relative overflow-hidden bg-gray-100 dark:bg-black/20">
+              <img
+                src={data.headerUrl}
+                alt="Header"
+                className="absolute inset-0 w-full h-full object-cover transition-transform"
+                style={{
+                  transform: `scale(${zoom}) translate(${panX}%, ${panY}%)`,
+                  filter: `blur(${blur}px) brightness(${brightness})`
+                }}
+              />
+              <div 
+                className="absolute inset-0 transition-opacity" 
+                style={{ backgroundColor: colors.background, opacity: overlay }}
+              />
+            </div>
           )}
-          <div className="space-y-1">
-            <h3 
-              className="text-lg font-black tracking-tight"
-              style={{ fontFamily: font.heading || 'inherit', color: colors.primary || '#000000' }}
-            >
-              {data.headline || 'Profile Headline'}
-            </h3>
-            <p className="text-xs opacity-80" style={{ fontFamily: font.body || 'inherit' }}>
-              {data.bio || 'Provide a short biography detailing your role and networking background.'}
-            </p>
+          
+          <div className={`px-6 sm:px-10 space-y-6 ${hasHeader ? '-mt-10 sm:-mt-12 relative z-10' : 'pt-10 sm:pt-12'}`}>
+            {data.avatarUrl && (
+              <img 
+                src={data.avatarUrl} 
+                alt={data.headline} 
+                className={`w-20 h-20 sm:w-24 sm:h-24 rounded-full mx-auto object-cover border-4 shadow-md ${hasHeader ? 'bg-white dark:bg-gray-900' : ''}`}
+                style={{ borderColor: hasHeader ? colors.background : (colors.primary || '#000000') }}
+              />
+            )}
+            <div className="space-y-1">
+              <h3 
+                className="text-lg sm:text-xl font-black tracking-tight"
+                style={{ fontFamily: font.heading || 'inherit', color: colors.primary || '#000000' }}
+              >
+                {data.headline || 'Profile Headline'}
+              </h3>
+              <p className="text-xs sm:text-sm opacity-80 max-w-md mx-auto" style={{ fontFamily: font.body || 'inherit' }}>
+                {data.bio || 'Provide a short biography detailing your role and networking background.'}
+              </p>
+            </div>
           </div>
         </div>
       );
@@ -67,7 +95,7 @@ export const SectionRenderer = ({ section, theme = {}, previewMode = false }) =>
                 className="group flex items-center justify-between p-4 sm:p-5 rounded-2xl bg-black/[0.02] dark:bg-white/[0.02] hover:bg-black/[0.06] dark:hover:bg-white/[0.06] transition-all duration-300"
                 style={{ color: colors.primary || '#000000' }}
               >
-                <div className="w-10 h-10 rounded-full bg-white dark:bg-black/20 shadow-sm flex items-center justify-center flex-shrink-0" style={{ color: colors.accent || colors.primary }}>
+                <div className="w-10 h-10 rounded-full bg-[#ffffff] dark:bg-black/20 shadow-sm flex items-center justify-center flex-shrink-0" style={{ color: colors.accent || colors.primary }}>
                   <span className="text-lg">🔗</span>
                 </div>
                 <span className="flex-1 px-4 font-bold text-sm sm:text-base tracking-wide">{link.label}</span>

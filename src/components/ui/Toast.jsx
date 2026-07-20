@@ -4,11 +4,12 @@ import { CheckCircle2, XCircle, AlertCircle, Info, X } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 
 // Store
+let _toastCounter = 0;
 export const useToastStore = create((set) => ({
   toasts: [],
   addToast: (toast) =>
     set((state) => ({
-      toasts: [...state.toasts, { id: Date.now().toString(), ...toast }],
+      toasts: [...state.toasts, { id: `toast-${++_toastCounter}-${Date.now()}`, ...toast }],
     })),
   removeToast: (id) =>
     set((state) => ({

@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axiosInstance from '@/services/axiosInstance';
 import { useCardBuilderStore } from '@/store/cardBuilderStore';
-import { Settings, AlignLeft, AlignCenter, AlignRight, Trash2, Plus, ChevronLeft, GripVertical, Eye, EyeOff, Layers, Palette, User, Link as LinkIcon, MessageSquare, FormInput, Image as ImageIcon, Copy } from 'lucide-react';
+import { Settings, AlignLeft, AlignCenter, AlignRight, Trash2, Plus, ChevronLeft, GripVertical, Eye, EyeOff, Layers, Palette, User, Link as LinkIcon, MessageSquare, FormInput, Image as ImageIcon, Copy, Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { SortableContext, arrayMove, sortableKeyboardCoordinates, verticalListSortingStrategy, useSortable } from '@dnd-kit/sortable';
@@ -249,83 +250,125 @@ const SectionHierarchyList = () => {
 /* -------------------------------------------------------------------------- */
 
 const ThemeCustomizer = () => {
-  const { themeConfig, updateThemeConfig } = useCardBuilderStore();
+  const { displayPreset, colorTheme, footerPreset, setDesignPreset } = useCardBuilderStore();
+  
+  const [displayPresets, setDisplayPresets] = useState([]);
+  const [colorThemes, setColorThemes] = useState([]);
+  const [footerPresets, setFooterPresets] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const TEMPLATES = [
-    { id: 'classic', name: 'Classic', preview: 'bg-white border-gray-200 text-gray-900' },
-    { id: 'corporate', name: 'Corporate', preview: 'bg-[#f0f4f8] border-[#d9e2ec] text-[#102a43]' },
-    { id: 'minimal', name: 'Minimal', preview: 'bg-[#f8f9fa] border-gray-100 text-gray-800' },
-    { id: 'luxury', name: 'Luxury', preview: 'bg-[#121212] border-[#333] text-[#d4af37]' },
-    { id: 'modern', name: 'Modern', preview: 'bg-indigo-50 border-indigo-100 text-indigo-900' },
-    { id: 'dark', name: 'Dark', preview: 'bg-gray-900 border-gray-800 text-white' },
-  ];
+  useEffect(() => {
+    const fetchPresets = async () => {
+      try {
+        const [dRes, cRes, fRes] = await Promise.all([
+          axiosInstance.get('/presets/display'),
+          axiosInstance.get('/presets/colors'),
+          axiosInstance.get('/presets/footers')
+        ]);
+        // Controller returns the array directly (not wrapped in { data: [...] })
+        setDisplayPresets(Array.isArray(dRes) ? dRes : (dRes.data || []));
+        setColorThemes(Array.isArray(cRes) ? cRes : (cRes.data || []));
+        setFooterPresets(Array.isArray(fRes) ? fRes : (fRes.data || []));
+      } catch (error) {
+        console.error('Failed to load presets:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchPresets();
+  }, []);
 
-  const brandColors = ['#5A3045', '#000000', '#2563eb', '#16a34a', '#8a2be2', '#ea580c'];
-  const bgColors = ['#ffffff', '#f8f5f2', '#f0f4f8', '#1a1a1a', '#0D0B0D', '#151215'];
+  if (loading) {
+    return (
+      <div className="flex justify-center p-10">
+        <div className="w-6 h-6 border-2 border-primary/30 border-t-primary rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-5">
-      <SettingGroup title="Theme Gallery">
+      <SettingGroup title="Display Layouts">
         <div className="grid grid-cols-2 gap-3">
-          {TEMPLATES.map(t => (
+          {displayPresets.map(preset => (
             <button
-              key={t.id}
-              onClick={() => updateThemeConfig({ template: t.id })}
+              key={preset._id}
+              onClick={() => setDesignPreset('displayPreset', preset)}
               className={`relative h-[84px] rounded-[14px] border flex flex-col p-2.5 transition-all duration-300 overflow-hidden group ${
-                themeConfig.template === t.id ? 'border-primary ring-2 ring-primary/20 shadow-md' : 'border-black/10 dark:border-white/10 hover:border-black/20 hover:shadow-sm'
+                displayPreset?._id === preset._id ? 'border-primary ring-2 ring-primary/20 shadow-md' : 'border-black/10 dark:border-white/10 hover:border-black/20 hover:shadow-sm'
               }`}
             >
-              <div className={`absolute inset-0 opacity-40 ${t.preview}`}></div>
+              <div className="absolute inset-0 opacity-10 bg-gradient-to-br from-gray-500 to-gray-800"></div>
               <div className="relative z-10 flex flex-col h-full justify-between w-full">
                 <div className="flex justify-between items-start w-full">
-                  <div className="w-8 h-1.5 rounded-full bg-current opacity-30"></div>
-                  {themeConfig.template === t.id && (
+                  <div className="text-[10px] font-semibold text-gray-800 dark:text-gray-200">{preset.name}</div>
+                  {displayPreset?._id === preset._id && (
                     <div className="w-4 h-4 rounded-full bg-primary flex items-center justify-center text-white shrink-0 shadow-sm">
                       <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                     </div>
                   )}
                 </div>
-                <div className="space-y-1 w-full">
-                  <div className="w-full h-1 rounded-full bg-current opacity-30"></div>
-                  <div className="w-2/3 h-1 rounded-full bg-current opacity-30"></div>
+                <div className="text-[9px] text-gray-500 text-left line-clamp-2 mt-1">
+                  {preset.description || preset.headerStyle}
                 </div>
-              </div>
-              <div className="absolute bottom-0 left-0 w-full p-1.5 bg-white/90 backdrop-blur-sm dark:bg-black/90 border-t border-black/5 dark:border-white/5 flex items-center justify-center">
-                <span className="text-[9px] font-bold uppercase tracking-wider text-gray-800 dark:text-gray-200">{t.name}</span>
               </div>
             </button>
           ))}
         </div>
       </SettingGroup>
 
-      <SettingGroup title="Color Palette">
-        <div className="space-y-6">
-          <div className="space-y-3">
-            <label className="text-[10px] font-bold text-gray-400 block uppercase tracking-wider">Brand / Accent Colors</label>
-            <div className="flex flex-wrap gap-3">
-              {brandColors.map(c => (
-                <button 
-                  key={c}
-                  onClick={() => updateThemeConfig({ primaryColor: c })}
-                  className={`w-[38px] h-[38px] rounded-[12px] border transition-all duration-300 flex items-center justify-center ${themeConfig.primaryColor === c ? 'border-gray-900 dark:border-white scale-110 shadow-md ring-2 ring-offset-1 ring-gray-200 dark:ring-gray-800' : 'border-black/10 shadow-sm hover:scale-105'}`}
-                  style={{ backgroundColor: c }}
-                />
-              ))}
-            </div>
-          </div>
-          <div className="space-y-3">
-            <label className="text-[10px] font-bold text-gray-400 block uppercase tracking-wider">Background Colors</label>
-            <div className="flex flex-wrap gap-3">
-              {bgColors.map(c => (
-                <button 
-                  key={c}
-                  onClick={() => updateThemeConfig({ backgroundColor: c })}
-                  className={`w-[38px] h-[38px] rounded-[12px] border transition-all duration-300 flex items-center justify-center ${themeConfig.backgroundColor === c ? 'border-gray-900 dark:border-white scale-110 shadow-md ring-2 ring-offset-1 ring-gray-200 dark:ring-gray-800' : 'border-black/10 shadow-sm hover:scale-105'}`}
-                  style={{ backgroundColor: c }}
-                />
-              ))}
-            </div>
-          </div>
+      <SettingGroup title="Color Themes">
+        <div className="grid grid-cols-2 gap-3">
+          {colorThemes.map(theme => (
+            <button
+              key={theme._id}
+              onClick={() => setDesignPreset('colorTheme', theme)}
+              className={`relative rounded-[14px] border flex flex-col transition-all duration-300 overflow-hidden group ${
+                colorTheme?._id === theme._id ? 'border-primary ring-2 ring-primary/20 shadow-md scale-[1.02]' : 'border-black/10 dark:border-white/10 hover:border-black/20 hover:shadow-sm'
+              }`}
+              style={{ backgroundColor: theme.background }}
+            >
+              <div className="p-3 w-full flex flex-col gap-2">
+                <div className="flex justify-between items-center">
+                  <div className="text-[11px] font-bold text-left truncate flex-1" style={{ color: theme.text }}>
+                    {theme.name}
+                  </div>
+                  {colorTheme?._id === theme._id && (
+                    <div className="w-4 h-4 rounded-full bg-primary flex items-center justify-center text-white shrink-0 shadow-sm ml-2">
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    </div>
+                  )}
+                </div>
+                <div className="flex gap-1.5">
+                  <div className="w-5 h-5 rounded-full shadow-sm" style={{ backgroundColor: theme.primary }} />
+                  <div className="w-5 h-5 rounded-full shadow-sm" style={{ backgroundColor: theme.secondary }} />
+                  <div className="w-5 h-5 rounded-full shadow-sm" style={{ backgroundColor: theme.accent }} />
+                </div>
+              </div>
+            </button>
+          ))}
+        </div>
+      </SettingGroup>
+
+      <SettingGroup title="Footer Style">
+        <div className="grid grid-cols-1 gap-2">
+          {footerPresets.map(footer => (
+            <button
+              key={footer._id}
+              onClick={() => setDesignPreset('footerPreset', footer)}
+              className={`text-left p-3 rounded-xl border transition-all text-xs font-medium ${
+                footerPreset?._id === footer._id ? 'border-primary bg-primary/5 text-primary' : 'border-black/5 dark:border-white/5 bg-gray-50 dark:bg-white/5 hover:bg-gray-100 text-gray-700 dark:text-gray-300'
+              }`}
+            >
+              <div className="flex items-center justify-between">
+                <span>{footer.name}</span>
+                {footerPreset?._id === footer._id && <Check size={14} className="text-primary" />}
+              </div>
+              <div className="text-[10px] text-gray-400 mt-1 truncate max-w-[200px] font-mono">
+                {footer.contentTemplate}
+              </div>
+            </button>
+          ))}
         </div>
       </SettingGroup>
     </div>
@@ -377,19 +420,76 @@ const AboutSettings = ({ data, onUpdate }) => (
     <SettingGroup title="Content">
       <RealtimeInput label="Name / Headline" value={data.headline} onChange={(val) => onUpdate('headline', val)} />
       <RealtimeInput label="Bio / Description" value={data.bio} onChange={(val) => onUpdate('bio', val)} as="textarea" />
-      <RealtimeInput label="Avatar URL" value={data.avatarUrl} onChange={(val) => onUpdate('avatarUrl', val)} />
+      <RealtimeInput label="Profile Photo URL" value={data.avatarUrl} onChange={(val) => onUpdate('avatarUrl', val)} />
+    </SettingGroup>
+    
+    <SettingGroup title="Header Image">
+      <RealtimeInput label="Header Image URL" value={data.headerUrl} onChange={(val) => onUpdate('headerUrl', val)} />
+      
+      {data.headerUrl && (
+        <div className="space-y-4 pt-3 border-t border-gray-100 dark:border-white/10">
+          <div className="space-y-1.5">
+            <div className="flex justify-between items-center text-[11px]">
+              <label className="font-semibold text-gray-700 dark:text-gray-300">Zoom</label>
+              <span className="text-gray-500 font-mono">{data.headerZoom || 100}%</span>
+            </div>
+            <input type="range" min="100" max="250" value={data.headerZoom || 100} onChange={e => onUpdate('headerZoom', e.target.value)} className="w-full accent-primary" />
+          </div>
+          
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-1.5">
+              <div className="flex justify-between items-center text-[11px]">
+                <label className="font-semibold text-gray-700 dark:text-gray-300">Pan X</label>
+                <span className="text-gray-500 font-mono">{data.headerPanX || 0}%</span>
+              </div>
+              <input type="range" min="-100" max="100" value={data.headerPanX || 0} onChange={e => onUpdate('headerPanX', e.target.value)} className="w-full accent-primary" />
+            </div>
+            <div className="space-y-1.5">
+              <div className="flex justify-between items-center text-[11px]">
+                <label className="font-semibold text-gray-700 dark:text-gray-300">Pan Y</label>
+                <span className="text-gray-500 font-mono">{data.headerPanY || 0}%</span>
+              </div>
+              <input type="range" min="-100" max="100" value={data.headerPanY || 0} onChange={e => onUpdate('headerPanY', e.target.value)} className="w-full accent-primary" />
+            </div>
+          </div>
+
+          <div className="space-y-1.5">
+            <div className="flex justify-between items-center text-[11px]">
+              <label className="font-semibold text-gray-700 dark:text-gray-300">Blur</label>
+              <span className="text-gray-500 font-mono">{data.headerBlur || 0}px</span>
+            </div>
+            <input type="range" min="0" max="20" value={data.headerBlur || 0} onChange={e => onUpdate('headerBlur', e.target.value)} className="w-full accent-primary" />
+          </div>
+
+          <div className="space-y-1.5">
+            <div className="flex justify-between items-center text-[11px]">
+              <label className="font-semibold text-gray-700 dark:text-gray-300">Brightness</label>
+              <span className="text-gray-500 font-mono">{data.headerBrightness || 100}%</span>
+            </div>
+            <input type="range" min="20" max="200" value={data.headerBrightness || 100} onChange={e => onUpdate('headerBrightness', e.target.value)} className="w-full accent-primary" />
+          </div>
+
+          <div className="space-y-1.5">
+            <div className="flex justify-between items-center text-[11px]">
+              <label className="font-semibold text-gray-700 dark:text-gray-300">Overlay Opacity</label>
+              <span className="text-gray-500 font-mono">{data.headerOverlay || 0}%</span>
+            </div>
+            <input type="range" min="0" max="100" value={data.headerOverlay || 0} onChange={e => onUpdate('headerOverlay', e.target.value)} className="w-full accent-primary" />
+          </div>
+        </div>
+      )}
     </SettingGroup>
     
     <SettingGroup title="Design">
       <div className="space-y-1.5">
         <label className="text-[12px] font-medium text-gray-700 block">Text Alignment</label>
-        <div className="flex bg-gray-50/80 rounded-xl p-1 border border-gray-200 shadow-sm">
+        <div className="flex bg-gray-50/80 dark:bg-white/5 rounded-xl p-1 border border-gray-200 dark:border-white/10 shadow-sm">
           {['left', 'center', 'right'].map((align) => (
             <button
               key={align}
               onClick={() => onUpdate('alignment', align)}
-              className={`flex-1 flex justify-center py-2 rounded-lg text-gray-500 transition-all ${
-                (data.alignment || 'center') === align ? 'bg-white shadow text-gray-900 font-medium' : 'hover:bg-gray-100/50'
+              className={`flex-1 flex justify-center py-2 rounded-lg text-gray-500 dark:text-gray-400 transition-all cursor-pointer ${
+                (data.alignment || 'center') === align ? 'bg-white shadow text-gray-900 dark:text-white font-medium' : 'hover:bg-gray-100/50 dark:hover:bg-white/5'
               }`}
             >
               {align === 'left' && <AlignLeft size={16} />}

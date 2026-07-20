@@ -37,13 +37,27 @@ export default async function PublicCardPage(props) {
     );
   }
 
-  const { card, theme } = cardData;
+  const { card, displayPreset, colorTheme, footerPreset } = cardData;
   const sections = card.sections || [];
+
+  // Map backend presets to the theme structure SectionRenderer expects
+  const theme = {
+    colors: {
+      primary: colorTheme?.primary || '#000000',
+      text: colorTheme?.text || '#1A1A1A',
+      background: colorTheme?.background || '#ffffff',
+      accent: colorTheme?.accent || '#000000',
+    },
+    font: {
+      heading: 'Inter, sans-serif',
+      body: 'Inter, sans-serif',
+    },
+  };
 
   return (
     <div 
       className="min-h-screen flex flex-col items-center justify-start py-12 px-4 select-none"
-      style={{ backgroundColor: theme.colors?.background || '#090d16' }}
+      style={{ backgroundColor: colorTheme?.background || '#090d16' }}
     >
       {/* Analytics view event tracker (client logger) */}
       <AnalyticsLogger cardId={card._id} />
@@ -59,7 +73,7 @@ export default async function PublicCardPage(props) {
           <div 
             className="w-full rounded-[28px] border shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] overflow-hidden"
             style={{ 
-              backgroundColor: theme.colors?.background || '#ffffff',
+              backgroundColor: colorTheme?.background || '#ffffff',
               borderColor: 'rgba(0,0,0,0.06)'
             }}
           >
@@ -84,7 +98,7 @@ export default async function PublicCardPage(props) {
         <div className="text-center pt-8 border-t border-slate-900/10">
           <p 
             className="text-[9px] font-semibold uppercase tracking-widest opacity-60"
-            style={{ color: theme.colors?.text || '#212529' }}
+            style={{ color: colorTheme?.text || '#212529' }}
           >
             Powered by Identiqal SaaS
           </p>

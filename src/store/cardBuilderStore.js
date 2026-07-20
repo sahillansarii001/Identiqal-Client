@@ -18,39 +18,46 @@ export const useCardBuilderStore = create((set, get) => ({
   lastSavedAt: null,
   isBlockPickerOpen: false,
   previewDevice: 'smartphone', // 'desktop', 'tablet', 'smartphone'
-  themeConfig: {
-    fontFamily: 'Inter',
-    primaryColor: '#8a2be2',
-    backgroundColor: '#ffffff',
-    darkMode: false,
-    radius: '16px',
-  },
+  displayPreset: null,
+  colorTheme: null,
+  footerPreset: null,
 
   // History State
   past: [],
   future: [],
 
   // Set initial card data without history
-  setCard: (card) => set({
-    cardId: card._id,
-    slug: card.slug,
-    title: card.title,
-    sections: card.sections || [],
-    seo: card.seo || { metaTitle: '', metaDescription: '', ogImageUrl: '' },
-    activeSectionId: card.sections?.[0]?.sectionId || null,
-    isDirty: false,
-    saveStatus: 'saved',
-    past: [],
-    future: [],
-  }),
+  setCard: (cardData) => {
+    // We expect the backend to send { card, displayPreset, colorTheme, footerPreset }
+    // Or just a card object if it's the raw card
+    const card = cardData.card || cardData;
+    
+    set({
+      cardId: card._id,
+      slug: card.slug,
+      title: card.title,
+      sections: card.sections || [],
+      seo: card.seo || { metaTitle: '', metaDescription: '', ogImageUrl: '' },
+      activeSectionId: card.sections?.[0]?.sectionId || null,
+      displayPreset: cardData.displayPreset || null,
+      colorTheme: cardData.colorTheme || null,
+      footerPreset: cardData.footerPreset || null,
+      isDirty: false,
+      saveStatus: 'saved',
+      past: [],
+      future: [],
+    });
+  },
 
   // Internal helper to save state to history
   _saveToHistory: () => {
-    const { sections, seo, themeConfig, past } = get();
+    const { sections, seo, displayPreset, colorTheme, footerPreset, past } = get();
     const newPast = [...past, { 
       sections: JSON.parse(JSON.stringify(sections)), 
       seo: JSON.parse(JSON.stringify(seo)),
-      themeConfig: JSON.parse(JSON.stringify(themeConfig))
+      displayPreset: displayPreset ? JSON.parse(JSON.stringify(displayPreset)) : null,
+      colorTheme: colorTheme ? JSON.parse(JSON.stringify(colorTheme)) : null,
+      footerPreset: footerPreset ? JSON.parse(JSON.stringify(footerPreset)) : null,
     }];
     if (newPast.length > MAX_HISTORY) newPast.shift();
     set({ past: newPast, future: [], isDirty: true });
@@ -78,8 +85,6 @@ export const useCardBuilderStore = create((set, get) => ({
     }));
   },
 
-  // For real-time updates where we might not want to push to history immediately (e.g. dragging a slider)
-  // We can add a debounced history push if needed, but for now we'll do standard update.
   updateSectionRealTime: (sectionId, updatedData) => {
     set((state) => ({
       isDirty: true,
@@ -126,9 +131,9 @@ export const useCardBuilderStore = create((set, get) => ({
   setPreviewDevice: (device) => set({ previewDevice: device }),
   setBlockPickerOpen: (isOpen) => set({ isBlockPickerOpen: isOpen }),
   
-  updateThemeConfig: (config) => {
+  setDesignPreset: (type, preset) => {
     get()._saveToHistory();
-    set((state) => ({ themeConfig: { ...state.themeConfig, ...config } }));
+    set({ [type]: preset, isDirty: true });
   },
 
   undo: () => set((state) => {
@@ -139,10 +144,18 @@ export const useCardBuilderStore = create((set, get) => ({
     
     return {
       past: newPast,
-      future: [{ sections: state.sections, seo: state.seo, themeConfig: state.themeConfig }, ...state.future],
+      future: [{ 
+        sections: state.sections, 
+        seo: state.seo, 
+        displayPreset: state.displayPreset,
+        colorTheme: state.colorTheme,
+        footerPreset: state.footerPreset 
+      }, ...state.future],
       sections: previous.sections,
       seo: previous.seo,
-      themeConfig: previous.themeConfig || state.themeConfig, // fallback if older history entry
+      displayPreset: previous.displayPreset,
+      colorTheme: previous.colorTheme,
+      footerPreset: previous.footerPreset,
       isDirty: true,
     };
   }),
@@ -154,11 +167,19 @@ export const useCardBuilderStore = create((set, get) => ({
     const newFuture = state.future.slice(1);
     
     return {
-      past: [...state.past, { sections: state.sections, seo: state.seo, themeConfig: state.themeConfig }],
+      past: [...state.past, { 
+        sections: state.sections, 
+        seo: state.seo, 
+        displayPreset: state.displayPreset,
+        colorTheme: state.colorTheme,
+        footerPreset: state.footerPreset 
+      }],
       future: newFuture,
       sections: next.sections,
       seo: next.seo,
-      themeConfig: next.themeConfig || state.themeConfig, // fallback
+      displayPreset: next.displayPreset,
+      colorTheme: next.colorTheme,
+      footerPreset: next.footerPreset,
       isDirty: true,
     };
   }),
@@ -170,6 +191,9 @@ export const useCardBuilderStore = create((set, get) => ({
     sections: [],
     seo: { metaTitle: '', metaDescription: '', ogImageUrl: '' },
     activeSectionId: null,
+    displayPreset: null,
+    colorTheme: null,
+    footerPreset: null,
     isDirty: false,
     past: [],
     future: [],
