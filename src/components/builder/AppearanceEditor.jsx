@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { ThemeSelector } from "./ThemeSelector";
-import { useCardBuilderStore } from "@/store/cardBuilderStore";
+import { ThemeCustomizer } from "./InspectorPanel";
 
 export const AppearanceEditor = () => {
   const [activeInternalTab, setActiveInternalTab] = useState("customizable"); // 'customizable' or 'curated'
@@ -44,14 +43,11 @@ export const AppearanceEditor = () => {
       <div className="flex-1 p-10 pb-32">
         {activeInternalTab === "customizable" ? (
           <div className="space-y-12 max-w-[1200px] mx-auto">
-            <ThemeSelector />
-
-            {/* Extended Color Customization (placeholder for what was in the inspector) */}
-            <div className="space-y-6 pt-12 border-t border-gray-100 dark:border-white/5 w-full max-w-3xl">
+            <div className="w-full max-w-3xl">
               <h4 className="text-[13px] font-bold text-gray-900 dark:text-white uppercase tracking-widest mb-6">
-                Colors
+                Design Customizer
               </h4>
-              <ColorPaletteEditor />
+              <ThemeCustomizer />
             </div>
           </div>
         ) : (
@@ -59,62 +55,6 @@ export const AppearanceEditor = () => {
             <p className="font-semibold text-lg">Curated themes coming soon!</p>
           </div>
         )}
-      </div>
-    </div>
-  );
-};
-
-// Extracted from original InspectorPanel
-const ColorPaletteEditor = () => {
-  const { themeConfig, updateThemeConfig } = useCardBuilderStore();
-  const brandColors = [
-    "#5A3045",
-    "#000000",
-    "#2563eb",
-    "#16a34a",
-    "#8a2be2",
-    "#ea580c",
-  ];
-  const bgColors = [
-    "#ffffff",
-    "#f8f5f2",
-    "#f0f4f8",
-    "#0F172A",
-    "#0D0B0D",
-    "#151215",
-  ];
-
-  return (
-    <div className="space-y-8">
-      <div className="space-y-4">
-        <label className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-          Brand / Accent Colors
-        </label>
-        <div className="flex flex-wrap gap-4">
-          {brandColors.map((c) => (
-            <button
-              key={c}
-              onClick={() => updateThemeConfig({ primaryColor: c })}
-              className={`w-[48px] h-[48px] rounded-[16px] border transition-all duration-300 flex items-center justify-center ${themeConfig.primaryColor === c ? "border-gray-900 dark:border-white scale-110 shadow-md ring-2 ring-offset-2 ring-gray-200 dark:ring-gray-800" : "border-black/10 shadow-sm hover:scale-105"}`}
-              style={{ backgroundColor: c }}
-            />
-          ))}
-        </div>
-      </div>
-      <div className="space-y-4">
-        <label className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-          Background Colors
-        </label>
-        <div className="flex flex-wrap gap-4">
-          {bgColors.map((c) => (
-            <button
-              key={c}
-              onClick={() => updateThemeConfig({ backgroundColor: c })}
-              className={`w-[48px] h-[48px] rounded-[16px] border transition-all duration-300 flex items-center justify-center ${themeConfig.backgroundColor === c ? "border-gray-900 dark:border-white scale-110 shadow-md ring-2 ring-offset-2 ring-gray-200 dark:ring-gray-800" : "border-black/10 shadow-sm hover:scale-105"}`}
-              style={{ backgroundColor: c }}
-            />
-          ))}
-        </div>
       </div>
     </div>
   );

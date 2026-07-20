@@ -249,7 +249,7 @@ const SectionHierarchyList = () => {
 /* THEME CUSTOMIZER (UI ONLY)                                                 */
 /* -------------------------------------------------------------------------- */
 
-const ThemeCustomizer = () => {
+export const ThemeCustomizer = () => {
   const { displayPreset, colorTheme, footerPreset, setDesignPreset } = useCardBuilderStore();
   
   const [displayPresets, setDisplayPresets] = useState([]);
