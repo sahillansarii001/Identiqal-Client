@@ -34,15 +34,15 @@ export const Navbar = () => {
   };
 
   return (
-    <div className="sticky top-0 w-full z-50 flex justify-center items-start pt-6 px-4 -mb-24 h-24 pointer-events-none">
+    <div className="sticky top-0 w-full z-50 flex justify-center items-start pt-4 px-6 -mb-20 h-20 pointer-events-none">
       <motion.nav
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className={`w-full max-w-4xl rounded-full transition-all duration-300 border backdrop-blur-xl pointer-events-auto ${
+        className={`w-full max-w-4xl rounded-full transition-all duration-300 border backdrop-blur-md pointer-events-auto ${
           isScrolled
-            ? "bg-white/80 border-slate-200/50 shadow-lg shadow-slate-200/20 py-2.5 px-4"
-            : "bg-white/60 border-transparent shadow-none py-3 px-4"
+            ? "bg-white/70 border-slate-200/40 shadow-[0_10px_30px_rgba(148,163,184,0.08)] py-2 px-5"
+            : "bg-white/40 border-transparent shadow-none py-2 px-5"
         }`}
       >
         <div className="flex items-center justify-between">
