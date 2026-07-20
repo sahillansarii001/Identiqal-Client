@@ -235,7 +235,7 @@ export default function CardsPage() {
             Design, update, and manage your premium visual networking cards. Share them seamlessly across any platform.
           </p>
         </div>
-        <Button onClick={() => setIsModalOpen(true)} className="bg-[#D4A45B] hover:bg-[#c3934b] text-[#1F1F1F] shadow-lg shadow-[#D4A45B]/20 hover:shadow-xl transition-all space-x-2 py-3 px-6 rounded-2xl font-black z-10">
+        <Button onClick={() => setIsModalOpen(true)} className="bg-[#D4A45B] hover:bg-[#c3934b] text-[#0F172A] shadow-lg shadow-[#D4A45B]/20 hover:shadow-xl transition-all space-x-2 py-3 px-6 rounded-2xl font-black z-10">
           <Plus size={18} />
           <span>New Card</span>
         </Button>
@@ -255,7 +255,7 @@ export default function CardsPage() {
           className="text-center py-32 bg-white border border-dashed border-[rgba(90,48,69,0.15)] rounded-[40px] space-y-6 relative overflow-hidden shadow-sm"
         >
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#D4A45B]/5 rounded-full blur-[100px] pointer-events-none" />
-          <div className="w-24 h-24 rounded-3xl bg-gradient-to-tr from-[#5A3045]/10 to-[#D4A45B]/10 border border-[#D4A45B]/20 flex items-center justify-center mx-auto text-[#5A3045] shadow-inner relative z-10">
+          <div className="w-24 h-24 rounded-3xl bg-linear-to-tr from-[#5A3045]/10 to-[#D4A45B]/10 border border-[#D4A45B]/20 flex items-center justify-center mx-auto text-[#5A3045] shadow-inner relative z-10">
             <Sparkles size={40} />
           </div>
           <div className="space-y-3 relative z-10">
@@ -264,7 +264,7 @@ export default function CardsPage() {
               Create your first responsive digital business profile to start capturing leads, sharing your QR code, and tracking powerful analytics.
             </p>
           </div>
-          <Button onClick={() => setIsModalOpen(true)} className="bg-[#5A3045] hover:bg-[#4A2C3A] text-white shadow-xl shadow-[#5A3045]/20 font-bold py-3 px-8 rounded-2xl relative z-10 mt-4">
+          <Button onClick={() => setIsModalOpen(true)} className="bg-[#5A3045] hover:bg-primary text-white shadow-xl shadow-[#5A3045]/20 font-bold py-3 px-8 rounded-2xl relative z-10 mt-4">
             Create Your First Card
           </Button>
         </motion.div>
@@ -308,7 +308,7 @@ export default function CardsPage() {
             <Button type="button" variant="secondary" onClick={() => setIsModalOpen(false)} className="bg-slate-50 hover:bg-slate-100 text-slate-700 font-bold px-6">
               Cancel
             </Button>
-            <Button type="submit" className="bg-[#5A3045] hover:bg-[#4A2C3A] text-white font-bold px-8 shadow-lg shadow-[#5A3045]/20">
+            <Button type="submit" className="bg-[#5A3045] hover:bg-primary text-white font-bold px-8 shadow-lg shadow-[#5A3045]/20">
               Create Profile
             </Button>
           </div>
@@ -317,3 +317,4 @@ export default function CardsPage() {
     </div>
   );
 }
+

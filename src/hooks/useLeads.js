@@ -1,11 +1,11 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { leadService } from '../services/leadService.js';
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { leadService } from "../services/leadService.js";
 
 export const useLeads = (cardId) => {
   const queryClient = useQueryClient();
 
   const leadsQuery = useQuery({
-    queryKey: ['leads', cardId],
+    queryKey: ["leads", cardId],
     queryFn: async () => {
       const response = await leadService.getLeads(cardId);
       return response.data;
@@ -19,7 +19,7 @@ export const useLeads = (cardId) => {
       return response.data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['leads', cardId] });
+      queryClient.invalidateQueries({ queryKey: ["leads", cardId] });
     },
   });
 
@@ -29,7 +29,7 @@ export const useLeads = (cardId) => {
     isError: leadsQuery.isError,
     error: leadsQuery.error,
     refetch: leadsQuery.refetch,
-    
+
     submitLead: submitLeadMutation.mutateAsync,
     isSubmitting: submitLeadMutation.isPending,
   };

@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { useReducedMotion } from 'framer-motion';
+import { useState, useEffect } from "react";
+import { useReducedMotion } from "framer-motion";
 
 /**
  * A hydration-safe wrapper around Framer Motion's useReducedMotion.

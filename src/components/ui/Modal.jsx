@@ -1,42 +1,37 @@
-import React, { useEffect } from 'react';
-import { X } from 'lucide-react';
+import React, { useEffect } from "react";
+import { X } from "lucide-react";
 
-export const Modal = ({
-  isOpen,
-  onClose,
-  title,
-  children,
-  className = '',
-}) => {
+export const Modal = ({ isOpen, onClose, title, children, className = "" }) => {
   useEffect(() => {
     const handleEscape = (e) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === "Escape") onClose();
     };
 
     if (isOpen) {
-      document.body.style.overflow = 'hidden';
-      window.addEventListener('keydown', handleEscape);
+      document.body.style.overflow = "hidden";
+      window.addEventListener("keydown", handleEscape);
     }
 
     return () => {
-      document.body.style.overflow = '';
-      window.removeEventListener('keydown', handleEscape);
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", handleEscape);
     };
   }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 transition-opacity">
+    <div className="fixed inset-0 z-100 flex items-center justify-center p-4 sm:p-6 transition-opacity">
       {/* Backdrop */}
-      <div 
+      <div
         className="fixed inset-0 bg-gray-900/40 backdrop-blur-sm transition-opacity"
         onClick={onClose}
       />
-      
+
       {/* Modal Content */}
-      <div className={`relative w-full max-w-lg bg-white dark:bg-[#1A1A1A] border border-gray-100 dark:border-[#2A2A2A] rounded-[24px] overflow-hidden shadow-2xl transform transition-all ${className}`}>
-        
+      <div
+        className={`relative w-full max-w-lg bg-white dark:bg-brand-text border border-gray-100 dark:border-[#2A2A2A] rounded-[24px] overflow-hidden shadow-2xl transform transition-all ${className}`}
+      >
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100 dark:border-[#2A2A2A]">
           {title && (
@@ -51,11 +46,9 @@ export const Modal = ({
             <X size={18} strokeWidth={2.5} />
           </button>
         </div>
-        
+
         {/* Body */}
-        <div className="p-6 max-h-[75vh] overflow-y-auto">
-          {children}
-        </div>
+        <div className="p-6 max-h-[75vh] overflow-y-auto">{children}</div>
       </div>
     </div>
   );

@@ -4,7 +4,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { adminService } from '@/services/adminService';
 import {
   LayoutTemplate, Plus, Edit2, Trash2, Copy, Search,
-  X, Check, ChevronDown, Globe, FileText, Star, Users,
+  X, Check, ChevronDown, Globe, FileText, Star, Users, Database
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from '@/components/ui/Toast';
@@ -30,6 +30,7 @@ const defaultForm = {
   fontFamily: 'Inter',
   layoutStyle: 'minimal',
   buttonStyle: 'rounded',
+  isPremium: false,
 };
 
 // ─── Mini Card Preview ────────────────────────────────────────────────────────
@@ -102,6 +103,7 @@ function TemplateDrawer({ isOpen, onClose, editingTemplate, onSaved }) {
         fontFamily: editingTemplate.font?.family || 'Inter',
         layoutStyle: editingTemplate.layoutStyle || 'minimal',
         buttonStyle: editingTemplate.buttonStyle || 'rounded',
+        isPremium: editingTemplate.isPremium || false,
       });
     } else {
       setForm(defaultForm);
@@ -125,6 +127,7 @@ function TemplateDrawer({ isOpen, onClose, editingTemplate, onSaved }) {
         font: { family: form.fontFamily, heading: form.fontFamily, body: form.fontFamily },
         layoutStyle: form.layoutStyle,
         buttonStyle: form.buttonStyle,
+        isPremium: form.isPremium,
       };
       let res;
       if (editingTemplate) {
@@ -154,11 +157,11 @@ function TemplateDrawer({ isOpen, onClose, editingTemplate, onSaved }) {
       {isOpen && (
         <>
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/40 z-[100] backdrop-blur-sm" onClick={onClose} />
+            className="fixed inset-0 bg-black/40 z-100 backdrop-blur-sm" onClick={onClose} />
           <motion.div
             initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 28, stiffness: 220 }}
-            className="fixed top-0 right-0 h-full w-full max-w-4xl bg-white dark:bg-[#0F0D10] shadow-2xl z-[101] flex flex-col"
+            className="fixed top-0 right-0 h-full w-full max-w-4xl bg-white dark:bg-[#0F0D10] shadow-2xl z-101 flex flex-col"
           >
             {/* Header */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-white/10 shrink-0">
@@ -238,6 +241,25 @@ function TemplateDrawer({ isOpen, onClose, editingTemplate, onSaved }) {
                   </div>
                 </div>
 
+                {/* Is Premium Toggle */}
+                <div className="flex items-center justify-between p-3 border border-gray-200 dark:border-white/10 rounded-lg bg-white dark:bg-white/5">
+                  <div>
+                    <p className="text-xs font-bold text-gray-900 dark:text-white flex items-center gap-1.5">
+                      <Star size={12} className="text-amber-500 fill-amber-500" /> Premium Theme
+                    </p>
+                    <p className="text-[10px] text-gray-500 dark:text-gray-400 mt-0.5">Restrict this theme to paid users only.</p>
+                  </div>
+                  <button type="button" onClick={() => set('isPremium')(!form.isPremium)}
+                    className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-[#5A3045] focus:ring-offset-2 transition-colors ${
+                      form.isPremium ? 'bg-amber-500' : 'bg-gray-200 dark:bg-gray-700'
+                    }`}
+                  >
+                    <span className={`pointer-events-none inline-block h-3.5 w-3.5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                      form.isPremium ? 'translate-x-2' : '-translate-x-2'
+                    }`} />
+                  </button>
+                </div>
+
                 {/* Colors */}
                 <div>
                   <p className="text-[11px] font-bold uppercase tracking-wide text-gray-400 dark:text-gray-500 mb-3">Colors</p>
@@ -314,11 +336,20 @@ function TemplateDrawer({ isOpen, onClose, editingTemplate, onSaved }) {
                     <MiniPreview form={form} />
                   </div>
                   <div className="mt-4 p-3 rounded-xl bg-white dark:bg-white/5 border border-gray-100 dark:border-white/10">
-                    <p className="text-[10px] text-gray-500 dark:text-gray-400 font-medium mb-1">Template Info</p>
-                    <div className="flex flex-wrap gap-1.5">
+                    <h3 className="flex items-center gap-2 text-sm font-bold text-gray-900 dark:text-white mb-2">
+                      {form.name || 'Untitled Template'}
                       {form.badge && (
-                        <span className="px-2 py-0.5 text-[9px] font-bold rounded bg-[#5A3045] text-white">{form.badge}</span>
+                        <span className="px-1.5 py-0.5 text-[9px] font-bold tracking-wide uppercase bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-400 rounded">
+                          {form.badge}
+                        </span>
                       )}
+                      {form.isPremium && (
+                        <span title="Premium Theme" className="flex items-center justify-center bg-amber-100 text-amber-600 dark:bg-amber-500/20 dark:text-amber-400 p-0.5 rounded-full">
+                          <Star size={10} className="fill-current" />
+                        </span>
+                      )}
+                    </h3>
+                    <div className="flex flex-wrap gap-1.5">
                       <span className="px-2 py-0.5 text-[9px] font-medium rounded bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-gray-300">{form.category}</span>
                       <span className="px-2 py-0.5 text-[9px] font-medium rounded bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-gray-300 capitalize">{form.layoutStyle}</span>
                     </div>
@@ -506,6 +537,20 @@ export default function AdminTemplatesPage() {
     }
   };
 
+  const handleSeed = async () => {
+    try {
+      setLoading(true);
+      const res = await adminService.seedCardTemplates();
+      if (res.success) {
+        toast.success('Demo templates loaded successfully!');
+        fetchTemplates(); // refresh the list
+      }
+    } catch {
+      toast.error('Failed to load demo templates');
+      setLoading(false);
+    }
+  };
+
   const filtered = templates.filter(t => {
     const matchFilter = filter === 'all' || t.status === filter;
     const matchSearch = !search || (t.name || '').toLowerCase().includes(search.toLowerCase()) || (t.category || '').toLowerCase().includes(search.toLowerCase());
@@ -528,11 +573,18 @@ export default function AdminTemplatesPage() {
             Manage pre-built card templates for users to choose from.
           </p>
         </div>
-        <button id="create-template-btn" onClick={openCreate}
-          className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-[#5A3045] hover:bg-[#7A4055] rounded-lg transition-colors shadow-sm">
-          <Plus size={15} />
-          New Template
-        </button>
+        <div className="flex items-center gap-3">
+          <button onClick={handleSeed}
+            className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 dark:bg-transparent dark:text-gray-300 dark:border-white/20 dark:hover:bg-white/5 transition-colors shadow-sm">
+            <Database size={15} />
+            Load Demo Templates
+          </button>
+          <button id="create-template-btn" onClick={openCreate}
+            className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-[#5A3045] hover:bg-[#7A4055] rounded-lg transition-colors shadow-sm">
+            <Plus size={15} />
+            New Template
+          </button>
+        </div>
       </div>
 
       {/* Toolbar */}

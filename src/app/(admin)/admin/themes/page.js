@@ -25,6 +25,8 @@ const defaultForm = {
   fontFamily: 'Inter',
   layoutStyle: 'minimal',
   buttonStyle: 'rounded',
+  backgroundImage: '',
+  backgroundVideo: '',
 };
 
 // ─── Live Card Preview ────────────────────────────────────────────────────────
@@ -36,47 +38,61 @@ function CardPreview({ form }) {
 
   return (
     <div
-      className="w-full rounded-2xl overflow-hidden shadow-xl"
+      className="w-full h-full overflow-y-auto relative flex flex-col scrollbar-hide"
       style={{ backgroundColor: form.background, fontFamily: form.fontFamily }}
     >
-      {/* Header Band */}
-      <div className="h-20 w-full" style={{ backgroundColor: form.primary }} />
+      {/* Background Media */}
+      {form.backgroundVideo && (
+        <video 
+          src={form.backgroundVideo} 
+          autoPlay loop muted playsInline 
+          className="absolute inset-0 w-full h-full object-cover z-0 opacity-40 pointer-events-none" 
+        />
+      )}
+      {!form.backgroundVideo && form.backgroundImage && (
+        <div 
+          className="absolute inset-0 w-full h-full bg-cover bg-center z-0 opacity-40 pointer-events-none"
+          style={{ backgroundImage: `url(${form.backgroundImage})` }}
+        />
+      )}
 
-      {/* Avatar */}
-      <div className="px-5 pb-4 -mt-8">
-        <div
-          className="w-16 h-16 rounded-full border-4 flex items-center justify-center text-xl font-black shadow-md"
-          style={{ backgroundColor: form.secondary, borderColor: form.background, color: '#fff' }}
-        >
-          JD
-        </div>
-      </div>
+      {/* Content Layer */}
+      <div className="relative z-10 flex-1 flex flex-col">
+        {/* Header Band */}
+        <div className="h-28 w-full shrink-0" style={{ backgroundColor: form.primary }} />
 
-      {/* Info */}
-      <div className="px-5 pb-4">
-        <h3 className="text-base font-bold leading-tight" style={{ color: form.text }}>John Doe</h3>
-        <p className="text-xs mt-0.5" style={{ color: form.text, opacity: 0.6 }}>Senior Product Designer</p>
-        <p className="text-xs mt-0.5" style={{ color: form.secondary }}>Acme Inc.</p>
-      </div>
-
-      {/* Social Links */}
-      <div className="px-5 pb-3 space-y-2">
-        {['LinkedIn', 'Website', 'Email'].map((link) => (
+        {/* Avatar */}
+        <div className="px-5 pb-4 -mt-10 flex flex-col items-center text-center">
           <div
-            key={link}
-            className={`w-full py-2 px-4 text-xs font-semibold text-center ${btnRadius} cursor-pointer`}
-            style={{ backgroundColor: btnBg, border: btnBorder, color: btnColor, opacity: 0.9 }}
+            className="w-20 h-20 rounded-full border-4 flex items-center justify-center text-2xl font-black shadow-md"
+            style={{ backgroundColor: form.secondary, borderColor: form.background, color: '#fff' }}
           >
-            {link}
+            JD
           </div>
-        ))}
-      </div>
+          <h3 className="text-xl font-bold leading-tight mt-3" style={{ color: form.text }}>John Doe</h3>
+          <p className="text-sm mt-1" style={{ color: form.text, opacity: 0.8 }}>Senior Product Designer</p>
+          <p className="text-sm mt-0.5 font-medium" style={{ color: form.secondary }}>Acme Inc.</p>
+        </div>
 
-      {/* Footer */}
-      <div className="px-5 py-3 border-t mt-1" style={{ borderColor: `${form.text}15` }}>
-        <p className="text-[9px] text-center" style={{ color: form.text, opacity: 0.4 }}>
-          Powered by Identiqal
-        </p>
+        {/* Social Links */}
+        <div className="px-6 py-4 space-y-3 mt-2">
+          {['LinkedIn', 'Website', 'Email', 'Twitter'].map((link) => (
+            <div
+              key={link}
+              className={`w-full py-3.5 px-4 text-sm font-semibold text-center ${btnRadius} cursor-pointer transition-transform hover:scale-[1.02]`}
+              style={{ backgroundColor: btnBg, border: btnBorder, color: btnColor, opacity: 0.95 }}
+            >
+              {link}
+            </div>
+          ))}
+        </div>
+
+        {/* Footer */}
+        <div className="px-5 py-6 mt-auto">
+          <p className="text-[10px] text-center font-semibold tracking-wide uppercase" style={{ color: form.text, opacity: 0.3 }}>
+            Powered by Identiqal
+          </p>
+        </div>
       </div>
     </div>
   );
@@ -144,6 +160,9 @@ function ThemeDrawer({ isOpen, onClose, editingTheme, onSaved }) {
         fontFamily: editingTheme.font?.family || 'Inter',
         layoutStyle: editingTheme.layoutStyle || 'minimal',
         buttonStyle: editingTheme.buttonStyle || 'rounded',
+        isPremium: editingTheme.isPremium || false,
+        backgroundImage: editingTheme.backgroundImage || '',
+        backgroundVideo: editingTheme.backgroundVideo || '',
       });
     } else {
       setForm(defaultForm);
@@ -163,6 +182,9 @@ function ThemeDrawer({ isOpen, onClose, editingTheme, onSaved }) {
         font: { family: form.fontFamily, heading: form.fontFamily, body: form.fontFamily },
         layoutStyle: form.layoutStyle,
         buttonStyle: form.buttonStyle,
+        isPremium: form.isPremium,
+        backgroundImage: form.backgroundImage,
+        backgroundVideo: form.backgroundVideo,
       };
 
       let res;
@@ -197,7 +219,7 @@ function ThemeDrawer({ isOpen, onClose, editingTheme, onSaved }) {
           {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/40 z-[100] backdrop-blur-sm"
+            className="fixed inset-0 bg-black/40 z-100 backdrop-blur-sm"
             onClick={onClose}
           />
 
@@ -205,7 +227,7 @@ function ThemeDrawer({ isOpen, onClose, editingTheme, onSaved }) {
           <motion.div
             initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 28, stiffness: 220 }}
-            className="fixed top-0 right-0 h-full w-full max-w-4xl bg-white dark:bg-[#0F0D10] shadow-2xl z-[101] flex flex-col"
+            className="fixed top-0 right-0 h-full w-full max-w-4xl bg-white dark:bg-[#0F0D10] shadow-2xl z-101 flex flex-col"
           >
             {/* Header */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-white/10 shrink-0">
@@ -333,6 +355,52 @@ function ThemeDrawer({ isOpen, onClose, editingTheme, onSaved }) {
                   </div>
                 </div>
 
+                {/* Premium Toggle */}
+                <div className="flex items-center gap-3 bg-indigo-50 dark:bg-indigo-500/10 p-4 rounded-xl border border-indigo-100 dark:border-indigo-500/20">
+                  <div className="flex-1">
+                    <label className="text-[13px] font-semibold text-indigo-900 dark:text-indigo-300 block">Premium Theme</label>
+                    <p className="text-[11px] text-indigo-700/70 dark:text-indigo-400/70 mt-0.5">Restrict this theme to paid users only.</p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setField('isPremium')(!form.isPremium)}
+                    className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
+                      form.isPremium ? 'bg-indigo-600' : 'bg-gray-300 dark:bg-gray-600'
+                    }`}
+                  >
+                    <span className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                      form.isPremium ? 'translate-x-4' : 'translate-x-0'
+                    }`} />
+                  </button>
+                </div>
+
+                {/* Background Media */}
+                <div>
+                  <p className="text-[11px] font-bold uppercase tracking-wide text-gray-400 dark:text-gray-500 mb-3">Background Media (Optional)</p>
+                  <div className="space-y-3">
+                    <div>
+                      <label className="block text-[11px] font-semibold text-gray-500 dark:text-gray-400 mb-1.5">Background Image URL</label>
+                      <input
+                        type="url"
+                        value={form.backgroundImage || ''}
+                        onChange={e => setField('backgroundImage')(e.target.value)}
+                        placeholder="https://example.com/image.jpg"
+                        className="w-full px-3 py-2 text-sm border border-gray-200 dark:border-white/10 rounded-lg bg-white dark:bg-white/5 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#5A3045]/30 focus:border-[#5A3045]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[11px] font-semibold text-gray-500 dark:text-gray-400 mb-1.5">Background Video URL</label>
+                      <input
+                        type="url"
+                        value={form.backgroundVideo || ''}
+                        onChange={e => setField('backgroundVideo')(e.target.value)}
+                        placeholder="https://example.com/video.mp4"
+                        className="w-full px-3 py-2 text-sm border border-gray-200 dark:border-white/10 rounded-lg bg-white dark:bg-white/5 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#5A3045]/30 focus:border-[#5A3045]"
+                      />
+                    </div>
+                  </div>
+                </div>
+
                 {/* Save */}
                 <div className="pt-4 border-t border-gray-100 dark:border-white/10">
                   <button
@@ -351,14 +419,39 @@ function ThemeDrawer({ isOpen, onClose, editingTheme, onSaved }) {
               </form>
 
               {/* ─ Right: Live Preview ─ */}
-              <div className="flex-1 h-full overflow-y-auto bg-gray-50 dark:bg-white/5 p-6 flex flex-col">
-                <p className="text-[11px] font-bold uppercase tracking-wide text-gray-400 dark:text-gray-500 mb-4">Live Preview</p>
-                <div className="sticky top-0">
-                  <div className="max-w-[260px] mx-auto">
+              <div className="flex-1 overflow-hidden bg-gray-50 dark:bg-[#0A080C] relative flex flex-col items-center justify-between py-6 lg:py-8 isolate">
+                {/* Background Blur */}
+                <div 
+                  className="absolute inset-0 opacity-40 blur-3xl -z-10"
+                  style={{ backgroundColor: form.primary || '#5A3045' }}
+                />
+                
+                <p className="text-[11px] font-bold uppercase tracking-wide text-gray-400 dark:text-gray-500 shrink-0 z-10">
+                  Live Preview
+                </p>
+                
+                {/* Phone Mockup Frame - Bulletproof Explicit Dimensions */}
+                <div 
+                  className="bg-white ring-1 ring-black/10 shadow-2xl rounded-[32px] sm:rounded-[36px] border-[6px] sm:border-8 border-gray-900 dark:border-gray-800 relative overflow-hidden flex flex-col shrink-0 z-10 my-auto"
+                  style={{ 
+                    height: 'min(580px, 65vh)',
+                    width: 'calc(min(580px, 65vh) * 0.4736)' /* 9 / 19 = 0.4736 */
+                  }}
+                >
+                  {/* Speaker Grill / Notch */}
+                  <div className="absolute top-0 inset-x-0 h-4 sm:h-5 flex justify-center z-50">
+                    <div className="w-20 sm:w-24 h-4 sm:h-5 bg-gray-900 dark:bg-gray-800 rounded-b-lg sm:rounded-b-xl"></div>
+                  </div>
+                  
+                  {/* Scaled Preview Area */}
+                  <div className="absolute inset-0 z-0">
                     <CardPreview form={form} />
                   </div>
-                  <p className="text-center text-[10px] text-gray-400 mt-4">This is how the card will look for users.</p>
                 </div>
+                
+                <p className="text-center text-[10px] text-gray-400 shrink-0 z-10">
+                  This is how the card will look for users.
+                </p>
               </div>
             </div>
           </motion.div>
@@ -382,63 +475,91 @@ function ThemeCard({ theme, onEdit, onDuplicate, onDelete }) {
   };
 
   return (
-    <div className="group bg-white dark:bg-[#111] border border-gray-200 dark:border-white/10 rounded-xl overflow-hidden shadow-sm hover:shadow-md hover:border-gray-300 dark:hover:border-white/20 transition-all">
+    <div className="group bg-white dark:bg-[#111] border border-gray-200 dark:border-white/10 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-gray-300 dark:hover:border-white/20 transition-all flex flex-col">
       {/* Preview Area */}
-      <div className="h-36 relative overflow-hidden" style={{ backgroundColor: theme.colors?.background || '#f9f9f9' }}>
-        {/* Header band */}
-        <div className="absolute top-0 left-0 right-0 h-14" style={{ backgroundColor: theme.colors?.primary || '#5A3045' }} />
-        {/* Avatar */}
-        <div
-          className="absolute top-7 left-4 w-12 h-12 rounded-full border-2 shadow-sm flex items-center justify-center text-xs font-black"
-          style={{ backgroundColor: theme.colors?.secondary || '#D4A45B', borderColor: theme.colors?.background || '#fff', color: '#fff' }}
+      <div className="h-[280px] w-full relative flex items-center justify-center bg-gray-100 dark:bg-[#0A080C] p-4 overflow-hidden">
+        {/* Background Blur Effect */}
+        <div 
+          className="absolute inset-0 opacity-40 blur-3xl"
+          style={{ backgroundColor: theme.colors?.primary || '#5A3045' }}
+        />
+        
+        {/* Phone Mockup Frame */}
+        <div 
+          className="w-[120px] h-[240px] rounded-[24px] border-4 border-gray-900 dark:border-gray-700 shadow-2xl relative overflow-hidden flex flex-col z-10 transition-transform group-hover:scale-105"
+          style={{ backgroundColor: theme.colors?.background || '#f9f9f9' }}
         >
-          JD
-        </div>
-        {/* Mini links */}
-        <div className="absolute bottom-3 left-4 right-4 space-y-1.5">
-          {[1, 2].map(i => (
+          {/* Header band */}
+          <div className="h-10 shrink-0 w-full" style={{ backgroundColor: theme.colors?.primary || '#5A3045' }} />
+          
+          {/* Avatar */}
+          <div className="flex flex-col items-center px-3 -mt-5">
             <div
-              key={i}
-              className="h-4 rounded-sm"
-              style={{
-                backgroundColor: theme.buttonStyle === 'outline' ? 'transparent' : theme.colors?.primary || '#5A3045',
-                border: theme.buttonStyle === 'outline' ? `1px solid ${theme.colors?.primary || '#5A3045'}` : 'none',
-                borderRadius: theme.buttonStyle === 'rounded' ? '999px' : theme.buttonStyle === 'square' ? '2px' : '6px',
-                opacity: 0.7,
-                width: i === 1 ? '80%' : '60%',
-              }}
-            />
-          ))}
+              className="w-10 h-10 rounded-full border-2 shadow-sm flex items-center justify-center text-[10px] font-black"
+              style={{ backgroundColor: theme.colors?.secondary || '#D4A45B', borderColor: theme.colors?.background || '#fff', color: '#fff' }}
+            >
+              JD
+            </div>
+            {/* Title / Bio Skeletons */}
+            <div className="w-16 h-2 rounded mt-2 opacity-90" style={{ backgroundColor: theme.colors?.text || '#333' }} />
+            <div className="w-10 h-1.5 rounded mt-1 opacity-50" style={{ backgroundColor: theme.colors?.text || '#333' }} />
+          </div>
+          
+          {/* Mini links */}
+          <div className="mt-auto pb-3 px-2 space-y-1.5 flex flex-col items-center">
+            {[1, 2, 3].map(i => (
+              <div
+                key={i}
+                className="w-full h-5 flex items-center justify-center shadow-sm"
+                style={{
+                  backgroundColor: theme.buttonStyle === 'outline' ? 'transparent' : theme.colors?.primary || '#5A3045',
+                  border: theme.buttonStyle === 'outline' ? `1.5px solid ${theme.colors?.primary || '#5A3045'}` : 'none',
+                  borderRadius: theme.buttonStyle === 'rounded' ? '999px' : theme.buttonStyle === 'square' ? '2px' : '6px',
+                }}
+              >
+                <div 
+                  className="w-1/2 h-1 rounded-full opacity-60" 
+                  style={{ backgroundColor: theme.buttonStyle === 'outline' ? theme.colors?.primary : '#fff' }} 
+                />
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Hover overlay with actions */}
-        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+        <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3 z-20 backdrop-blur-[2px]">
           <button
             onClick={() => onEdit(theme)}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold bg-white text-gray-900 rounded-lg hover:bg-gray-50 shadow-sm transition"
+            className="flex items-center justify-center w-10 h-10 bg-white text-gray-900 rounded-full hover:scale-110 shadow-lg transition-transform"
+            title="Edit Theme"
           >
-            <Edit2 size={11} />
-            Edit
+            <Edit2 size={16} />
           </button>
           <button
             onClick={() => onDuplicate(theme)}
-            className="p-1.5 bg-white text-gray-900 rounded-lg hover:bg-gray-50 shadow-sm transition"
+            className="flex items-center justify-center w-10 h-10 bg-white text-gray-900 rounded-full hover:scale-110 shadow-lg transition-transform"
             title="Duplicate"
           >
-            <Copy size={13} />
+            <Copy size={16} />
           </button>
           <button
             onClick={handleDelete}
-            className={`p-1.5 rounded-lg shadow-sm transition ${confirmDelete ? 'bg-red-500 text-white' : 'bg-white text-gray-900 hover:bg-gray-50'}`}
-            title={confirmDelete ? 'Click again to confirm delete' : 'Delete'}
+            className={`flex items-center justify-center w-10 h-10 rounded-full hover:scale-110 shadow-lg transition-transform ${confirmDelete ? 'bg-red-500 text-white' : 'bg-white text-gray-900'}`}
+            title={confirmDelete ? 'Confirm delete' : 'Delete'}
           >
-            <Trash2 size={13} />
+            <Trash2 size={16} />
           </button>
         </div>
       </div>
 
       {/* Info */}
-      <div className="p-3 border-t border-gray-100 dark:border-white/5">
+      <div className="p-3 border-t border-gray-100 dark:border-white/5 relative">
+        {theme.isPremium && (
+          <div className="absolute -top-3 -right-2 bg-linear-to-r from-amber-400 to-orange-500 text-white text-[9px] font-bold px-2 py-0.5 rounded-full shadow-sm flex items-center gap-1 z-10">
+            <Sparkles size={9} />
+            PREMIUM
+          </div>
+        )}
         <div className="flex items-start justify-between gap-2">
           <p className="text-xs font-semibold text-gray-900 dark:text-white truncate">
             {theme.name || 'Untitled Theme'}
@@ -555,13 +676,32 @@ export default function AdminThemesPage() {
             Create and manage global themes for digital cards.
           </p>
         </div>
-        <button
-          onClick={openCreate}
-          className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-[#5A3045] hover:bg-[#7A4055] rounded-lg transition-colors shadow-sm"
-        >
-          <Plus size={15} />
-          New Theme
-        </button>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={async () => {
+              try {
+                const res = await adminService.seedDemoThemes();
+                if (res.success) {
+                  toast.success('Demo themes loaded!');
+                  fetchThemes();
+                }
+              } catch (e) {
+                toast.error('Failed to load demo themes');
+              }
+            }}
+            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/10 rounded-lg transition-colors shadow-sm"
+          >
+            <Sparkles size={15} className="text-amber-500" />
+            Load Demo Themes
+          </button>
+          <button
+            onClick={openCreate}
+            className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-[#5A3045] hover:bg-[#7A4055] rounded-lg transition-colors shadow-sm"
+          >
+            <Plus size={15} />
+            New Theme
+          </button>
+        </div>
       </div>
 
       {/* Toolbar */}

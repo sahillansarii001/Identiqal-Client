@@ -1,43 +1,43 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect, Suspense } from 'react';
-import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { authService } from '@/services/authService.js';
-import { Input } from '@/components/ui/Input.jsx';
-import { Button } from '@/components/ui/Button.jsx';
-import { ShieldAlert, ArrowRight, CheckCircle2 } from 'lucide-react';
+import React, { useState, useEffect, Suspense } from "react";
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import { authService } from "@/services/authService.js";
+import { Input } from "@/components/ui/Input.jsx";
+import { Button } from "@/components/ui/Button.jsx";
+import { ShieldAlert, ArrowRight, CheckCircle2 } from "lucide-react";
 
 function ResetPasswordContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const email = searchParams.get('email');
-  const otp = searchParams.get('otp');
-  
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [errorMsg, setErrorMsg] = useState('');
+  const email = searchParams.get("email");
+  const otp = searchParams.get("otp");
+
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
   useEffect(() => {
     if (!email || !otp) {
-      router.push('/login');
+      router.push("/login");
     }
   }, [email, otp, router]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (newPassword.length < 6) {
-      setErrorMsg('Password must be at least 6 characters');
+      setErrorMsg("Password must be at least 6 characters");
       return;
     }
     if (newPassword !== confirmPassword) {
-      setErrorMsg('Passwords do not match');
+      setErrorMsg("Passwords do not match");
       return;
     }
 
-    setErrorMsg('');
+    setErrorMsg("");
     setIsLoading(true);
 
     try {
@@ -45,27 +45,34 @@ function ResetPasswordContent() {
       if (response.success) {
         setIsSuccess(true);
       } else {
-        setErrorMsg(response.message || 'Failed to reset password');
+        setErrorMsg(response.message || "Failed to reset password");
       }
     } catch (err) {
-      setErrorMsg(err.message || 'An error occurred. Please try again.');
+      setErrorMsg(err.message || "An error occurred. Please try again.");
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="flex min-h-screen bg-[#FAF8F6] items-center justify-center p-4">
-      <div className="relative w-full max-w-md bg-white border border-[#E9E2DC] rounded-3xl p-8 shadow-xl">
-        <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-[#5A3342] to-[#C89B5B] rounded-t-3xl" />
-        
+    <div className="flex min-h-screen bg-[#F8FAFC] items-center justify-center p-4">
+      <div className="relative w-full max-w-md bg-white border border-[#E2E8F0] rounded-3xl p-8 shadow-xl">
+        <div className="absolute top-0 inset-x-0 h-1.5 bg-linear-to-r from-[#2563EB] to-[#3B82F6] rounded-t-3xl" />
+
         <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center space-x-2 text-2xl font-black tracking-tight text-[#1F1F1F] mb-4">
-            <span className="w-8 h-8 rounded-lg bg-gradient-to-tr from-[#5A3342] to-[#C89B5B] flex items-center justify-center text-white font-bold text-base shadow-sm">I</span>
+          <Link
+            href="/"
+            className="inline-flex items-center space-x-2 text-2xl font-black tracking-tight text-[#0F172A] mb-4"
+          >
+            <span className="w-8 h-8 rounded-lg bg-linear-to-tr from-[#2563EB] to-[#3B82F6] flex items-center justify-center text-white font-bold text-base shadow-sm">
+              I
+            </span>
             <span className="font-sans">Identiqal</span>
           </Link>
-          <h2 className="text-xl font-bold text-[#1F1F1F]">Create New Password</h2>
-          <p className="text-xs text-[#6B6B6B] mt-2">
+          <h2 className="text-xl font-bold text-[#0F172A]">
+            Create New Password
+          </h2>
+          <p className="text-xs text-brand-secondary mt-2">
             Your identity has been verified. You can now set a new password.
           </p>
         </div>
@@ -85,10 +92,17 @@ function ResetPasswordContent() {
               </div>
             </div>
             <div>
-              <h3 className="text-lg font-bold text-[#1F1F1F]">Password Reset Complete</h3>
-              <p className="text-xs text-[#6B6B6B] mt-2">You can now sign in with your new password.</p>
+              <h3 className="text-lg font-bold text-[#0F172A]">
+                Password Reset Complete
+              </h3>
+              <p className="text-xs text-brand-secondary mt-2">
+                You can now sign in with your new password.
+              </p>
             </div>
-            <Button className="w-full py-3.5" onClick={() => router.push('/login')}>
+            <Button
+              className="w-full py-3.5"
+              onClick={() => router.push("/login")}
+            >
               <span>Go to Login</span>
             </Button>
           </div>
@@ -109,7 +123,11 @@ function ResetPasswordContent() {
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
 
-            <Button type="submit" className="w-full py-3.5" isLoading={isLoading}>
+            <Button
+              type="submit"
+              className="w-full py-3.5"
+              isLoading={isLoading}
+            >
               <span>Reset Password</span>
               <ArrowRight size={14} className="ml-2" />
             </Button>
@@ -122,8 +140,15 @@ function ResetPasswordContent() {
 
 export default function ResetPasswordPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          Loading...
+        </div>
+      }
+    >
       <ResetPasswordContent />
     </Suspense>
   );
 }
+

@@ -1,9 +1,9 @@
-import { useQuery, useMutation } from '@tanstack/react-query';
-import { analyticsService } from '../services/analyticsService.js';
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { analyticsService } from "../services/analyticsService.js";
 
 export const useAnalytics = (cardId) => {
   const analyticsQuery = useQuery({
-    queryKey: ['analytics', cardId],
+    queryKey: ["analytics", cardId],
     queryFn: async () => {
       const response = await analyticsService.getAnalytics(cardId);
       return response.data;
@@ -19,12 +19,16 @@ export const useAnalytics = (cardId) => {
   });
 
   return {
-    analytics: analyticsQuery.data || { totals: {}, devices: {}, referrers: {} },
+    analytics: analyticsQuery.data || {
+      totals: {},
+      devices: {},
+      referrers: {},
+    },
     isLoading: analyticsQuery.isLoading,
     isError: analyticsQuery.isError,
     error: analyticsQuery.error,
     refetch: analyticsQuery.refetch,
-    
+
     logEvent: logEventMutation.mutateAsync,
   };
 };

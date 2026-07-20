@@ -1,4 +1,4 @@
-import { useSafeReducedMotion } from '@/hooks/useSafeReducedMotion.js';
+import { useSafeReducedMotion } from "@/hooks/useSafeReducedMotion.js";
 /**
  * animations.js — Identiqal Shared Animation Presets
  * All animations are GPU-accelerated (opacity, transform only).
@@ -8,18 +8,18 @@ import { useSafeReducedMotion } from '@/hooks/useSafeReducedMotion.js';
 // ─── Spring Configs ──────────────────────────────────────────────────────────
 
 export const springs = {
-  snappy: { type: 'spring', stiffness: 400, damping: 28 },
-  smooth: { type: 'spring', stiffness: 280, damping: 30 },
-  gentle: { type: 'spring', stiffness: 180, damping: 25 },
-  bouncy: { type: 'spring', stiffness: 350, damping: 20 },
-  ultraSmooth: { type: 'spring', stiffness: 120, damping: 22 },
+  snappy: { type: "spring", stiffness: 400, damping: 28 },
+  smooth: { type: "spring", stiffness: 280, damping: 30 },
+  gentle: { type: "spring", stiffness: 180, damping: 25 },
+  bouncy: { type: "spring", stiffness: 350, damping: 20 },
+  ultraSmooth: { type: "spring", stiffness: 120, damping: 22 },
 };
 
 // ─── Easing Presets ───────────────────────────────────────────────────────────
 
 export const easings = {
-  premium: [0.16, 1, 0.3, 1],       // expo out — feels expensive
-  smooth: [0.4, 0, 0.2, 1],         // material — clean
+  premium: [0.16, 1, 0.3, 1], // expo out — feels expensive
+  smooth: [0.4, 0, 0.2, 1], // material — clean
   snappy: [0.25, 0.46, 0.45, 0.94], // ease-out-quart
 };
 
@@ -30,13 +30,13 @@ export const sectionReveal = {
     opacity: 0,
     y: 32,
     scale: 0.97,
-    filter: 'blur(8px)',
+    filter: "blur(8px)",
   },
   visible: {
     opacity: 1,
     y: 0,
     scale: 1,
-    filter: 'blur(0px)',
+    filter: "blur(0px)",
     transition: {
       duration: 0.7,
       ease: easings.premium,
@@ -57,11 +57,11 @@ export const staggerContainer = (stagger = 0.08, delayChildren = 0) => ({
 // ─── Fade Up Item (for use inside stagger containers) ─────────────────────────
 
 export const fadeUpItem = {
-  hidden: { opacity: 0, y: 20, filter: 'blur(4px)' },
+  hidden: { opacity: 0, y: 20, filter: "blur(4px)" },
   visible: {
     opacity: 1,
     y: 0,
-    filter: 'blur(0px)',
+    filter: "blur(0px)",
     transition: { duration: 0.55, ease: easings.premium },
   },
 };
@@ -69,11 +69,11 @@ export const fadeUpItem = {
 // ─── Hero Word Reveal ─────────────────────────────────────────────────────────
 
 export const wordRevealItem = {
-  hidden: { opacity: 0, y: 18, filter: 'blur(3px)' },
+  hidden: { opacity: 0, y: 18, filter: "blur(3px)" },
   visible: {
     opacity: 1,
     y: 0,
-    filter: 'blur(0px)',
+    filter: "blur(0px)",
     transition: { duration: 0.45, ease: easings.premium },
   },
 };
@@ -85,14 +85,14 @@ export const cardHover = {
     y: 0,
     scale: 1,
     rotate: 0,
-    boxShadow: '0 4px 20px -8px rgba(74, 44, 58, 0.06)',
+    boxShadow: "0 4px 20px -8px rgba(30, 64, 175, 0.06)",
     transition: { duration: 0.3, ease: easings.smooth },
   },
   hover: {
     y: -8,
     scale: 1.02,
     rotate: 1,
-    boxShadow: '0 24px 48px -16px rgba(74, 44, 58, 0.14)',
+    boxShadow: "0 24px 48px -16px rgba(30, 64, 175, 0.14)",
     transition: springs.smooth,
   },
 };
@@ -116,11 +116,11 @@ export const buttonHover = {
 // ─── Navbar Slide Down ────────────────────────────────────────────────────────
 
 export const navbarEntry = {
-  hidden: { opacity: 0, y: -16, filter: 'blur(4px)' },
+  hidden: { opacity: 0, y: -16, filter: "blur(4px)" },
   visible: {
     opacity: 1,
     y: 0,
-    filter: 'blur(0px)',
+    filter: "blur(0px)",
     transition: { duration: 0.55, ease: easings.premium, delay: 0.1 },
   },
 };
@@ -131,13 +131,13 @@ export const mobileMenuVariants = {
   hidden: {
     opacity: 0,
     height: 0,
-    filter: 'blur(4px)',
-    transition: { duration: 0.25, ease: 'easeIn' },
+    filter: "blur(4px)",
+    transition: { duration: 0.25, ease: "easeIn" },
   },
   visible: {
     opacity: 1,
-    height: 'auto',
-    filter: 'blur(0px)',
+    height: "auto",
+    filter: "blur(0px)",
     transition: { duration: 0.35, ease: easings.premium },
   },
 };
@@ -145,18 +145,18 @@ export const mobileMenuVariants = {
 // ─── Page Transition ─────────────────────────────────────────────────────────
 
 export const pageVariants = {
-  initial: { opacity: 0, y: 12, filter: 'blur(4px)' },
+  initial: { opacity: 0, y: 12, filter: "blur(4px)" },
   enter: {
     opacity: 1,
     y: 0,
-    filter: 'blur(0px)',
+    filter: "blur(0px)",
     transition: { duration: 0.4, ease: easings.premium },
   },
   exit: {
     opacity: 0,
     y: -8,
-    filter: 'blur(4px)',
-    transition: { duration: 0.25, ease: 'easeIn' },
+    filter: "blur(4px)",
+    transition: { duration: 0.25, ease: "easeIn" },
   },
 };
 
@@ -167,9 +167,9 @@ export const phoneFloat = {
     y: [0, -10, 0],
     transition: {
       duration: 5.5,
-      ease: 'easeInOut',
+      ease: "easeInOut",
       repeat: Infinity,
-      repeatType: 'loop',
+      repeatType: "loop",
     },
   },
 };
@@ -192,8 +192,9 @@ export const badgePulse = {
     scale: [1, 1.025, 1],
     transition: {
       duration: 3,
-      ease: 'easeInOut',
+      ease: "easeInOut",
       repeat: Infinity,
     },
   },
 };
+

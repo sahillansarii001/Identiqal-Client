@@ -1,8 +1,8 @@
-import React from 'react';
-import { cardService } from '@/services/cardService.js';
-import { SectionRenderer } from '@/components/builder/SectionRenderer.jsx';
-import { Compass, QrCode } from 'lucide-react';
-import AnalyticsLogger from './AnalyticsLogger.jsx';
+import React from "react";
+import { cardService } from "@/services/cardService.js";
+import { SectionRenderer } from "@/components/builder/SectionRenderer.jsx";
+import { Compass, QrCode } from "lucide-react";
+import AnalyticsLogger from "./AnalyticsLogger.jsx";
 
 // Incremental Static Regeneration (ISR) revalidation limit
 export const revalidate = 0; // Set to 0 to disable cache during active development
@@ -12,7 +12,7 @@ export default async function PublicCardPage(props) {
   const { username } = params;
 
   let cardData = null;
-  let errorMsg = '';
+  let errorMsg = "";
 
   try {
     const response = await cardService.getPublicCard(username);
@@ -20,7 +20,7 @@ export default async function PublicCardPage(props) {
       cardData = response.data;
     }
   } catch (err) {
-    errorMsg = err.message || 'Card is not published or does not exist';
+    errorMsg = err.message || "Card is not published or does not exist";
   }
 
   if (errorMsg || !cardData) {
@@ -30,7 +30,8 @@ export default async function PublicCardPage(props) {
           <Compass size={48} className="mx-auto text-slate-700 animate-pulse" />
           <h2 className="text-base font-bold text-slate-200">Card Offline</h2>
           <p className="text-xs text-slate-400 leading-relaxed">
-            The requested business card link <strong>/{username}</strong> is either private, draft-only, or does not exist.
+            The requested business card link <strong>/{username}</strong> is
+            either private, draft-only, or does not exist.
           </p>
         </div>
       </div>
@@ -55,7 +56,7 @@ export default async function PublicCardPage(props) {
   };
 
   return (
-    <div 
+    <div
       className="min-h-screen flex flex-col items-center justify-start py-12 px-4 select-none"
       style={{ backgroundColor: colorTheme?.background || '#090d16' }}
     >
@@ -70,7 +71,7 @@ export default async function PublicCardPage(props) {
             This card has no content sections to display yet.
           </div>
         ) : (
-          <div 
+          <div
             className="w-full rounded-[28px] border shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] overflow-hidden"
             style={{ 
               backgroundColor: colorTheme?.background || '#ffffff',
@@ -87,7 +88,10 @@ export default async function PublicCardPage(props) {
                   />
                 </div>
                 {idx < sections.length - 1 && (
-                  <div className="w-full h-px" style={{ backgroundColor: 'rgba(0,0,0,0.06)' }} />
+                  <div
+                    className="w-full h-px"
+                    style={{ backgroundColor: "rgba(0,0,0,0.06)" }}
+                  />
                 )}
               </React.Fragment>
             ))}
@@ -96,7 +100,7 @@ export default async function PublicCardPage(props) {
 
         {/* Footer info branding */}
         <div className="text-center pt-8 border-t border-slate-900/10">
-          <p 
+          <p
             className="text-[9px] font-semibold uppercase tracking-widest opacity-60"
             style={{ color: colorTheme?.text || '#212529' }}
           >

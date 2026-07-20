@@ -131,7 +131,7 @@ export default function AdminLayout({ children }) {
   const inactiveCls = 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white rounded-lg';
 
   return (
-    <div className={`flex min-h-screen font-sans bg-white dark:bg-[#0A0A0A] transition-colors duration-200`}>
+    <div className={`flex min-h-[100dvh] font-sans bg-white dark:bg-[#0A0A0A] transition-colors duration-200`}>
       <ToastContainer />
       
       {/* Mobile backdrop */}
@@ -146,7 +146,7 @@ export default function AdminLayout({ children }) {
       </AnimatePresence>
 
       {/* ── Sidebar (Enterprise Flat Design) ─────────────────────────────── */}
-      <aside className={`fixed top-0 bottom-0 left-0 w-[260px] border-r flex flex-col bg-gray-50/50 dark:bg-[#111111] border-gray-200 dark:border-white/10 z-50 transition-transform duration-300 ${
+      <aside className={`fixed lg:sticky top-0 left-0 h-[100dvh] w-[260px] shrink-0 border-r flex flex-col bg-gray-50/50 dark:bg-[#111111] border-gray-200 dark:border-white/10 z-50 transition-transform duration-300 ${
         sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
       }`}>
 
@@ -164,7 +164,7 @@ export default function AdminLayout({ children }) {
         </div>
 
         {/* Nav links */}
-        <nav className="flex-1 px-3 py-4 space-y-6 overflow-y-auto custom-scrollbar">
+        <nav className="flex-1 min-h-0 px-3 py-4 space-y-6 overflow-y-auto custom-scrollbar">
           {navGroups.map((group, idx) => (
             <div key={idx}>
               <p className="text-[11px] font-medium text-gray-400 dark:text-gray-500 px-3 mb-2 uppercase tracking-wider">{group.title}</p>
@@ -185,7 +185,7 @@ export default function AdminLayout({ children }) {
         </nav>
 
         {/* User Footer */}
-        <div className="p-4 border-t border-gray-200 dark:border-white/10 bg-white/50 dark:bg-transparent">
+        <div className="p-4 border-t border-gray-200 dark:border-white/10 bg-white/50 dark:bg-transparent shrink-0 mt-auto">
           <div className="flex items-center space-x-3 px-2 py-2 mb-2">
             <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-white/10 flex items-center justify-center text-gray-600 dark:text-white font-medium text-xs">
               {user.name[0].toUpperCase()}
@@ -203,7 +203,7 @@ export default function AdminLayout({ children }) {
       </aside>
 
       {/* ── Main Content ─────────────────────────── */}
-      <div className="flex-1 flex flex-col min-w-0 lg:pl-[260px]">
+      <div className="flex-1 flex flex-col min-w-0">
         {/* Enterprise Topbar */}
         <header className="h-16 px-6 border-b border-gray-200 dark:border-white/10 bg-white/80 dark:bg-[#0A0A0A]/80 backdrop-blur-md flex items-center justify-between sticky top-0 z-30">
           <div className="flex items-center gap-4">

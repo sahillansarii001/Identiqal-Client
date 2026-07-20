@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { useAuthStore } from '@/store/authStore.js';
+import React, { useState } from "react";
+import { useAuthStore } from "@/store/authStore.js";
 import {
   Check,
   Zap,
@@ -11,11 +11,11 @@ import {
   Building2,
   ArrowUpRight,
   Star,
-} from 'lucide-react';
+} from "lucide-react";
 
 export default function BillingPage() {
   const { user } = useAuthStore();
-  const [loadingTier, setLoadingTier] = useState('');
+  const [loadingTier, setLoadingTier] = useState("");
 
   const handleUpgrade = async (tier) => {
     setLoadingTier(tier);
@@ -23,91 +23,90 @@ export default function BillingPage() {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/billing/checkout`,
         {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
             Authorization: `Bearer ${useAuthStore.getState().accessToken}`,
           },
           body: JSON.stringify({ tier }),
-        }
+        },
       );
       const resData = await response.json();
       if (resData.success && resData.data?.checkoutUrl) {
-        window.open(resData.data.checkoutUrl, '_blank');
+        window.open(resData.data.checkoutUrl, "_blank");
       } else {
-        alert(resData.message || 'Checkout failed');
+        alert(resData.message || "Checkout failed");
       }
     } catch (e) {
-      alert('Checkout failed: ' + e.message);
+      alert("Checkout failed: " + e.message);
     } finally {
-      setLoadingTier('');
+      setLoadingTier("");
     }
   };
 
-  const currentTier = user?.subscriptionTier || 'free';
+  const currentTier = user?.subscriptionTier || "free";
 
   const plans = [
     {
-      id: 'free',
-      name: 'Starter',
-      price: '$0',
-      tagline: 'Get started for free',
+      id: "free",
+      name: "Starter",
+      price: "$0",
+      tagline: "Get started for free",
       icon: Zap,
-      iconColor: '#8A7A6A',
-      iconBg: '#F5EFE9',
-      borderColor: '#E9E2DC',
+      iconColor: "#8A7A6A",
+      iconBg: "#F5EFE9",
+      borderColor: "#E2E8F0",
       features: [
-        '1 active digital card',
-        'Standard styling palette',
-        'View & click tracking',
-        'Basic QR code',
+        "1 active digital card",
+        "Standard styling palette",
+        "View & click tracking",
+        "Basic QR code",
       ],
     },
     {
-      id: 'pro',
-      name: 'Professional',
-      price: '$9',
-      period: '/mo',
-      tagline: 'For serious networkers',
+      id: "pro",
+      name: "Professional",
+      price: "$9",
+      period: "/mo",
+      tagline: "For serious networkers",
       icon: Sparkles,
-      iconColor: '#C89B5B',
-      iconBg: 'rgba(200,155,91,0.12)',
-      borderColor: '#C89B5B',
+      iconColor: "#3B82F6",
+      iconBg: "rgba(200,155,91,0.12)",
+      borderColor: "#3B82F6",
       highlight: true,
       features: [
-        'Unlimited digital cards',
-        'Full custom design controls',
-        'CSV lead export downloads',
-        'Priority QR generation',
-        'Advanced analytics',
+        "Unlimited digital cards",
+        "Full custom design controls",
+        "CSV lead export downloads",
+        "Priority QR generation",
+        "Advanced analytics",
       ],
     },
     {
-      id: 'business',
-      name: 'Business',
-      price: '$29',
-      period: '/mo',
-      tagline: 'For teams & organizations',
+      id: "business",
+      name: "Business",
+      price: "$29",
+      period: "/mo",
+      tagline: "For teams & organizations",
       icon: Building2,
-      iconColor: '#5A3342',
-      iconBg: 'rgba(90,51,66,0.08)',
-      borderColor: '#5A3342',
+      iconColor: "#2563EB",
+      iconBg: "rgba(37, 99, 235,0.08)",
+      borderColor: "#2563EB",
       features: [
-        '10 team member seats',
-        'Centralized theme locking',
-        'Invite & role controls',
-        'Aggregated team analytics',
-        'Priority support',
+        "10 team member seats",
+        "Centralized theme locking",
+        "Invite & role controls",
+        "Aggregated team analytics",
+        "Priority support",
       ],
     },
   ];
 
   return (
     <div className="space-y-10 w-full">
-
       {/* ── Page Header ───────────────────────────── */}
-      <div className="pb-6 border-b border-[#E9E2DC]">
-        <span className="text-[10px] font-black uppercase tracking-widest text-[#C89B5B]">
+      <div className="pb-6 border-b border-[#E2E8F0]">
+        <span className="text-[10px] font-black uppercase tracking-widest text-[#3B82F6]">
           Account
         </span>
         <h1 className="text-2xl font-black text-inherit mt-1">
@@ -119,16 +118,16 @@ export default function BillingPage() {
       </div>
 
       {/* ── Active Plan Banner ────────────────────── */}
-      <div className="relative overflow-hidden rounded-3xl bg-linear-to-br from-[#3D1F2B] via-[#5A3342] to-[#7A4555] p-8 shadow-xl shadow-[#5A3342]/25">
+      <div className="relative overflow-hidden rounded-3xl bg-linear-to-br from-[#3D1F2B] via-[#2563EB] to-[#7A4555] p-8 shadow-xl shadow-[#2563EB]/25">
         {/* glow orbs */}
-        <div className="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-[#C89B5B]/15 blur-[80px] pointer-events-none" />
+        <div className="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-[#3B82F6]/15 blur-[80px] pointer-events-none" />
         <div className="absolute -bottom-16 left-10 w-48 h-48 rounded-full bg-white/5 blur-[60px] pointer-events-none" />
 
         <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
           {/* left */}
           <div className="flex items-center space-x-5">
             <div className="w-16 h-16 rounded-2xl bg-white/10 border border-white/15 backdrop-blur-sm flex items-center justify-center shadow-lg">
-              <Crown size={28} className="text-[#C89B5B]" />
+              <Crown size={28} className="text-[#3B82F6]" />
             </div>
             <div>
               <p className="text-[10px] font-black uppercase tracking-widest text-white/50">
@@ -136,7 +135,11 @@ export default function BillingPage() {
               </p>
               <div className="flex items-center space-x-3 mt-1">
                 <span className="text-2xl font-black text-white capitalize">
-                  {currentTier === 'free' ? 'Free Starter' : currentTier === 'pro' ? 'Professional' : 'Business'}
+                  {currentTier === "free"
+                    ? "Free Starter"
+                    : currentTier === "pro"
+                      ? "Professional"
+                      : "Business"}
                 </span>
                 <span className="inline-flex items-center space-x-1 text-[9px] bg-green-400/20 border border-green-400/30 text-green-300 px-2.5 py-1 rounded-full font-black">
                   <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
@@ -144,18 +147,18 @@ export default function BillingPage() {
                 </span>
               </div>
               <p className="text-[11px] text-white/50 mt-1">
-                {currentTier === 'free'
-                  ? 'Upgrade to unlock unlimited cards and full branding controls.'
-                  : 'Your plan is active and all features are unlocked.'}
+                {currentTier === "free"
+                  ? "Upgrade to unlock unlimited cards and full branding controls."
+                  : "Your plan is active and all features are unlocked."}
               </p>
             </div>
           </div>
 
           {/* right CTA */}
-          {currentTier === 'free' && (
+          {currentTier === "free" && (
             <button
-              onClick={() => handleUpgrade('pro')}
-              className="shrink-0 inline-flex items-center space-x-2 bg-[#C89B5B] hover:bg-[#b88a4a] text-white font-bold text-sm px-6 py-3 rounded-2xl transition-all cursor-pointer shadow-md shadow-[#C89B5B]/30"
+              onClick={() => handleUpgrade("pro")}
+              className="shrink-0 inline-flex items-center space-x-2 bg-[#3B82F6] hover:bg-[#b88a4a] text-white font-bold text-sm px-6 py-3 rounded-2xl transition-all cursor-pointer shadow-md shadow-[#3B82F6]/30"
             >
               <Sparkles size={15} />
               <span>Upgrade to Pro</span>
@@ -181,18 +184,18 @@ export default function BillingPage() {
                 key={p.id}
                 className={`relative flex flex-col rounded-3xl border p-6 transition-all duration-300 ${
                   p.highlight
-                    ? 'border-[#C89B5B]/50 shadow-lg shadow-[#C89B5B]/10 bg-linear-to-b from-white to-[#FDF8EF]'
+                    ? "border-[#3B82F6]/50 shadow-lg shadow-[#3B82F6]/10 bg-linear-to-b from-white to-[#FDF8EF]"
                     : isActive
-                    ? 'border-[#5A3342]/30 shadow-md shadow-[#5A3342]/8 bg-white'
-                    : 'border-[#E9E2DC] bg-white hover:border-[#5A3342]/20 hover:shadow-md hover:shadow-[#5A3342]/5'
+                      ? "border-[#2563EB]/30 shadow-md shadow-[#2563EB]/8 bg-white"
+                      : "border-[#E2E8F0] bg-white hover:border-[#2563EB]/20 hover:shadow-md hover:shadow-[#2563EB]/5"
                 }`}
               >
                 {/* Most popular badge */}
                 {p.highlight && (
                   <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
-                    <span className="inline-flex items-center space-x-1 bg-linear-to-r from-[#5A3342] to-[#7A4555] text-white text-[9px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full shadow-md">
+                    <span className="inline-flex items-center space-x-1 bg-linear-to-r from-[#2563EB] to-[#7A4555] text-white text-[9px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full shadow-md">
                       <Star size={8} fill="currentColor" />
-                      <span>Most Popular</span> 
+                      <span>Most Popular</span>
                     </span>
                   </div>
                 )}
@@ -206,27 +209,36 @@ export default function BillingPage() {
                     <Icon size={20} style={{ color: p.iconColor }} />
                   </div>
                   {isActive && (
-                    <span className="text-[9px] bg-[#5A3342]/8 border border-[#5A3342]/20 text-[#5A3342] px-2.5 py-1 rounded-full font-black uppercase tracking-wider">
+                    <span className="text-[9px] bg-[#2563EB]/8 border border-[#2563EB]/20 text-[#2563EB] px-2.5 py-1 rounded-full font-black uppercase tracking-wider">
                       Current
                     </span>
                   )}
                 </div>
 
                 <h3 className="text-base font-black text-inherit">{p.name}</h3>
-                <p className="text-[10px] text-[#8A7A6A] mt-0.5 mb-4">{p.tagline}</p>
+                <p className="text-[10px] text-[#8A7A6A] mt-0.5 mb-4">
+                  {p.tagline}
+                </p>
 
                 {/* Price */}
                 <div className="flex items-baseline space-x-1 mb-5">
-                  <span className="text-4xl font-black text-inherit">{p.price}</span>
+                  <span className="text-4xl font-black text-inherit">
+                    {p.price}
+                  </span>
                   {p.period && (
-                    <span className="text-xs text-[#8A7A6A] font-semibold">{p.period}</span>
+                    <span className="text-xs text-[#8A7A6A] font-semibold">
+                      {p.period}
+                    </span>
                   )}
                 </div>
 
                 {/* Features */}
                 <div className="space-y-2.5 pb-6 border-b border-[#F0E8E0] flex-1">
                   {p.features.map((f, idx) => (
-                    <div key={idx} className="flex items-center space-x-2.5 text-[11px] text-[#4A3A2E]">
+                    <div
+                      key={idx}
+                      className="flex items-center space-x-2.5 text-[11px] text-[#4A3A2E]"
+                    >
                       <div
                         className="w-4 h-4 rounded-full flex items-center justify-center shrink-0"
                         style={{ backgroundColor: p.iconBg }}
@@ -241,11 +253,11 @@ export default function BillingPage() {
                 {/* CTA */}
                 <div className="pt-5">
                   {isActive ? (
-                    <div className="w-full py-2.5 rounded-xl text-xs font-bold text-center bg-[#FAF8F6] border border-[#E9E2DC] text-[#8A7A6A]">
+                    <div className="w-full py-2.5 rounded-xl text-xs font-bold text-center bg-[#F8FAFC] border border-[#E2E8F0] text-[#8A7A6A]">
                       ✓ Your Current Plan
                     </div>
-                  ) : p.id === 'free' ? (
-                    <div className="w-full py-2.5 rounded-xl text-xs font-bold text-center bg-[#FAF8F6] border border-[#E9E2DC] text-[#8A7A6A]">
+                  ) : p.id === "free" ? (
+                    <div className="w-full py-2.5 rounded-xl text-xs font-bold text-center bg-[#F8FAFC] border border-[#E2E8F0] text-[#8A7A6A]">
                       Free Forever
                     </div>
                   ) : (
@@ -254,8 +266,8 @@ export default function BillingPage() {
                       disabled={loadingTier === p.id}
                       className={`w-full py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center space-x-2 ${
                         p.highlight
-                          ? 'bg-[#5A3342] hover:bg-[#6A3B4B] text-white shadow-md shadow-[#5A3342]/20'
-                          : 'bg-[#FAF8F6] border border-[#5A3342]/20 hover:bg-[#5A3342] hover:text-white text-[#5A3342] transition-colors'
+                          ? "bg-[#2563EB] hover:bg-[#6A3B4B] text-white shadow-md shadow-[#2563EB]/20"
+                          : "bg-[#F8FAFC] border border-[#2563EB]/20 hover:bg-[#2563EB] hover:text-white text-[#2563EB] transition-colors"
                       }`}
                     >
                       {loadingTier === p.id ? (
@@ -276,15 +288,27 @@ export default function BillingPage() {
       </div>
 
       {/* ── Trust strip ───────────────────────────── */}
-      <div className="flex flex-wrap items-center justify-center gap-6 py-6 border-t border-[#E9E2DC]">
+      <div className="flex flex-wrap items-center justify-center gap-6 py-6 border-t border-[#E2E8F0]">
         {[
-          { icon: ShieldCheck, label: 'Secure Payments', sub: 'SSL encrypted checkout' },
-          { icon: Zap, label: 'Instant Activation', sub: 'Upgrade goes live immediately' },
-          { icon: Crown, label: 'Cancel Anytime', sub: 'No long-term commitments' },
+          {
+            icon: ShieldCheck,
+            label: "Secure Payments",
+            sub: "SSL encrypted checkout",
+          },
+          {
+            icon: Zap,
+            label: "Instant Activation",
+            sub: "Upgrade goes live immediately",
+          },
+          {
+            icon: Crown,
+            label: "Cancel Anytime",
+            sub: "No long-term commitments",
+          },
         ].map(({ icon: Icon, label, sub }) => (
           <div key={label} className="flex items-center space-x-3 text-left">
-            <div className="w-9 h-9 rounded-xl bg-[#5A3342]/5 flex items-center justify-center shrink-0">
-              <Icon size={15} className="text-[#5A3342]" />
+            <div className="w-9 h-9 rounded-xl bg-[#2563EB]/5 flex items-center justify-center shrink-0">
+              <Icon size={15} className="text-[#2563EB]" />
             </div>
             <div>
               <p className="text-xs font-bold text-inherit">{label}</p>
@@ -296,3 +320,5 @@ export default function BillingPage() {
     </div>
   );
 }
+
+
