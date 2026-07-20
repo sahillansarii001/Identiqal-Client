@@ -83,58 +83,104 @@ export default function AdminDashboardOverview() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
         {/* Simple Bar Chart for User Growth */}
-        <div className="bg-white dark:bg-[#111] border border-gray-200 dark:border-white/10 rounded-xl p-6 shadow-sm">
-          <div className="flex justify-between items-center mb-6">
-            <h3 className="text-sm font-bold text-gray-900 dark:text-white">User Growth (Last 30 Days)</h3>
+        <div className="bg-white dark:bg-[#020617] border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 shadow-xs">
+          <div className="flex justify-between items-center mb-8 border-b border-slate-100 dark:border-slate-800 pb-4">
+            <div>
+              <h3 className="text-base font-bold text-slate-900 dark:text-white">User Growth</h3>
+              <p className="text-xs text-slate-500 font-medium mt-1">Last 30 Days</p>
+            </div>
           </div>
-          <div className="h-48 flex items-end justify-between gap-1">
-            {analytics?.usersGrowth?.length > 0 ? (
-              analytics.usersGrowth.map((day, i) => {
-                const max = Math.max(...analytics.usersGrowth.map(d => d.count), 1);
-                const height = `${(day.count / max) * 100}%`;
-                return (
-                  <div key={i} className="relative w-full group flex flex-col justify-end h-full">
-                    <div 
-                      className="w-full bg-[#5A3045] dark:bg-[#D4A45B] rounded-t-sm transition-all duration-300 group-hover:opacity-80" 
-                      style={{ height }}
-                    />
-                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-gray-900 text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap z-10 transition-opacity">
-                      {day.count} users<br/>{day._id}
+          
+          <div className="h-56 relative">
+            {/* Background Grid Lines */}
+            <div className="absolute inset-0 flex flex-col justify-between border-t border-b border-slate-100 dark:border-slate-800/50 py-1 pointer-events-none z-0">
+              <div className="w-full border-b border-slate-100 dark:border-slate-800/50 border-dashed" />
+              <div className="w-full border-b border-slate-100 dark:border-slate-800/50 border-dashed" />
+              <div className="w-full border-b border-slate-100 dark:border-slate-800/50 border-dashed" />
+            </div>
+
+            <div className="h-full flex items-end justify-around gap-2 sm:gap-4 relative z-10 px-2 sm:px-6">
+              {analytics?.usersGrowth?.length > 0 ? (
+                analytics.usersGrowth.map((day, i) => {
+                  const max = Math.max(...analytics.usersGrowth.map(d => d.count), 1);
+                  const height = `${(day.count / max) * 100}%`;
+                  return (
+                    <div key={i} className="relative w-full max-w-[48px] group flex flex-col justify-end h-full">
+                      {/* Background Track */}
+                      <div className="absolute inset-0 bg-slate-50 dark:bg-slate-800/30 rounded-t-lg -z-10" />
+                      
+                      {/* Bar Fill */}
+                      <motion.div 
+                        initial={{ height: 0 }}
+                        animate={{ height }}
+                        transition={{ duration: 1, delay: i * 0.1, ease: "easeOut" }}
+                        className="w-full bg-gradient-to-t from-blue-600 to-sky-400 dark:from-blue-700 dark:to-sky-400 rounded-t-lg transition-all duration-300 group-hover:opacity-80 relative overflow-hidden"
+                      >
+                        <div className="absolute top-0 inset-x-0 h-1 bg-white/30" />
+                      </motion.div>
+                      
+                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-slate-900 text-white text-[10px] font-bold py-1.5 px-2.5 rounded-lg opacity-0 group-hover:opacity-100 pointer-events-none transition-all scale-95 group-hover:scale-100 shadow-lg whitespace-nowrap z-20">
+                        {day.count} users<br/>
+                        <span className="text-slate-400 font-normal">{day._id}</span>
+                      </div>
                     </div>
-                  </div>
-                );
-              })
-            ) : (
-              <div className="w-full h-full flex items-center justify-center text-sm text-gray-400">Not enough data</div>
-            )}
+                  );
+                })
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-sm text-slate-400">Not enough data</div>
+              )}
+            </div>
           </div>
         </div>
 
         {/* Simple Bar Chart for Card Growth */}
-        <div className="bg-white dark:bg-[#111] border border-gray-200 dark:border-white/10 rounded-xl p-6 shadow-sm">
-          <div className="flex justify-between items-center mb-6">
-            <h3 className="text-sm font-bold text-gray-900 dark:text-white">Cards Published (Last 30 Days)</h3>
+        <div className="bg-white dark:bg-[#020617] border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 shadow-xs">
+          <div className="flex justify-between items-center mb-8 border-b border-slate-100 dark:border-slate-800 pb-4">
+            <div>
+              <h3 className="text-base font-bold text-slate-900 dark:text-white">Cards Published</h3>
+              <p className="text-xs text-slate-500 font-medium mt-1">Last 30 Days</p>
+            </div>
           </div>
-          <div className="h-48 flex items-end justify-between gap-1">
-            {analytics?.cardsGrowth?.length > 0 ? (
-              analytics.cardsGrowth.map((day, i) => {
-                const max = Math.max(...analytics.cardsGrowth.map(d => d.count), 1);
-                const height = `${(day.count / max) * 100}%`;
-                return (
-                  <div key={i} className="relative w-full group flex flex-col justify-end h-full">
-                    <div 
-                      className="w-full bg-[#7A4055] dark:bg-[#E5B56C] rounded-t-sm transition-all duration-300 group-hover:opacity-80" 
-                      style={{ height }}
-                    />
-                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-gray-900 text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap z-10 transition-opacity">
-                      {day.count} cards<br/>{day._id}
+          
+          <div className="h-56 relative">
+             {/* Background Grid Lines */}
+             <div className="absolute inset-0 flex flex-col justify-between border-t border-b border-slate-100 dark:border-slate-800/50 py-1 pointer-events-none z-0">
+              <div className="w-full border-b border-slate-100 dark:border-slate-800/50 border-dashed" />
+              <div className="w-full border-b border-slate-100 dark:border-slate-800/50 border-dashed" />
+              <div className="w-full border-b border-slate-100 dark:border-slate-800/50 border-dashed" />
+            </div>
+
+            <div className="h-full flex items-end justify-around gap-2 sm:gap-4 relative z-10 px-2 sm:px-6">
+              {analytics?.cardsGrowth?.length > 0 ? (
+                analytics.cardsGrowth.map((day, i) => {
+                  const max = Math.max(...analytics.cardsGrowth.map(d => d.count), 1);
+                  const height = `${(day.count / max) * 100}%`;
+                  return (
+                    <div key={i} className="relative w-full max-w-[48px] group flex flex-col justify-end h-full">
+                      {/* Background Track */}
+                      <div className="absolute inset-0 bg-slate-50 dark:bg-slate-800/30 rounded-t-lg -z-10" />
+                      
+                      {/* Bar Fill */}
+                      <motion.div 
+                        initial={{ height: 0 }}
+                        animate={{ height }}
+                        transition={{ duration: 1, delay: i * 0.1, ease: "easeOut" }}
+                        className="w-full bg-gradient-to-t from-indigo-600 to-purple-400 dark:from-indigo-700 dark:to-purple-500 rounded-t-lg transition-all duration-300 group-hover:opacity-80 relative overflow-hidden"
+                      >
+                        <div className="absolute top-0 inset-x-0 h-1 bg-white/30" />
+                      </motion.div>
+                      
+                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-slate-900 text-white text-[10px] font-bold py-1.5 px-2.5 rounded-lg opacity-0 group-hover:opacity-100 pointer-events-none transition-all scale-95 group-hover:scale-100 shadow-lg whitespace-nowrap z-20">
+                        {day.count} cards<br/>
+                        <span className="text-slate-400 font-normal">{day._id}</span>
+                      </div>
                     </div>
-                  </div>
-                );
-              })
-            ) : (
-              <div className="w-full h-full flex items-center justify-center text-sm text-gray-400">Not enough data</div>
-            )}
+                  );
+                })
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-sm text-slate-400">Not enough data</div>
+              )}
+            </div>
           </div>
         </div>
       </div>

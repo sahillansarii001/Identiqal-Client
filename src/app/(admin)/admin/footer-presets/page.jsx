@@ -84,7 +84,7 @@ function PresetDrawer({ isOpen, onClose, editingPreset, onSaved }) {
                 type="text"
                 value={form.name}
                 onChange={e => handleChange('name', e.target.value)}
-                className="w-full px-3 py-2 bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#5A3045]"
+                className="w-full px-3 py-2 bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
                 placeholder="e.g., Minimal Footer"
               />
             </div>
@@ -95,7 +95,7 @@ function PresetDrawer({ isOpen, onClose, editingPreset, onSaved }) {
                 <select
                   value={form.status}
                   onChange={e => handleChange('status', e.target.value)}
-                  className="w-full px-3 py-2 bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#5A3045]"
+                  className="w-full px-3 py-2 bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
                 >
                   <option value="draft">Draft</option>
                   <option value="published">Published</option>
@@ -108,7 +108,7 @@ function PresetDrawer({ isOpen, onClose, editingPreset, onSaved }) {
                   id="isPremium"
                   checked={form.isPremium}
                   onChange={e => handleChange('isPremium', e.target.checked)}
-                  className="w-4 h-4 text-[#5A3045] bg-gray-100 border-gray-300 rounded focus:ring-[#5A3045]"
+                  className="w-4 h-4 text-[#2563EB] bg-gray-100 border-gray-300 rounded focus:ring-[#2563EB]"
                 />
                 <label htmlFor="isPremium" className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Premium Only</label>
               </div>
@@ -120,7 +120,7 @@ function PresetDrawer({ isOpen, onClose, editingPreset, onSaved }) {
                 value={form.contentTemplate}
                 onChange={e => handleChange('contentTemplate', e.target.value)}
                 rows={6}
-                className="w-full px-3 py-2 bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#5A3045] font-mono"
+                className="w-full px-3 py-2 bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2563EB] font-mono"
                 placeholder="e.g., <div>Powered by Identiqal</div>"
               />
             </div>
@@ -131,7 +131,7 @@ function PresetDrawer({ isOpen, onClose, editingPreset, onSaved }) {
           <button onClick={onClose} className="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 rounded-lg transition-colors">
             Cancel
           </button>
-          <button onClick={handleSave} disabled={saving} className="flex items-center gap-2 px-6 py-2 bg-[#5A3045] hover:bg-[#7A4055] text-white text-sm font-medium rounded-lg transition-colors shadow-sm disabled:opacity-50">
+          <button onClick={handleSave} disabled={saving} className="flex items-center gap-2 px-6 py-2 bg-[#2563EB] hover:bg-[#6366F1] text-white text-sm font-medium rounded-lg transition-colors shadow-sm disabled:opacity-50">
             {saving ? <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <Check size={16} />}
             <span>{saving ? 'Saving...' : 'Save Preset'}</span>
           </button>
@@ -189,13 +189,13 @@ export default function FooterPresetsPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-            <Type className="text-[#5A3045]" /> Footer Presets
+            <Type className="text-[#2563EB]" /> Footer Presets
           </h1>
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Manage footer configurations available for users.</p>
         </div>
         <button
           onClick={() => { setEditingPreset(null); setDrawerOpen(true); }}
-          className="flex items-center gap-2 px-4 py-2 bg-[#5A3045] hover:bg-[#7A4055] text-white rounded-lg font-medium transition-colors shadow-sm"
+          className="flex items-center gap-2 px-4 py-2 bg-[#2563EB] hover:bg-[#6366F1] text-white rounded-lg font-medium transition-colors shadow-sm"
         >
           <Plus size={18} /> New Preset
         </button>
@@ -208,13 +208,13 @@ export default function FooterPresetsPage() {
           placeholder="Search footers by name..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#5A3045]"
+          className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
         />
       </div>
 
       {loading ? (
         <div className="flex justify-center py-20">
-          <div className="w-8 h-8 border-4 border-[#5A3045]/30 border-t-[#5A3045] rounded-full animate-spin" />
+          <div className="w-8 h-8 border-4 border-[#2563EB]/30 border-t-[#2563EB] rounded-full animate-spin" />
         </div>
       ) : filteredPresets.length === 0 ? (
         <div className="text-center py-20 bg-white dark:bg-white/5 rounded-2xl border border-dashed border-gray-200 dark:border-white/10">

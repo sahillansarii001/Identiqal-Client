@@ -48,7 +48,7 @@ export default function SingleCardDashboard() {
   if (!card) {
     return (
       <div className="flex h-[60vh] items-center justify-center">
-        <Loader2 className="animate-spin text-[#5A3045]" size={32} />
+        <Loader2 className="animate-spin text-[#2563EB]" size={32} />
       </div>
     );
   }
@@ -132,20 +132,20 @@ export default function SingleCardDashboard() {
           @apply h-10 w-10 rounded-xl flex items-center justify-center text-slate-400 hover:bg-white hover:text-slate-800 transition-all border border-transparent hover:border-slate-200 hover:shadow-sm shrink-0;
         }
         [data-dark="true"] .action-btn {
-          @apply text-slate-400 hover:bg-white/10 hover:text-[#F0EBF0] hover:border-white/10;
+          @apply text-slate-400 hover:bg-white/10 hover:text-[#F1F5F9] hover:border-white/10;
         }
       `}</style>
       
       {/* Back button and Page Header */}
       <div className="flex items-center gap-4 mb-2">
-        <Link href="/dashboard/cards" className="h-10 w-10 rounded-full border border-slate-200 dark:border-white/10 bg-white flex items-center justify-center text-slate-500 dark:text-[#9A8AA0] hover:text-slate-800 dark:hover:text-white hover:shadow-sm transition-all">
+        <Link href="/dashboard/cards" className="h-10 w-10 rounded-full border border-slate-200 dark:border-white/10 bg-white flex items-center justify-center text-slate-500 dark:text-[#94A3B8] hover:text-slate-800 dark:hover:text-white hover:shadow-sm transition-all">
           <ArrowLeft size={18} />
         </Link>
         <div>
-          <h1 className="text-2xl font-black text-[#251E2A] dark:text-[#F0EBF0] flex items-center gap-3">
+          <h1 className="text-2xl font-black text-[#251E2A] dark:text-[#F1F5F9] flex items-center gap-3">
             Card Control Center
           </h1>
-          <p className="text-sm font-medium text-slate-500 dark:text-[#9A8AA0] mt-1">Manage and monitor {name}</p>
+          <p className="text-sm font-medium text-slate-500 dark:text-[#94A3B8] mt-1">Manage and monitor {name}</p>
         </div>
       </div>
 
@@ -153,7 +153,7 @@ export default function SingleCardDashboard() {
         className="flex flex-col xl:flex-row gap-6 w-full items-start"
       >
         {/* Left Column: Live Profile Preview */}
-        <div className="sticky top-6 relative bg-slate-50 border border-[rgba(90,48,69,0.08)] rounded-[32px] shadow-sm xl:w-[320px] shrink-0 flex flex-col pt-12 items-center overflow-hidden">
+        <div className="sticky top-6 relative bg-slate-50 border border-[rgba(37,99,235,0.08)] rounded-[32px] shadow-sm xl:w-[320px] shrink-0 flex flex-col pt-12 items-center overflow-hidden">
           <div className="absolute top-5 right-5 z-20">
             <button
               onClick={() => togglePublishStatus(card._id, card.isPublished)}
@@ -175,11 +175,11 @@ export default function SingleCardDashboard() {
         </div>
 
         {/* Right Column: Analytics & Sharing */}
-        <div className="flex-1 bg-white border border-[rgba(90,48,69,0.08)] rounded-[32px] shadow-sm flex flex-col p-6 space-y-6 min-w-0 overflow-hidden">
+        <div className="flex-1 bg-white border border-[rgba(37,99,235,0.08)] rounded-[32px] shadow-sm flex flex-col p-6 space-y-6 min-w-0 overflow-hidden">
           
           {/* Header: Title and Actions */}
-          <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4 border-b border-[rgba(90,48,69,0.06)] pb-5">
-            <h3 className="font-black text-inherit text-2xl xl:text-3xl truncate text-[#251E2A] dark:text-[#F0EBF0]">
+          <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4 border-b border-[rgba(37,99,235,0.06)] pb-5">
+            <h3 className="font-black text-inherit text-2xl xl:text-3xl truncate text-[#251E2A] dark:text-[#F1F5F9]">
               {name}
             </h3>
             <div className="flex flex-wrap items-center gap-2">
@@ -193,7 +193,7 @@ export default function SingleCardDashboard() {
                 <Trash2 size={18} />
               </button>
               <Link href={`/dashboard/cards/${card.slug}/edit`}>
-                <Button className="h-10 bg-[#5A3045] hover:bg-[#4A2C3A] text-white border-none shadow-md shadow-[#5A3045]/20 font-bold space-x-2 transition-transform hover:scale-[1.02] rounded-lg text-sm px-5 ml-1">
+                <Button className="h-10 bg-[#2563EB] hover:bg-[#4A2C3A] text-white border-none shadow-md shadow-[#2563EB]/20 font-bold space-x-2 transition-transform hover:scale-[1.02] rounded-lg text-sm px-5 ml-1">
                   <Edit size={16} />
                   <span>Edit</span>
                 </Button>
@@ -203,36 +203,36 @@ export default function SingleCardDashboard() {
 
           {/* Analytics Row */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="bg-slate-50 rounded-2xl p-4 border border-[rgba(90,48,69,0.06)] flex flex-col justify-center transition-colors hover:border-[rgba(90,48,69,0.15)]">
-              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5 mb-0.5"><Sparkles size={12} className="text-[#D4A45B]"/> Total Views</p>
-              <p className="text-2xl font-black text-[#5A3045] dark:text-[#D4A45B]">{stats[0].value}</p>
+            <div className="bg-slate-50 rounded-2xl p-4 border border-[rgba(37,99,235,0.06)] flex flex-col justify-center transition-colors hover:border-[rgba(37,99,235,0.15)]">
+              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5 mb-0.5"><Sparkles size={12} className="text-[#3B82F6]"/> Total Views</p>
+              <p className="text-2xl font-black text-[#2563EB] dark:text-[#3B82F6]">{stats[0].value}</p>
             </div>
-            <div className="bg-slate-50 rounded-2xl p-4 border border-[rgba(90,48,69,0.06)] flex flex-col justify-center transition-colors hover:border-[rgba(90,48,69,0.15)]">
-              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5 mb-0.5"><Copy size={12} className="text-[#D4A45B]"/> Total Saves</p>
-              <p className="text-2xl font-black text-[#5A3045] dark:text-[#D4A45B]">{stats[2].value}</p>
+            <div className="bg-slate-50 rounded-2xl p-4 border border-[rgba(37,99,235,0.06)] flex flex-col justify-center transition-colors hover:border-[rgba(37,99,235,0.15)]">
+              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5 mb-0.5"><Copy size={12} className="text-[#3B82F6]"/> Total Saves</p>
+              <p className="text-2xl font-black text-[#2563EB] dark:text-[#3B82F6]">{stats[2].value}</p>
             </div>
-            <div className="bg-slate-50 rounded-2xl p-4 border border-[rgba(90,48,69,0.06)] flex flex-col justify-center transition-colors hover:border-[rgba(90,48,69,0.15)]">
-              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5 mb-0.5"><QrCode size={12} className="text-[#D4A45B]"/> Total Scans</p>
-              <p className="text-2xl font-black text-[#5A3045] dark:text-[#D4A45B]">{stats[1].value}</p>
+            <div className="bg-slate-50 rounded-2xl p-4 border border-[rgba(37,99,235,0.06)] flex flex-col justify-center transition-colors hover:border-[rgba(37,99,235,0.15)]">
+              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5 mb-0.5"><QrCode size={12} className="text-[#3B82F6]"/> Total Scans</p>
+              <p className="text-2xl font-black text-[#2563EB] dark:text-[#3B82F6]">{stats[1].value}</p>
             </div>
-            <Link href={`/dashboard/analytics?card=${card._id}`} className="bg-[#FAF7F3] dark:bg-[#251E2A] rounded-2xl p-4 border border-[#D4A45B]/20 flex flex-col justify-center items-center text-center transition-colors hover:bg-[#D4A45B]/10 dark:hover:bg-[#D4A45B]/15 hover:border-[#D4A45B]/30 group">
-              <BarChart3 size={20} className="text-[#D4A45B] mb-1.5 group-hover:scale-110 transition-transform" />
-              <p className="text-xs font-bold text-[#5A3045] dark:text-[#F0EBF0]">View all analytics</p>
+            <Link href={`/dashboard/analytics?card=${card._id}`} className="bg-[#F8FAFC] dark:bg-[#251E2A] rounded-2xl p-4 border border-[#3B82F6]/20 flex flex-col justify-center items-center text-center transition-colors hover:bg-[#3B82F6]/10 dark:hover:bg-[#3B82F6]/15 hover:border-[#3B82F6]/30 group">
+              <BarChart3 size={20} className="text-[#3B82F6] mb-1.5 group-hover:scale-110 transition-transform" />
+              <p className="text-xs font-bold text-[#2563EB] dark:text-[#F1F5F9]">View all analytics</p>
             </Link>
           </div>
 
           {/* Share Center Box */}
-          <div className="flex-1 bg-gradient-to-br from-[#5A3045]/5 to-[#D4A45B]/5 border border-[#5A3045]/10 rounded-[24px] p-6 flex flex-col xl:flex-row gap-6 items-center justify-between overflow-hidden">
+          <div className="flex-1 bg-gradient-to-br from-[#2563EB]/5 to-[#3B82F6]/5 border border-[#2563EB]/10 rounded-[24px] p-6 flex flex-col xl:flex-row gap-6 items-center justify-between overflow-hidden">
             
             {/* QR Code Container (Left Side) */}
-            <div className="w-[150px] h-[150px] rounded-3xl bg-white border border-white shadow-xl shadow-[#5A3045]/10 flex flex-col items-center justify-center p-3 shrink-0 relative overflow-hidden group-hover:border-[#D4A45B]/30 transition-colors">
-              <div className="absolute inset-0 bg-gradient-to-br from-[#5A3045]/5 to-[#D4A45B]/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <div className="w-[150px] h-[150px] rounded-3xl bg-white border border-white shadow-xl shadow-[#2563EB]/10 flex flex-col items-center justify-center p-3 shrink-0 relative overflow-hidden group-hover:border-[#3B82F6]/30 transition-colors">
+              <div className="absolute inset-0 bg-gradient-to-br from-[#2563EB]/5 to-[#3B82F6]/5 opacity-0 group-hover:opacity-100 transition-opacity" />
               <QRCodeSVG 
                 id={`qr-${card._id}`}
                 value={publicUrl}
                 size={120}
                 bgColor={"#ffffff"}
-                fgColor={"#5A3045"}
+                fgColor={"#2563EB"}
                 level={"Q"}
                 className="relative z-10"
                 imageSettings={{
@@ -249,10 +249,10 @@ export default function SingleCardDashboard() {
             {/* Share Links (Right Side) */}
             <div className="flex-1 space-y-6 w-full max-w-sm">
               <div>
-                <h4 className="text-lg font-black text-[#251E2A] dark:text-[#F0EBF0] mb-3">Share your card</h4>
+                <h4 className="text-lg font-black text-[#251E2A] dark:text-[#F1F5F9] mb-3">Share your card</h4>
                 <button 
                   onClick={() => copyToClipboard(publicUrl, setCopiedLink)}
-                  className="w-full flex items-center justify-center gap-2 bg-white dark:bg-transparent border border-[rgba(90,48,69,0.1)] dark:border-white/10 hover:border-[#5A3045]/30 dark:hover:border-white/20 hover:shadow-md dark:hover:bg-white/5 transition-all rounded-xl p-3.5 font-bold text-[#5A3045] dark:text-[#F0EBF0] text-base cursor-pointer"
+                  className="w-full flex items-center justify-center gap-2 bg-white dark:bg-transparent border border-[rgba(37,99,235,0.1)] dark:border-white/10 hover:border-[#2563EB]/30 dark:hover:border-white/20 hover:shadow-md dark:hover:bg-white/5 transition-all rounded-xl p-3.5 font-bold text-[#2563EB] dark:text-[#F1F5F9] text-base cursor-pointer"
                 >
                   {copiedLink ? <Check size={18} /> : <Copy size={18} />}
                   {copiedLink ? 'Link Copied!' : 'Copy Link'}
@@ -264,7 +264,7 @@ export default function SingleCardDashboard() {
                 <div className="flex gap-2">
                   <button 
                     onClick={handleEmailShare}
-                    className="flex-1 flex items-center justify-center gap-1.5 bg-white dark:bg-transparent border border-[rgba(90,48,69,0.1)] dark:border-white/10 hover:bg-slate-50 dark:hover:bg-white/5 transition-all rounded-lg py-2.5 px-1 font-semibold text-xs text-slate-700 dark:text-[#F0EBF0] hover:border-[rgba(90,48,69,0.2)] dark:hover:border-white/20 cursor-pointer"
+                    className="flex-1 flex items-center justify-center gap-1.5 bg-white dark:bg-transparent border border-[rgba(37,99,235,0.1)] dark:border-white/10 hover:bg-slate-50 dark:hover:bg-white/5 transition-all rounded-lg py-2.5 px-1 font-semibold text-xs text-slate-700 dark:text-[#F1F5F9] hover:border-[rgba(37,99,235,0.2)] dark:hover:border-white/20 cursor-pointer"
                   >
                     <Share2 size={14} /> Email
                   </button>
@@ -272,7 +272,7 @@ export default function SingleCardDashboard() {
                     href={`https://wa.me/?text=${encodedShareText}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 flex items-center justify-center gap-1.5 bg-white dark:bg-transparent border border-[rgba(90,48,69,0.1)] dark:border-white/10 hover:bg-green-50 dark:hover:bg-green-500/10 transition-all rounded-lg py-2.5 px-1 font-semibold text-xs text-slate-700 dark:text-[#F0EBF0] hover:border-green-200 dark:hover:border-green-500/20 hover:text-green-700 dark:hover:text-green-400 cursor-pointer"
+                    className="flex-1 flex items-center justify-center gap-1.5 bg-white dark:bg-transparent border border-[rgba(37,99,235,0.1)] dark:border-white/10 hover:bg-green-50 dark:hover:bg-green-500/10 transition-all rounded-lg py-2.5 px-1 font-semibold text-xs text-slate-700 dark:text-[#F1F5F9] hover:border-green-200 dark:hover:border-green-500/20 hover:text-green-700 dark:hover:text-green-400 cursor-pointer"
                   >
                     <MessageCircle size={14} /> WhatsApp
                   </a>
@@ -284,25 +284,25 @@ export default function SingleCardDashboard() {
           </div>
 
           {/* Leads Placeholder */}
-          <div className="border border-[rgba(90,48,69,0.06)] rounded-[24px] p-6 flex flex-col gap-4">
-            <h4 className="text-lg font-black text-[#251E2A] dark:text-[#F0EBF0]">Recent Leads Captured</h4>
+          <div className="border border-[rgba(37,99,235,0.06)] rounded-[24px] p-6 flex flex-col gap-4">
+            <h4 className="text-lg font-black text-[#251E2A] dark:text-[#F1F5F9]">Recent Leads Captured</h4>
             <div className="bg-slate-50 border border-slate-100 rounded-xl p-8 flex flex-col items-center justify-center text-center">
               <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm mb-3 text-slate-300">
                 <CopyPlus size={20} />
               </div>
-              <p className="text-sm font-bold text-slate-700 dark:text-[#F0EBF0]">No leads captured yet</p>
+              <p className="text-sm font-bold text-slate-700 dark:text-[#F1F5F9]">No leads captured yet</p>
               <p className="text-xs text-slate-400 mt-1">When someone saves your contact info, they will appear here.</p>
             </div>
           </div>
 
           {/* Activity Placeholder */}
-          <div className="border border-[rgba(90,48,69,0.06)] rounded-[24px] p-6 flex flex-col gap-4">
-            <h4 className="text-lg font-black text-[#251E2A] dark:text-[#F0EBF0]">Recent Activity</h4>
+          <div className="border border-[rgba(37,99,235,0.06)] rounded-[24px] p-6 flex flex-col gap-4">
+            <h4 className="text-lg font-black text-[#251E2A] dark:text-[#F1F5F9]">Recent Activity</h4>
             <div className="bg-slate-50 border border-slate-100 rounded-xl p-8 flex flex-col items-center justify-center text-center">
               <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm mb-3 text-slate-300">
                 <Sparkles size={20} />
               </div>
-              <p className="text-sm font-bold text-slate-700 dark:text-[#F0EBF0]">No recent activity</p>
+              <p className="text-sm font-bold text-slate-700 dark:text-[#F1F5F9]">No recent activity</p>
               <p className="text-xs text-slate-400 mt-1">Share your card to start seeing views and scans.</p>
             </div>
           </div>

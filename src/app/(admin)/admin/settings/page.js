@@ -90,7 +90,7 @@ export default function AdminSettingsPage() {
                 type="text"
                 value={settings.siteName || ''}
                 onChange={e => setSettings(s => ({ ...s, siteName: e.target.value }))}
-                className="w-full px-3 py-2.5 text-sm border border-gray-200 dark:border-white/10 rounded-lg bg-white dark:bg-transparent dark:text-white focus:outline-none focus:ring-2 focus:ring-[#5A3045]/30 focus:border-[#5A3045] transition-colors"
+                className="w-full px-3 py-2.5 text-sm border border-gray-200 dark:border-white/10 rounded-lg bg-white dark:bg-transparent dark:text-white focus:outline-none focus:ring-2 focus:ring-[#2563EB]/30 focus:border-[#2563EB] transition-colors"
               />
             </div>
             <div>
@@ -101,7 +101,7 @@ export default function AdminSettingsPage() {
                   type="email"
                   value={settings.supportEmail || ''}
                   onChange={e => setSettings(s => ({ ...s, supportEmail: e.target.value }))}
-                  className="w-full pl-9 pr-3 py-2.5 text-sm border border-gray-200 dark:border-white/10 rounded-lg bg-white dark:bg-transparent dark:text-white focus:outline-none focus:ring-2 focus:ring-[#5A3045]/30 focus:border-[#5A3045] transition-colors"
+                  className="w-full pl-9 pr-3 py-2.5 text-sm border border-gray-200 dark:border-white/10 rounded-lg bg-white dark:bg-transparent dark:text-white focus:outline-none focus:ring-2 focus:ring-[#2563EB]/30 focus:border-[#2563EB] transition-colors"
                 />
               </div>
             </div>
@@ -128,7 +128,7 @@ export default function AdminSettingsPage() {
               <button
                 type="button"
                 onClick={() => setSettings(s => ({ ...s, allowSignups: !s.allowSignups }))}
-                className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 focus:outline-none ${settings.allowSignups ? 'bg-[#5A3045]' : 'bg-gray-200 dark:bg-white/20'}`}
+                className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 focus:outline-none ${settings.allowSignups ? 'bg-[#2563EB]' : 'bg-gray-200 dark:bg-white/20'}`}
               >
                 <span className={`inline-block h-5 w-5 transform rounded-full bg-white shadow transition duration-200 ease-in-out ${settings.allowSignups ? 'translate-x-5' : 'translate-x-0'}`} />
               </button>
@@ -141,7 +141,7 @@ export default function AdminSettingsPage() {
                 max="100"
                 value={settings.defaultFreeSeats || 5}
                 onChange={e => setSettings(s => ({ ...s, defaultFreeSeats: parseInt(e.target.value) }))}
-                className="w-full md:w-48 px-3 py-2.5 text-sm border border-gray-200 dark:border-white/10 rounded-lg bg-white dark:bg-transparent dark:text-white focus:outline-none focus:ring-2 focus:ring-[#5A3045]/30 focus:border-[#5A3045]"
+                className="w-full md:w-48 px-3 py-2.5 text-sm border border-gray-200 dark:border-white/10 rounded-lg bg-white dark:bg-transparent dark:text-white focus:outline-none focus:ring-2 focus:ring-[#2563EB]/30 focus:border-[#2563EB]"
               />
             </div>
           </div>
@@ -178,7 +178,7 @@ export default function AdminSettingsPage() {
           <button
             type="submit"
             disabled={saving}
-            className="flex items-center gap-2 px-6 py-2.5 text-sm font-medium text-white bg-[#5A3045] hover:bg-[#7A4055] rounded-lg transition-colors shadow-sm disabled:opacity-60"
+            className="flex items-center gap-2 px-6 py-2.5 text-sm font-medium text-white bg-[#2563EB] hover:bg-[#6366F1] rounded-lg transition-colors shadow-sm disabled:opacity-60"
           >
             <Save size={15} />
             {saving ? 'Saving...' : 'Save Settings'}

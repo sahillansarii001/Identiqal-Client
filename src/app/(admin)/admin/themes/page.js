@@ -17,11 +17,11 @@ const FONT_OPTIONS = ['Inter', 'Roboto', 'Poppins', 'Playfair Display', 'Montser
 const defaultForm = {
   name: '',
   status: 'draft',
-  primary: '#5A3045',
-  secondary: '#D4A45B',
+  primary: '#2563EB',
+  secondary: '#3B82F6',
   background: '#FFFFFF',
   text: '#1E1520',
-  accent: '#D4A45B',
+  accent: '#3B82F6',
   fontFamily: 'Inter',
   layoutStyle: 'minimal',
   buttonStyle: 'rounded',
@@ -152,11 +152,11 @@ function ThemeDrawer({ isOpen, onClose, editingTheme, onSaved }) {
       setForm({
         name: editingTheme.name || 'Untitled Theme',
         status: editingTheme.status || 'draft',
-        primary: editingTheme.colors?.primary || '#5A3045',
-        secondary: editingTheme.colors?.secondary || '#D4A45B',
+        primary: editingTheme.colors?.primary || '#2563EB',
+        secondary: editingTheme.colors?.secondary || '#3B82F6',
         background: editingTheme.colors?.background || '#FFFFFF',
         text: editingTheme.colors?.text || '#1E1520',
-        accent: editingTheme.colors?.accent || '#D4A45B',
+        accent: editingTheme.colors?.accent || '#3B82F6',
         fontFamily: editingTheme.font?.family || 'Inter',
         layoutStyle: editingTheme.layoutStyle || 'minimal',
         buttonStyle: editingTheme.buttonStyle || 'rounded',
@@ -259,7 +259,7 @@ function ThemeDrawer({ isOpen, onClose, editingTheme, onSaved }) {
                       value={form.name}
                       onChange={e => setField('name')(e.target.value)}
                       placeholder="e.g. Midnight Minimal"
-                      className="w-full px-3 py-2 text-sm border border-gray-200 dark:border-white/10 rounded-lg bg-white dark:bg-white/5 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#5A3045]/30 focus:border-[#5A3045]"
+                      className="w-full px-3 py-2 text-sm border border-gray-200 dark:border-white/10 rounded-lg bg-white dark:bg-white/5 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#2563EB]/30 focus:border-[#2563EB]"
                     />
                   </div>
                   <div>
@@ -305,7 +305,7 @@ function ThemeDrawer({ isOpen, onClose, editingTheme, onSaved }) {
                     <select
                       value={form.fontFamily}
                       onChange={e => setField('fontFamily')(e.target.value)}
-                      className="w-full appearance-none px-3 py-2 text-sm border border-gray-200 dark:border-white/10 rounded-lg bg-white dark:bg-white/5 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#5A3045]/30 pr-8"
+                      className="w-full appearance-none px-3 py-2 text-sm border border-gray-200 dark:border-white/10 rounded-lg bg-white dark:bg-white/5 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#2563EB]/30 pr-8"
                     >
                       {FONT_OPTIONS.map(f => <option key={f} value={f}>{f}</option>)}
                     </select>
@@ -324,7 +324,7 @@ function ThemeDrawer({ isOpen, onClose, editingTheme, onSaved }) {
                         onClick={() => setField('layoutStyle')(style)}
                         className={`py-2 text-xs font-medium rounded-lg border capitalize transition-colors ${
                           form.layoutStyle === style
-                            ? 'border-[#5A3045] bg-[#5A3045] text-white'
+                            ? 'border-[#2563EB] bg-[#2563EB] text-white'
                             : 'border-gray-200 dark:border-white/10 text-gray-600 dark:text-gray-400 hover:border-gray-300 dark:hover:border-white/20'
                         }`}
                       >
@@ -345,7 +345,7 @@ function ThemeDrawer({ isOpen, onClose, editingTheme, onSaved }) {
                         onClick={() => setField('buttonStyle')(style)}
                         className={`py-2 text-xs font-medium rounded-lg border capitalize transition-colors ${
                           form.buttonStyle === style
-                            ? 'border-[#5A3045] bg-[#5A3045] text-white'
+                            ? 'border-[#2563EB] bg-[#2563EB] text-white'
                             : 'border-gray-200 dark:border-white/10 text-gray-600 dark:text-gray-400 hover:border-gray-300 dark:hover:border-white/20'
                         }`}
                       >
@@ -385,7 +385,7 @@ function ThemeDrawer({ isOpen, onClose, editingTheme, onSaved }) {
                         value={form.backgroundImage || ''}
                         onChange={e => setField('backgroundImage')(e.target.value)}
                         placeholder="https://example.com/image.jpg"
-                        className="w-full px-3 py-2 text-sm border border-gray-200 dark:border-white/10 rounded-lg bg-white dark:bg-white/5 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#5A3045]/30 focus:border-[#5A3045]"
+                        className="w-full px-3 py-2 text-sm border border-gray-200 dark:border-white/10 rounded-lg bg-white dark:bg-white/5 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#2563EB]/30 focus:border-[#2563EB]"
                       />
                     </div>
                     <div>
@@ -395,7 +395,7 @@ function ThemeDrawer({ isOpen, onClose, editingTheme, onSaved }) {
                         value={form.backgroundVideo || ''}
                         onChange={e => setField('backgroundVideo')(e.target.value)}
                         placeholder="https://example.com/video.mp4"
-                        className="w-full px-3 py-2 text-sm border border-gray-200 dark:border-white/10 rounded-lg bg-white dark:bg-white/5 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#5A3045]/30 focus:border-[#5A3045]"
+                        className="w-full px-3 py-2 text-sm border border-gray-200 dark:border-white/10 rounded-lg bg-white dark:bg-white/5 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#2563EB]/30 focus:border-[#2563EB]"
                       />
                     </div>
                   </div>
@@ -406,7 +406,7 @@ function ThemeDrawer({ isOpen, onClose, editingTheme, onSaved }) {
                   <button
                     type="submit"
                     disabled={saving}
-                    className="w-full py-2.5 text-sm font-semibold text-white bg-[#5A3045] hover:bg-[#7A4055] rounded-lg transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+                    className="w-full py-2.5 text-sm font-semibold text-white bg-[#2563EB] hover:bg-[#6366F1] rounded-lg transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
                   >
                     {saving ? (
                       <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
@@ -423,7 +423,7 @@ function ThemeDrawer({ isOpen, onClose, editingTheme, onSaved }) {
                 {/* Background Blur */}
                 <div 
                   className="absolute inset-0 opacity-40 blur-3xl -z-10"
-                  style={{ backgroundColor: form.primary || '#5A3045' }}
+                  style={{ backgroundColor: form.primary || '#2563EB' }}
                 />
                 
                 <p className="text-[11px] font-bold uppercase tracking-wide text-gray-400 dark:text-gray-500 shrink-0 z-10">
@@ -481,7 +481,7 @@ function ThemeCard({ theme, onEdit, onDuplicate, onDelete }) {
         {/* Background Blur Effect */}
         <div 
           className="absolute inset-0 opacity-40 blur-3xl"
-          style={{ backgroundColor: theme.colors?.primary || '#5A3045' }}
+          style={{ backgroundColor: theme.colors?.primary || '#2563EB' }}
         />
         
         {/* Phone Mockup Frame */}
@@ -490,13 +490,13 @@ function ThemeCard({ theme, onEdit, onDuplicate, onDelete }) {
           style={{ backgroundColor: theme.colors?.background || '#f9f9f9' }}
         >
           {/* Header band */}
-          <div className="h-10 shrink-0 w-full" style={{ backgroundColor: theme.colors?.primary || '#5A3045' }} />
+          <div className="h-10 shrink-0 w-full" style={{ backgroundColor: theme.colors?.primary || '#2563EB' }} />
           
           {/* Avatar */}
           <div className="flex flex-col items-center px-3 -mt-5">
             <div
               className="w-10 h-10 rounded-full border-2 shadow-sm flex items-center justify-center text-[10px] font-black"
-              style={{ backgroundColor: theme.colors?.secondary || '#D4A45B', borderColor: theme.colors?.background || '#fff', color: '#fff' }}
+              style={{ backgroundColor: theme.colors?.secondary || '#3B82F6', borderColor: theme.colors?.background || '#fff', color: '#fff' }}
             >
               JD
             </div>
@@ -512,8 +512,8 @@ function ThemeCard({ theme, onEdit, onDuplicate, onDelete }) {
                 key={i}
                 className="w-full h-5 flex items-center justify-center shadow-sm"
                 style={{
-                  backgroundColor: theme.buttonStyle === 'outline' ? 'transparent' : theme.colors?.primary || '#5A3045',
-                  border: theme.buttonStyle === 'outline' ? `1.5px solid ${theme.colors?.primary || '#5A3045'}` : 'none',
+                  backgroundColor: theme.buttonStyle === 'outline' ? 'transparent' : theme.colors?.primary || '#2563EB',
+                  border: theme.buttonStyle === 'outline' ? `1.5px solid ${theme.colors?.primary || '#2563EB'}` : 'none',
                   borderRadius: theme.buttonStyle === 'rounded' ? '999px' : theme.buttonStyle === 'square' ? '2px' : '6px',
                 }}
               >
@@ -696,7 +696,7 @@ export default function AdminThemesPage() {
           </button>
           <button
             onClick={openCreate}
-            className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-[#5A3045] hover:bg-[#7A4055] rounded-lg transition-colors shadow-sm"
+            className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-[#2563EB] hover:bg-[#6366F1] rounded-lg transition-colors shadow-sm"
           >
             <Plus size={15} />
             New Theme
@@ -731,7 +731,7 @@ export default function AdminThemesPage() {
             placeholder="Search themes..."
             value={search}
             onChange={e => setSearch(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 text-sm border border-gray-200 dark:border-white/10 rounded-lg bg-white dark:bg-transparent dark:text-white focus:outline-none focus:ring-2 focus:ring-[#5A3045]/20 focus:border-[#5A3045]/50 transition-all"
+            className="w-full pl-9 pr-4 py-2 text-sm border border-gray-200 dark:border-white/10 rounded-lg bg-white dark:bg-transparent dark:text-white focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB]/50 transition-all"
           />
         </div>
       </div>
@@ -761,7 +761,7 @@ export default function AdminThemesPage() {
             {search ? 'Try a different search term.' : 'Create your first theme to allow users to customise their digital cards.'}
           </p>
           {!search && (
-            <button onClick={openCreate} className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-[#5A3045] hover:bg-[#7A4055] rounded-lg transition-colors">
+            <button onClick={openCreate} className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-[#2563EB] hover:bg-[#6366F1] rounded-lg transition-colors">
               <Plus size={14} />
               Create Theme
             </button>

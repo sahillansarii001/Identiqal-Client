@@ -94,7 +94,7 @@ export default function AdminPaymentsPage() {
               placeholder="Search by user..."
               value={search}
               onChange={e => setSearch(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 text-sm border border-gray-200 dark:border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D4A45B]/50 bg-white dark:bg-transparent dark:text-white"
+              className="w-full pl-9 pr-4 py-2 text-sm border border-gray-200 dark:border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3B82F6]/50 bg-white dark:bg-transparent dark:text-white"
             />
           </div>
         </div>

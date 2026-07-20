@@ -94,10 +94,10 @@ const DashboardCard = ({ card, handleTogglePublish, handleDelete, handleDuplicat
         hidden: { opacity: 0, y: 30 },
         show: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 300, damping: 25 } }
       }}
-      className="cursor-pointer bg-white border border-[rgba(90,48,69,0.08)] rounded-[32px] overflow-hidden group transition-all duration-500 shadow-sm hover:shadow-2xl hover:shadow-[#5A3045]/10 flex flex-col relative"
+      className="cursor-pointer bg-white border border-[rgba(37,99,235,0.08)] rounded-[32px] overflow-hidden group transition-all duration-500 shadow-sm hover:shadow-2xl hover:shadow-[#2563EB]/10 flex flex-col relative"
     >
       {/* Top: Live Profile Preview */}
-        <div className="relative border-b border-[rgba(90,48,69,0.06)]">
+        <div className="relative border-b border-[rgba(37,99,235,0.06)]">
           <LiveCardPreview card={card} className="h-[280px]" scale={0.31} />
           
           {/* Status Badge */}
@@ -123,7 +123,7 @@ const DashboardCard = ({ card, handleTogglePublish, handleDelete, handleDuplicat
         <div className="p-6 flex flex-col flex-1 h-[180px]">
           <div className="flex items-start justify-between mb-4">
             <div>
-              <h3 className="font-black text-inherit text-xl truncate group-hover:text-[#5A3045] transition-colors">
+              <h3 className="font-black text-inherit text-xl truncate group-hover:text-[#2563EB] transition-colors">
                 {name}
               </h3>
               <p className="text-[10px] font-bold text-slate-400 mt-1 uppercase tracking-wider">{card.isPublished ? 'Live Profile' : 'Draft Mode'}</p>
@@ -131,12 +131,12 @@ const DashboardCard = ({ card, handleTogglePublish, handleDelete, handleDuplicat
             
             {/* Quick Actions */}
             <div className="flex items-center gap-2">
-              <Link href={`/dashboard/cards/${card.slug}/edit`} onClick={(e) => e.stopPropagation()} className="w-8 h-8 flex items-center justify-center rounded-lg bg-slate-50 text-slate-400 hover:text-[#5A3045] hover:bg-[#FAF7F3] transition-colors border border-transparent hover:border-[#D4A45B]/30" title="Edit Card">
+              <Link href={`/dashboard/cards/${card.slug}/edit`} onClick={(e) => e.stopPropagation()} className="w-8 h-8 flex items-center justify-center rounded-lg bg-slate-50 text-slate-400 hover:text-[#2563EB] hover:bg-[#F8FAFC] transition-colors border border-transparent hover:border-[#3B82F6]/30" title="Edit Card">
                 <Edit size={14} />
               </Link>
               <button 
                 onClick={(e) => { e.preventDefault(); e.stopPropagation(); copyToClipboard(publicUrl, setCopiedLink); }}
-                className="w-8 h-8 flex items-center justify-center rounded-lg bg-slate-50 text-slate-400 hover:text-[#5A3045] hover:bg-[#FAF7F3] transition-colors border border-transparent hover:border-[#D4A45B]/30"
+                className="w-8 h-8 flex items-center justify-center rounded-lg bg-slate-50 text-slate-400 hover:text-[#2563EB] hover:bg-[#F8FAFC] transition-colors border border-transparent hover:border-[#3B82F6]/30"
                 title="Copy Link"
               >
                 {copiedLink ? <Check size={14} /> : <Share2 size={14} />}
@@ -147,17 +147,17 @@ const DashboardCard = ({ card, handleTogglePublish, handleDelete, handleDuplicat
           {/* Mini Stats */}
           <div className="flex gap-5 mb-auto">
             <div className="flex items-center gap-1.5 text-slate-500">
-              <Sparkles size={12} className="text-[#D4A45B]" />
+              <Sparkles size={12} className="text-[#3B82F6]" />
               <span className="text-xs font-bold">{stats[0].value} <span className="text-slate-400 font-semibold">Views</span></span>
             </div>
             <div className="flex items-center gap-1.5 text-slate-500">
-              <QrCode size={12} className="text-[#D4A45B]" />
+              <QrCode size={12} className="text-[#3B82F6]" />
               <span className="text-xs font-bold">{stats[1].value} <span className="text-slate-400 font-semibold">Scans</span></span>
             </div>
           </div>
 
           <div className="mt-6">
-            <button className="w-full h-11 bg-white text-[#5A3045] border border-[rgba(90,48,69,0.1)] shadow-sm font-bold flex items-center justify-between px-5 transition-all rounded-xl text-sm group-hover:bg-[#5A3045] group-hover:text-white group-hover:shadow-md">
+            <button className="w-full h-11 bg-white text-[#2563EB] border border-[rgba(37,99,235,0.1)] shadow-sm font-bold flex items-center justify-between px-5 transition-all rounded-xl text-sm group-hover:bg-[#2563EB] group-hover:text-white group-hover:shadow-md">
               <span>Open Dashboard</span>
               <ArrowRight size={16} className="transition-transform group-hover:translate-x-1 opacity-50 group-hover:opacity-100" />
             </button>
@@ -223,11 +223,11 @@ export default function CardsPage() {
       `}</style>
       
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-[rgba(90,48,69,0.08)] pb-6 relative">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-[rgba(37,99,235,0.08)] pb-6 relative">
         <div className="space-y-1 z-10">
           <h1 className="text-3xl font-black text-inherit tracking-tight flex items-center gap-3">
             My Digital Cards
-            <span className="text-[10px] bg-[#D4A45B]/10 text-[#D4A45B] px-2.5 py-1 rounded-full font-black uppercase tracking-widest border border-[#D4A45B]/20 shadow-sm shadow-[#D4A45B]/5">
+            <span className="text-[10px] bg-[#3B82F6]/10 text-[#3B82F6] px-2.5 py-1 rounded-full font-black uppercase tracking-widest border border-[#3B82F6]/20 shadow-sm shadow-[#3B82F6]/5">
               {cards?.length || 0} active
             </span>
           </h1>
@@ -235,7 +235,7 @@ export default function CardsPage() {
             Design, update, and manage your premium visual networking cards. Share them seamlessly across any platform.
           </p>
         </div>
-        <Button onClick={() => setIsModalOpen(true)} className="bg-[#D4A45B] hover:bg-[#c3934b] text-[#0F172A] shadow-lg shadow-[#D4A45B]/20 hover:shadow-xl transition-all space-x-2 py-3 px-6 rounded-2xl font-black z-10">
+        <Button onClick={() => setIsModalOpen(true)} className="bg-[#3B82F6] hover:bg-[#2563EB] text-[#0F172A] shadow-lg shadow-[#3B82F6]/20 hover:shadow-xl transition-all space-x-2 py-3 px-6 rounded-2xl font-black z-10">
           <Plus size={18} />
           <span>New Card</span>
         </Button>
@@ -244,7 +244,7 @@ export default function CardsPage() {
       {isLoading ? (
         <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-8">
           {[1, 2, 3].map(i => (
-            <div key={i} className="h-[600px] bg-slate-50 rounded-[32px] border border-[rgba(90,48,69,0.06)] animate-pulse" />
+            <div key={i} className="h-[600px] bg-slate-50 rounded-[32px] border border-[rgba(37,99,235,0.06)] animate-pulse" />
           ))}
         </div>
       ) : cards.length === 0 ? (
@@ -252,10 +252,10 @@ export default function CardsPage() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ type: 'spring', damping: 20 }}
-          className="text-center py-32 bg-white border border-dashed border-[rgba(90,48,69,0.15)] rounded-[40px] space-y-6 relative overflow-hidden shadow-sm"
+          className="text-center py-32 bg-white border border-dashed border-[rgba(37,99,235,0.15)] rounded-[40px] space-y-6 relative overflow-hidden shadow-sm"
         >
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#D4A45B]/5 rounded-full blur-[100px] pointer-events-none" />
-          <div className="w-24 h-24 rounded-3xl bg-linear-to-tr from-[#5A3045]/10 to-[#D4A45B]/10 border border-[#D4A45B]/20 flex items-center justify-center mx-auto text-[#5A3045] shadow-inner relative z-10">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#3B82F6]/5 rounded-full blur-[100px] pointer-events-none" />
+          <div className="w-24 h-24 rounded-3xl bg-linear-to-tr from-[#2563EB]/10 to-[#3B82F6]/10 border border-[#3B82F6]/20 flex items-center justify-center mx-auto text-[#2563EB] shadow-inner relative z-10">
             <Sparkles size={40} />
           </div>
           <div className="space-y-3 relative z-10">
@@ -264,7 +264,7 @@ export default function CardsPage() {
               Create your first responsive digital business profile to start capturing leads, sharing your QR code, and tracking powerful analytics.
             </p>
           </div>
-          <Button onClick={() => setIsModalOpen(true)} className="bg-[#5A3045] hover:bg-primary text-white shadow-xl shadow-[#5A3045]/20 font-bold py-3 px-8 rounded-2xl relative z-10 mt-4">
+          <Button onClick={() => setIsModalOpen(true)} className="bg-[#2563EB] hover:bg-primary text-white shadow-xl shadow-[#2563EB]/20 font-bold py-3 px-8 rounded-2xl relative z-10 mt-4">
             Create Your First Card
           </Button>
         </motion.div>
@@ -304,11 +304,11 @@ export default function CardsPage() {
             error={errors.slug?.message}
             {...register('slug')}
           />
-          <div className="flex justify-end space-x-3 pt-6 border-t border-[rgba(90,48,69,0.08)] mt-6">
+          <div className="flex justify-end space-x-3 pt-6 border-t border-[rgba(37,99,235,0.08)] mt-6">
             <Button type="button" variant="secondary" onClick={() => setIsModalOpen(false)} className="bg-slate-50 hover:bg-slate-100 text-slate-700 font-bold px-6">
               Cancel
             </Button>
-            <Button type="submit" className="bg-[#5A3045] hover:bg-primary text-white font-bold px-8 shadow-lg shadow-[#5A3045]/20">
+            <Button type="submit" className="bg-[#2563EB] hover:bg-primary text-white font-bold px-8 shadow-lg shadow-[#2563EB]/20">
               Create Profile
             </Button>
           </div>
@@ -317,4 +317,5 @@ export default function CardsPage() {
     </div>
   );
 }
+
 

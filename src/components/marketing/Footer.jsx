@@ -153,7 +153,7 @@ export const Footer = () => {
       whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
-      className="bg-[#F8F4F1] border-t border-[#E2E8F0] pt-20 pb-12 relative z-10 font-sans mt-auto"
+      className="bg-[#FAFAFA] border-t border-[#E2E8F0] pt-20 pb-12 relative z-10 font-sans mt-auto"
     >
       <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12">
         {/* 1. TOP PREMIUM "WHY CHOOSE IDENTIQAL?" SECTION */}
@@ -163,12 +163,12 @@ export const Footer = () => {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.8 }}
-            className="bg-white border border-[#E2E8F0] rounded-[32px] p-8 sm:p-12 lg:p-16 shadow-[0_24px_50px_rgba(107,58,74,0.02)] relative overflow-hidden"
+            className="bg-white border border-[#E2E8F0] rounded-[32px] p-8 sm:p-12 lg:p-16 shadow-[0_24px_50px_rgba(37,99,235,0.02)] relative overflow-hidden"
           >
             {/* Soft decorative glow */}
             <div className="absolute inset-0 z-0 pointer-events-none">
               <div className="absolute top-1/4 right-1/4 w-[450px] h-[450px] rounded-full bg-[#3B82F6]/5 blur-[120px]" />
-              <div className="absolute bottom-1/4 left-1/4 w-[350px] h-[350px] rounded-full bg-[#6B3A4A]/3 blur-[100px]" />
+              <div className="absolute bottom-1/4 left-1/4 w-[350px] h-[350px] rounded-full bg-[#2563EB]/3 blur-[100px]" />
             </div>
 
             <div className="relative z-10 grid lg:grid-cols-12 gap-12 items-center">
@@ -180,7 +180,7 @@ export const Footer = () => {
                   </span>
                   <h3 className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight leading-tight font-sans">
                     Why Professionals <br />
-                    <span className="text-transparent bg-clip-text bg-linear-to-r from-[#6B3A4A] to-[#3B82F6]">
+                    <span className="text-transparent bg-clip-text bg-linear-to-r from-[#2563EB] to-[#3B82F6]">
                       Choose Identiqal
                     </span>
                   </h3>
@@ -221,7 +221,7 @@ export const Footer = () => {
                         {feat.icon}
                       </div>
                       <div className="space-y-1">
-                        <h4 className="font-extrabold text-sm text-[#0F172A] group-hover:text-[#6B3A4A] transition-colors duration-300 font-sans">
+                        <h4 className="font-extrabold text-sm text-[#0F172A] group-hover:text-[#2563EB] transition-colors duration-300 font-sans">
                           {feat.title}
                         </h4>
                         <p className="text-xs text-brand-secondary leading-relaxed font-sans max-w-md">
@@ -246,7 +246,7 @@ export const Footer = () => {
                 >
                   {/* Dashboard Header */}
                   <div className="flex justify-between items-center pb-4 border-b border-[#E2E8F0] mb-5">
-                    <span className="text-[10px] font-black text-[#6B3A4A] tracking-wider font-sans uppercase">
+                    <span className="text-[10px] font-black text-[#2563EB] tracking-wider font-sans uppercase">
                       Visitor Dashboard
                     </span>
                     <span className="text-[9px] font-bold text-green-600 bg-green-500/10 px-2 py-0.5 rounded-full border border-green-500/20">
@@ -280,7 +280,7 @@ export const Footer = () => {
                               ease: "easeOut",
                               delay: 0.2,
                             }}
-                            className="h-full bg-linear-to-r from-[#6B3A4A] to-[#3B82F6] rounded-full"
+                            className="h-full bg-linear-to-r from-[#2563EB] to-[#3B82F6] rounded-full"
                           />
                         </div>
                       </div>
@@ -314,7 +314,7 @@ export const Footer = () => {
                       ease: "easeInOut",
                       delay: 0.5,
                     }}
-                    className="absolute -bottom-4 -left-4 bg-[#6B3A4A] text-white shadow-lg px-3 py-2.5 rounded-xl text-[10px] font-extrabold flex items-center space-x-2 z-20"
+                    className="absolute -bottom-4 -left-4 bg-[#2563EB] text-white shadow-lg px-3 py-2.5 rounded-xl text-[10px] font-extrabold flex items-center space-x-2 z-20"
                   >
                     <Sparkles size={10} className="text-[#3B82F6]" />
                     <span>+12 new profile visits</span>
@@ -332,7 +332,7 @@ export const Footer = () => {
                 {logos.map((logo, idx) => (
                   <span
                     key={idx}
-                    className="text-sm font-black tracking-tight text-[#8A8A8A] hover:text-[#6B3A4A] transition-colors duration-300 grayscale hover:grayscale-0 cursor-default opacity-60 hover:opacity-100"
+                    className="text-sm font-black tracking-tight text-[#8A8A8A] hover:text-[#2563EB] transition-colors duration-300 grayscale hover:grayscale-0 cursor-default opacity-60 hover:opacity-100"
                   >
                     {logo}
                   </span>
@@ -348,273 +348,124 @@ export const Footer = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-16 lg:gap-12 pb-16 items-start text-left"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-x-12 gap-y-16 pb-20 items-start text-left"
         >
-          {/* Column 1 (Brand): Spans 2 Columns on large screens */}
+          {/* Column 1 (Brand & Newsletter): Spans 2 Columns */}
           <motion.div
             variants={columnVariants}
-            className="lg:col-span-2 space-y-6"
+            className="lg:col-span-2 flex flex-col h-full"
           >
-            <div className="flex items-center space-x-3.5">
-              <Link href="/" className="flex items-center space-x-3">
-                <div className="w-[50px] h-[50px] rounded-xl bg-[#6B3A4A] flex items-center justify-center shadow-md relative overflow-hidden">
-                  <div className="absolute inset-0 bg-linear-to-tr from-[#3B82F6]/30 to-transparent" />
-                  <span className="font-sans font-black text-lg text-white tracking-wider">
-                    iQ
-                  </span>
-                </div>
-                <span className="text-xl font-extrabold tracking-tight text-[#0F172A] font-sans">
-                  Identiqal
-                </span>
-              </Link>
-
-              <span className="inline-flex items-center space-x-0.5 bg-[#3B82F6]/10 text-[#3B82F6] border border-[#3B82F6]/20 px-2 py-0.5 rounded-full text-[9px] font-black tracking-wide uppercase">
-                <Sparkles size={8} className="fill-current" />
-                <span>Built with AI</span>
+            <Link href="/" className="flex items-center space-x-3 mb-6">
+              <div className="w-[42px] h-[42px] rounded-xl bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-600/20 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-tr from-blue-400/40 to-transparent" />
+                <span className="font-sans font-black text-xl text-white tracking-wider">iQ</span>
+              </div>
+              <span className="text-2xl font-extrabold tracking-tight text-slate-900 font-sans">
+                Identiqal
               </span>
-            </div>
+            </Link>
 
-            <p className="text-xs text-brand-secondary leading-relaxed max-w-sm font-medium">
-              Create smarter digital identities powered by AI.
+            <p className="text-sm text-slate-500 leading-relaxed max-w-sm mb-8 font-medium">
+              Create smarter, AI-powered digital identities. Stand out, connect faster, and leave a lasting impression.
             </p>
 
-            {/* Newsletter Section */}
-            <div className="space-y-3 max-w-sm">
-              <h5 className="text-[11px] font-black uppercase text-[#6B3A4A] tracking-wider">
-                Stay Updated
+            {/* Premium Newsletter Section */}
+            <div className="mt-auto space-y-4 max-w-sm">
+              <h5 className="text-xs font-bold uppercase text-slate-900 tracking-wider flex items-center gap-2">
+                Join our newsletter
               </h5>
               {subscribed ? (
-                <div className="p-2 bg-green-50 text-green-700 text-xs font-semibold rounded-lg border border-green-200">
-                  ✓ Thanks for subscribing!
+                <div className="p-3 bg-green-50/80 backdrop-blur text-green-700 text-sm font-semibold rounded-2xl border border-green-200 shadow-sm flex items-center gap-2">
+                  <div className="w-5 h-5 rounded-full bg-green-500 text-white flex items-center justify-center text-xs">✓</div>
+                  Thanks for subscribing!
                 </div>
               ) : (
-                <form onSubmit={handleSubscribe} className="flex gap-2">
+                <form onSubmit={handleSubscribe} className="relative group flex items-center">
                   <motion.input
                     type="email"
                     required
-                    placeholder="Enter your email"
+                    placeholder="Enter your email address"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     whileFocus={
-                      shouldReduceMotion
-                        ? {}
-                        : {
-                            boxShadow: "0 0 0 3px rgba(200, 155, 91, 0.18)",
-                            borderColor: "#3B82F6",
-                          }
+                      shouldReduceMotion ? {} : { boxShadow: "0 0 0 4px rgba(37, 99, 235, 0.1)" }
                     }
-                    transition={{ duration: 0.2 }}
-                    className="flex-1 px-3.5 py-2.5 text-xs bg-white/70 border border-[#E2E8F0] rounded-lg outline-none transition-colors duration-200"
+                    className="w-full pl-5 pr-32 py-3.5 text-sm bg-white border border-slate-200 rounded-2xl outline-none transition-all duration-300 focus:border-blue-500 shadow-sm group-hover:shadow-md"
                   />
                   <motion.button
                     type="submit"
-                    whileHover={
-                      shouldReduceMotion
-                        ? {}
-                        : {
-                            scale: 1.04,
-                            y: -1,
-                            boxShadow: "0 6px 20px rgba(107,58,74,0.22)",
-                          }
-                    }
-                    whileTap={shouldReduceMotion ? {} : { scale: 0.96 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 22 }}
-                    className="bg-[#6B3A4A] hover:bg-[#522c38] text-white px-4 py-2.5 text-xs font-bold rounded-lg transition-colors duration-200"
+                    whileHover={shouldReduceMotion ? {} : { scale: 1.02 }}
+                    whileTap={shouldReduceMotion ? {} : { scale: 0.98 }}
+                    className="absolute right-1.5 top-1.5 bottom-1.5 bg-blue-600 hover:bg-blue-700 text-white px-5 text-xs font-bold rounded-xl transition-colors duration-200 shadow-sm flex items-center gap-1"
                   >
                     Subscribe
                   </motion.button>
                 </form>
               )}
             </div>
+          </motion.div>
 
-            {/* Social icons inside circular glass buttons */}
-            <div className="flex space-x-2 pt-2">
-              {[
-                {
-                  name: "LinkedIn",
-                  icon: (
-                    <svg
-                      className="w-3.5 h-3.5 fill-current"
-                      viewBox="0 0 24 24"
+          {/* Links Columns */}
+          {[
+            { title: "Product", links: productLinks },
+            { title: "Resources", links: resourceLinks },
+            { title: "Company", links: companyLinks },
+            { title: "Legal", links: legalLinks },
+          ].map((col, idx) => (
+            <motion.div key={col.title} variants={columnVariants} className="space-y-6">
+              <h4 className="text-xs font-extrabold text-slate-900 uppercase tracking-widest font-sans">
+                {col.title}
+              </h4>
+              <ul className="space-y-4">
+                {col.links.map((link) => (
+                  <li key={link.name}>
+                    <Link
+                      href={link.href}
+                      className="text-sm font-medium text-slate-500 hover:text-blue-600 transition-colors duration-200 flex items-center group"
                     >
-                      <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-                    </svg>
-                  ),
-                  href: "#",
-                },
-                {
-                  name: "GitHub",
-                  icon: (
-                    <svg
-                      className="w-3.5 h-3.5 fill-current"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482C19.138 20.197 22 16.442 22 12.017 22 6.484 17.522 2 12 2z"
-                      />
-                    </svg>
-                  ),
-                  href: "#",
-                },
-                {
-                  name: "Instagram",
-                  icon: (
-                    <svg
-                      className="w-3.5 h-3.5 fill-current"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
-                    </svg>
-                  ),
-                  href: "#",
-                },
-                {
-                  name: "X",
-                  icon: (
-                    <svg className="w-3 h-3 fill-current" viewBox="0 0 24 24">
-                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                    </svg>
-                  ),
-                  href: "#",
-                },
-                {
-                  name: "Discord",
-                  icon: (
-                    <svg
-                      className="w-3.5 h-3.5 fill-current"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.094 13.094 0 01-1.873-.894.077.077 0 01-.008-.128c.126-.093.252-.19.372-.287a.075.075 0 01.077-.011 13.924 13.924 0 0010.979 0 .074.074 0 01.078.012c.12.097.246.194.373.287a.077.077 0 01-.006.128 12.98 12.98 0 01-1.873.894.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.156-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.156 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.156-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.156 2.418z" />
-                    </svg>
-                  ),
-                  href: "#",
-                },
-              ].map((item) => (
-                <motion.a
-                  key={item.name}
-                  href={item.href}
-                  variants={socialBounceVariants}
-                  whileHover="hover"
-                  aria-label={item.name}
-                  className="w-10 h-10 rounded-full bg-white/40 backdrop-blur-sm border border-[#E2E8F0]/60 flex items-center justify-center text-[#6B3A4A] hover:bg-[#6B3A4A] hover:text-[#3B82F6] hover:shadow-md hover:border-[#6B3A4A] transition-colors duration-300"
-                >
-                  {item.icon}
-                </motion.a>
-              ))}
-            </div>
-
-            {/* Muted trust tags */}
-            <div className="flex flex-wrap gap-4 pt-2 text-[10px] font-bold text-[#8A8A8A]">
-              <span>✓ Secure SSL</span>
-              <span>✓ GDPR Ready</span>
-              <span>⚡ Fast CDN</span>
-            </div>
-          </motion.div>
-
-          {/* Column 2 (Product) */}
-          <motion.div variants={columnVariants} className="space-y-6">
-            <h4 className="text-[11px] font-extrabold text-[#0F172A] uppercase tracking-widest font-sans">
-              Product
-            </h4>
-            <ul className="space-y-4 text-xs font-medium">
-              {productLinks.map((link) => (
-                <motion.li
-                  key={link.name}
-                  whileHover={shouldReduceMotion ? {} : { x: 4 }}
-                  className="transition-colors duration-300"
-                >
-                  <Link
-                    href={link.href}
-                    className="text-brand-secondary hover:text-[#6B3A4A] relative py-1 hover:after:w-full after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-[#3B82F6] after:transition-all after:duration-300 transition-colors"
-                  >
-                    {link.name}
-                  </Link>
-                </motion.li>
-              ))}
-            </ul>
-          </motion.div>
-
-          {/* Column 3 (Resources) */}
-          <motion.div variants={columnVariants} className="space-y-6">
-            <h4 className="text-[11px] font-extrabold text-[#0F172A] uppercase tracking-widest font-sans">
-              Resources
-            </h4>
-            <ul className="space-y-4 text-xs font-medium">
-              {resourceLinks.map((link) => (
-                <motion.li
-                  key={link.name}
-                  whileHover={shouldReduceMotion ? {} : { x: 4 }}
-                  className="transition-colors duration-300"
-                >
-                  <Link
-                    href={link.href}
-                    className="text-brand-secondary hover:text-[#6B3A4A] relative py-1 hover:after:w-full after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-[#3B82F6] after:transition-all after:duration-300 transition-colors"
-                  >
-                    {link.name}
-                  </Link>
-                </motion.li>
-              ))}
-            </ul>
-          </motion.div>
-
-          {/* Column 4 (Company) */}
-          <motion.div variants={columnVariants} className="space-y-6">
-            <h4 className="text-[11px] font-extrabold text-[#0F172A] uppercase tracking-widest font-sans">
-              Company
-            </h4>
-            <ul className="space-y-4 text-xs font-medium">
-              {companyLinks.map((link) => (
-                <motion.li
-                  key={link.name}
-                  whileHover={shouldReduceMotion ? {} : { x: 4 }}
-                  className="transition-colors duration-300"
-                >
-                  <Link
-                    href={link.href}
-                    className="text-brand-secondary hover:text-[#6B3A4A] relative py-1 hover:after:w-full after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-[#3B82F6] after:transition-all after:duration-300 transition-colors"
-                  >
-                    {link.name}
-                  </Link>
-                </motion.li>
-              ))}
-            </ul>
-          </motion.div>
-
-          {/* Column 5 (Legal) */}
-          <motion.div variants={columnVariants} className="space-y-6">
-            <h4 className="text-[11px] font-extrabold text-[#0F172A] uppercase tracking-widest font-sans">
-              Legal
-            </h4>
-            <ul className="space-y-4 text-xs font-medium">
-              {legalLinks.map((link) => (
-                <motion.li
-                  key={link.name}
-                  whileHover={shouldReduceMotion ? {} : { x: 4 }}
-                  className="transition-colors duration-300"
-                >
-                  <Link
-                    href={link.href}
-                    className="text-brand-secondary hover:text-[#6B3A4A] relative py-1 hover:after:w-full after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-[#3B82F6] after:transition-all after:duration-300 transition-colors"
-                  >
-                    {link.name}
-                  </Link>
-                </motion.li>
-              ))}
-            </ul>
-          </motion.div>
+                      <span>{link.name}</span>
+                      <span className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300 text-blue-600">
+                        →
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          ))}
         </motion.div>
 
-        {/* 3. LIGHT BOTTOM DIVIDER */}
-        <div className="h-px bg-[#E2E8F0]/50 w-full mb-8" />
+        {/* BOTTOM SECTION */}
+        <div className="pt-8 mt-4 border-t border-slate-200/80 flex flex-col md:flex-row justify-between items-center gap-6">
+          <div className="flex flex-wrap items-center gap-6 text-xs font-semibold text-slate-400">
+            <span>© 2026 Identiqal. All rights reserved.</span>
+            <div className="hidden md:flex items-center gap-4 border-l border-slate-200 pl-6">
+              <span className="flex items-center gap-1.5"><div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" /> Systems Operational</span>
+            </div>
+          </div>
 
-        {/* 4. BOTTOM SECTION */}
-        <div className="text-center text-xs text-brand-secondary font-medium">
-          <span>© 2026 Identiqal. All rights reserved.</span>
+          {/* Social icons */}
+          <div className="flex items-center space-x-3">
+            {[
+              { name: "LinkedIn", icon: <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" /></svg>, href: "#" },
+              { name: "GitHub", icon: <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482C19.138 20.197 22 16.442 22 12.017 22 6.484 17.522 2 12 2z" /></svg>, href: "#" },
+              { name: "X", icon: <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" /></svg>, href: "#" },
+            ].map((item) => (
+              <motion.a
+                key={item.name}
+                href={item.href}
+                whileHover={{ scale: 1.1, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                className="w-9 h-9 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-400 hover:text-blue-600 hover:border-blue-200 hover:bg-blue-50 hover:shadow-sm transition-all duration-300"
+              >
+                {item.icon}
+              </motion.a>
+            ))}
+          </div>
         </div>
       </div>
-    </motion.footer>
+
+
+</motion.footer>
   );
 };
-

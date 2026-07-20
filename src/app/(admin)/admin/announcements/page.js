@@ -54,7 +54,7 @@ export default function AdminAnnouncementsPage() {
           <h1 className="text-xl font-bold text-gray-900 dark:text-white">Announcements</h1>
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Broadcast platform-wide system messages.</p>
         </div>
-        <button onClick={() => setIsDrawerOpen(true)} className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-[#5A3045] hover:bg-[#7A4055] rounded-lg transition-colors shadow-sm">
+        <button onClick={() => setIsDrawerOpen(true)} className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-[#2563EB] hover:bg-[#6366F1] rounded-lg transition-colors shadow-sm">
           <Plus size={16} />
           New Announcement
         </button>
@@ -69,7 +69,7 @@ export default function AdminAnnouncementsPage() {
           <Megaphone size={32} className="mx-auto mb-3 text-gray-300" />
           <h3 className="text-sm font-bold text-gray-700 dark:text-gray-300">No announcements yet</h3>
           <p className="text-xs text-gray-500 mt-1 mb-4">Broadcasts will be shown to users across the platform.</p>
-          <button onClick={() => setIsDrawerOpen(true)} className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-[#5A3045] hover:bg-[#7A4055] rounded-lg transition-colors">
+          <button onClick={() => setIsDrawerOpen(true)} className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-[#2563EB] hover:bg-[#6366F1] rounded-lg transition-colors">
             <Plus size={14} />
             Create Announcement
           </button>
@@ -108,7 +108,7 @@ export default function AdminAnnouncementsPage() {
               required
               value={form.title}
               onChange={e => setForm(f => ({ ...f, title: e.target.value }))}
-              className="w-full px-3 py-2 text-sm border border-gray-200 dark:border-white/10 rounded-lg bg-white dark:bg-transparent dark:text-white focus:outline-none focus:ring-2 focus:ring-[#5A3045]"
+              className="w-full px-3 py-2 text-sm border border-gray-200 dark:border-white/10 rounded-lg bg-white dark:bg-transparent dark:text-white focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
               placeholder="Platform update available"
             />
           </div>
@@ -119,7 +119,7 @@ export default function AdminAnnouncementsPage() {
               rows={4}
               value={form.content}
               onChange={e => setForm(f => ({ ...f, content: e.target.value }))}
-              className="w-full px-3 py-2 text-sm border border-gray-200 dark:border-white/10 rounded-lg bg-white dark:bg-transparent dark:text-white focus:outline-none focus:ring-2 focus:ring-[#5A3045] resize-none"
+              className="w-full px-3 py-2 text-sm border border-gray-200 dark:border-white/10 rounded-lg bg-white dark:bg-transparent dark:text-white focus:outline-none focus:ring-2 focus:ring-[#2563EB] resize-none"
               placeholder="We have released a new feature..."
             />
           </div>
@@ -133,7 +133,7 @@ export default function AdminAnnouncementsPage() {
                   onClick={() => setForm(f => ({ ...f, type }))}
                   className={`flex items-center gap-2 py-2 px-3 text-xs font-medium rounded-lg border capitalize transition-colors ${
                     form.type === type
-                      ? 'border-[#5A3045] bg-[#5A3045] text-white'
+                      ? 'border-[#2563EB] bg-[#2563EB] text-white'
                       : 'border-gray-200 dark:border-white/10 text-gray-600 dark:text-gray-400'
                   }`}
                 >
@@ -144,11 +144,11 @@ export default function AdminAnnouncementsPage() {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <input type="checkbox" id="isActive" checked={form.isActive} onChange={e => setForm(f => ({ ...f, isActive: e.target.checked }))} className="rounded text-[#5A3045] focus:ring-[#5A3045]" />
+            <input type="checkbox" id="isActive" checked={form.isActive} onChange={e => setForm(f => ({ ...f, isActive: e.target.checked }))} className="rounded text-[#2563EB] focus:ring-[#2563EB]" />
             <label htmlFor="isActive" className="text-sm text-gray-700 dark:text-gray-300">Active (visible to users)</label>
           </div>
           <div className="pt-4 border-t border-gray-100 dark:border-white/10">
-            <button type="submit" disabled={saving} className="w-full py-2.5 text-sm font-medium text-white bg-[#5A3045] hover:bg-[#7A4055] rounded-lg transition-colors shadow-sm disabled:opacity-50">
+            <button type="submit" disabled={saving} className="w-full py-2.5 text-sm font-medium text-white bg-[#2563EB] hover:bg-[#6366F1] rounded-lg transition-colors shadow-sm disabled:opacity-50">
               {saving ? 'Publishing...' : 'Publish Announcement'}
             </button>
           </div>
