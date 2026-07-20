@@ -168,7 +168,7 @@ export default function TeamWorkspacePage() {
         <div className="bg-white border border-[#E2E8F0] rounded-3xl p-10 space-y-6 max-w-xl mx-auto text-center relative overflow-hidden shadow-sm shadow-[#2563EB]/3">
           <div className="absolute top-0 right-0 w-56 h-56 bg-[#3B82F6]/5 rounded-full blur-3xl pointer-events-none" />
           <div className="relative z-10 space-y-6">
-            <div className="w-16 h-16 bg-linear-to-br from-[#2563EB] to-[#7A4A5E] rounded-2xl flex items-center justify-center mx-auto text-[#3B82F6] shadow-md shadow-[#2563EB]/20">
+            <div className="w-16 h-16 bg-linear-to-br from-[#2563EB] to-[#1D4ED8] rounded-2xl flex items-center justify-center mx-auto text-white shadow-md shadow-[#2563EB]/20">
               <Building2 size={28} />
             </div>
             <div className="space-y-2">

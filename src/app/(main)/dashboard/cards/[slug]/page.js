@@ -193,7 +193,7 @@ export default function SingleCardDashboard() {
                 <Trash2 size={18} />
               </button>
               <Link href={`/dashboard/cards/${card.slug}/edit`}>
-                <Button className="h-10 bg-[#2563EB] hover:bg-[#4A2C3A] text-white border-none shadow-md shadow-[#2563EB]/20 font-bold space-x-2 transition-transform hover:scale-[1.02] rounded-lg text-sm px-5 ml-1">
+                <Button className="h-10 bg-[#2563EB] hover:bg-[#1D4ED8] text-white border-none shadow-md shadow-[#2563EB]/20 font-bold space-x-2 transition-transform hover:scale-[1.02] rounded-lg text-sm px-5 ml-1">
                   <Edit size={16} />
                   <span>Edit</span>
                 </Button>
@@ -215,7 +215,7 @@ export default function SingleCardDashboard() {
               <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5 mb-0.5"><QrCode size={12} className="text-[#3B82F6]"/> Total Scans</p>
               <p className="text-2xl font-black text-[#2563EB] dark:text-[#3B82F6]">{stats[1].value}</p>
             </div>
-            <Link href={`/dashboard/analytics?card=${card._id}`} className="bg-[#F8FAFC] dark:bg-[#251E2A] rounded-2xl p-4 border border-[#3B82F6]/20 flex flex-col justify-center items-center text-center transition-colors hover:bg-[#3B82F6]/10 dark:hover:bg-[#3B82F6]/15 hover:border-[#3B82F6]/30 group">
+            <Link href={`/dashboard/analytics?card=${card._id}`} className="bg-[#F8FAFC] dark:bg-[#111111] rounded-2xl p-4 border border-[#3B82F6]/20 flex flex-col justify-center items-center text-center transition-colors hover:bg-[#3B82F6]/10 dark:hover:bg-[#3B82F6]/15 hover:border-[#3B82F6]/30 group">
               <BarChart3 size={20} className="text-[#3B82F6] mb-1.5 group-hover:scale-110 transition-transform" />
               <p className="text-xs font-bold text-[#2563EB] dark:text-[#F1F5F9]">View all analytics</p>
             </Link>

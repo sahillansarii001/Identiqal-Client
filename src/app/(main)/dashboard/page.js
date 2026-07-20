@@ -84,7 +84,7 @@ export default function DashboardOverviewPage() {
         <div className="absolute -bottom-10 -left-10 w-64 h-64 bg-[#2563EB]/20 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative z-10 space-y-4 max-w-xl text-left">
-          <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-white/10 backdrop-blur-xs text-[10px] font-black text-[#3B82F6] tracking-wider uppercase border border-white/5">
+          <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-white/10 backdrop-blur-xs text-[10px] font-black text-white tracking-wider uppercase border border-white/5">
             <Sparkles size={10} />
             <span>Interactive Space</span>
           </div>

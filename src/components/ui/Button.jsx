@@ -17,7 +17,7 @@ export const Button = React.forwardRef(
 
     const variants = {
       primary:
-        "bg-[#2563EB] hover:bg-[#6A3B4B] text-white shadow-md shadow-[#2563EB]/10 focus:ring-[#2563EB]",
+        "bg-[#2563EB] hover:bg-[#1D4ED8] text-white shadow-md shadow-[#2563EB]/10 focus:ring-[#2563EB]",
       secondary:
         "bg-white hover:bg-[#F8FAFC] text-[#2563EB] focus:ring-[#2563EB] border border-[#2563EB]",
       outline:

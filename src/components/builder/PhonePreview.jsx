@@ -188,8 +188,8 @@ export default function PhonePreview() {
       style={{ height: 'calc(100vh - 120px)' }}
     >
       {/* Ambient glows */}
-      <div className="absolute top-[10%] left-[20%] w-[500px] h-[500px] bg-[#D4A45B]/10 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[20%] right-[10%] w-[600px] h-[600px] bg-[#5A3045]/5 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute top-[10%] left-[20%] w-[500px] h-[500px] bg-[#3B82F6]/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-[20%] right-[10%] w-[600px] h-[600px] bg-[#2563EB]/5 rounded-full blur-[140px] pointer-events-none" />
 
       {/* Card Canvas */}
       <motion.div

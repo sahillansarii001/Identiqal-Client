@@ -27,13 +27,13 @@ import { Button } from "@/components/ui/Button.jsx";
 const CountUp = ({ value, duration = 1.2 }) => {
   const [count, setCount] = useState(0);
 
-  useEffect(() => {
-    let start = 0;
-    const end = parseInt(value, 10);
-    if (isNaN(end) || end === 0) {
-      setCount(value);
-      return;
-    }
+    useEffect(() => {
+      let start = 0;
+      const end = parseInt(value, 10);
+      if (isNaN(end) || end === 0) {
+        setCount(0);
+        return;
+      }
     const totalMiliseconds = duration * 1000;
     const incrementTime = 30;
     const steps = Math.ceil(totalMiliseconds / incrementTime);
@@ -52,7 +52,7 @@ const CountUp = ({ value, duration = 1.2 }) => {
     return () => clearInterval(timer);
   }, [value, duration]);
 
-  return <span>{count.toLocaleString()}</span>;
+  return <span>{count != null ? count.toLocaleString() : ''}</span>;
 };
 
 // Mini SVG Sparkline curve graph

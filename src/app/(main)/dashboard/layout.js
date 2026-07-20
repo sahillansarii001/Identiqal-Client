@@ -121,7 +121,7 @@ export default function DashboardLayout({ children }) {
     <div
       data-dark={darkMode ? "true" : undefined}
       className={`flex min-h-[100dvh] font-sans relative transition-colors duration-300 ${
-        darkMode ? "bg-[#0F172A] text-[#F1F5F9]" : "bg-[#F8FAFC] text-inherit"
+        darkMode ? "bg-[#0A0A0A] text-[#FAFAFA]" : "bg-[#F8FAFC] text-inherit"
       }`}
     >
       {/* Ambient glow */}
@@ -147,7 +147,7 @@ export default function DashboardLayout({ children }) {
           sidebarOpen ? "left-0" : "left-[-260px] lg:left-0"
         } ${
           darkMode
-            ? "bg-[#020617] border-white/10"
+            ? "bg-[#111111] border-white/10"
             : "bg-[#FFFFFF] border-[rgba(0,0,0,0.06)]"
         }`}
       >
@@ -204,7 +204,7 @@ export default function DashboardLayout({ children }) {
                       active
                         ? "text-[#3B82F6]"
                         : darkMode
-                          ? "text-[#8A7A90] group-hover:text-white"
+                          ? "text-[#A3A3A3] group-hover:text-white"
                           : "text-[#94A3B8] group-hover:text-[#222]"
                     }`}
                   >
@@ -241,7 +241,7 @@ export default function DashboardLayout({ children }) {
                           active
                             ? "text-[#3B82F6]"
                             : darkMode
-                              ? "text-[#8A7A90] group-hover:text-white"
+                              ? "text-[#A3A3A3] group-hover:text-white"
                               : "text-[#94A3B8] group-hover:text-[#222]"
                         }`}
                       >
@@ -262,7 +262,7 @@ export default function DashboardLayout({ children }) {
         <div
           className={`p-5 mt-auto border-t shrink-0 ${
             darkMode
-              ? "border-white/10 bg-[#161316]"
+              ? "border-white/10 bg-[#0A0A0A]"
               : "border-[rgba(0,0,0,0.04)] bg-[#FAF8F5]"
           }`}
         >
@@ -409,7 +409,7 @@ function PremiumNavbar({
 
   /* shared icon button style — dark-mode-aware */
   const iconBtn = darkMode
-    ? "w-9 h-9 rounded-xl bg-white/6 border border-white/10 hover:border-[#3B82F6]/40 hover:bg-white/12 flex items-center justify-center text-[#C0B0C0] hover:text-[#3B82F6] transition-all"
+    ? "w-9 h-9 rounded-xl bg-white/6 border border-white/10 hover:border-[#3B82F6]/40 hover:bg-white/12 flex items-center justify-center text-[#A3A3A3] hover:text-[#3B82F6] transition-all"
     : "w-9 h-9 rounded-xl bg-[#F8FAFC] border border-[rgba(37,99,235,0.08)] hover:border-[#3B82F6]/40 hover:bg-white flex items-center justify-center text-[#7A7A7A] hover:text-[#2563EB] transition-all";
 
   return (
@@ -417,7 +417,7 @@ function PremiumNavbar({
       <div
         className={`backdrop-blur-xl border rounded-[28px] shadow-sm px-3 sm:px-5 py-2.5 sm:py-3.5 flex items-center gap-2 sm:gap-4 transition-colors duration-300 ${
           darkMode
-            ? "bg-[#1E1520]/85 border-white/8 shadow-black/20"
+            ? "bg-[#111111]/85 border-white/8 shadow-black/20"
             : "bg-white/80 border-[rgba(37,99,235,0.09)] shadow-[#2563EB]/5"
         }`}
       >
@@ -439,7 +439,7 @@ function PremiumNavbar({
             </p>
             <p
               className={`text-[10px] font-medium mt-0.5 whitespace-nowrap ${
-                darkMode ? "text-[#9A8A9A]" : "text-[#8A7A6A]"
+                darkMode ? "text-[#A3A3A3]" : "text-[#8A7A6A]"
               }`}
             >
               Welcome back! Here&apos;s what&apos;s happening today.
@@ -520,7 +520,7 @@ function PremiumNavbar({
               whileHover={{ scale: 1.08, rotate: 90 }}
               whileTap={{ scale: 0.95 }}
               transition={{ type: "spring", stiffness: 400, damping: 20 }}
-              className="w-9 h-9 rounded-xl bg-linear-to-br from-[#2563EB] to-[#7A4055] text-white flex items-center justify-center shadow-md shadow-[#2563EB]/25 hover:shadow-lg hover:shadow-[#2563EB]/35 transition-shadow"
+              className="w-9 h-9 rounded-xl bg-linear-to-br from-[#2563EB] to-[#3B82F6] text-white flex items-center justify-center shadow-md shadow-[#2563EB]/25 hover:shadow-lg hover:shadow-[#2563EB]/35 transition-shadow"
             >
               <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
                 <path
@@ -614,10 +614,10 @@ function PremiumNavbar({
                   <div className="space-y-0.5">
                     {notifications.length === 0 ? (
                       <div className="py-6 text-center">
-                        <p className="text-xs font-bold text-[#A090A0]">
+                        <p className="text-xs font-bold text-[#A3A3A3]">
                           You're all caught up!
                         </p>
-                        <p className="text-[10px] text-[#C0B0C0] mt-1">
+                        <p className="text-[10px] text-[#A3A3A3] mt-1">
                           No new notifications.
                         </p>
                       </div>
@@ -634,11 +634,11 @@ function PremiumNavbar({
                             <p className="text-xs font-bold text-inherit group-hover:text-[#2563EB] transition-colors">
                               {n.title}
                             </p>
-                            <p className="text-[10px] text-[#8A7A6A] truncate">
+                            <p className="text-[10px] text-[#A3A3A3] truncate">
                               {n.sub}
                             </p>
                           </div>
-                          <span className="text-[9px] text-[#B0A090] shrink-0">
+                          <span className="text-[9px] text-[#A3A3A3] shrink-0">
                             {n.time}
                           </span>
                         </div>

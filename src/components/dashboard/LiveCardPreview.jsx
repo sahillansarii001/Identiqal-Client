@@ -19,7 +19,7 @@ export function LiveCardPreview({ card, className = "h-[280px]", scale = 0.31 })
   return (
     <div className={`w-full bg-slate-50 relative overflow-hidden flex justify-center pt-5 ${className}`}>
       {/* Subtle background glow for premium feel */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-[#D4A45B]/5 rounded-full blur-[40px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-[#3B82F6]/5 rounded-full blur-[40px] pointer-events-none" />
       
       <div 
         className="bg-[#ffffff] rounded-[44px] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.15)] border-[8px] border-slate-900 absolute flex flex-col pointer-events-none"
@@ -29,7 +29,8 @@ export function LiveCardPreview({ card, className = "h-[280px]", scale = 0.31 })
           height: '812px',
           transformOrigin: 'top center',
           transform: `scale(${scale})`,
-          backgroundColor: theme.colors?.background || '#ffffff'
+          backgroundColor: theme.colors?.background || '#ffffff',
+          color: theme.colors?.text || '#212529'
         }}
       >
         <div className="w-full h-full overflow-y-auto overflow-x-hidden no-scrollbar">

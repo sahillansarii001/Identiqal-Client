@@ -245,8 +245,8 @@ const SectionHierarchyList = () => {
 /* -------------------------------------------------------------------------- */
 
 const HeaderPresetThumbnail = ({ preset, activeTheme }) => {
-  const primaryColor = activeTheme?.primary || '#5A3045';
-  const accentColor = activeTheme?.accent || '#D4A45B';
+  const primaryColor = activeTheme?.primary || '#2563EB';
+  const accentColor = activeTheme?.accent || '#3B82F6';
   const name = preset?.name || '';
 
   // Determine header area background and SVGs
@@ -438,7 +438,7 @@ export const ThemeCustomizer = () => {
               key={footer._id}
               onClick={() => setDesignPreset('footerPreset', footer)}
               className={`text-left p-3 rounded-xl border transition-all text-xs font-medium ${
-                footerPreset?._id === footer._id ? 'border-primary bg-primary/5 text-primary' : 'border-black/5 dark:border-white/5 bg-gray-50 dark:bg-white/5 hover:bg-gray-100 text-gray-700 dark:text-gray-300'
+                footerPreset?._id === footer._id ? 'border-primary bg-primary/5 text-primary' : 'border-black/5 dark:border-white/5 bg-gray-50 dark:bg-white/5 hover:bg-gray-100 dark:hover:bg-white/10 text-gray-700 dark:text-gray-300'
               }`}
             >
               <div className="flex items-center justify-between">
