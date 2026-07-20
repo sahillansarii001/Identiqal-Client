@@ -98,11 +98,6 @@ export const InspectorPanel = () => {
                   </div>
                 )}
               </div>
-
-              {/* Theme Customizer Preview */}
-              <div className="pt-4 space-y-4">
-                <ThemeCustomizer />
-              </div>
             </motion.div>
           )}
         </AnimatePresence>
@@ -249,6 +244,86 @@ const SectionHierarchyList = () => {
 /* THEME CUSTOMIZER (UI ONLY)                                                 */
 /* -------------------------------------------------------------------------- */
 
+const HeaderPresetThumbnail = ({ preset, activeTheme }) => {
+  const primaryColor = activeTheme?.primary || '#5A3045';
+  const accentColor = activeTheme?.accent || '#D4A45B';
+  const name = preset?.name || '';
+
+  // Determine header area background and SVGs
+  let headerBg = primaryColor;
+  let headerHeight = 'h-[44px]';
+  const isLuxury = name === 'Luxury';
+  const isNeon = name === 'Neon';
+  const isMinimal = name === 'Minimal';
+  const isSleek = name === 'Sleek';
+  const isBlend = name === 'Blend';
+
+  if (isLuxury) {
+    headerBg = 'linear-gradient(135deg, #1A1A1A, #2A2520, #1A1A1A)';
+  } else if (isNeon) {
+    headerBg = 'linear-gradient(135deg, #0A0A0E, #140E24)';
+  } else if (isBlend) {
+    headerBg = `linear-gradient(to bottom, ${primaryColor}, transparent)`;
+  } else if (preset?.headerStyle === 'Gradient') {
+    headerBg = `linear-gradient(135deg, ${primaryColor}, ${accentColor})`;
+  }
+
+  if (isMinimal) {
+    headerHeight = 'h-[8px]';
+  }
+
+  return (
+    <div className="w-full h-full bg-white dark:bg-[#1C191D] relative flex flex-col">
+      {/* Header Artwork */}
+      {!isSleek ? (
+        <div 
+          className={`w-full ${headerHeight} relative overflow-hidden shrink-0`}
+          style={{ 
+            background: headerBg,
+            boxShadow: isNeon ? '0 4px 10px rgba(56, 189, 248, 0.45), 0 2px 4px rgba(217, 70, 239, 0.3)' : 'none'
+          }}
+        >
+          {/* Classic Wave Shape */}
+          {name === 'Classic' && (
+            <svg className="absolute bottom-0 w-full text-white dark:text-[#1C191D] fill-current" viewBox="0 0 1440 120" preserveAspectRatio="none">
+              <path d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,42.7C1120,32,1280,32,1360,32L1440,32L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z"></path>
+            </svg>
+          )}
+          {/* Modern Diagonal Shape */}
+          {name === 'Modern' && (
+            <svg className="absolute bottom-0 w-full text-white dark:text-[#1C191D] fill-current" viewBox="0 0 100 100" preserveAspectRatio="none">
+              <polygon points="0,100 100,0 100,100"></polygon>
+            </svg>
+          )}
+          {/* Creative Blob Shape */}
+          {name === 'Creative' && (
+            <svg className="absolute bottom-0 w-full text-white dark:text-[#1C191D] fill-current" viewBox="0 0 1200 120" preserveAspectRatio="none">
+              <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V0C50,22,150,75,321.39,56.44Z"></path>
+            </svg>
+          )}
+          {/* Luxury Gold Border */}
+          {isLuxury && (
+            <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-[#D4A45B] via-[#F4E0A5] to-[#D4A45B]" />
+          )}
+        </div>
+      ) : (
+        /* Sleek Floating Pill Header */
+        <div className="w-full h-[50px] flex items-center justify-center pt-2 px-2 shrink-0">
+          <div 
+            className="w-full h-7 rounded-full border border-white/20 shadow-sm"
+            style={{ 
+              background: `linear-gradient(135deg, ${primaryColor}, ${accentColor})`,
+            }}
+          />
+        </div>
+      )}
+
+      {/* Rest of tile is empty space */}
+      <div className="flex-1 bg-white dark:bg-[#1C191D]" />
+    </div>
+  );
+};
+
 export const ThemeCustomizer = () => {
   const { displayPreset, colorTheme, footerPreset, setDesignPreset } = useCardBuilderStore();
   
@@ -289,29 +364,35 @@ export const ThemeCustomizer = () => {
   return (
     <div className="space-y-5">
       <SettingGroup title="Display Layouts">
-        <div className="grid grid-cols-2 gap-3">
+        <div className="flex md:flex-wrap gap-4 overflow-x-auto md:overflow-visible pb-3 md:pb-0 scroll-smooth no-scrollbar">
           {displayPresets.map(preset => (
             <button
               key={preset._id}
               onClick={() => setDesignPreset('displayPreset', preset)}
-              className={`relative h-[84px] rounded-[14px] border flex flex-col p-2.5 transition-all duration-300 overflow-hidden group ${
-                displayPreset?._id === preset._id ? 'border-primary ring-2 ring-primary/20 shadow-md' : 'border-black/10 dark:border-white/10 hover:border-black/20 hover:shadow-sm'
-              }`}
+              className="flex flex-col items-center focus:outline-none shrink-0"
             >
-              <div className="absolute inset-0 opacity-10 bg-gradient-to-br from-gray-500 to-gray-800"></div>
-              <div className="relative z-10 flex flex-col h-full justify-between w-full">
-                <div className="flex justify-between items-start w-full">
-                  <div className="text-[10px] font-semibold text-gray-800 dark:text-gray-200">{preset.name}</div>
-                  {displayPreset?._id === preset._id && (
-                    <div className="w-4 h-4 rounded-full bg-primary flex items-center justify-center text-white shrink-0 shadow-sm">
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                    </div>
-                  )}
-                </div>
-                <div className="text-[9px] text-gray-500 text-left line-clamp-2 mt-1">
-                  {preset.description || preset.headerStyle}
-                </div>
+              <div 
+                className={`relative w-[96px] h-[120px] rounded-[18px] overflow-hidden border-2 flex-shrink-0 transition-all duration-300 group shadow-sm hover:shadow-md hover:scale-105 hover:-translate-y-1 ${
+                  displayPreset?._id === preset._id 
+                    ? 'border-blue-500 shadow-[0_0_12px_rgba(59,130,246,0.4)]' 
+                    : 'border-black/10 dark:border-white/10 hover:border-black/20'
+                }`}
+              >
+                {/* Header Artwork Preview */}
+                <HeaderPresetThumbnail preset={preset} activeTheme={colorTheme} />
+
+                {/* Selected Checkmark Overlay */}
+                {displayPreset?._id === preset._id && (
+                  <div className="absolute top-1.5 right-1.5 w-4.5 h-4.5 rounded-full bg-blue-500 flex items-center justify-center text-white z-20 shadow-sm">
+                    <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                  </div>
+                )}
               </div>
+              <span className="text-[10px] font-semibold text-gray-700 dark:text-gray-300 mt-2 capitalize text-center">
+                {preset.name}
+              </span>
             </button>
           ))}
         </div>

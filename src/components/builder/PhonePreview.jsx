@@ -107,8 +107,6 @@ function FooterStrip({ footerPreset, colorTheme }) {
   );
 }
 
-
-
 /* ── Preview Section wrapper ─────────────────────────────────────────── */
 const PreviewSection = ({ section, theme, displayPreset, colorTheme, activeSectionId, setActiveSection }) => {
   const isActive = activeSectionId === section.sectionId;
@@ -146,14 +144,34 @@ const PreviewSection = ({ section, theme, displayPreset, colorTheme, activeSecti
 export default function PhonePreview() {
   const { sections, activeSectionId, setActiveSection, setBlockPickerOpen, colorTheme, displayPreset, footerPreset } = useCardBuilderStore();
 
+  // Apply layout theme overrides
+  let activeColorTheme = colorTheme || {};
+  if (displayPreset?.name === 'Luxury') {
+    activeColorTheme = {
+      ...colorTheme,
+      background: '#121212',
+      text: '#F3F4F6',
+      primary: '#D4A45B',
+      accent: '#D4A45B',
+    };
+  } else if (displayPreset?.name === 'Neon') {
+    activeColorTheme = {
+      ...colorTheme,
+      background: '#08070A',
+      text: '#E2E8F0',
+      primary: '#D946EF',
+      accent: '#06B6D4',
+    };
+  }
+
   // Map colorTheme → theme passed to SectionRenderer
   const theme = {
     colors: {
-      primary: colorTheme?.primary || '#000000',
-      text: colorTheme?.text || '#1A1A1A',
-      background: colorTheme?.background || '#ffffff',
-      accent: colorTheme?.accent || '#000000',
-      secondary: colorTheme?.secondary || '#6c757d',
+      primary: activeColorTheme?.primary || '#000000',
+      text: activeColorTheme?.text || '#1A1A1A',
+      background: activeColorTheme?.background || '#ffffff',
+      accent: activeColorTheme?.accent || '#000000',
+      secondary: activeColorTheme?.secondary || '#6c757d',
     },
     font: {
       heading: 'Inter, sans-serif',
@@ -162,7 +180,7 @@ export default function PhonePreview() {
   };
 
   const cardRadius = getCardRadius(displayPreset?.cardShape);
-  const cardShadow = getCardShadow(displayPreset?.cardShape, colorTheme);
+  const cardShadow = getCardShadow(displayPreset?.cardShape, activeColorTheme);
 
   return (
     <div
@@ -189,8 +207,8 @@ export default function PhonePreview() {
         <div
           className="w-full h-full relative"
           style={{
-            backgroundColor: colorTheme?.background || '#ffffff',
-            color: colorTheme?.text || '#1A1A1A',
+            backgroundColor: activeColorTheme?.background || '#ffffff',
+            color: activeColorTheme?.text || '#1A1A1A',
             fontFamily: 'Inter, sans-serif',
           }}
         >

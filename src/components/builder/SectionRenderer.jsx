@@ -57,11 +57,27 @@ function getProfilePosition(position) {
 
 export const SectionRenderer = ({ section, theme = {}, displayPreset = {}, colorTheme = {}, previewMode = false }) => {
   const { type, data = {}, isVisible } = section;
-  const { colors = {}, font = {} } = theme;
   
   // Guard against null props explicitly passed down
   const preset = displayPreset || {};
   const cTheme = colorTheme || {};
+
+  const baseColors = theme.colors || {};
+  const colors = { ...baseColors };
+  const font = theme.font || {};
+
+  // Apply layout theme overrides
+  if (preset?.name === 'Luxury') {
+    colors.background = '#121212';
+    colors.text = '#F3F4F6';
+    colors.primary = '#D4A45B'; // Gold accent
+    colors.accent = '#D4A45B';
+  } else if (preset?.name === 'Neon') {
+    colors.background = '#08070A';
+    colors.text = '#E2E8F0';
+    colors.primary = '#D946EF'; // Neon Magenta
+    colors.accent = '#06B6D4';  // Neon Cyan
+  }
   
   // Use displayPreset for layout config, fallback to defaults
   const buttonStyle = preset.buttonStyle || 'Rounded';
@@ -98,22 +114,46 @@ export const SectionRenderer = ({ section, theme = {}, displayPreset = {}, color
       const brightness = data.headerBrightness ? data.headerBrightness / 100 : 1;
       const overlay = data.headerOverlay ? data.headerOverlay / 100 : 0;
       
-      const headerHeight = getHeaderHeight(preset);
+      const headerHeight = preset?.name === 'Minimal' ? '80px' : getHeaderHeight(preset);
       const avatarRadius = getAvatarShape(preset?.profilePhotoStyle);
       const avatarStyle = getAvatarBorderStyle(preset?.profilePhotoStyle, cTheme);
       const profilePos = getProfilePosition(preset?.profilePhotoPosition);
       const isOverlapping = preset?.profilePhotoPosition === 'Overlapping Header';
       const headerStyle = preset?.headerStyle || 'Solid Color';
 
-      const headerBg = headerStyle === 'Gradient'
-        ? `linear-gradient(135deg, ${colors.primary || '#5A3045'}, ${colors.accent || '#D4A45B'})`
-        : (colors.primary || '#5A3045');
+      let bgColor = colors.primary || '#5A3045';
+      let bgImage = 'none';
+
+      if (preset?.name === 'Blend') {
+        bgColor = 'transparent';
+        bgImage = `linear-gradient(to bottom, ${colors.primary || '#5A3045'}, ${colors.background || '#ffffff'})`;
+      } else if (preset?.name === 'Luxury') {
+        bgColor = 'transparent';
+        bgImage = 'linear-gradient(135deg, #1A1A1A, #2D251E, #1A1A1A)';
+      } else if (preset?.name === 'Neon') {
+        bgColor = 'transparent';
+        bgImage = 'linear-gradient(135deg, #0D0B14, #1D1530)';
+      } else if (headerStyle === 'Gradient') {
+        bgColor = 'transparent';
+        bgImage = `linear-gradient(135deg, ${colors.primary || '#5A3045'}, ${colors.accent || '#D4A45B'})`;
+      }
+
+      const showHeaderImg = hasHeader && preset?.name !== 'Minimal';
+      const isSleek = preset?.name === 'Sleek';
 
       return (
         <div className="pb-10" style={{ color: colors.text || '#212529' }}>
           {/* Header area */}
-          <div className="w-full relative overflow-visible z-0" style={{ height: headerHeight, background: headerBg }}>
-            {hasHeader && (
+          <div 
+            className={`${isSleek ? 'mx-4 mt-4 rounded-2xl shadow-lg border border-white/10 overflow-hidden' : 'w-full'} relative overflow-visible z-0`} 
+            style={{ 
+              height: headerHeight, 
+              backgroundColor: bgColor,
+              backgroundImage: bgImage,
+              backdropFilter: isSleek ? 'blur(8px)' : 'none'
+            }}
+          >
+            {showHeaderImg && (
               <img
                 src={data.headerUrl}
                 alt="Header"

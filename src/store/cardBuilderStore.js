@@ -18,6 +18,7 @@ export const useCardBuilderStore = create((set, get) => ({
   lastSavedAt: null,
   isBlockPickerOpen: false,
   previewDevice: 'smartphone', // 'desktop', 'tablet', 'smartphone'
+  activeTab: 'links', // 'links', 'appearance'
   displayPreset: null,
   colorTheme: null,
   footerPreset: null,
@@ -129,6 +130,7 @@ export const useCardBuilderStore = create((set, get) => ({
   }),
 
   setPreviewDevice: (device) => set({ previewDevice: device }),
+  setActiveTab: (tab) => set({ activeTab: tab }),
   setBlockPickerOpen: (isOpen) => set({ isBlockPickerOpen: isOpen }),
   
   setDesignPreset: (type, preset) => {
@@ -191,6 +193,7 @@ export const useCardBuilderStore = create((set, get) => ({
     sections: [],
     seo: { metaTitle: '', metaDescription: '', ogImageUrl: '' },
     activeSectionId: null,
+    activeTab: 'links',
     displayPreset: null,
     colorTheme: null,
     footerPreset: null,
