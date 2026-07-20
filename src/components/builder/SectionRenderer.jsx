@@ -9,18 +9,84 @@ import { Button } from '@/components/ui/Button.jsx';
 import { Input } from '@/components/ui/Input.jsx';
 import { CheckSquare } from 'lucide-react';
 
-export const SectionRenderer = ({ section, theme = {}, previewMode = false }) => {
+// Helper functions for layout engine
+function getHeaderHeight(displayPreset) {
+  if (displayPreset?.headerHeight) return displayPreset.headerHeight;
+  return '200px';
+}
+
+function getAvatarShape(profilePhotoStyle) {
+  const map = {
+    'Circle': '50%',
+    'Rounded Square': '20%',
+    'Square': '0px',
+    'Glass Border': '50%',
+    'Gradient Border': '50%',
+    'Shadow': '50%',
+    'No Border': '50%',
+  };
+  return map[profilePhotoStyle] || '50%';
+}
+
+function getAvatarBorderStyle(profilePhotoStyle, colorTheme) {
+  if (profilePhotoStyle === 'Gradient Border') {
+    return { border: '3px solid transparent', backgroundClip: 'padding-box', outline: `3px solid ${colorTheme?.accent || colorTheme?.primary || '#000'}` };
+  }
+  if (profilePhotoStyle === 'Glass Border') {
+    return { border: '3px solid rgba(255,255,255,0.5)', backdropFilter: 'blur(8px)' };
+  }
+  if (profilePhotoStyle === 'Shadow') {
+    return { border: '3px solid rgba(255,255,255,0.9)', boxShadow: '0 4px 20px rgba(0,0,0,0.25)' };
+  }
+  if (profilePhotoStyle === 'No Border') {
+    return { border: 'none' };
+  }
+  return { border: `3px solid ${colorTheme?.background || '#fff'}` };
+}
+
+function getProfilePosition(position) {
+  const map = {
+    'Left': 'items-start text-left',
+    'Center': 'items-center text-center',
+    'Right': 'items-end text-right',
+    'Floating': 'items-center text-center',
+    'Overlapping Header': 'items-center text-center',
+  };
+  return map[position] || 'items-center text-center';
+}
+
+export const SectionRenderer = ({ section, theme = {}, displayPreset = {}, colorTheme = {}, previewMode = false }) => {
   const { type, data = {}, isVisible } = section;
-  const { colors = {}, font = {}, buttonStyle = 'rounded' } = theme;
+  const { colors = {}, font = {} } = theme;
+  
+  // Guard against null props explicitly passed down
+  const preset = displayPreset || {};
+  const cTheme = colorTheme || {};
+  
+  // Use displayPreset for layout config, fallback to defaults
+  const buttonStyle = preset.buttonStyle || 'Rounded';
+  const dividerStyle = preset.dividerStyle || 'Subtle';
+  const typography = preset.typography || 'Modern Sans';
+  const sectionSpacing = preset.sectionSpacing || 'Normal';
 
   if (!isVisible && !previewMode) return null;
 
   // Apply button styling
   const buttonRadiusClass = {
-    rounded: 'rounded-xl',
-    square: 'rounded-none',
-    outline: 'rounded-xl border border-current bg-transparent hover:bg-slate-100/10',
+    'Rounded': 'rounded-xl',
+    'Rectangular': 'rounded-none',
+    'Pill': 'rounded-full px-6',
+    'Outline': 'rounded-xl border border-current bg-transparent hover:bg-slate-100/10',
+    'Ghost': 'rounded-xl bg-transparent hover:bg-slate-100/10 shadow-none',
   }[buttonStyle] || 'rounded-xl';
+  
+  // Apply Typography
+  const headingFont = {
+    'Modern Sans': 'Inter, sans-serif',
+    'Elegant Serif': '"Playfair Display", serif',
+    'Monospace': 'monospace',
+    'Display': '"Outfit", sans-serif',
+  }[typography] || 'inherit';
 
   switch (type) {
     case 'about':
@@ -31,43 +97,83 @@ export const SectionRenderer = ({ section, theme = {}, previewMode = false }) =>
       const blur = data.headerBlur || 0;
       const brightness = data.headerBrightness ? data.headerBrightness / 100 : 1;
       const overlay = data.headerOverlay ? data.headerOverlay / 100 : 0;
+      
+      const headerHeight = getHeaderHeight(preset);
+      const avatarRadius = getAvatarShape(preset?.profilePhotoStyle);
+      const avatarStyle = getAvatarBorderStyle(preset?.profilePhotoStyle, cTheme);
+      const profilePos = getProfilePosition(preset?.profilePhotoPosition);
+      const isOverlapping = preset?.profilePhotoPosition === 'Overlapping Header';
+      const headerStyle = preset?.headerStyle || 'Solid Color';
+
+      const headerBg = headerStyle === 'Gradient'
+        ? `linear-gradient(135deg, ${colors.primary || '#5A3045'}, ${colors.accent || '#D4A45B'})`
+        : (colors.primary || '#5A3045');
 
       return (
-        <div 
-          className="text-center pb-10 sm:pb-12"
-          style={{ color: colors.text || '#212529' }}
-        >
-          {hasHeader && (
-            <div className="w-full h-[200px] sm:h-[250px] relative overflow-hidden bg-gray-100 dark:bg-black/20">
+        <div className="pb-10" style={{ color: colors.text || '#212529' }}>
+          {/* Header area */}
+          <div className="w-full relative overflow-visible z-0" style={{ height: headerHeight, background: headerBg }}>
+            {hasHeader && (
               <img
                 src={data.headerUrl}
                 alt="Header"
-                className="absolute inset-0 w-full h-full object-cover transition-transform"
+                className="absolute inset-0 w-full h-full object-cover"
                 style={{
                   transform: `scale(${zoom}) translate(${panX}%, ${panY}%)`,
-                  filter: `blur(${blur}px) brightness(${brightness})`
+                  filter: `blur(${blur}px) brightness(${brightness})`,
                 }}
               />
-              <div 
-                className="absolute inset-0 transition-opacity" 
-                style={{ backgroundColor: colors.background, opacity: overlay }}
-              />
-            </div>
-          )}
-          
-          <div className={`px-6 sm:px-10 space-y-6 ${hasHeader ? '-mt-10 sm:-mt-12 relative z-10' : 'pt-10 sm:pt-12'}`}>
-            {data.avatarUrl && (
-              <img 
-                src={data.avatarUrl} 
-                alt={data.headline} 
-                className={`w-20 h-20 sm:w-24 sm:h-24 rounded-full mx-auto object-cover border-4 shadow-md ${hasHeader ? 'bg-white dark:bg-gray-900' : ''}`}
-                style={{ borderColor: hasHeader ? colors.background : (colors.primary || '#000000') }}
+            )}
+            {/* Overlay */}
+            <div
+              className="absolute inset-0 transition-opacity"
+              style={{ backgroundColor: colors.background, opacity: overlay }}
+            />
+            
+            {/* SVG Overlays based on headerStyle */}
+            {headerStyle === 'Curved Wave' && (
+              <svg className="absolute bottom-0 w-full text-white" style={{ fill: colors.background || '#ffffff' }} viewBox="0 0 1440 120" preserveAspectRatio="none">
+                <path d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,42.7C1120,32,1280,32,1360,32L1440,32L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z"></path>
+              </svg>
+            )}
+            {headerStyle === 'Diagonal Split' && (
+              <svg className="absolute bottom-0 w-full text-white" style={{ fill: colors.background || '#ffffff' }} viewBox="0 0 100 100" preserveAspectRatio="none">
+                <polygon points="0,100 100,0 100,100"></polygon>
+              </svg>
+            )}
+            {headerStyle === 'Organic Blob' && (
+              <svg className="absolute bottom-0 w-full text-white" style={{ fill: colors.background || '#ffffff', transform: 'translateY(1px)' }} viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V0C50,22,150,75,321.39,56.44Z"></path>
+              </svg>
+            )}
+
+            {/* Overlapping avatar */}
+            {isOverlapping && data.avatarUrl && (
+              <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 z-10 shadow-lg">
+                <img
+                  src={data.avatarUrl}
+                  alt={data.headline}
+                  className="w-20 h-20 sm:w-24 sm:h-24 object-cover"
+                  style={{ borderRadius: avatarRadius, ...avatarStyle }}
+                />
+              </div>
+            )}
+          </div>
+
+          {/* Profile content */}
+          <div className={`px-6 sm:px-10 space-y-4 flex flex-col ${profilePos} ${isOverlapping ? 'pt-14 sm:pt-16' : 'pt-8'} relative z-10`}>
+            {!isOverlapping && data.avatarUrl && (
+              <img
+                src={data.avatarUrl}
+                alt={data.headline}
+                className={`w-20 h-20 sm:w-24 sm:h-24 object-cover ${preset?.profilePhotoPosition === 'Floating' ? 'shadow-2xl -mt-16 sm:-mt-20 relative z-20' : ''}`}
+                style={{ borderRadius: avatarRadius, ...avatarStyle }}
               />
             )}
-            <div className="space-y-1">
-              <h3 
-                className="text-lg sm:text-xl font-black tracking-tight"
-                style={{ fontFamily: font.heading || 'inherit', color: colors.primary || '#000000' }}
+            <div className="space-y-2">
+              <h3
+                className="text-lg sm:text-2xl font-black tracking-tight"
+                style={{ fontFamily: headingFont, color: colors.primary || '#000000' }}
               >
                 {data.headline || 'Profile Headline'}
               </h3>
@@ -81,8 +187,14 @@ export const SectionRenderer = ({ section, theme = {}, previewMode = false }) =>
 
     case 'links':
       const links = data.links || [];
+      const linkSpacingClass = {
+        'Compact': 'py-4',
+        'Normal': 'py-8',
+        'Spacious': 'py-12'
+      }[sectionSpacing] || 'py-8';
+
       return (
-        <div className="space-y-3 w-full px-6 py-8 sm:px-10">
+        <div className={`space-y-3 w-full px-6 sm:px-10 ${linkSpacingClass}`}>
           {links.length === 0 ? (
             <p className="text-xs text-slate-500 text-center py-4">No links added yet.</p>
           ) : (
@@ -92,8 +204,8 @@ export const SectionRenderer = ({ section, theme = {}, previewMode = false }) =>
                 href={link.url || '#'}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center justify-between p-4 sm:p-5 rounded-2xl bg-black/[0.02] dark:bg-white/[0.02] hover:bg-black/[0.06] dark:hover:bg-white/[0.06] transition-all duration-300"
-                style={{ color: colors.primary || '#000000' }}
+                className={`group flex items-center justify-between p-4 sm:p-5 bg-black/[0.02] dark:bg-white/[0.02] hover:bg-black/[0.06] dark:hover:bg-white/[0.06] transition-all duration-300 ${buttonRadiusClass}`}
+                style={{ color: colors.primary || '#000000', fontFamily: font.body || 'inherit' }}
               >
                 <div className="w-10 h-10 rounded-full bg-[#ffffff] dark:bg-black/20 shadow-sm flex items-center justify-center flex-shrink-0" style={{ color: colors.accent || colors.primary }}>
                   <span className="text-lg">🔗</span>
@@ -107,16 +219,19 @@ export const SectionRenderer = ({ section, theme = {}, previewMode = false }) =>
       );
 
     case 'testimonials':
+      const testimonialSpacing = { 'Compact': 'py-6', 'Normal': 'py-8', 'Spacious': 'py-12' }[sectionSpacing] || 'py-8';
+      const borderClass = dividerStyle === 'None' ? 'border-transparent' : dividerStyle === 'Dashed' ? 'border-dashed border-t' : 'border-t';
+      
       return (
         <div 
-          className="px-6 py-8 sm:px-10 space-y-5"
-          style={{ color: colors.text || '#212529' }}
+          className={`px-6 sm:px-10 space-y-5 ${testimonialSpacing}`}
+          style={{ color: colors.text || '#212529', fontFamily: font.body || 'inherit' }}
         >
           <div className="text-2xl" style={{ color: colors.accent || '#0d6efd' }}>“</div>
           <p className="text-xs italic leading-relaxed -mt-2">
             {data.quote || 'No testimonial text provided yet.'}
           </p>
-          <div className="flex items-center space-x-3 border-t pt-3" style={{ borderColor: `${colors.secondary}20` }}>
+          <div className={`flex items-center space-x-3 pt-3 ${borderClass}`} style={{ borderColor: `${colors.secondary}40` }}>
             {data.authorAvatarUrl && (
               <img 
                 src={data.authorAvatarUrl} 

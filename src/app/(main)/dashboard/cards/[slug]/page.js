@@ -149,14 +149,8 @@ export default function SingleCardDashboard() {
         </div>
       </div>
 
-      <motion.div
-        variants={{
-          hidden: { opacity: 0, y: 30 },
-          show: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 300, damping: 25 } }
-        }}
-        initial="hidden"
-        animate="show"
-        className="group transition-all duration-500 flex flex-col xl:flex-row gap-6 w-full items-start"
+      <div
+        className="flex flex-col xl:flex-row gap-6 w-full items-start"
       >
         {/* Left Column: Live Profile Preview */}
         <div className="sticky top-6 relative bg-slate-50 border border-[rgba(90,48,69,0.08)] rounded-[32px] shadow-sm xl:w-[320px] shrink-0 flex flex-col pt-12 items-center overflow-hidden">
@@ -314,7 +308,7 @@ export default function SingleCardDashboard() {
           </div>
 
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 }

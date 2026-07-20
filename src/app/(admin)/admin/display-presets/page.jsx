@@ -108,7 +108,7 @@ function PresetDrawer({ isOpen, onClose, editingPreset, onSaved }) {
                 type="text"
                 value={form.name}
                 onChange={e => handleChange('name', e.target.value)}
-                className="w-full px-3 py-2 bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#5A3045]"
                 placeholder="e.g., Modern Glass"
               />
             </div>
@@ -119,7 +119,7 @@ function PresetDrawer({ isOpen, onClose, editingPreset, onSaved }) {
                 value={form.description}
                 onChange={e => handleChange('description', e.target.value)}
                 rows={2}
-                className="w-full px-3 py-2 bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#5A3045]"
                 placeholder="Brief description..."
               />
             </div>
@@ -130,7 +130,7 @@ function PresetDrawer({ isOpen, onClose, editingPreset, onSaved }) {
                 <select
                   value={form.category}
                   onChange={e => handleChange('category', e.target.value)}
-                  className="w-full px-3 py-2 bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#5A3045]"
                 >
                   {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
                 </select>
@@ -141,7 +141,7 @@ function PresetDrawer({ isOpen, onClose, editingPreset, onSaved }) {
                 <select
                   value={form.status}
                   onChange={e => handleChange('status', e.target.value)}
-                  className="w-full px-3 py-2 bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#5A3045]"
                 >
                   <option value="draft">Draft</option>
                   <option value="published">Published</option>
@@ -156,17 +156,17 @@ function PresetDrawer({ isOpen, onClose, editingPreset, onSaved }) {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Header Style</label>
-                <select value={form.headerStyle} onChange={e => handleChange('headerStyle', e.target.value)} className="w-full px-3 py-2 bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <select value={form.headerStyle} onChange={e => handleChange('headerStyle', e.target.value)} className="w-full px-3 py-2 bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-[#5A3045]">
                   {HEADER_STYLES.map(s => <option key={s} value={s}>{s}</option>)}
                 </select>
               </div>
               <div>
                 <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Header Height</label>
-                <input type="text" value={form.headerHeight} onChange={e => handleChange('headerHeight', e.target.value)} className="w-full px-3 py-2 bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="e.g., 200px" />
+                <input type="text" value={form.headerHeight} onChange={e => handleChange('headerHeight', e.target.value)} className="w-full px-3 py-2 bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-[#5A3045]" placeholder="e.g., 200px" />
               </div>
               <div className="col-span-2">
                 <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Background Type</label>
-                <select value={form.backgroundType} onChange={e => handleChange('backgroundType', e.target.value)} className="w-full px-3 py-2 bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <select value={form.backgroundType} onChange={e => handleChange('backgroundType', e.target.value)} className="w-full px-3 py-2 bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-[#5A3045]">
                   {BACKGROUND_TYPES.map(s => <option key={s} value={s}>{s}</option>)}
                 </select>
               </div>
@@ -179,13 +179,13 @@ function PresetDrawer({ isOpen, onClose, editingPreset, onSaved }) {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Style</label>
-                <select value={form.profilePhotoStyle} onChange={e => handleChange('profilePhotoStyle', e.target.value)} className="w-full px-3 py-2 bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <select value={form.profilePhotoStyle} onChange={e => handleChange('profilePhotoStyle', e.target.value)} className="w-full px-3 py-2 bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-[#5A3045]">
                   {PROFILE_PHOTO_STYLES.map(s => <option key={s} value={s}>{s}</option>)}
                 </select>
               </div>
               <div>
                 <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Position</label>
-                <select value={form.profilePhotoPosition} onChange={e => handleChange('profilePhotoPosition', e.target.value)} className="w-full px-3 py-2 bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <select value={form.profilePhotoPosition} onChange={e => handleChange('profilePhotoPosition', e.target.value)} className="w-full px-3 py-2 bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-[#5A3045]">
                   {PROFILE_PHOTO_POSITIONS.map(s => <option key={s} value={s}>{s}</option>)}
                 </select>
               </div>
@@ -198,13 +198,13 @@ function PresetDrawer({ isOpen, onClose, editingPreset, onSaved }) {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Card Shape</label>
-                <select value={form.cardShape} onChange={e => handleChange('cardShape', e.target.value)} className="w-full px-3 py-2 bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <select value={form.cardShape} onChange={e => handleChange('cardShape', e.target.value)} className="w-full px-3 py-2 bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-[#5A3045]">
                   {CARD_SHAPES.map(s => <option key={s} value={s}>{s}</option>)}
                 </select>
               </div>
               <div>
                 <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Animations</label>
-                <select value={form.animationStyle} onChange={e => handleChange('animationStyle', e.target.value)} className="w-full px-3 py-2 bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <select value={form.animationStyle} onChange={e => handleChange('animationStyle', e.target.value)} className="w-full px-3 py-2 bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-[#5A3045]">
                   {ANIMATION_STYLES.map(s => <option key={s} value={s}>{s}</option>)}
                 </select>
               </div>
@@ -217,7 +217,7 @@ function PresetDrawer({ isOpen, onClose, editingPreset, onSaved }) {
           <button onClick={onClose} className="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 rounded-lg transition-colors">
             Cancel
           </button>
-          <button onClick={handleSave} disabled={saving} className="flex items-center gap-2 px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors shadow-sm disabled:opacity-50">
+          <button onClick={handleSave} disabled={saving} className="flex items-center gap-2 px-6 py-2 bg-[#5A3045] hover:bg-[#7A4055] text-white text-sm font-medium rounded-lg transition-colors shadow-sm disabled:opacity-50">
             {saving ? <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <Check size={16} />}
             <span>{saving ? 'Saving...' : 'Save Preset'}</span>
           </button>
@@ -275,13 +275,13 @@ export default function DisplayPresetsPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-            <LayoutTemplate className="text-blue-500" /> Display Presets
+            <LayoutTemplate className="text-[#5A3045]" /> Display Presets
           </h1>
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Manage global display layout definitions for cards.</p>
         </div>
         <button
           onClick={() => { setEditingPreset(null); setDrawerOpen(true); }}
-          className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors shadow-sm"
+          className="flex items-center gap-2 px-4 py-2 bg-[#5A3045] hover:bg-[#7A4055] text-white rounded-lg font-medium transition-colors shadow-sm"
         >
           <Plus size={18} /> New Preset
         </button>
@@ -294,13 +294,13 @@ export default function DisplayPresetsPage() {
           placeholder="Search presets by name or category..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#5A3045]"
         />
       </div>
 
       {loading ? (
         <div className="flex justify-center py-20">
-          <div className="w-8 h-8 border-4 border-blue-500/30 border-t-blue-500 rounded-full animate-spin" />
+          <div className="w-8 h-8 border-4 border-[#5A3045]/30 border-t-[#5A3045] rounded-full animate-spin" />
         </div>
       ) : filteredPresets.length === 0 ? (
         <div className="text-center py-20 bg-white dark:bg-white/5 rounded-2xl border border-dashed border-gray-200 dark:border-white/10">

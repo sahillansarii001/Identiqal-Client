@@ -272,6 +272,15 @@ function ThemeMockup({ themeId }) {
   }
 }
 
+// ─── ThemeScreen wrapper (remounts on theme change to retrigger animation) ─────
+function ThemeScreen({ themeId }) {
+  return (
+    <div style={{ animation: 'phoneFadeIn 0.35s ease both' }}>
+      <ThemeMockup themeId={themeId} />
+    </div>
+  );
+}
+
 // ─── Main Component ────────────────────────────────────────────────────────────
 export const LivePreview = () => {
   const [activeTheme, setActiveTheme] = React.useState('light');
@@ -406,7 +415,7 @@ export const LivePreview = () => {
             {/* Phone bezel with tilt */}
             <motion.div
               style={shouldReduceMotion ? {} : { rotateX, rotateY }}
-              className="w-[300px] sm:w-[320px] rounded-[42px] bg-[#1A1A1A] border-[8px] border-[#1A1A1A] overflow-hidden relative"
+              className="w-[300px] sm:w-[320px] rounded-[42px] bg-[#1A1A1A] border-[8px] border-[#1A1A1A] overflow-hidden relative flex flex-col"
               animate={shouldReduceMotion ? {} : {
                 boxShadow: [
                   '0 30px 70px -10px rgba(74,44,58,0.22)',
@@ -417,22 +426,14 @@ export const LivePreview = () => {
               transition={shouldReduceMotion ? {} : { repeat: Infinity, duration: 6, ease: 'easeInOut' }}
             >
               {/* Notch */}
-              <div className="absolute top-0 inset-x-0 h-5 bg-[#1A1A1A] flex justify-center items-center z-40">
-                <div className="w-16 h-3 bg-black rounded-full" />
+              <div className="w-full h-6 bg-[#1A1A1A] flex justify-center items-end pb-1 shrink-0 z-10">
+                <div className="w-20 h-3.5 bg-black rounded-full" />
               </div>
 
-              {/* Theme content with AnimatePresence smooth swap */}
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeTheme}
-                  initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.96, filter: 'blur(6px)' }}
-                  animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-                  exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.96, filter: 'blur(6px)' }}
-                  transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-                >
-                  <ThemeMockup themeId={activeTheme} />
-                </motion.div>
-              </AnimatePresence>
+              {/* Screen content — scrollable */}
+              <div className="flex-1 overflow-y-auto bg-white no-scrollbar" style={{ maxHeight: '540px' }}>
+                <ThemeScreen key={activeTheme} themeId={activeTheme} />
+              </div>
             </motion.div>
           </motion.div>
         </div>

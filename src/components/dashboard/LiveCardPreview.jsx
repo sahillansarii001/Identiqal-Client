@@ -5,14 +5,16 @@ import { SectionRenderer } from '@/components/builder/SectionRenderer.jsx';
 
 export function LiveCardPreview({ card, className = "h-[280px]", scale = 0.31 }) {
   const sections = card.sections || [];
-  const defaultTheme = {
+  const colorTheme = card.colorThemeId || {};
+  const theme = {
     colors: {
-      background: '#ffffff',
-      text: '#212529',
-      primary: '#000000'
+      background: colorTheme.background || '#ffffff',
+      text: colorTheme.text || '#212529',
+      primary: colorTheme.primary || '#000000',
+      accent: colorTheme.accent || '#0d6efd',
+      secondary: colorTheme.secondary || '#6c757d',
     }
   };
-  const theme = card.theme || defaultTheme;
 
   return (
     <div className={`w-full bg-slate-50 relative overflow-hidden flex justify-center pt-5 ${className}`}>
@@ -42,6 +44,8 @@ export function LiveCardPreview({ card, className = "h-[280px]", scale = 0.31 })
                   <SectionRenderer
                     section={{ ...sec, cardId: card._id }}
                     theme={theme}
+                    displayPreset={card.displayPresetId}
+                    colorTheme={card.colorThemeId}
                     previewMode={true}
                   />
                   {idx < sections.length - 1 && sec.isVisible && (
