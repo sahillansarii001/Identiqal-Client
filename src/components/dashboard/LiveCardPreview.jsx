@@ -43,11 +43,20 @@ export function LiveCardPreview({ card, className = "h-[280px]", scale = 0.31 })
               {sections.map((sec, idx) => (
                 <React.Fragment key={sec.sectionId}>
                   <SectionRenderer
-                    section={{ ...sec, cardId: card._id }}
+                    section={{ 
+                      ...sec, 
+                      cardId: card._id,
+                      imageUrl: card.imageUrl,
+                      imageScale: card.imageScale,
+                      imagePositionX: card.imagePositionX,
+                      imagePositionY: card.imagePositionY,
+                      imageOpacity: card.imageOpacity,
+                      overlayType: card.overlayType,
+                    }}
                     theme={theme}
                     displayPreset={card.displayPresetId}
                     colorTheme={card.colorThemeId}
-                    previewMode={true}
+                    previewMode={false}
                   />
                   {idx < sections.length - 1 && sec.isVisible && (
                     <div className="w-full h-px" style={{ backgroundColor: 'rgba(0,0,0,0.06)' }} />

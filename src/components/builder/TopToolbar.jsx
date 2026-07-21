@@ -32,6 +32,27 @@ export default function TopToolbar() {
     setPreviewDevice,
     activeTab,
     setActiveTab,
+    displayPreset,
+    colorTheme,
+    footerPreset,
+    imageUrl,
+    imageScale,
+    imagePositionX,
+    imagePositionY,
+    imageOpacity,
+    overlayType,
+    imageRotation,
+    imagePlacement,
+    containerStyle,
+    containerSize,
+    containerBorder,
+    containerShadow,
+    containerPadding,
+    imageFit,
+    imageBlur,
+    imageBrightness,
+    imageContrast,
+    imageSaturation,
   } = useCardBuilderStore();
 
   const handleSaveCard = async () => {
@@ -42,6 +63,27 @@ export default function TopToolbar() {
         title,
         sections,
         seo,
+        displayPresetId: displayPreset?._id || null,
+        colorThemeId: colorTheme?._id || null,
+        footerPresetId: footerPreset?._id || null,
+        imageUrl,
+        imageScale,
+        imagePositionX,
+        imagePositionY,
+        imageOpacity,
+        overlayType,
+        imageRotation,
+        imagePlacement,
+        containerStyle,
+        containerSize,
+        containerBorder,
+        containerShadow,
+        containerPadding,
+        imageFit,
+        imageBlur,
+        imageBrightness,
+        imageContrast,
+        imageSaturation,
       });
       if (response.success) {
         setCard(response.data);
@@ -59,16 +101,16 @@ export default function TopToolbar() {
       {/* Left: Branding, Title & Navigation Tabs */}
       <div className="flex items-center gap-4 min-w-0">
         <div className="font-bold text-xl text-primary shrink-0">identiqal</div>
-        <div className="h-6 w-px bg-gray-300 shrink-0"></div>
+        <div className="h-6 w-px bg-gray-300 dark:bg-white/10 shrink-0"></div>
         <input
           type="text"
           value={title || "Untitled Card"}
-          className="font-medium text-gray-800 bg-transparent border-none focus:outline-none focus:ring-2 focus:ring-primary/20 rounded px-2 py-1 -ml-2 shrink-0"
+          className="font-medium text-gray-800 dark:text-gray-100 bg-transparent border-none focus:outline-none focus:ring-2 focus:ring-primary/20 rounded px-2 py-1 -ml-2 shrink-0"
           style={{ width: `${(title || "Untitled Card").length + 1}ch` }}
           placeholder="Card Name"
           readOnly
         />
-        <div className="h-6 w-px bg-gray-300 shrink-0 hidden sm:block"></div>
+        <div className="h-6 w-px bg-gray-300 dark:bg-white/10 shrink-0 hidden sm:block"></div>
 
         {/* Navigation Tabs */}
         <div className="flex bg-gray-100 dark:bg-white/5 p-1 rounded-full shrink-0">

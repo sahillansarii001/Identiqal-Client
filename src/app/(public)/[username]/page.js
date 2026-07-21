@@ -82,8 +82,19 @@ export default async function PublicCardPage(props) {
               <React.Fragment key={sec.sectionId}>
                 <div className="w-full">
                   <SectionRenderer
-                    section={{ ...sec, cardId: card._id }}
+                    section={{ 
+                      ...sec, 
+                      cardId: card._id,
+                      imageUrl: card.imageUrl,
+                      imageScale: card.imageScale,
+                      imagePositionX: card.imagePositionX,
+                      imagePositionY: card.imagePositionY,
+                      imageOpacity: card.imageOpacity,
+                      overlayType: card.overlayType,
+                    }}
                     theme={theme}
+                    displayPreset={displayPreset}
+                    colorTheme={colorTheme}
                     previewMode={false}
                   />
                 </div>

@@ -183,7 +183,7 @@ export default function PricingPage() {
                   <button
                     className={`w-full py-3.5 px-4 rounded-xl text-xs font-bold transition-all duration-300 border ${
                       plan.featured
-                        ? "bg-[#2563EB] text-white border-[#2563EB] hover:bg-[#6A3B4B] shadow-md shadow-[#2563EB]/10"
+                        ? "bg-[#2563EB] text-white border-[#2563EB] hover:bg-[#1D4ED8] shadow-md shadow-[#2563EB]/10"
                         : "bg-white text-[#2563EB] border-[#E2E8F0] hover:border-[#2563EB]/30 hover:bg-[#F8FAFC]"
                     }`}
                   >

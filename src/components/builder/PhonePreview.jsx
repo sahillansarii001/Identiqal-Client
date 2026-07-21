@@ -108,7 +108,7 @@ function FooterStrip({ footerPreset, colorTheme }) {
 }
 
 /* ── Preview Section wrapper ─────────────────────────────────────────── */
-const PreviewSection = ({ section, theme, displayPreset, colorTheme, activeSectionId, setActiveSection }) => {
+const PreviewSection = ({ section, theme, displayPreset, colorTheme, activeSectionId, setActiveSection, cardId }) => {
   const isActive = activeSectionId === section.sectionId;
 
   if (!section.isVisible) return null;
@@ -124,7 +124,7 @@ const PreviewSection = ({ section, theme, displayPreset, colorTheme, activeSecti
     >
       <div className="w-full relative pointer-events-none [&_*]:pointer-events-auto">
         <SectionRenderer 
-          section={section} 
+          section={{ ...section, cardId }} 
           theme={theme} 
           displayPreset={displayPreset} 
           colorTheme={colorTheme} 
@@ -142,7 +142,43 @@ const PreviewSection = ({ section, theme, displayPreset, colorTheme, activeSecti
 
 /* ── Main PhonePreview ───────────────────────────────────────────────── */
 export default function PhonePreview() {
-  const { sections, activeSectionId, setActiveSection, setBlockPickerOpen, colorTheme, displayPreset, footerPreset } = useCardBuilderStore();
+  const { 
+    cardId, 
+    sections, 
+    activeSectionId, 
+    setActiveSection, 
+    setBlockPickerOpen, 
+    colorTheme, 
+    displayPreset, 
+    footerPreset,
+    imageUrl,
+    imageScale,
+    imageOpacity,
+    overlayType,
+    updateHeaderImage,
+    updateHeaderImageRealTime
+  } = useCardBuilderStore();
+
+  const handleUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      updateHeaderImage({
+        imageUrl: ev.target.result,
+        imageScale: displayPreset?.defaultZoom || 100,
+        imagePositionX: displayPreset?.defaultPositionX || 0,
+        imagePositionY: displayPreset?.defaultPositionY || 0,
+        imageOpacity: 80,
+        overlayType: 'None',
+      });
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const activeSection = sections.find(s => s.sectionId === activeSectionId);
+  const isEditingHeader = activeSection?.type === 'about';
+  const showBannerImg = !!imageUrl && displayPreset?.name !== 'Minimal';
 
   // Apply layout theme overrides
   let activeColorTheme = colorTheme || {};
@@ -154,13 +190,13 @@ export default function PhonePreview() {
       primary: '#D4A45B',
       accent: '#D4A45B',
     };
-  } else if (displayPreset?.name === 'Neon') {
+  } else if (displayPreset?.name === 'Aurora') {
     activeColorTheme = {
       ...colorTheme,
-      background: '#08070A',
-      text: '#E2E8F0',
-      primary: '#D946EF',
-      accent: '#06B6D4',
+      background: '#ffffff',
+      text: '#0F172A',
+      primary: '#2563EB',
+      accent: '#4F46E5',
     };
   }
 
@@ -179,13 +215,29 @@ export default function PhonePreview() {
     },
   };
 
+  const isStudioMode = typeof window !== 'undefined' && (window.location.pathname.includes('/studio') || window.location.pathname.includes('/admin/studio'));
+  const mockAboutSection = {
+    sectionId: 'about',
+    type: 'about',
+    isVisible: true,
+    data: {
+      headline: 'Alex Rivers',
+      bio: 'Senior Product Designer at Framer. Crafting premium user experiences & building modern interfaces.',
+      avatarUrl: imageUrl || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80',
+    }
+  };
+  const previewSections = (sections && sections.length > 0) ? sections : [mockAboutSection];
   const cardRadius = getCardRadius(displayPreset?.cardShape);
   const cardShadow = getCardShadow(displayPreset?.cardShape, activeColorTheme);
 
   return (
     <div
-      className="flex-1 min-w-0 bg-[#F8F6F4] dark:!bg-[#0D0B0D] flex overflow-auto relative justify-center items-start pt-[40px] px-4 sm:px-8 lg:px-12 pb-[120px] scroll-smooth"
-      style={{ height: 'calc(100vh - 120px)' }}
+      className={`flex-1 min-w-0 flex overflow-auto relative justify-center items-start scroll-smooth ${
+        isStudioMode 
+          ? 'bg-transparent pt-4 px-2 pb-6' 
+          : 'bg-[#F8F6F4] dark:!bg-[#0D0B0D] pt-[40px] px-4 sm:px-8 lg:px-12 pb-[120px]'
+      }`}
+      style={{ height: isStudioMode ? '100%' : 'calc(100vh - 120px)' }}
     >
       {/* Ambient glows */}
       <div className="absolute top-[10%] left-[20%] w-[500px] h-[500px] bg-[#3B82F6]/10 rounded-full blur-[120px] pointer-events-none" />
@@ -213,7 +265,7 @@ export default function PhonePreview() {
           }}
         >
           <AnimatePresence mode="popLayout">
-            {sections.length === 0 ? (
+            {(!isStudioMode && sections.length === 0) ? (
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -244,7 +296,7 @@ export default function PhonePreview() {
                   <button
                     onClick={() => setBlockPickerOpen(true)}
                     className="w-full py-3.5 px-6 text-sm text-white rounded-xl font-semibold shadow-lg shadow-primary/20 transition-all hover:-translate-y-0.5 active:scale-95 flex items-center justify-center gap-2"
-                    style={{ backgroundColor: colorTheme?.primary || '#5A3045' }}
+                    style={{ backgroundColor: colorTheme?.primary || '#2563EB' }}
                   >
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                       <line x1="12" y1="5" x2="12" y2="19" />
@@ -259,7 +311,7 @@ export default function PhonePreview() {
               </motion.div>
             ) : (
               <div className="w-full flex flex-col">
-                {sections.map((section, idx) => (
+                {previewSections.map((section, idx) => (
                   <React.Fragment key={section.sectionId}>
                     <motion.div
                       layout
@@ -275,9 +327,10 @@ export default function PhonePreview() {
                         colorTheme={colorTheme}
                         activeSectionId={activeSectionId}
                         setActiveSection={setActiveSection}
+                        cardId={cardId}
                       />
                     </motion.div>
-                    {idx < sections.length - 1 && section.isVisible && (
+                    {idx < previewSections.length - 1 && section.isVisible && (
                       <div className="w-full h-px" style={{ backgroundColor: 'rgba(0,0,0,0.06)' }} />
                     )}
                   </React.Fragment>
@@ -290,6 +343,7 @@ export default function PhonePreview() {
           </AnimatePresence>
         </div>
       </motion.div>
+
     </div>
   );
 }

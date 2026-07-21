@@ -75,7 +75,7 @@ export default function LeadsDashboardPage() {
             Capture Center
           </span>
           <h1 className="text-2xl font-black text-inherit mt-1">Leads Hub</h1>
-          <p className="text-xs text-[#8A7A6A] mt-1">
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
             View contact inquiries and reverse-save capture data.
           </p>
         </div>
@@ -83,7 +83,7 @@ export default function LeadsDashboardPage() {
         {cards.length > 0 && (
           <button
             onClick={handleDownloadCsv}
-            className="inline-flex items-center space-x-2 bg-[#2563EB] hover:bg-[#6A3B4B] text-white font-semibold text-xs px-5 py-2.5 rounded-xl transition-all shadow-sm shadow-[#2563EB]/20 cursor-pointer"
+            className="inline-flex items-center space-x-2 bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-semibold text-xs px-5 py-2.5 rounded-xl transition-all shadow-sm shadow-[#2563EB]/20 cursor-pointer"
           >
             <Download size={13} />
             <span>Download CSV</span>
@@ -107,13 +107,13 @@ export default function LeadsDashboardPage() {
             <h3 className="text-sm font-bold text-inherit">
               No captured leads yet
             </h3>
-            <p className="text-xs text-[#8A7A6A] max-w-xs mx-auto">
+            <p className="text-xs text-slate-500 dark:text-slate-400 max-w-xs mx-auto">
               Create and publish a card with an inquiry form to start capturing
               visitor leads.
             </p>
           </div>
           <Link href="/dashboard/cards" className="inline-block">
-            <span className="inline-flex items-center bg-[#2563EB] hover:bg-[#6A3B4B] text-white font-semibold text-xs px-5 py-2.5 rounded-xl transition-all cursor-pointer">
+            <span className="inline-flex items-center bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-semibold text-xs px-5 py-2.5 rounded-xl transition-all cursor-pointer">
               Go to My Cards
             </span>
           </Link>
@@ -125,7 +125,7 @@ export default function LeadsDashboardPage() {
             <div className="w-8 h-8 rounded-xl bg-[#2563EB]/5 flex items-center justify-center">
               <Layers size={15} className="text-[#2563EB]" />
             </div>
-            <span className="text-[10px] text-[#8A7A6A] font-black uppercase tracking-widest">
+            <span className="text-[10px] text-slate-500 dark:text-slate-400 font-black uppercase tracking-widest">
               Active Card:
             </span>
             <select
@@ -150,7 +150,7 @@ export default function LeadsDashboardPage() {
           ) : leads.length === 0 ? (
             <div className="text-center py-16 bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl">
               <Inbox size={32} className="mx-auto text-[#3B82F6]/50 mb-3" />
-              <p className="text-xs text-[#8A7A6A] font-semibold">
+              <p className="text-xs text-slate-500 dark:text-slate-400 font-semibold">
                 No lead captures registered for this card yet.
               </p>
             </div>
@@ -164,7 +164,7 @@ export default function LeadsDashboardPage() {
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div className="flex items-center space-x-3">
                       {/* Avatar */}
-                      <div className="w-9 h-9 rounded-xl bg-linear-to-br from-[#2563EB] to-[#7A4A5E] flex items-center justify-center text-white font-black text-sm shrink-0">
+                      <div className="w-9 h-9 rounded-xl bg-linear-to-br from-[#2563EB] to-[#3B82F6] flex items-center justify-center text-white font-black text-sm shrink-0">
                         {lead.name?.charAt(0)?.toUpperCase() || "?"}
                       </div>
                       <div>
@@ -172,12 +172,12 @@ export default function LeadsDashboardPage() {
                           {lead.name}
                         </h4>
                         <div className="flex items-center space-x-3 mt-0.5">
-                          <span className="text-[10px] text-[#8A7A6A] flex items-center space-x-1">
+                          <span className="text-[10px] text-slate-500 dark:text-slate-400 flex items-center space-x-1">
                             <Mail size={9} />
                             <span>{lead.email}</span>
                           </span>
                           {lead.phone && (
-                            <span className="text-[10px] text-[#8A7A6A] flex items-center space-x-1">
+                            <span className="text-[10px] text-slate-500 dark:text-slate-400 flex items-center space-x-1">
                               <Phone size={9} />
                               <span>{lead.phone}</span>
                             </span>
@@ -189,7 +189,7 @@ export default function LeadsDashboardPage() {
                       <span className="text-[9px] bg-[#2563EB]/5 border border-[#2563EB]/10 text-[#2563EB] px-2.5 py-1 rounded-full capitalize font-bold">
                         via {lead.source}
                       </span>
-                      <span className="text-[9px] text-[#8A7A6A] flex items-center space-x-1 bg-[#F8FAFC] border border-[#E2E8F0] px-2.5 py-1 rounded-full">
+                      <span className="text-[9px] text-slate-500 dark:text-slate-400 flex items-center space-x-1 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 px-2.5 py-1 rounded-full">
                         <Calendar size={9} />
                         <span>
                           {new Date(lead.createdAt).toLocaleDateString()}
@@ -198,7 +198,7 @@ export default function LeadsDashboardPage() {
                     </div>
                   </div>
                   {lead.message && (
-                    <div className="p-3.5 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl text-xs text-[#4A3A2E] leading-relaxed whitespace-pre-wrap font-medium">
+                    <div className="p-3.5 bg-slate-50 dark:bg-slate-800/20 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-wrap font-medium">
                       {lead.message}
                     </div>
                   )}
@@ -216,27 +216,27 @@ export default function LeadsDashboardPage() {
         title="Upgrade to Pro Plan"
       >
         <div className="flex flex-col items-center space-y-4 py-4 text-center">
-          <div className="w-14 h-14 bg-linear-to-br from-[#2563EB] to-[#7A4A5E] rounded-2xl flex items-center justify-center text-[#3B82F6]">
+          <div className="w-14 h-14 bg-linear-to-br from-[#2563EB] to-[#3B82F6] rounded-2xl flex items-center justify-center text-white shadow-md shadow-[#2563EB]/20">
             <Sparkles size={24} />
           </div>
           <h3 className="font-black text-inherit text-base">
             Unlock CSV Export Logs
           </h3>
-          <p className="text-xs text-[#8A7A6A] max-w-xs leading-relaxed">
+          <p className="text-xs text-slate-500 dark:text-slate-400 max-w-xs leading-relaxed">
             CSV logs and export downloads are exclusive to Pro and Business plan
             members. Upgrade your tier to activate immediately.
           </p>
           <div className="flex space-x-3 pt-4 border-t border-[#E2E8F0] w-full justify-end">
             <button
               onClick={() => setUpgradeModalOpen(false)}
-              className="text-xs font-semibold text-[#8A7A6A] px-4 py-2 rounded-xl border border-[#E2E8F0] hover:bg-[#F8FAFC] transition-all cursor-pointer"
+              className="text-xs font-semibold text-slate-500 dark:text-slate-400 px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all cursor-pointer"
             >
               Cancel
             </button>
             <Link href="/dashboard/billing">
               <span
                 onClick={() => setUpgradeModalOpen(false)}
-                className="inline-flex items-center space-x-1.5 bg-[#2563EB] hover:bg-[#6A3B4B] text-white font-semibold text-xs px-4 py-2 rounded-xl transition-all cursor-pointer"
+                className="inline-flex items-center space-x-1.5 bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-semibold text-xs px-4 py-2 rounded-xl transition-all cursor-pointer"
               >
                 <span>View Billing</span>
                 <ArrowUpRight size={12} />

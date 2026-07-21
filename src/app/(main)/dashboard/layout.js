@@ -23,6 +23,7 @@ import {
   Settings,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import HeaderImageWorkspace from "@/components/builder/HeaderImageWorkspace";
 
 export default function DashboardLayout({ children }) {
   const router = useRouter();
@@ -330,6 +331,7 @@ export default function DashboardLayout({ children }) {
           </motion.div>
         </main>
       </div>
+      <HeaderImageWorkspace />
     </div>
   );
 }
@@ -439,7 +441,7 @@ function PremiumNavbar({
             </p>
             <p
               className={`text-[10px] font-medium mt-0.5 whitespace-nowrap ${
-                darkMode ? "text-[#A3A3A3]" : "text-[#8A7A6A]"
+                darkMode ? "text-[#A3A3A3]" : "text-slate-500"
               }`}
             >
               Welcome back! Here&apos;s what&apos;s happening today.
@@ -765,7 +767,7 @@ function PremiumNavbar({
                   className="absolute right-0 top-12 w-60 bg-white/95 backdrop-blur-xl border border-[rgba(37,99,235,0.1)] rounded-2xl shadow-xl shadow-[#2563EB]/10 overflow-hidden z-50"
                 >
                   {/* Header */}
-                  <div className="p-4 bg-linear-to-br from-[#F8FAFC] to-[#F5EDE4] border-b border-[#F0E8E0]">
+                  <div className="p-4 bg-linear-to-br from-slate-50 to-slate-100/40 dark:from-slate-900 dark:to-slate-950/40 border-b border-slate-100 dark:border-slate-800">
                     <div className="flex items-center space-x-3">
                       <div className="w-10 h-10 rounded-xl bg-linear-to-br from-[#2563EB] to-[#3B82F6] flex items-center justify-center font-black text-white shadow-md">
                         {user?.name?.[0]?.toUpperCase()}
@@ -774,10 +776,10 @@ function PremiumNavbar({
                         <p className="text-xs font-black text-inherit truncate">
                           {user?.name}
                         </p>
-                        <p className="text-[9px] text-[#8A7A6A] truncate">
+                        <p className="text-[9px] text-slate-500 dark:text-slate-400 truncate">
                           {user?.email}
                         </p>
-                        <span className="inline-flex items-center space-x-1 mt-0.5 text-[8px] bg-[#3B82F6]/15 text-[#A07030] border border-[#3B82F6]/25 px-2 py-0.5 rounded-full font-black capitalize">
+                        <span className="inline-flex items-center space-x-1 mt-0.5 text-[8px] bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-100 dark:border-blue-500/20 px-2 py-0.5 rounded-full font-black capitalize">
                           <Sparkles size={7} />
                           <span>{user?.subscriptionTier || "free"} plan</span>
                         </span>

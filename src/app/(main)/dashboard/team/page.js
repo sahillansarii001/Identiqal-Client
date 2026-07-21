@@ -144,7 +144,7 @@ export default function TeamWorkspacePage() {
         <h1 className="text-2xl font-black text-inherit mt-1">
           Team Workspace
         </h1>
-        <p className="text-xs text-[#8A7A6A] mt-1">
+        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
           Configure shared templates and invite organization members.
         </p>
       </div>
@@ -175,7 +175,7 @@ export default function TeamWorkspacePage() {
               <h2 className="text-lg font-black text-inherit">
                 Create a Team Workspace
               </h2>
-              <p className="text-xs text-[#8A7A6A] leading-relaxed max-w-sm mx-auto">
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed max-w-sm mx-auto">
                 Unlock centralized branding locks, aggregated team reports, and
                 collaborative seat allocations.
               </p>
@@ -200,7 +200,7 @@ export default function TeamWorkspacePage() {
               <button
                 type="submit"
                 disabled={isCreatingOrg}
-                className="w-full py-3 bg-[#2563EB] hover:bg-[#6A3B4B] text-white font-bold text-xs rounded-xl transition-all cursor-pointer flex items-center justify-center space-x-2 shadow-sm shadow-[#2563EB]/20"
+                className="w-full py-3 bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-bold text-xs rounded-xl transition-all cursor-pointer flex items-center justify-center space-x-2 shadow-sm shadow-[#2563EB]/20"
               >
                 {isCreatingOrg ? (
                   <span className="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -224,11 +224,11 @@ export default function TeamWorkspacePage() {
                   <div className="w-7 h-7 rounded-lg bg-[#2563EB]/5 flex items-center justify-center">
                     <Users size={13} className="text-[#2563EB]" />
                   </div>
-                  <h3 className="text-[10px] font-black uppercase tracking-widest text-[#8A7A6A]">
+                  <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">
                     Workspace Members
                   </h3>
                 </div>
-                <span className="text-[9px] bg-[#F8FAFC] border border-[#E2E8F0] text-[#8A7A6A] px-3 py-1 rounded-full font-black">
+                <span className="text-[9px] bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 px-3 py-1 rounded-full font-black">
                   {org.seatsUsed} / {org.seatLimit} seats
                 </span>
               </div>
@@ -237,10 +237,10 @@ export default function TeamWorkspacePage() {
                 {org.members.map((member, idx) => (
                   <div
                     key={idx}
-                    className="flex items-center justify-between p-3.5 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl hover:border-[#2563EB]/20 transition-colors"
+                    className="flex items-center justify-between p-3.5 bg-slate-50 dark:bg-slate-800/20 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-[#2563EB]/20 transition-colors"
                   >
                     <div className="flex items-center space-x-3">
-                      <div className="w-8 h-8 rounded-xl bg-linear-to-br from-[#2563EB] to-[#7A4A5E] flex items-center justify-center text-white font-black text-xs shrink-0">
+                      <div className="w-8 h-8 rounded-xl bg-linear-to-br from-[#2563EB] to-[#3B82F6] flex items-center justify-center text-white font-black text-xs shrink-0">
                         {member.email?.charAt(0)?.toUpperCase()}
                       </div>
                       <div>
@@ -274,7 +274,7 @@ export default function TeamWorkspacePage() {
                 <div className="w-7 h-7 rounded-lg bg-[#3B82F6]/10 flex items-center justify-center">
                   <Mail size={13} className="text-[#3B82F6]" />
                 </div>
-                <h3 className="text-[10px] font-black uppercase tracking-widest text-[#8A7A6A]">
+                <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">
                   Invite Member
                 </h3>
               </div>
@@ -290,7 +290,7 @@ export default function TeamWorkspacePage() {
                   {...registerInvite("email")}
                 />
                 <div className="flex flex-col space-y-1.5">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-[#8A7A6A]">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">
                     Workspace Role
                   </label>
                   <select
@@ -304,7 +304,7 @@ export default function TeamWorkspacePage() {
                 <button
                   type="submit"
                   disabled={isInviting}
-                  className="w-full py-2.5 bg-[#2563EB] hover:bg-[#6A3B4B] text-white font-bold text-xs rounded-xl transition-all cursor-pointer flex items-center justify-center space-x-2 shadow-sm shadow-[#2563EB]/20"
+                  className="w-full py-2.5 bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-bold text-xs rounded-xl transition-all cursor-pointer flex items-center justify-center space-x-2 shadow-sm shadow-[#2563EB]/20"
                 >
                   {isInviting ? (
                     <span className="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -319,15 +319,15 @@ export default function TeamWorkspacePage() {
             </div>
 
             {/* Styling lock info */}
-            <div className="p-5 bg-linear-to-br from-[#F8FAFC] to-[#FDF4E8] border border-[#3B82F6]/20 rounded-2xl flex items-start space-x-3">
-              <div className="w-9 h-9 bg-[#3B82F6]/10 rounded-xl flex items-center justify-center shrink-0">
+            <div className="p-5 bg-linear-to-br from-slate-50 to-slate-100/30 dark:from-slate-800/50 dark:to-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-2xl flex items-start space-x-3">
+              <div className="w-9 h-9 bg-blue-50 dark:bg-blue-500/10 rounded-xl flex items-center justify-center shrink-0">
                 <Lock size={15} className="text-[#3B82F6]" />
               </div>
               <div className="space-y-0.5">
                 <h5 className="text-xs font-black text-[#2563EB]">
                   Centralized theme locks
                 </h5>
-                <p className="text-[9px] text-[#8A7A6A] leading-relaxed">
+                <p className="text-[9px] text-slate-500 dark:text-slate-400 leading-relaxed">
                   All invited members automatically render using the locked team
                   theme configuration set in Theme Controls.
                 </p>

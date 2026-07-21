@@ -31,6 +31,7 @@ import {
   Sun
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import HeaderImageWorkspace from '@/components/builder/HeaderImageWorkspace';
 
 export default function AdminLayout({ children }) {
   const router = useRouter();
@@ -99,7 +100,8 @@ export default function AdminLayout({ children }) {
         { label: 'Display Presets', href: '/admin/display-presets', icon: <LayoutTemplate size={16} /> },
         { label: 'Color Themes', href: '/admin/color-themes', icon: <Sparkles size={16} /> },
         { label: 'Footer Presets', href: '/admin/footer-presets', icon: <FileText size={16} /> },
-        { label: 'Templates', href: '/admin/templates', icon: <LayoutTemplate size={16} /> }
+        { label: 'Templates', href: '/admin/templates', icon: <LayoutTemplate size={16} /> },
+        { label: 'Design Studio', href: '/admin/studio', icon: <LayoutTemplate size={16} /> }
       ]
     },
     {
@@ -246,6 +248,7 @@ export default function AdminLayout({ children }) {
           </motion.div>
         </main>
       </div>
+      <HeaderImageWorkspace />
     </div>
   );
 }

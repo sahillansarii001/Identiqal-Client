@@ -111,7 +111,18 @@ export const InspectorPanel = () => {
 /* -------------------------------------------------------------------------- */
 
 const ContextualEditor = ({ section }) => {
-  const { updateSectionRealTime } = useCardBuilderStore();
+  const { 
+    updateSectionRealTime,
+    imageUrl,
+    imageScale,
+    imagePositionX,
+    imagePositionY,
+    imageOpacity,
+    overlayType,
+    updateHeaderImage,
+    updateHeaderImageRealTime,
+    openWorkspace
+  } = useCardBuilderStore();
 
   const handleUpdate = (field, value) => {
     updateSectionRealTime(section.sectionId, { [field]: value });
@@ -122,7 +133,19 @@ const ContextualEditor = ({ section }) => {
   return (
     <>
       {section.type === 'about' && (
-        <AboutSettings data={data} onUpdate={handleUpdate} />
+        <AboutSettings 
+          data={data} 
+          onUpdate={handleUpdate} 
+          imageUrl={imageUrl}
+          imageScale={imageScale}
+          imagePositionX={imagePositionX}
+          imagePositionY={imagePositionY}
+          imageOpacity={imageOpacity}
+          overlayType={overlayType}
+          updateHeaderImage={updateHeaderImage}
+          updateHeaderImageRealTime={updateHeaderImageRealTime}
+          openWorkspace={openWorkspace}
+        />
       )}
       {section.type === 'links' && (
         <LinksSettings data={data} onUpdate={handleUpdate} />
@@ -252,23 +275,25 @@ const HeaderPresetThumbnail = ({ preset, activeTheme }) => {
   // Determine header area background and SVGs
   let headerBg = primaryColor;
   let headerHeight = 'h-[44px]';
-  const isLuxury = name === 'Luxury';
-  const isNeon = name === 'Neon';
-  const isMinimal = name === 'Minimal';
-  const isSleek = name === 'Sleek';
-  const isBlend = name === 'Blend';
+  const isLuxury = name === 'Luxury' || preset?.headerStyle === 'Luxury';
+  const isAurora = name === 'Aurora' || preset?.headerStyle === 'Aurora';
+  const isMinimal = name === 'Minimal' || preset?.headerStyle === 'Minimal';
+  const isSleek = name === 'Sleek' || preset?.headerStyle === 'Sleek';
+  const isBlend = name === 'Blend' || preset?.headerStyle === 'Blend';
 
   if (isLuxury) {
     headerBg = 'linear-gradient(135deg, #1A1A1A, #2A2520, #1A1A1A)';
-  } else if (isNeon) {
-    headerBg = 'linear-gradient(135deg, #0A0A0E, #140E24)';
+  } else if (isAurora) {
+    headerBg = 'radial-gradient(circle at 10% 20%, rgba(56, 189, 248, 0.8) 0%, transparent 55%), radial-gradient(circle at 90% 30%, rgba(124, 58, 237, 0.8) 0%, transparent 60%), radial-gradient(circle at 50% 80%, rgba(79, 70, 229, 0.9) 0%, transparent 70%), linear-gradient(135deg, #2563EB, #4F46E5)';
   } else if (isBlend) {
     headerBg = `linear-gradient(to bottom, ${primaryColor}, transparent)`;
   } else if (preset?.headerStyle === 'Gradient') {
     headerBg = `linear-gradient(135deg, ${primaryColor}, ${accentColor})`;
   }
 
-  if (isMinimal) {
+  if (isAurora) {
+    headerHeight = 'h-[75px]';
+  } else if (isMinimal) {
     headerHeight = 'h-[8px]';
   }
 
@@ -280,9 +305,13 @@ const HeaderPresetThumbnail = ({ preset, activeTheme }) => {
           className={`w-full ${headerHeight} relative overflow-hidden shrink-0`}
           style={{ 
             background: headerBg,
-            boxShadow: isNeon ? '0 4px 10px rgba(56, 189, 248, 0.45), 0 2px 4px rgba(217, 70, 239, 0.3)' : 'none'
+            boxShadow: isAurora ? '0 10px 30px -10px rgba(79, 70, 229, 0.15)' : 'none'
           }}
         >
+          {/* Bottom natural fade for Aurora */}
+          {isAurora && (
+            <div className="absolute bottom-0 left-0 w-full h-[18px] bg-gradient-to-b from-transparent to-white dark:to-[#1C191D]" />
+          )}
           {/* Classic Wave Shape */}
           {name === 'Classic' && (
             <svg className="absolute bottom-0 w-full text-white dark:text-[#1C191D] fill-current" viewBox="0 0 1440 120" preserveAspectRatio="none">
@@ -496,66 +525,173 @@ const RealtimeInput = ({ label, value, onChange, placeholder, as = 'input', rows
   </div>
 );
 
-const AboutSettings = ({ data, onUpdate }) => (
+const AboutSettings = ({ 
+  data, 
+  onUpdate, 
+  imageUrl, 
+  imageScale, 
+  imagePositionX, 
+  imagePositionY, 
+  imageOpacity,
+  overlayType,
+  updateHeaderImage,
+  updateHeaderImageRealTime,
+  openWorkspace
+}) => (
   <>
     <SettingGroup title="Content">
       <RealtimeInput label="Name / Headline" value={data.headline} onChange={(val) => onUpdate('headline', val)} />
       <RealtimeInput label="Bio / Description" value={data.bio} onChange={(val) => onUpdate('bio', val)} as="textarea" />
-      <RealtimeInput label="Profile Photo URL" value={data.avatarUrl} onChange={(val) => onUpdate('avatarUrl', val)} />
     </SettingGroup>
     
-    <SettingGroup title="Header Image">
-      <RealtimeInput label="Header Image URL" value={data.headerUrl} onChange={(val) => onUpdate('headerUrl', val)} />
+    <SettingGroup title="Header Image Banner">
+      {/* Upload button */}
+      <label className="flex items-center gap-2 px-3 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl cursor-pointer transition-colors text-[12px] font-semibold w-full justify-center shadow-sm">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 16 12 12 8 16" /><line x1="12" y1="12" x2="12" y2="21" /><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3" /></svg>
+        {imageUrl ? 'Replace Image' : '+ Upload Image'}
+        <input
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (ev) => updateHeaderImage({ imageUrl: ev.target.result, imageScale: 100, imagePositionX: 0, imagePositionY: 0, imageOpacity: 80, overlayType: 'None' });
+            reader.readAsDataURL(file);
+          }}
+        />
+      </label>
+
+      <RealtimeInput 
+        label="Or paste image URL" 
+        value={imageUrl || ''} 
+        placeholder="https://example.com/banner.jpg"
+        onChange={(val) => updateHeaderImage({ imageUrl: val })} 
+      />
+
+      {imageUrl && (
+        <button
+          onClick={openWorkspace}
+          className="w-full mt-3 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold transition-all shadow-sm flex items-center justify-center gap-1.5 cursor-pointer"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4z" /></svg>
+          Open Advanced Canvas Editor
+        </button>
+      )}
       
-      {data.headerUrl && (
-        <div className="space-y-4 pt-3 border-t border-gray-100 dark:border-white/10">
+      {imageUrl && (
+        <div className="space-y-4 pt-3 border-t border-gray-100 dark:border-white/10 mt-3">
           <div className="space-y-1.5">
             <div className="flex justify-between items-center text-[11px]">
-              <label className="font-semibold text-gray-700 dark:text-gray-300">Zoom</label>
-              <span className="text-gray-500 font-mono">{data.headerZoom || 100}%</span>
+              <label className="font-semibold text-gray-700 dark:text-gray-300">Zoom Scale</label>
+              <span className="text-gray-500 font-mono">{imageScale || 100}%</span>
             </div>
-            <input type="range" min="100" max="250" value={data.headerZoom || 100} onChange={e => onUpdate('headerZoom', e.target.value)} className="w-full accent-primary" />
+            <input 
+              type="range" 
+              min="80" 
+              max="200" 
+              step="5"
+              value={imageScale || 100} 
+              onChange={e => updateHeaderImageRealTime({ imageScale: parseInt(e.target.value) })} 
+              className="w-full accent-primary" 
+            />
+          </div>
+
+          {/* Opacity */}
+          <div className="space-y-1.5">
+            <div className="flex justify-between items-center text-[11px]">
+              <label className="font-semibold text-gray-700 dark:text-gray-300">Image Opacity</label>
+              <span className="text-gray-500 font-mono">{imageOpacity !== undefined ? imageOpacity : 80}%</span>
+            </div>
+            <input 
+              type="range" 
+              min="0" 
+              max="100" 
+              step="5"
+              value={imageOpacity !== undefined ? imageOpacity : 80} 
+              onChange={e => updateHeaderImageRealTime({ imageOpacity: parseInt(e.target.value) })} 
+              className="w-full accent-primary" 
+            />
           </div>
           
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
               <div className="flex justify-between items-center text-[11px]">
-                <label className="font-semibold text-gray-700 dark:text-gray-300">Pan X</label>
-                <span className="text-gray-500 font-mono">{data.headerPanX || 0}%</span>
+                <label className="font-semibold text-gray-700 dark:text-gray-300">Position X</label>
+                <span className="text-gray-500 font-mono">{imagePositionX || 0}px</span>
               </div>
-              <input type="range" min="-100" max="100" value={data.headerPanX || 0} onChange={e => onUpdate('headerPanX', e.target.value)} className="w-full accent-primary" />
+              <input 
+                type="range" 
+                min="-200" 
+                max="200" 
+                value={imagePositionX || 0} 
+                onChange={e => updateHeaderImageRealTime({ imagePositionX: parseInt(e.target.value) })} 
+                className="w-full accent-primary" 
+              />
             </div>
             <div className="space-y-1.5">
               <div className="flex justify-between items-center text-[11px]">
-                <label className="font-semibold text-gray-700 dark:text-gray-300">Pan Y</label>
-                <span className="text-gray-500 font-mono">{data.headerPanY || 0}%</span>
+                <label className="font-semibold text-gray-700 dark:text-gray-300">Position Y</label>
+                <span className="text-gray-500 font-mono">{imagePositionY || 0}px</span>
               </div>
-              <input type="range" min="-100" max="100" value={data.headerPanY || 0} onChange={e => onUpdate('headerPanY', e.target.value)} className="w-full accent-primary" />
+              <input 
+                type="range" 
+                min="-200" 
+                max="200" 
+                value={imagePositionY || 0} 
+                onChange={e => updateHeaderImageRealTime({ imagePositionY: parseInt(e.target.value) })} 
+                className="w-full accent-primary" 
+              />
             </div>
           </div>
 
-          <div className="space-y-1.5">
-            <div className="flex justify-between items-center text-[11px]">
-              <label className="font-semibold text-gray-700 dark:text-gray-300">Blur</label>
-              <span className="text-gray-500 font-mono">{data.headerBlur || 0}px</span>
+          {/* Overlay type */}
+          <div className="space-y-2">
+            <label className="text-[11px] font-semibold text-gray-700 dark:text-gray-300 block">Overlay Blend</label>
+            <div className="grid grid-cols-2 gap-1.5">
+              {['None', 'Dark Overlay', 'Light Overlay', 'Gradient Overlay', 'Glass Overlay'].map((ov) => (
+                <button
+                  key={ov}
+                  onClick={() => updateHeaderImageRealTime({ overlayType: ov })}
+                  className={`px-2.5 py-1.5 text-[10px] font-bold rounded-lg transition-all cursor-pointer text-left ${
+                    (overlayType || 'None') === ov
+                      ? 'bg-blue-500 text-white shadow-sm'
+                      : 'bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-white/10'
+                  }`}
+                >
+                  {ov === 'None' ? 'No Overlay' : ov}
+                </button>
+              ))}
             </div>
-            <input type="range" min="0" max="20" value={data.headerBlur || 0} onChange={e => onUpdate('headerBlur', e.target.value)} className="w-full accent-primary" />
           </div>
 
-          <div className="space-y-1.5">
-            <div className="flex justify-between items-center text-[11px]">
-              <label className="font-semibold text-gray-700 dark:text-gray-300">Brightness</label>
-              <span className="text-gray-500 font-mono">{data.headerBrightness || 100}%</span>
-            </div>
-            <input type="range" min="20" max="200" value={data.headerBrightness || 100} onChange={e => onUpdate('headerBrightness', e.target.value)} className="w-full accent-primary" />
-          </div>
-
-          <div className="space-y-1.5">
-            <div className="flex justify-between items-center text-[11px]">
-              <label className="font-semibold text-gray-700 dark:text-gray-300">Overlay Opacity</label>
-              <span className="text-gray-500 font-mono">{data.headerOverlay || 0}%</span>
-            </div>
-            <input type="range" min="0" max="100" value={data.headerOverlay || 0} onChange={e => onUpdate('headerOverlay', e.target.value)} className="w-full accent-primary" />
+          {/* Reposition Actions */}
+          <div className="flex flex-wrap gap-2 pt-2">
+            <button 
+              onClick={() => updateHeaderImage({ imageScale: 100, imagePositionX: 0, imagePositionY: 0 })}
+              className="px-3 py-1.5 text-[11px] font-semibold bg-gray-100 hover:bg-gray-200 dark:bg-white/5 dark:hover:bg-white/10 text-gray-700 dark:text-gray-300 rounded-lg transition-colors cursor-pointer"
+            >
+              Reset Position
+            </button>
+            <button 
+              onClick={() => updateHeaderImage({ imageScale: 100, imagePositionX: 0, imagePositionY: 0 })}
+              className="px-3 py-1.5 text-[11px] font-semibold bg-gray-100 hover:bg-gray-200 dark:bg-white/5 dark:hover:bg-white/10 text-gray-700 dark:text-gray-300 rounded-lg transition-colors cursor-pointer"
+            >
+              Fit Image
+            </button>
+            <button 
+              onClick={() => updateHeaderImage({ imageScale: 140, imagePositionX: 0, imagePositionY: 0 })}
+              className="px-3 py-1.5 text-[11px] font-semibold bg-gray-100 hover:bg-gray-200 dark:bg-white/5 dark:hover:bg-white/10 text-gray-700 dark:text-gray-300 rounded-lg transition-colors cursor-pointer"
+            >
+              Fill Header
+            </button>
+            <button 
+              onClick={() => updateHeaderImage({ imageUrl: '', imageScale: 100, imagePositionX: 0, imagePositionY: 0, imageOpacity: 80, overlayType: 'None' })}
+              className="px-3 py-1.5 text-[11px] font-semibold bg-red-50 hover:bg-red-100 dark:bg-red-900/20 dark:hover:bg-red-900/30 text-red-600 rounded-lg transition-colors cursor-pointer"
+            >
+              Remove Image
+            </button>
           </div>
         </div>
       )}

@@ -8,6 +8,7 @@ import { leadService } from '@/services/leadService.js';
 import { Button } from '@/components/ui/Button.jsx';
 import { Input } from '@/components/ui/Input.jsx';
 import { CheckSquare } from 'lucide-react';
+import { useCardBuilderStore } from '@/store/cardBuilderStore';
 
 // Helper functions for layout engine
 function getHeaderHeight(displayPreset) {
@@ -72,11 +73,11 @@ export const SectionRenderer = ({ section, theme = {}, displayPreset = {}, color
     colors.text = '#F3F4F6';
     colors.primary = '#D4A45B'; // Gold accent
     colors.accent = '#D4A45B';
-  } else if (preset?.name === 'Neon') {
-    colors.background = '#08070A';
-    colors.text = '#E2E8F0';
-    colors.primary = '#D946EF'; // Neon Magenta
-    colors.accent = '#06B6D4';  // Neon Cyan
+  } else if (preset?.name === 'Aurora') {
+    colors.background = '#ffffff';
+    colors.text = '#0F172A';
+    colors.primary = '#2563EB'; // Royal Blue
+    colors.accent = '#4F46E5';  // Indigo
   }
   
   // Use displayPreset for layout config, fallback to defaults
@@ -104,112 +105,809 @@ export const SectionRenderer = ({ section, theme = {}, displayPreset = {}, color
     'Display': '"Outfit", sans-serif',
   }[typography] || 'inherit';
 
-  switch (type) {
-    case 'about':
-      const hasHeader = !!data.headerUrl;
-      const zoom = data.headerZoom ? data.headerZoom / 100 : 1;
-      const panX = data.headerPanX || 0;
-      const panY = data.headerPanY || 0;
-      const blur = data.headerBlur || 0;
-      const brightness = data.headerBrightness ? data.headerBrightness / 100 : 1;
-      const overlay = data.headerOverlay ? data.headerOverlay / 100 : 0;
-      
-      const headerHeight = preset?.name === 'Minimal' ? '80px' : getHeaderHeight(preset);
-      const avatarRadius = getAvatarShape(preset?.profilePhotoStyle);
-      const avatarStyle = getAvatarBorderStyle(preset?.profilePhotoStyle, cTheme);
-      const profilePos = getProfilePosition(preset?.profilePhotoPosition);
-      const isOverlapping = preset?.profilePhotoPosition === 'Overlapping Header';
-      const headerStyle = preset?.headerStyle || 'Solid Color';
+  // Setup drag reposition refs and hooks
+  const store = useCardBuilderStore();
+  const containerRef = React.useRef(null);
+  const dragStartRef = React.useRef(null);
+  const [imgRatio, setImgRatio] = React.useState(null);
+  const layerRef = React.useRef(null);
+  const [showVGuide, setShowVGuide] = React.useState(false);
+  const [showHGuide, setShowHGuide] = React.useState(false);
 
-      let bgColor = colors.primary || '#5A3045';
+  const getDragBounds = (containerWidth, containerHeight, scaleVal, headerStyle) => {
+    let maxDragX = Math.max(0, (containerWidth * scaleVal - containerWidth) / 2);
+    let maxDragY = Math.max(0, (containerHeight * scaleVal - containerHeight) / 2);
+
+    if (imgRatio) {
+      const containerRatio = containerWidth / containerHeight;
+      if (imgRatio > containerRatio) {
+        // Image is wider than container (relative to height)
+        const renderedWidth = containerHeight * imgRatio;
+        maxDragX = Math.max(0, (renderedWidth * scaleVal - containerWidth) / 2);
+        maxDragY = Math.max(0, (containerHeight * scaleVal - containerHeight) / 2);
+      } else {
+        // Image is taller than container (relative to width)
+        const renderedHeight = containerWidth / imgRatio;
+        maxDragX = Math.max(0, (containerWidth * scaleVal - containerWidth) / 2);
+        maxDragY = Math.max(0, (renderedHeight * scaleVal - containerHeight) / 2);
+      }
+    }
+
+    if (headerStyle === 'Diagonal Split') {
+      maxDragX = Math.max(maxDragX, containerWidth * 0.4);
+    }
+
+    return { maxDragX, maxDragY };
+  };
+
+  const handleStartDrag = (e) => {
+    if (!previewMode || !store || store.cardId !== section.cardId) return;
+    // Allow dragging unless admin preset disables it
+    const activePreset = store.displayPreset || displayPreset || {};
+    if (activePreset.allowDrag === false) return;
+
+    if (store.activeSectionId !== section.sectionId) {
+      store.setActiveSection(section.sectionId);
+    }
+
+    const clientX = e.clientX !== undefined ? e.clientX : (e.touches && e.touches[0] ? e.touches[0].clientX : 0);
+    const clientY = e.clientY !== undefined ? e.clientY : (e.touches && e.touches[0] ? e.touches[0].clientY : 0);
+
+    dragStartRef.current = {
+      startX: clientX,
+      startY: clientY,
+      initX: store.imagePositionX || 0,
+      initY: store.imagePositionY || 0,
+    };
+
+    const handleMoveDrag = (moveEvent) => {
+      if (!dragStartRef.current) return;
+      const mX = moveEvent.clientX !== undefined ? moveEvent.clientX : (moveEvent.touches && moveEvent.touches[0] ? moveEvent.touches[0].clientX : 0);
+      const mY = moveEvent.clientY !== undefined ? moveEvent.clientY : (moveEvent.touches && moveEvent.touches[0] ? moveEvent.touches[0].clientY : 0);
+
+      const dx = mX - dragStartRef.current.startX;
+      const dy = mY - dragStartRef.current.startY;
+
+      const nextX = dragStartRef.current.initX + dx;
+      const nextY = dragStartRef.current.initY + dy;
+
+      let clampedX = nextX;
+      let clampedY = nextY;
+
+      if (containerRef.current) {
+        const rect = containerRef.current.getBoundingClientRect();
+        const containerWidth = rect.width;
+        const containerHeight = rect.height;
+        const scaleVal = (store.imageScale || 100) / 100;
+
+        const headerStyle = activePreset.headerStyle || 'Solid Color';
+        const { maxDragX, maxDragY } = getDragBounds(containerWidth, containerHeight, scaleVal, headerStyle);
+
+        clampedX = Math.max(-maxDragX, Math.min(maxDragX, nextX));
+        clampedY = Math.max(-maxDragY, Math.min(maxDragY, nextY));
+      }
+
+      store.updateHeaderImageRealTime({
+        imagePositionX: Math.round(clampedX),
+        imagePositionY: Math.round(clampedY),
+      });
+    };
+
+    const handleEndDrag = () => {
+      dragStartRef.current = null;
+      window.removeEventListener('mousemove', handleMoveDrag);
+      window.removeEventListener('mouseup', handleEndDrag);
+      window.removeEventListener('touchmove', handleMoveDrag);
+      window.removeEventListener('touchend', handleEndDrag);
+
+      // Push final result to history with current fresh values
+      const currentStoreState = useCardBuilderStore.getState();
+      store.updateHeaderImage({
+        imagePositionX: currentStoreState.imagePositionX,
+        imagePositionY: currentStoreState.imagePositionY,
+      });
+    };
+
+    window.addEventListener('mousemove', handleMoveDrag);
+    window.addEventListener('mouseup', handleEndDrag);
+    window.addEventListener('touchmove', handleMoveDrag, { passive: true });
+    window.addEventListener('touchend', handleEndDrag);
+  };
+
+  const handleStartDragFree = (e) => {
+    if (!previewMode || !store || store.cardId !== section.cardId) return;
+
+    if (store.activeSectionId !== section.sectionId) {
+      store.setActiveSection(section.sectionId);
+    }
+
+    const clientX = e.clientX !== undefined ? e.clientX : (e.touches && e.touches[0] ? e.touches[0].clientX : 0);
+    const clientY = e.clientY !== undefined ? e.clientY : (e.touches && e.touches[0] ? e.touches[0].clientY : 0);
+
+    const initX = store.imagePositionX !== undefined ? store.imagePositionX : 0;
+    const initY = store.imagePositionY !== undefined ? store.imagePositionY : 0;
+    const size = store.containerSize || 120;
+
+    const parentEl = containerRef.current;
+    if (!parentEl) return;
+    const parentRect = parentEl.getBoundingClientRect();
+    const parentW = parentRect.width;
+
+    const handleMoveDragFree = (moveEvent) => {
+      const mX = moveEvent.clientX !== undefined ? moveEvent.clientX : (moveEvent.touches && moveEvent.touches[0] ? moveEvent.touches[0].clientX : 0);
+      const mY = moveEvent.clientY !== undefined ? moveEvent.clientY : (moveEvent.touches && moveEvent.touches[0] ? moveEvent.touches[0].clientY : 0);
+
+      const dx = mX - clientX;
+      const dy = mY - clientY;
+
+      let nextX = initX + dx;
+      let nextY = initY + dy;
+
+      const threshold = 10;
+      let snappedV = false;
+      let snappedH = false;
+
+      const cardCenter = parentW / 2;
+      const containerCenter = nextX + size / 2;
+      if (Math.abs(containerCenter - cardCenter) < threshold) {
+        nextX = cardCenter - size / 2;
+        snappedV = true;
+      }
+
+      const activePreset = store.displayPreset || displayPreset || {};
+      const hHeight = activePreset.name === 'Minimal' ? 80 : parseFloat(getHeaderHeight(activePreset));
+      const headerCenter = hHeight / 2;
+      const containerMiddle = nextY + size / 2;
+      if (Math.abs(containerMiddle - headerCenter) < threshold) {
+        nextY = headerCenter - size / 2;
+        snappedH = true;
+      }
+
+      setShowVGuide(snappedV);
+      setShowHGuide(snappedH);
+
+      store.updateHeaderImageRealTime({
+        imagePositionX: Math.round(nextX),
+        imagePositionY: Math.round(nextY),
+      });
+    };
+
+    const handleEndDragFree = () => {
+      window.removeEventListener('mousemove', handleMoveDragFree);
+      window.removeEventListener('mouseup', handleEndDragFree);
+      window.removeEventListener('touchmove', handleMoveDragFree);
+      window.removeEventListener('touchend', handleEndDragFree);
+
+      setShowVGuide(false);
+      setShowHGuide(false);
+
+      const currentStoreState = useCardBuilderStore.getState();
+      store.updateHeaderImage({
+        imagePositionX: currentStoreState.imagePositionX,
+        imagePositionY: currentStoreState.imagePositionY,
+      });
+    };
+
+    window.addEventListener('mousemove', handleMoveDragFree);
+    window.addEventListener('mouseup', handleEndDragFree);
+    window.addEventListener('touchmove', handleMoveDragFree, { passive: true });
+    window.addEventListener('touchend', handleEndDragFree);
+  };
+
+  const handleStartResize = (e, corner) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    if (!previewMode || !store || store.cardId !== section.cardId) return;
+
+    const clientX = e.clientX !== undefined ? e.clientX : (e.touches && e.touches[0] ? e.touches[0].clientX : 0);
+    const clientY = e.clientY !== undefined ? e.clientY : (e.touches && e.touches[0] ? e.touches[0].clientY : 0);
+
+    const initSize = store.containerSize !== undefined ? store.containerSize : 120;
+    const initX = store.imagePositionX !== undefined ? store.imagePositionX : 0;
+    const initY = store.imagePositionY !== undefined ? store.imagePositionY : 0;
+
+    const handleMoveResize = (moveEvent) => {
+      const mX = moveEvent.clientX !== undefined ? moveEvent.clientX : (moveEvent.touches && moveEvent.touches[0] ? moveEvent.touches[0].clientX : 0);
+      const mY = moveEvent.clientY !== undefined ? moveEvent.clientY : (moveEvent.touches && moveEvent.touches[0] ? moveEvent.touches[0].clientY : 0);
+
+      const dx = mX - clientX;
+      const dy = mY - clientY;
+
+      let newSize = initSize;
+      let newX = initX;
+      let newY = initY;
+
+      if (corner === 'bottom-right') {
+        newSize = Math.max(40, initSize + dx);
+      } else if (corner === 'bottom-left') {
+        newSize = Math.max(40, initSize - dx);
+        newX = initX + (initSize - newSize);
+      } else if (corner === 'top-right') {
+        newSize = Math.max(40, initSize + dx);
+        newY = initY - (newSize - initSize);
+      } else if (corner === 'top-left') {
+        newSize = Math.max(40, initSize - dx);
+        newX = initX + (initSize - newSize);
+        newY = initY + (initSize - newSize);
+      }
+
+      store.updateHeaderImageRealTime({
+        containerSize: Math.round(newSize),
+        imagePositionX: Math.round(newX),
+        imagePositionY: Math.round(newY),
+      });
+    };
+
+    const handleEndResize = () => {
+      window.removeEventListener('mousemove', handleMoveResize);
+      window.removeEventListener('mouseup', handleEndResize);
+      window.removeEventListener('touchmove', handleMoveResize);
+      window.removeEventListener('touchend', handleEndResize);
+
+      const currentStoreState = useCardBuilderStore.getState();
+      store.updateHeaderImage({
+        containerSize: currentStoreState.containerSize,
+        imagePositionX: currentStoreState.imagePositionX,
+        imagePositionY: currentStoreState.imagePositionY,
+      });
+    };
+
+    window.addEventListener('mousemove', handleMoveResize);
+    window.addEventListener('mouseup', handleEndResize);
+    window.addEventListener('touchmove', handleMoveResize, { passive: true });
+    window.addEventListener('touchend', handleEndResize);
+  };
+
+  const handleStartRotate = (e, containerRef) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    if (!previewMode || !store || store.cardId !== section.cardId) return;
+
+    const el = containerRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+
+    const handleMoveRotate = (moveEvent) => {
+      const mX = moveEvent.clientX !== undefined ? moveEvent.clientX : (moveEvent.touches && moveEvent.touches[0] ? moveEvent.touches[0].clientX : 0);
+      const mY = moveEvent.clientY !== undefined ? moveEvent.clientY : (moveEvent.touches && moveEvent.touches[0] ? moveEvent.touches[0].clientY : 0);
+
+      const angleRad = Math.atan2(mY - centerY, mX - centerX);
+      let angleDeg = Math.round(angleRad * (180 / Math.PI)) + 90;
+      if (angleDeg < 0) angleDeg += 360;
+      angleDeg = angleDeg % 360;
+
+      if (moveEvent.shiftKey) {
+        angleDeg = Math.round(angleDeg / 15) * 15;
+      }
+
+      store.updateHeaderImageRealTime({ imageRotation: angleDeg });
+    };
+
+    const handleEndRotate = () => {
+      window.removeEventListener('mousemove', handleMoveRotate);
+      window.removeEventListener('mouseup', handleEndRotate);
+      window.removeEventListener('touchmove', handleMoveRotate);
+      window.removeEventListener('touchend', handleEndRotate);
+
+      const currentStoreState = useCardBuilderStore.getState();
+      store.updateHeaderImage({ imageRotation: currentStoreState.imageRotation });
+    };
+
+    window.addEventListener('mousemove', handleMoveRotate);
+    window.addEventListener('mouseup', handleEndRotate);
+    window.addEventListener('touchmove', handleMoveRotate, { passive: true });
+    window.addEventListener('touchend', handleEndRotate);
+  };
+
+  switch (type) {
+    case 'about': {
+      const storeActive = previewMode && store?.cardId === section.cardId;
+
+      // ── Resolve image values (store wins in builder; section props elsewhere) ──
+      const currentImageUrl = storeActive
+        ? store.imageUrl
+        : (section.imageUrl || '');
+
+      const currentImageScale = storeActive
+        ? store.imageScale
+        : (section.imageScale !== undefined ? section.imageScale : 100);
+
+      const currentImagePositionX = storeActive
+        ? store.imagePositionX
+        : (section.imagePositionX !== undefined ? section.imagePositionX : 0);
+
+      const currentImagePositionY = storeActive
+        ? store.imagePositionY
+        : (section.imagePositionY !== undefined ? section.imagePositionY : 0);
+
+      const currentImageOpacity = storeActive
+        ? (store.imageOpacity !== undefined ? store.imageOpacity : 80)
+        : (section.imageOpacity !== undefined ? section.imageOpacity : 80);
+
+      const currentOverlayType = storeActive
+        ? (store.overlayType || 'None')
+        : (section.overlayType || 'None');
+
+      const currentImageRotation = storeActive
+        ? (store.imageRotation || 0)
+        : (section.imageRotation || 0);
+
+      const currentImagePlacement = storeActive
+        ? (store.imagePlacement || 'Inside Header')
+        : (section.imagePlacement || 'Inside Header');
+
+      const currentContainerStyle = storeActive
+        ? (store.containerStyle || 'None')
+        : (section.containerStyle || 'None');
+
+      const currentContainerSize = storeActive
+        ? (store.containerSize || 100)
+        : (section.containerSize || 100);
+
+      const currentContainerBorder = storeActive
+        ? (store.containerBorder || false)
+        : (section.containerBorder || false);
+
+      const currentContainerShadow = storeActive
+        ? (store.containerShadow || false)
+        : (section.containerShadow || false);
+
+      const currentContainerPadding = storeActive
+        ? (store.containerPadding || 0)
+        : (section.containerPadding || 0);
+
+      const currentImageFit = storeActive
+        ? (store.imageFit || 'Cover')
+        : (section.imageFit || 'Cover');
+
+      const currentImageBlur = storeActive
+        ? (store.imageBlur || 0)
+        : (section.imageBlur || 0);
+
+      const currentImageBrightness = storeActive
+        ? (store.imageBrightness || 100)
+        : (section.imageBrightness || 100);
+
+      const currentImageContrast = storeActive
+        ? (store.imageContrast || 100)
+        : (section.imageContrast || 100);
+
+      const currentImageSaturation = storeActive
+        ? (store.imageSaturation || 100)
+        : (section.imageSaturation || 100);
+
+      // ── Header geometry ────────────────────────────────────────────────
+      const headerHeight = preset?.name === 'Minimal' ? '80px' : getHeaderHeight(preset);
+      const profilePos    = getProfilePosition(preset?.profilePhotoPosition);
+      const headerStyle   = preset?.headerStyle || 'Solid Color';
+      const isSleek       = preset?.name === 'Sleek';
+      const imgScale      = currentImageScale / 100;
+      const showBannerImg = !!currentImageUrl && preset?.name !== 'Minimal';
+      const isEditingHeader = previewMode && store?.activeSectionId === section.sectionId;
+
+      // ── LAYER 1: Header design background ────────────────────────────
+      let bgColor = colors.primary || '#2563EB';
       let bgImage = 'none';
 
       if (preset?.name === 'Blend') {
         bgColor = 'transparent';
-        bgImage = `linear-gradient(to bottom, ${colors.primary || '#5A3045'}, ${colors.background || '#ffffff'})`;
+        bgImage = `linear-gradient(to bottom, ${colors.primary || '#2563EB'}, ${colors.background || '#ffffff'})`;
       } else if (preset?.name === 'Luxury') {
         bgColor = 'transparent';
         bgImage = 'linear-gradient(135deg, #1A1A1A, #2D251E, #1A1A1A)';
-      } else if (preset?.name === 'Neon') {
+      } else if (preset?.name === 'Aurora' || headerStyle === 'Aurora') {
         bgColor = 'transparent';
-        bgImage = 'linear-gradient(135deg, #0D0B14, #1D1530)';
+        bgImage = [
+          `linear-gradient(to bottom, rgba(255,255,255,0) 70%, ${colors.background || '#ffffff'} 100%)`,
+          'radial-gradient(circle at 10% 20%, rgba(56,189,248,0.85) 0%, transparent 55%)',
+          'radial-gradient(circle at 90% 30%, rgba(124,58,237,0.85) 0%, transparent 60%)',
+          'radial-gradient(circle at 50% 80%, rgba(79,70,229,0.95) 0%, transparent 70%)',
+          'linear-gradient(135deg, #2563EB, #4F46E5)',
+        ].join(', ');
       } else if (headerStyle === 'Gradient') {
         bgColor = 'transparent';
-        bgImage = `linear-gradient(135deg, ${colors.primary || '#5A3045'}, ${colors.accent || '#D4A45B'})`;
+        bgImage = `linear-gradient(135deg, ${colors.primary || '#2563EB'}, ${colors.accent || '#D4A45B'})`;
       }
 
-      const showHeaderImg = hasHeader && preset?.name !== 'Minimal';
-      const isSleek = preset?.name === 'Sleek';
+      // ── LAYER 3: overlay map ─────────────────────────────────────────
+      const overlayStyles = {
+        'None':             null,
+        'Dark Overlay':     'linear-gradient(to bottom, rgba(0,0,0,0.45), rgba(0,0,0,0.25))',
+        'Light Overlay':    'linear-gradient(to bottom, rgba(255,255,255,0.35), rgba(255,255,255,0.15))',
+        'Gradient Overlay': `linear-gradient(to bottom, ${colors.primary || '#2563EB'}99, transparent)`,
+        'Glass Overlay':    null, // handled via backdrop-filter below
+      };
+      const isGlassOverlay = currentOverlayType === 'Glass Overlay';
+      const overlayBg = overlayStyles[currentOverlayType] || null;
 
-      return (
-        <div className="pb-10" style={{ color: colors.text || '#212529' }}>
-          {/* Header area */}
-          <div 
-            className={`${isSleek ? 'mx-4 mt-4 rounded-2xl shadow-lg border border-white/10 overflow-hidden' : 'w-full'} relative overflow-visible z-0`} 
-            style={{ 
-              height: headerHeight, 
-              backgroundColor: bgColor,
-              backgroundImage: bgImage,
-              backdropFilter: isSleek ? 'blur(8px)' : 'none'
+      // ── File upload handler (builder only) ──────────────────────────
+      const handleUpload = (e) => {
+        const file = e.target.files?.[0];
+        if (!file || !store) return;
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          store.updateHeaderImage({
+            imageUrl: ev.target.result,
+            imageScale: preset?.defaultZoom || 100,
+            imagePositionX: preset?.defaultPositionX || 0,
+            imagePositionY: preset?.defaultPositionY || 0,
+            imageOpacity: 80,
+            overlayType: 'None',
+          });
+        };
+        reader.readAsDataURL(file);
+      };
+
+      // Resolve container dimensions for Free Position
+      const getFreePositionDimensions = (style, size) => {
+        const baseWidth = size || 120;
+        let baseHeight = baseWidth; // Square default
+
+        if (style === 'Rounded Rectangle') {
+          baseHeight = baseWidth * 0.625; // 16:10
+        } else if (style === 'Capsule') {
+          baseHeight = baseWidth * 0.5; // 2:1
+        }
+        
+        return { width: baseWidth, height: baseHeight };
+      };
+
+      // Render Free Position Layer
+      const renderFreePositionLayer = () => {
+        if (!currentImageUrl) return null;
+
+        const { width: layerW, height: layerH } = getFreePositionDimensions(currentContainerStyle, currentContainerSize);
+        const imageFilter = `blur(${currentImageBlur}px) brightness(${currentImageBrightness}%) contrast(${currentImageContrast}%) saturate(${currentImageSaturation}%)`;
+        
+        // Shape clipping styles
+        let shapeCls = '';
+        let clipPathStyle = {};
+        
+        if (currentContainerStyle === 'Circle') {
+          shapeCls = 'rounded-full';
+        } else if (currentContainerStyle === 'Rounded Rectangle') {
+          shapeCls = 'rounded-2xl';
+        } else if (currentContainerStyle === 'Square') {
+          shapeCls = 'rounded-none';
+        } else if (currentContainerStyle === 'Capsule') {
+          shapeCls = 'rounded-full';
+        } else if (currentContainerStyle === 'Hexagon') {
+          clipPathStyle.clipPath = 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)';
+        } else if (currentContainerStyle === 'Blob') {
+          clipPathStyle.clipPath = 'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)';
+        } else if (currentContainerStyle === 'Diamond') {
+          clipPathStyle.clipPath = 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)';
+        } else {
+          // No Container
+          shapeCls = 'rounded-xl';
+        }
+
+        const borderStyle = currentContainerBorder ? { border: '4px solid white' } : {};
+        const shadowStyle = currentContainerShadow ? { boxShadow: '0 10px 25px -5px rgba(0,0,0,0.3), 0 8px 10px -6px rgba(0,0,0,0.3)' } : {};
+
+        const layerStyle = {
+          position: 'absolute',
+          left: `${currentImagePositionX}px`,
+          top: `${currentImagePositionY}px`,
+          width: `${layerW}px`,
+          height: `${layerH}px`,
+          transform: `rotate(${currentImageRotation}deg)`,
+          zIndex: 40,
+          opacity: currentImageOpacity / 100,
+          padding: `${currentContainerPadding}px`,
+          backgroundColor: '#fff',
+          cursor: isEditingHeader ? 'move' : 'default',
+          ...borderStyle,
+          ...shadowStyle,
+          ...clipPathStyle
+        };
+
+        const imageTransform = `scale(${imgScale})`;
+
+        return (
+          <div
+            ref={layerRef}
+            style={layerStyle}
+            className={`transition-shadow select-none group/layer ${shapeCls}`}
+            onMouseDown={(e) => {
+              if (isEditingHeader) {
+                e.stopPropagation();
+                handleStartDragFree(e);
+              }
+            }}
+            onTouchStart={(e) => {
+              if (isEditingHeader) {
+                e.stopPropagation();
+                handleStartDragFree(e);
+              }
             }}
           >
-            {showHeaderImg && (
-              <img
-                src={data.headerUrl}
-                alt="Header"
-                className="absolute inset-0 w-full h-full object-cover"
+            {/* The Image inside container */}
+            <img
+              src={currentImageUrl}
+              alt="Profile avatar layer"
+              className="w-full h-full object-cover select-none pointer-events-none"
+              style={{
+                objectFit: currentImageFit.toLowerCase(),
+                transform: imageTransform,
+                filter: imageFilter,
+              }}
+            />
+
+            {/* Resize & Rotate UI Controls (only when editing and active) */}
+            {isEditingHeader && (
+              <>
+                {/* Visual Outline */}
+                <div className="absolute -inset-[2px] border-2 border-blue-500 rounded-[inherit] pointer-events-none z-30" style={clipPathStyle} />
+
+                {/* Corner Resize Handles */}
+                {['top-left', 'top-right', 'bottom-left', 'bottom-right'].map((corner) => (
+                  <div
+                    key={corner}
+                    onMouseDown={(e) => handleStartResize(e, corner)}
+                    onTouchStart={(e) => handleStartResize(e, corner)}
+                    className={`absolute w-3.5 h-3.5 bg-white border-2 border-blue-600 rounded-full z-40 shadow-md hover:scale-125 transition-transform ${
+                      corner === 'top-left' ? '-top-1.5 -left-1.5 cursor-nwse-resize' :
+                      corner === 'top-right' ? '-top-1.5 -right-1.5 cursor-nesw-resize' :
+                      corner === 'bottom-left' ? '-bottom-1.5 -left-1.5 cursor-nesw-resize' :
+                      '-bottom-1.5 -right-1.5 cursor-nwse-resize'
+                    }`}
+                  />
+                ))}
+
+                {/* Rotation Handle */}
+                <div
+                  onMouseDown={(e) => handleStartRotate(e, layerRef)}
+                  onTouchStart={(e) => handleStartRotate(e, layerRef)}
+                  className="absolute -top-7 left-1/2 -translate-x-1/2 w-5 h-5 bg-white border-2 border-blue-600 rounded-full flex items-center justify-center cursor-alias shadow-md hover:scale-125 transition-transform z-40"
+                  title="Drag to rotate"
+                >
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                </div>
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-[1.5px] h-4 bg-blue-500 pointer-events-none z-30" />
+              </>
+            )}
+          </div>
+        );
+      };
+
+      return (
+        <div className="pb-10 animate-fade-in relative" style={{ color: colors.text || '#212529' }}>
+
+          {/* ═══════════════ HEADER STACK ═══════════════ */}
+          <div
+            ref={containerRef}
+            className={`${isSleek ? 'mx-4 mt-4 rounded-2xl shadow-lg border border-white/10' : 'w-full'} relative z-0`}
+            style={{
+              height: headerHeight,
+              /* LAYER 1 — header design is the base */
+              backgroundColor: (headerStyle === 'Diagonal Split' && currentImagePositionX > 0)
+                ? (colors.background || '#ffffff')
+                : bgColor,
+              backgroundImage: (headerStyle === 'Diagonal Split' && currentImagePositionX > 0)
+                ? 'none'
+                : bgImage,
+              backdropFilter: isSleek ? 'blur(8px)' : 'none',
+              overflow: currentImagePlacement === 'Floating Above Header' ? 'visible' : 'hidden',
+            }}
+          >
+
+            {/* LAYER 2 — uploaded banner image (opacity-controlled & containerized) */}
+            {showBannerImg && currentImagePlacement !== 'Free Position' && (() => {
+              const imageFilter = `blur(${currentImageBlur}px) brightness(${currentImageBrightness}%) contrast(${currentImageContrast}%) saturate(${currentImageSaturation}%)`;
+              const imageTransform = `translate(${currentImagePositionX}px, ${currentImagePositionY}px) scale(${imgScale}) rotate(${currentImageRotation}deg)`;
+              
+              if (currentContainerStyle !== 'None') {
+                let shapeCls = '';
+                let inlineStyle = {
+                  width: `${currentContainerSize}%`,
+                  height: `${currentContainerSize * 0.5}%`,
+                  maxWidth: '95%',
+                  maxHeight: '95%',
+                  padding: `${currentContainerPadding}px`,
+                  opacity: currentImageOpacity / 100,
+                  transition: 'all 0.2s ease',
+                  position: 'relative',
+                  overflow: 'hidden',
+                };
+                
+                if (currentContainerStyle === 'Circle') {
+                  shapeCls = 'rounded-full aspect-square';
+                  inlineStyle.height = inlineStyle.width;
+                } else if (currentContainerStyle === 'Rounded Rectangle') {
+                  shapeCls = 'rounded-2xl aspect-[16/10]';
+                } else if (currentContainerStyle === 'Square') {
+                  shapeCls = 'rounded-none aspect-square';
+                  inlineStyle.height = inlineStyle.width;
+                } else if (currentContainerStyle === 'Capsule') {
+                  shapeCls = 'rounded-full aspect-[2/1]';
+                } else if (currentContainerStyle === 'Hexagon') {
+                  shapeCls = 'aspect-square';
+                  inlineStyle.height = inlineStyle.width;
+                  inlineStyle.clipPath = 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)';
+                } else if (currentContainerStyle === 'Blob') {
+                  shapeCls = 'aspect-square';
+                  inlineStyle.height = inlineStyle.width;
+                  inlineStyle.clipPath = 'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)';
+                } else if (currentContainerStyle === 'Diamond') {
+                  shapeCls = 'aspect-square';
+                  inlineStyle.height = inlineStyle.width;
+                  inlineStyle.clipPath = 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)';
+                }
+
+                if (currentContainerBorder) {
+                  inlineStyle.border = '4px solid white';
+                }
+                if (currentContainerShadow) {
+                  inlineStyle.boxShadow = '0 10px 25px -5px rgba(0,0,0,0.3), 0 8px 10px -6px rgba(0,0,0,0.3)';
+                }
+
+                return (
+                  <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
+                    <div 
+                      className={`${shapeCls}`} 
+                      style={inlineStyle}
+                    >
+                      <img
+                        src={currentImageUrl}
+                        alt="Header banner"
+                        onLoad={(e) => {
+                          const { naturalWidth, naturalHeight } = e.target;
+                          if (naturalWidth && naturalHeight) {
+                            setImgRatio(naturalWidth / naturalHeight);
+                          }
+                        }}
+                        className="absolute inset-0 w-full h-full select-none"
+                        style={{
+                          objectFit: currentImageFit.toLowerCase(),
+                          transform: imageTransform,
+                          transformOrigin: 'center center',
+                          filter: imageFilter,
+                        }}
+                      />
+                    </div>
+                  </div>
+                );
+              }
+
+              // Normal full-banner style
+              return (
+                <div
+                  className="absolute inset-0 pointer-events-none"
+                  style={{ zIndex: 1 }}
+                >
+                  <img
+                    src={currentImageUrl}
+                    alt="Header banner"
+                    onLoad={(e) => {
+                      const { naturalWidth, naturalHeight } = e.target;
+                      if (naturalWidth && naturalHeight) {
+                        setImgRatio(naturalWidth / naturalHeight);
+                      }
+                    }}
+                    className="absolute inset-0 w-full h-full select-none"
+                    style={{
+                      objectFit: currentImageFit.toLowerCase(),
+                      transform: imageTransform,
+                      transformOrigin: 'center center',
+                      opacity: currentImageOpacity / 100,
+                      filter: imageFilter,
+                    }}
+                  />
+                </div>
+              );
+            })()}
+
+            {/* LAYER 3 — optional overlay blend */}
+            {currentOverlayType !== 'None' && (
+              <div
+                className="absolute inset-0 pointer-events-none"
                 style={{
-                  transform: `scale(${zoom}) translate(${panX}%, ${panY}%)`,
-                  filter: `blur(${blur}px) brightness(${brightness})`,
+                  zIndex: 2,
+                  backgroundImage: overlayBg || undefined,
+                  backdropFilter: isGlassOverlay ? 'blur(6px) saturate(1.4)' : undefined,
+                  backgroundColor: isGlassOverlay ? 'rgba(255,255,255,0.12)' : undefined,
                 }}
               />
             )}
-            {/* Overlay */}
-            <div
-              className="absolute inset-0 transition-opacity"
-              style={{ backgroundColor: colors.background, opacity: overlay }}
-            />
-            
-            {/* SVG Overlays based on headerStyle */}
+
+            {/* SVG shape overlays — sit above image/overlay so the design shape always cuts through */}
             {headerStyle === 'Curved Wave' && (
-              <svg className="absolute bottom-0 w-full text-white" style={{ fill: colors.background || '#ffffff' }} viewBox="0 0 1440 120" preserveAspectRatio="none">
-                <path d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,42.7C1120,32,1280,32,1360,32L1440,32L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z"></path>
+              <svg className="absolute bottom-0 w-full z-10" style={{ fill: colors.background || '#ffffff' }} viewBox="0 0 1440 120" preserveAspectRatio="none">
+                <path d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,42.7C1120,32,1280,32,1360,32L1440,32L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" />
               </svg>
             )}
             {headerStyle === 'Diagonal Split' && (
-              <svg className="absolute bottom-0 w-full text-white" style={{ fill: colors.background || '#ffffff' }} viewBox="0 0 100 100" preserveAspectRatio="none">
-                <polygon points="0,100 100,0 100,100"></polygon>
-              </svg>
+              currentImagePositionX > 0 ? (
+                <svg className="absolute bottom-0 w-full z-10" style={{ fill: bgColor }} viewBox="0 0 100 100" preserveAspectRatio="none">
+                  <polygon points="0,0 100,0 0,100" />
+                </svg>
+              ) : (
+                <svg className="absolute bottom-0 w-full z-10" style={{ fill: colors.background || '#ffffff' }} viewBox="0 0 100 100" preserveAspectRatio="none">
+                  <polygon points="0,100 100,0 100,100" />
+                </svg>
+              )
             )}
             {headerStyle === 'Organic Blob' && (
-              <svg className="absolute bottom-0 w-full text-white" style={{ fill: colors.background || '#ffffff', transform: 'translateY(1px)' }} viewBox="0 0 1200 120" preserveAspectRatio="none">
-                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V0C50,22,150,75,321.39,56.44Z"></path>
+              <svg className="absolute bottom-0 w-full z-10" style={{ fill: colors.background || '#ffffff', transform: 'translateY(1px)' }} viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V0C50,22,150,75,321.39,56.44Z" />
               </svg>
             )}
 
-            {/* Overlapping avatar */}
-            {isOverlapping && data.avatarUrl && (
-              <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 z-10 shadow-lg">
-                <img
-                  src={data.avatarUrl}
-                  alt={data.headline}
-                  className="w-20 h-20 sm:w-24 sm:h-24 object-cover"
-                  style={{ borderRadius: avatarRadius, ...avatarStyle }}
-                />
+            {/* ── Upload button (shown when no image & in builder & section active) ── */}
+            {previewMode && !currentImageUrl && store?.activeSectionId === section.sectionId && (
+              <div className="absolute inset-0 z-25 flex items-center justify-center select-none">
+                <label className="cursor-pointer flex flex-col items-center gap-2 group">
+                  <div className="w-11 h-11 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur-sm border border-white/10 flex items-center justify-center shadow-lg transition-all duration-200">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="16 16 12 12 8 16" /><line x1="12" y1="12" x2="12" y2="21" />
+                      <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3" />
+                    </svg>
+                  </div>
+                  <span className="text-white text-[9px] font-black tracking-wider uppercase bg-black/60 px-2.5 py-1 rounded-full backdrop-blur-sm shadow-md border border-white/10 transition-transform group-hover:scale-105">+ Upload Image</span>
+                  <input type="file" accept="image/*" className="hidden" onChange={handleUpload} />
+                </label>
               </div>
             )}
+
+            {/* ── Header image editing overlay (drag reposition only, controls are floating outside) ── */}
+            {isEditingHeader && showBannerImg && (
+              <div
+                className="absolute inset-0 z-30 flex flex-col justify-start select-none animate-fade-in"
+                style={{ cursor: preset?.allowDrag === false ? 'default' : 'grab' }}
+                onMouseDown={handleStartDrag}
+                onTouchStart={handleStartDrag}
+              >
+                {/* Dim + drag hint */}
+                <div className="absolute inset-0 bg-black/30 pointer-events-none" />
+                <div className="relative z-10 flex justify-center pt-2 pointer-events-none">
+                  <div className="bg-black/60 backdrop-blur-md px-3 py-1 rounded-full text-white text-[10px] font-semibold tracking-wide shadow flex items-center gap-1.5">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M12 3v18M3 12h18" /></svg>
+                    {preset?.allowDrag === false ? 'Drag locked for this layout' : 'Drag to reposition'}
+                  </div>
+                </div>
+                {/* Canvas Editor trigger button */}
+                {!store?.isWorkspaceOpen && (
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <button 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        store.openWorkspace();
+                      }}
+                      className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold shadow-lg flex items-center gap-1.5 transition-all hover:scale-105 active:scale-95 cursor-pointer pointer-events-auto"
+                    >
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4z" /></svg>
+                      Open Canvas Editor
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* ── Upload button shown when no image, section active, builder mode ── */}
+            {/* (already rendered above) */}
           </div>
 
-          {/* Profile content */}
-          <div className={`px-6 sm:px-10 space-y-4 flex flex-col ${profilePos} ${isOverlapping ? 'pt-14 sm:pt-16' : 'pt-8'} relative z-10`}>
-            {!isOverlapping && data.avatarUrl && (
-              <img
-                src={data.avatarUrl}
-                alt={data.headline}
-                className={`w-20 h-20 sm:w-24 sm:h-24 object-cover ${preset?.profilePhotoPosition === 'Floating' ? 'shadow-2xl -mt-16 sm:-mt-20 relative z-20' : ''}`}
-                style={{ borderRadius: avatarRadius, ...avatarStyle }}
-              />
-            )}
+          {/* Render Free Position image layer when placement is Free Position */}
+          {currentImagePlacement === 'Free Position' && renderFreePositionLayer()}
+
+          {/* Snapping Guide Lines */}
+          {showVGuide && (
+            <div className="absolute inset-y-0 left-1/2 w-[1.5px] bg-blue-500 z-50 pointer-events-none border-l border-dashed border-blue-400" />
+          )}
+          {showHGuide && (
+            <div 
+              className="absolute inset-x-0 h-[1.5px] bg-blue-500 z-50 pointer-events-none border-t border-dashed border-blue-400" 
+              style={{ top: `${parseFloat(headerHeight) / 2}px` }}
+            />
+          )}
+
+          {/* Card content — below the header */}
+          <div className={`px-6 sm:px-10 space-y-4 flex flex-col ${profilePos} pt-8 relative z-10`}>
             <div className="space-y-2">
               <h3
                 className="text-lg sm:text-2xl font-black tracking-tight"
@@ -224,6 +922,7 @@ export const SectionRenderer = ({ section, theme = {}, displayPreset = {}, color
           </div>
         </div>
       );
+    }
 
     case 'links':
       const links = data.links || [];
