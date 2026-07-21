@@ -8,6 +8,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { SortableContext, arrayMove, sortableKeyboardCoordinates, verticalListSortingStrategy, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import ImageSystemPanel from './editors/ImageSystemPanel';
+import CoverEditorPanel from './editors/CoverEditorPanel';
+import AvatarEditorPanel from './editors/AvatarEditorPanel';
 
 const ICONS = {
   about: User,
@@ -111,18 +114,7 @@ export const InspectorPanel = () => {
 /* -------------------------------------------------------------------------- */
 
 const ContextualEditor = ({ section }) => {
-  const { 
-    updateSectionRealTime,
-    imageUrl,
-    imageScale,
-    imagePositionX,
-    imagePositionY,
-    imageOpacity,
-    overlayType,
-    updateHeaderImage,
-    updateHeaderImageRealTime,
-    openWorkspace
-  } = useCardBuilderStore();
+  const { updateSectionRealTime } = useCardBuilderStore();
 
   const handleUpdate = (field, value) => {
     updateSectionRealTime(section.sectionId, { [field]: value });
@@ -133,19 +125,7 @@ const ContextualEditor = ({ section }) => {
   return (
     <>
       {section.type === 'about' && (
-        <AboutSettings 
-          data={data} 
-          onUpdate={handleUpdate} 
-          imageUrl={imageUrl}
-          imageScale={imageScale}
-          imagePositionX={imagePositionX}
-          imagePositionY={imagePositionY}
-          imageOpacity={imageOpacity}
-          overlayType={overlayType}
-          updateHeaderImage={updateHeaderImage}
-          updateHeaderImageRealTime={updateHeaderImageRealTime}
-          openWorkspace={openWorkspace}
-        />
+        <AboutSettings data={data} onUpdate={handleUpdate} />
       )}
       {section.type === 'links' && (
         <LinksSettings data={data} onUpdate={handleUpdate} />
@@ -525,176 +505,23 @@ const RealtimeInput = ({ label, value, onChange, placeholder, as = 'input', rows
   </div>
 );
 
-const AboutSettings = ({ 
-  data, 
-  onUpdate, 
-  imageUrl, 
-  imageScale, 
-  imagePositionX, 
-  imagePositionY, 
-  imageOpacity,
-  overlayType,
-  updateHeaderImage,
-  updateHeaderImageRealTime,
-  openWorkspace
-}) => (
+// ── Render the floating editor panels globally so they slide in over the sidebar ──
+export const ImageEditorPanels = () => (
+  <>
+    <CoverEditorPanel />
+    <AvatarEditorPanel />
+  </>
+);
+
+const AboutSettings = ({ data, onUpdate }) => (
   <>
     <SettingGroup title="Content">
       <RealtimeInput label="Name / Headline" value={data.headline} onChange={(val) => onUpdate('headline', val)} />
       <RealtimeInput label="Bio / Description" value={data.bio} onChange={(val) => onUpdate('bio', val)} as="textarea" />
     </SettingGroup>
-    
-    <SettingGroup title="Header Image Banner">
-      {/* Upload button */}
-      <label className="flex items-center gap-2 px-3 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl cursor-pointer transition-colors text-[12px] font-semibold w-full justify-center shadow-sm">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 16 12 12 8 16" /><line x1="12" y1="12" x2="12" y2="21" /><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3" /></svg>
-        {imageUrl ? 'Replace Image' : '+ Upload Image'}
-        <input
-          type="file"
-          accept="image/*"
-          className="hidden"
-          onChange={(e) => {
-            const file = e.target.files?.[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = (ev) => updateHeaderImage({ imageUrl: ev.target.result, imageScale: 100, imagePositionX: 0, imagePositionY: 0, imageOpacity: 80, overlayType: 'None' });
-            reader.readAsDataURL(file);
-          }}
-        />
-      </label>
 
-      <RealtimeInput 
-        label="Or paste image URL" 
-        value={imageUrl || ''} 
-        placeholder="https://example.com/banner.jpg"
-        onChange={(val) => updateHeaderImage({ imageUrl: val })} 
-      />
-
-      {imageUrl && (
-        <button
-          onClick={openWorkspace}
-          className="w-full mt-3 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold transition-all shadow-sm flex items-center justify-center gap-1.5 cursor-pointer"
-        >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4z" /></svg>
-          Open Advanced Canvas Editor
-        </button>
-      )}
-      
-      {imageUrl && (
-        <div className="space-y-4 pt-3 border-t border-gray-100 dark:border-white/10 mt-3">
-          <div className="space-y-1.5">
-            <div className="flex justify-between items-center text-[11px]">
-              <label className="font-semibold text-gray-700 dark:text-gray-300">Zoom Scale</label>
-              <span className="text-gray-500 font-mono">{imageScale || 100}%</span>
-            </div>
-            <input 
-              type="range" 
-              min="80" 
-              max="200" 
-              step="5"
-              value={imageScale || 100} 
-              onChange={e => updateHeaderImageRealTime({ imageScale: parseInt(e.target.value) })} 
-              className="w-full accent-primary" 
-            />
-          </div>
-
-          {/* Opacity */}
-          <div className="space-y-1.5">
-            <div className="flex justify-between items-center text-[11px]">
-              <label className="font-semibold text-gray-700 dark:text-gray-300">Image Opacity</label>
-              <span className="text-gray-500 font-mono">{imageOpacity !== undefined ? imageOpacity : 80}%</span>
-            </div>
-            <input 
-              type="range" 
-              min="0" 
-              max="100" 
-              step="5"
-              value={imageOpacity !== undefined ? imageOpacity : 80} 
-              onChange={e => updateHeaderImageRealTime({ imageOpacity: parseInt(e.target.value) })} 
-              className="w-full accent-primary" 
-            />
-          </div>
-          
-          <div className="grid grid-cols-2 gap-3">
-            <div className="space-y-1.5">
-              <div className="flex justify-between items-center text-[11px]">
-                <label className="font-semibold text-gray-700 dark:text-gray-300">Position X</label>
-                <span className="text-gray-500 font-mono">{imagePositionX || 0}px</span>
-              </div>
-              <input 
-                type="range" 
-                min="-200" 
-                max="200" 
-                value={imagePositionX || 0} 
-                onChange={e => updateHeaderImageRealTime({ imagePositionX: parseInt(e.target.value) })} 
-                className="w-full accent-primary" 
-              />
-            </div>
-            <div className="space-y-1.5">
-              <div className="flex justify-between items-center text-[11px]">
-                <label className="font-semibold text-gray-700 dark:text-gray-300">Position Y</label>
-                <span className="text-gray-500 font-mono">{imagePositionY || 0}px</span>
-              </div>
-              <input 
-                type="range" 
-                min="-200" 
-                max="200" 
-                value={imagePositionY || 0} 
-                onChange={e => updateHeaderImageRealTime({ imagePositionY: parseInt(e.target.value) })} 
-                className="w-full accent-primary" 
-              />
-            </div>
-          </div>
-
-          {/* Overlay type */}
-          <div className="space-y-2">
-            <label className="text-[11px] font-semibold text-gray-700 dark:text-gray-300 block">Overlay Blend</label>
-            <div className="grid grid-cols-2 gap-1.5">
-              {['None', 'Dark Overlay', 'Light Overlay', 'Gradient Overlay', 'Glass Overlay'].map((ov) => (
-                <button
-                  key={ov}
-                  onClick={() => updateHeaderImageRealTime({ overlayType: ov })}
-                  className={`px-2.5 py-1.5 text-[10px] font-bold rounded-lg transition-all cursor-pointer text-left ${
-                    (overlayType || 'None') === ov
-                      ? 'bg-blue-500 text-white shadow-sm'
-                      : 'bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-white/10'
-                  }`}
-                >
-                  {ov === 'None' ? 'No Overlay' : ov}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Reposition Actions */}
-          <div className="flex flex-wrap gap-2 pt-2">
-            <button 
-              onClick={() => updateHeaderImage({ imageScale: 100, imagePositionX: 0, imagePositionY: 0 })}
-              className="px-3 py-1.5 text-[11px] font-semibold bg-gray-100 hover:bg-gray-200 dark:bg-white/5 dark:hover:bg-white/10 text-gray-700 dark:text-gray-300 rounded-lg transition-colors cursor-pointer"
-            >
-              Reset Position
-            </button>
-            <button 
-              onClick={() => updateHeaderImage({ imageScale: 100, imagePositionX: 0, imagePositionY: 0 })}
-              className="px-3 py-1.5 text-[11px] font-semibold bg-gray-100 hover:bg-gray-200 dark:bg-white/5 dark:hover:bg-white/10 text-gray-700 dark:text-gray-300 rounded-lg transition-colors cursor-pointer"
-            >
-              Fit Image
-            </button>
-            <button 
-              onClick={() => updateHeaderImage({ imageScale: 140, imagePositionX: 0, imagePositionY: 0 })}
-              className="px-3 py-1.5 text-[11px] font-semibold bg-gray-100 hover:bg-gray-200 dark:bg-white/5 dark:hover:bg-white/10 text-gray-700 dark:text-gray-300 rounded-lg transition-colors cursor-pointer"
-            >
-              Fill Header
-            </button>
-            <button 
-              onClick={() => updateHeaderImage({ imageUrl: '', imageScale: 100, imagePositionX: 0, imagePositionY: 0, imageOpacity: 80, overlayType: 'None' })}
-              className="px-3 py-1.5 text-[11px] font-semibold bg-red-50 hover:bg-red-100 dark:bg-red-900/20 dark:hover:bg-red-900/30 text-red-600 rounded-lg transition-colors cursor-pointer"
-            >
-              Remove Image
-            </button>
-          </div>
-        </div>
-      )}
+    <SettingGroup title="Images">
+      <ImageSystemPanel />
     </SettingGroup>
     
     <SettingGroup title="Design">

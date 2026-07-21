@@ -224,7 +224,7 @@ export const FinalCTA = () => {
           {/* Floating Glass Widget 1: QR Card (Slightly smaller, rounded, cleaner shadow) */}
           <motion.div
             {...floatMotion(0.4, 10, 3.5)}
-            className="absolute -left-[5%] sm:-left-3 top-[20%] w-[130px] p-3.5 rounded-2xl border border-white/80 bg-white/90 shadow-[0_12px_24px_rgba(30,41,59,0.06)] flex flex-col items-center space-y-2.5 z-30 pointer-events-none"
+            className="hidden sm:flex absolute sm:-left-3 top-[20%] w-[130px] p-3.5 rounded-2xl border border-white/80 bg-white/90 shadow-[0_12px_24px_rgba(30,41,59,0.06)] flex-col items-center space-y-2.5 z-30 pointer-events-none"
           >
             <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600 border border-blue-100">
               <QrCode size={15} />
@@ -250,7 +250,7 @@ export const FinalCTA = () => {
           {/* Floating Glass Widget 2: Analytics (Smaller, lighter glass theme) */}
           <motion.div
             {...floatMotion(0.8, 8, 3.8)}
-            className="absolute -right-[5%] sm:-right-2 bottom-[15%] w-[150px] p-3.5 rounded-2xl border border-white/80 bg-white/90 shadow-[0_12px_24px_rgba(30,41,59,0.06)] space-y-2 z-30 pointer-events-none"
+            className="hidden sm:block absolute sm:-right-2 bottom-[15%] w-[150px] p-3.5 rounded-2xl border border-white/80 bg-white/90 shadow-[0_12px_24px_rgba(30,41,59,0.06)] space-y-2 z-30 pointer-events-none"
           >
             <div className="flex items-center gap-2.5">
               <div className="w-7 h-7 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600">

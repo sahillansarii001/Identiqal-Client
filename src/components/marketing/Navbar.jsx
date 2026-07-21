@@ -14,6 +14,26 @@ const navLinks = [
   { name: "Templates", href: "/templates" },
 ];
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.06,
+      delayChildren: 0.15,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { y: -12, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: { type: "spring", stiffness: 200, damping: 16 },
+  },
+};
+
 export const Navbar = () => {
   const router = useRouter();
   const pathname = usePathname();
@@ -23,10 +43,21 @@ export const Navbar = () => {
 
   const [scrollY, setScrollY] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [hoveredIndex, setHoveredIndex] = useState(null);
   const { scrollY: scrollMotion } = useScroll();
 
   useMotionValueEvent(scrollMotion, "change", (v) => setScrollY(v));
   const isScrolled = scrollY > 20;
+
+  // Lock background scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [mobileMenuOpen]);
 
   const handleLogout = () => {
     clearAuth();
@@ -34,79 +65,127 @@ export const Navbar = () => {
   };
 
   return (
-    <div className="sticky top-0 w-full z-50 flex justify-center items-start pt-4 px-6 -mb-20 h-20 pointer-events-none">
+    <div className="sticky top-0 w-full z-50 flex justify-center items-start pt-6 px-6 -mb-24 h-24 pointer-events-none">
       <motion.nav
-        initial={{ y: -50, opacity: 0 }}
+        initial={{ y: -70, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-        className={`w-full max-w-4xl rounded-full transition-all duration-300 border backdrop-blur-md pointer-events-auto ${
+        transition={{ type: "spring", stiffness: 120, damping: 14 }}
+        className={`w-full max-w-5xl rounded-full transition-all duration-500 ease-out border pointer-events-auto ${
           isScrolled
-            ? "bg-white/70 border-slate-200/40 shadow-[0_10px_30px_rgba(148,163,184,0.08)] py-2 px-5"
-            : "bg-white/40 border-transparent shadow-none py-2 px-5"
+            ? "bg-white/85 border-slate-200/60 backdrop-blur-xl shadow-[0_12px_40px_rgba(15,23,42,0.08)] py-3 px-8 scale-[0.98]"
+            : "bg-white/70 border-slate-200/30 backdrop-blur-lg shadow-[0_4px_30px_rgba(15,23,42,0.03)] py-4.5 px-8"
         }`}
       >
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2 group">
-            <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center shadow-md">
-              <span className="font-bold text-white text-sm tracking-wide">iQ</span>
-            </div>
-            <span className="text-lg font-bold text-slate-900 tracking-tight group-hover:text-blue-600 transition-colors">
+            <motion.div 
+              whileHover={{ scale: 1.08, rotate: 6 }}
+              whileTap={{ scale: 0.92 }}
+              transition={{ type: "spring", stiffness: 400, damping: 15 }}
+              className="w-9 h-9 rounded-full bg-gradient-to-tr from-blue-600 via-blue-500 to-indigo-600 flex items-center justify-center shadow-[0_2px_10px_rgba(37,99,235,0.25)] group-hover:shadow-[0_4px_16px_rgba(37,99,235,0.4)] transition-all duration-300"
+            >
+              <span className="font-bold text-white text-xs tracking-wider">iQ</span>
+            </motion.div>
+            <span className="text-lg font-extrabold bg-gradient-to-r from-slate-900 via-slate-800 to-blue-900 bg-clip-text text-transparent tracking-tight group-hover:from-blue-600 group-hover:to-indigo-600 transition-colors duration-300">
               Identiqal
             </span>
           </Link>
 
           {/* Desktop Links */}
-          <div className="hidden md:flex items-center space-x-1">
-            {navLinks.map((link) => {
+          <motion.div 
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="hidden md:flex items-center space-x-1 relative"
+          >
+            {navLinks.map((link, idx) => {
               const isActive = pathname === link.href;
               return (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${
-                    isActive
-                      ? "bg-slate-100 text-slate-900"
-                      : "text-slate-500 hover:text-slate-900 hover:bg-slate-50"
-                  }`}
-                >
-                  {link.name}
-                </Link>
+                <motion.div key={link.name} variants={itemVariants} className="relative">
+                  <Link
+                    href={link.href}
+                    onMouseEnter={() => setHoveredIndex(idx)}
+                    onMouseLeave={() => setHoveredIndex(null)}
+                    className={`relative block px-4.5 py-2 rounded-full text-sm font-semibold transition-colors duration-300 ${
+                      isActive
+                        ? "text-blue-600 z-10"
+                        : "text-slate-600 hover:text-slate-900 z-10"
+                    }`}
+                  >
+                    <motion.span
+                      className="relative block"
+                      whileHover={{ scale: 1.04, y: -0.5 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 12 }}
+                    >
+                      {link.name}
+                    </motion.span>
+                    {isActive && (
+                      <motion.div
+                        layoutId="active-pill"
+                        className="absolute inset-0 bg-blue-50/80 rounded-full -z-10 border border-blue-100/30"
+                        transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                      />
+                    )}
+                    {hoveredIndex === idx && !isActive && (
+                      <motion.div
+                        layoutId="hover-pill"
+                        className="absolute inset-0 bg-slate-100/60 rounded-full -z-10"
+                        transition={{ type: "spring", stiffness: 350, damping: 25 }}
+                      />
+                    )}
+                  </Link>
+                </motion.div>
               );
             })}
-          </div>
+          </motion.div>
 
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center space-x-2">
             {isAuthenticated ? (
-              <>
+              <div className="flex items-center space-x-3">
                 <Link href={dashboardHref}>
-                  <button className="flex items-center space-x-1.5 px-4 py-1.5 text-sm font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-full transition-colors">
-                    <LayoutDashboard size={14} />
+                  <motion.button 
+                    whileHover={{ scale: 1.04, y: -1 }}
+                    whileTap={{ scale: 0.96 }}
+                    className="flex items-center space-x-1.5 px-5 py-2.5 text-sm font-bold text-blue-600 bg-blue-50/80 hover:bg-blue-100 border border-blue-100/60 rounded-full shadow-sm transition-all duration-200 cursor-pointer"
+                  >
+                    <LayoutDashboard size={14} className="text-blue-500" />
                     <span>Dashboard</span>
-                  </button>
+                  </motion.button>
                 </Link>
-                <button
+                <motion.button
+                  whileHover={{ scale: 1.08 }}
+                  whileTap={{ scale: 0.92 }}
                   onClick={handleLogout}
-                  className="flex items-center space-x-1 px-3 py-1.5 text-sm font-medium text-slate-500 hover:text-slate-700 transition-colors"
+                  className="flex items-center justify-center w-9 h-9 rounded-full text-slate-400 hover:text-red-500 hover:bg-red-50 transition-all duration-200 cursor-pointer"
+                  title="Log Out"
                 >
-                  <LogOut size={14} />
-                </button>
-              </>
+                  <LogOut size={15} />
+                </motion.button>
+              </div>
             ) : (
-              <>
+              <div className="flex items-center space-x-3">
                 <Link
                   href="/login"
-                  className="px-4 py-1.5 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
+                  className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors duration-200"
                 >
                   Log in
                 </Link>
                 <Link href="/signup">
-                  <button className="px-5 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-full shadow-sm transition-colors">
+                  <motion.button 
+                    whileHover={{ 
+                      scale: 1.05, 
+                      y: -2,
+                      boxShadow: "0 10px 25px -5px rgba(37,99,235,0.4)"
+                    }}
+                    whileTap={{ scale: 0.95 }}
+                    className="px-6 py-2.5 text-sm font-bold text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 rounded-full shadow-[0_4px_14px_rgba(37,99,235,0.2)] transition-all duration-300 cursor-pointer"
+                  >
                     Start Free
-                  </button>
+                  </motion.button>
                 </Link>
-              </>
+              </div>
             )}
           </div>
 
@@ -126,55 +205,128 @@ export const Navbar = () => {
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="absolute top-20 inset-x-4 p-4 bg-white/95 backdrop-blur-xl border border-slate-200 rounded-2xl shadow-xl z-40 md:hidden"
+            initial={{ opacity: 0, y: -16, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -12, scale: 0.97 }}
+            transition={{ type: "spring", stiffness: 340, damping: 28 }}
+            className="absolute top-24 inset-x-4 p-4.5 bg-white/95 backdrop-blur-xl border border-slate-200/60 rounded-3xl shadow-[0_20px_50px_rgba(15,23,42,0.12)] z-40 md:hidden overflow-hidden"
           >
-            <div className="flex flex-col space-y-2">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="px-4 py-3 rounded-xl text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors"
-                >
-                  {link.name}
-                </Link>
-              ))}
-              <div className="h-px bg-slate-100 my-2" />
-              {isAuthenticated ? (
-                <>
-                  <Link href={dashboardHref} onClick={() => setMobileMenuOpen(false)}>
-                    <button className="w-full text-left px-4 py-3 text-sm font-medium text-blue-600 hover:bg-blue-50 rounded-xl transition-colors">
-                      Dashboard
-                    </button>
-                  </Link>
-                  <button
-                    onClick={() => {
-                      handleLogout();
-                      setMobileMenuOpen(false);
+            {/* Stagger container */}
+            <motion.div
+              className="flex flex-col space-y-1.5"
+              initial="hidden"
+              animate="visible"
+              exit="hidden"
+              variants={{
+                hidden: {},
+                visible: { transition: { staggerChildren: 0.055, delayChildren: 0.08 } },
+              }}
+            >
+              {navLinks.map((link) => {
+                const isActive = pathname === link.href;
+                return (
+                  <motion.div
+                    key={link.name}
+                    variants={{
+                      hidden: { opacity: 0, x: -18 },
+                      visible: { opacity: 1, x: 0, transition: { type: "spring", stiffness: 380, damping: 24 } },
                     }}
-                    className="w-full text-left px-4 py-3 text-sm font-medium text-slate-600 hover:bg-slate-50 rounded-xl transition-colors"
                   >
-                    Log out
-                  </button>
-                </>
+                    <Link
+                      href={link.href}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={`block px-4 py-3 rounded-xl text-sm font-semibold transition-all ${
+                        isActive
+                          ? "bg-blue-50 text-blue-600"
+                          : "text-slate-600 hover:bg-slate-50"
+                      }`}
+                    >
+                      {link.name}
+                    </Link>
+                  </motion.div>
+                );
+              })}
+
+              {/* Divider */}
+              <motion.div
+                className="h-px bg-slate-100 my-2.5"
+                variants={{
+                  hidden: { opacity: 0, scaleX: 0 },
+                  visible: { opacity: 1, scaleX: 1, transition: { duration: 0.25 } },
+                }}
+                style={{ originX: 0 }}
+              />
+
+              {isAuthenticated ? (
+                <div className="flex flex-col space-y-2">
+                  <motion.div
+                    variants={{
+                      hidden: { opacity: 0, y: 10 },
+                      visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 340, damping: 24 } },
+                    }}
+                  >
+                    <Link href={dashboardHref} onClick={() => setMobileMenuOpen(false)}>
+                      <motion.button
+                        whileTap={{ scale: 0.97 }}
+                        className="w-full flex items-center justify-center space-x-2 px-4 py-3 text-sm font-semibold text-blue-600 bg-blue-50 hover:bg-blue-100/80 rounded-xl border border-blue-100/50 transition-colors"
+                      >
+                        <LayoutDashboard size={15} />
+                        <span>Dashboard</span>
+                      </motion.button>
+                    </Link>
+                  </motion.div>
+                  <motion.div
+                    variants={{
+                      hidden: { opacity: 0, y: 10 },
+                      visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 340, damping: 24 } },
+                    }}
+                  >
+                    <motion.button
+                      whileTap={{ scale: 0.97 }}
+                      onClick={() => { handleLogout(); setMobileMenuOpen(false); }}
+                      className="w-full flex items-center justify-center space-x-2 px-4 py-3 text-sm font-semibold text-red-600 hover:bg-red-50 rounded-xl transition-colors"
+                    >
+                      <LogOut size={15} />
+                      <span>Log out</span>
+                    </motion.button>
+                  </motion.div>
+                </div>
               ) : (
-                <>
-                  <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
-                    <button className="w-full text-left px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50 rounded-xl transition-colors">
-                      Log in
-                    </button>
-                  </Link>
-                  <Link href="/signup" onClick={() => setMobileMenuOpen(false)}>
-                    <button className="w-full text-center px-4 py-3 mt-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-xl shadow-sm transition-colors">
-                      Get Started
-                    </button>
-                  </Link>
-                </>
+                <div className="flex flex-col space-y-2">
+                  <motion.div
+                    variants={{
+                      hidden: { opacity: 0, y: 10 },
+                      visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 340, damping: 24 } },
+                    }}
+                  >
+                    <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
+                      <motion.button
+                        whileTap={{ scale: 0.97 }}
+                        className="w-full text-center px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 rounded-xl transition-colors"
+                      >
+                        Log in
+                      </motion.button>
+                    </Link>
+                  </motion.div>
+                  <motion.div
+                    variants={{
+                      hidden: { opacity: 0, y: 10 },
+                      visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 340, damping: 24 } },
+                    }}
+                  >
+                    <Link href="/signup" onClick={() => setMobileMenuOpen(false)}>
+                      <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.97 }}
+                        className="w-full text-center px-4 py-3 text-sm font-bold text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 rounded-xl shadow-[0_4px_12px_rgba(37,99,235,0.15)] transition-colors"
+                      >
+                        Get Started Free
+                      </motion.button>
+                    </Link>
+                  </motion.div>
+                </div>
               )}
-            </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

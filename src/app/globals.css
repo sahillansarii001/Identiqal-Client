@@ -20,7 +20,7 @@
   --animate-float: float 6s ease-in-out infinite;
   --animate-float-slow: float 9s ease-in-out infinite;
   --animate-float-fast: float 4s ease-in-out infinite;
-  --animate-marquee: marquee 30s linear infinite;
+  --animate-marquee: marquee 8s linear infinite;
   --animate-marquee-slow: marquee 45s linear infinite;
   --animate-fade-in-up: fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   --animate-fade-in: fade-in 0.4s ease-out forwards;
@@ -130,7 +130,7 @@ body {
 
 /* ─── Marquee utility ─────────────────────────────────────────────────────────── */
 
-.animate-marquee        { animation: marquee 30s linear infinite; }
+.animate-marquee        { animation: marquee 8s linear infinite; }
 .animate-marquee-slow   { animation: marquee 50s linear infinite; }
 
 /* ─── Mask Fade (for marquee edges) ─────────────────────────────────────────── */

@@ -34,7 +34,7 @@ export const HowItWorks = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {steps.map((step, i) => (
             <motion.div
               key={step.num}
@@ -44,7 +44,7 @@ export const HowItWorks = () => {
               transition={{ delay: i * 0.1 }}
               className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm relative overflow-hidden"
             >
-              <div className="text-6xl font-black text-slate-100 absolute -top-4 -right-4 pointer-events-none">
+              <div className="text-6xl font-black text-blue-100 absolute top-2 right-4 pointer-events-none">
                 {step.num}
               </div>
               <div className="relative z-10">

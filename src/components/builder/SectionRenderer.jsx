@@ -16,17 +16,28 @@ function getHeaderHeight(displayPreset) {
   return '200px';
 }
 
-function getAvatarShape(profilePhotoStyle) {
+function getAvatarShapeStyle(shape) {
   const map = {
-    'Circle': '50%',
-    'Rounded Square': '20%',
-    'Square': '0px',
-    'Glass Border': '50%',
-    'Gradient Border': '50%',
-    'Shadow': '50%',
-    'No Border': '50%',
+    'circle':  { borderRadius: '50%' },
+    'rounded': { borderRadius: '20%' },
+    'square':  { borderRadius: '0' },
+    'capsule': { borderRadius: '9999px' },
+    'hexagon': { clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)' },
+    'diamond': { clipPath: 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)' },
+    'blob':    { clipPath: 'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)' },
+    'star':    { clipPath: 'polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)' },
+    'shield':  { clipPath: 'polygon(50% 0%, 100% 25%, 100% 70%, 50% 100%, 0% 70%, 0% 25%)' },
+    'organic': { borderRadius: '60% 40% 30% 70% / 60% 30% 70% 40%' },
+    // Legacy preset names
+    'Circle':          { borderRadius: '50%' },
+    'Rounded Square':  { borderRadius: '20%' },
+    'Square':          { borderRadius: '0' },
+    'Glass Border':    { borderRadius: '50%' },
+    'Gradient Border': { borderRadius: '50%' },
+    'Shadow':          { borderRadius: '50%' },
+    'No Border':       { borderRadius: '50%' },
   };
-  return map[profilePhotoStyle] || '50%';
+  return map[shape] || { borderRadius: '50%' };
 }
 
 function getAvatarBorderStyle(profilePhotoStyle, colorTheme) {
@@ -480,7 +491,51 @@ export const SectionRenderer = ({ section, theme = {}, displayPreset = {}, color
         ? (store.imageSaturation || 100)
         : (section.imageSaturation || 100);
 
-      // ── Header geometry ────────────────────────────────────────────────
+      const currentAvatarUrl = storeActive
+        ? store.avatarUrl
+        : (section.data?.avatarUrl || '');
+
+      const currentAvatarShape = storeActive
+        ? (store.avatarShape || 'circle')
+        : (section.data?.avatarShape || 'circle');
+
+      const currentAvatarScale = storeActive
+        ? (store.avatarScale || 100)
+        : (section.data?.avatarScale || 100);
+
+      const currentAvatarBorderWidth = storeActive
+        ? (store.avatarBorderWidth !== undefined ? store.avatarBorderWidth : 3)
+        : (section.data?.avatarBorderWidth !== undefined ? section.data.avatarBorderWidth : 3);
+
+      const currentAvatarBorderColor = storeActive
+        ? (store.avatarBorderColor || '#ffffff')
+        : (section.data?.avatarBorderColor || '#ffffff');
+
+      const currentAvatarShadow = storeActive
+        ? (store.avatarShadow !== undefined ? store.avatarShadow : true)
+        : (section.data?.avatarShadow !== undefined ? section.data.avatarShadow : true);
+
+      const currentAvatarGlow = storeActive
+        ? (store.avatarGlow || false)
+        : (section.data?.avatarGlow || false);
+
+      const currentAvatarOpacity = storeActive
+        ? (store.avatarOpacity !== undefined ? store.avatarOpacity : 100)
+        : (section.data?.avatarOpacity !== undefined ? section.data.avatarOpacity : 100);
+
+      const currentAvatarFlipH = storeActive ? (store.avatarFlipH || false) : (section.data?.avatarFlipH || false);
+      const currentAvatarFlipV = storeActive ? (store.avatarFlipV || false) : (section.data?.avatarFlipV || false);
+      const currentAvatarRotation = storeActive ? (store.avatarRotation || 0) : (section.data?.avatarRotation || 0);
+
+      // Avatar position offset from the bottom of the header (overlapping effect)
+      const avatarShapeStyle = getAvatarShapeStyle(currentAvatarShape);
+      const avatarBoxShadow = currentAvatarGlow
+        ? `0 0 24px 4px ${currentAvatarBorderColor}80`
+        : currentAvatarShadow
+          ? '0 8px 24px rgba(0,0,0,0.22)'
+          : 'none';
+
+      // ── Header geometry ──────────────────────────────────────────
       const headerHeight = preset?.name === 'Minimal' ? '80px' : getHeaderHeight(preset);
       const profilePos    = getProfilePosition(preset?.profilePhotoPosition);
       const headerStyle   = preset?.headerStyle || 'Solid Color';
@@ -907,7 +962,41 @@ export const SectionRenderer = ({ section, theme = {}, displayPreset = {}, color
           )}
 
           {/* Card content — below the header */}
-          <div className={`px-6 sm:px-10 space-y-4 flex flex-col ${profilePos} pt-8 relative z-10`}>
+          <div className={`px-6 sm:px-10 space-y-4 flex flex-col ${profilePos} pt-6 relative z-10`}>
+            {/* Avatar photo — independent from cover image */}
+            {currentAvatarUrl && (
+              <div
+                className="overflow-hidden shrink-0"
+                style={{
+                  width: `${Math.round(72 * currentAvatarScale / 100)}px`,
+                  height: `${Math.round(72 * currentAvatarScale / 100)}px`,
+                  border: currentAvatarBorderWidth > 0 ? `${currentAvatarBorderWidth}px solid ${currentAvatarBorderColor}` : 'none',
+                  boxShadow: avatarBoxShadow,
+                  opacity: currentAvatarOpacity / 100,
+                  transform: `rotate(${currentAvatarRotation}deg) scaleX(${currentAvatarFlipH ? -1 : 1}) scaleY(${currentAvatarFlipV ? -1 : 1})`,
+                  marginTop: '-20px',
+                  ...avatarShapeStyle,
+                }}
+              >
+                <img
+                  src={currentAvatarUrl}
+                  alt="Profile"
+                  className="w-full h-full object-cover select-none pointer-events-none"
+                />
+              </div>
+            )}
+            {/* No avatar: show placeholder initials circle in builder mode */}
+            {!currentAvatarUrl && previewMode && storeActive && (
+              <div
+                className="overflow-hidden shrink-0 flex items-center justify-center bg-white/20 backdrop-blur-sm border-2 border-white/60"
+                style={{ width: 72, height: 72, borderRadius: '50%', marginTop: '-20px' }}
+              >
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="2">
+                  <circle cx="12" cy="8" r="4" />
+                  <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+                </svg>
+              </div>
+            )}
             <div className="space-y-2">
               <h3
                 className="text-lg sm:text-2xl font-black tracking-tight"

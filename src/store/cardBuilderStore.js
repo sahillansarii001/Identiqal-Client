@@ -1,16 +1,16 @@
 import { create } from 'zustand';
 
-// Helper to keep max 50 history states
 const MAX_HISTORY = 50;
 
 export const useCardBuilderStore = create((set, get) => ({
-  // Current State
   cardId: null,
   slug: '',
   title: '',
   sections: [],
   seo: { metaTitle: '', metaDescription: '', ogImageUrl: '' },
   activeSectionId: null,
+
+  // ─── COVER IMAGE ─────────────────────────────────────────────────────────
   imageUrl: '',
   imageScale: 100,
   imagePositionX: 0,
@@ -29,28 +29,44 @@ export const useCardBuilderStore = create((set, get) => ({
   imageBrightness: 100,
   imageContrast: 100,
   imageSaturation: 100,
+
+  // ─── AVATAR ───────────────────────────────────────────────────────────────
+  avatarUrl: '',
+  avatarShape: 'circle',
+  avatarScale: 100,
+  avatarPositionX: 0,
+  avatarPositionY: 0,
+  avatarRotation: 0,
+  avatarFlipH: false,
+  avatarFlipV: false,
+  avatarBorderWidth: 3,
+  avatarBorderColor: '#ffffff',
+  avatarShadow: true,
+  avatarGlow: false,
+  avatarBackground: 'transparent',
+  avatarOpacity: 100,
+  avatarPosition: 'center',
+  avatarLayer: 'above-header',
+
+  // ─── UI STATE ─────────────────────────────────────────────────────────────
   isWorkspaceOpen: false,
   _workspaceBackup: null,
-
-  // UI State
+  isCoverEditorOpen: false,
+  isAvatarEditorOpen: false,
   isDirty: false,
-  saveStatus: 'saved', // 'saved', 'saving', 'error'
+  saveStatus: 'saved',
   lastSavedAt: null,
   isBlockPickerOpen: false,
-  previewDevice: 'smartphone', // 'desktop', 'tablet', 'smartphone'
-  activeTab: 'links', // 'links', 'appearance'
+  previewDevice: 'smartphone',
+  activeTab: 'links',
   displayPreset: null,
   colorTheme: null,
   footerPreset: null,
-
-  // History State
   past: [],
   future: [],
 
-  // Set initial card data without history
   setCard: (cardData) => {
     const card = cardData.card || cardData;
-    
     set({
       cardId: card._id,
       slug: card.slug,
@@ -79,6 +95,22 @@ export const useCardBuilderStore = create((set, get) => ({
       imageBrightness: card.imageBrightness || 100,
       imageContrast: card.imageContrast || 100,
       imageSaturation: card.imageSaturation || 100,
+      avatarUrl: card.avatarUrl || '',
+      avatarShape: card.avatarShape || 'circle',
+      avatarScale: card.avatarScale || 100,
+      avatarPositionX: card.avatarPositionX || 0,
+      avatarPositionY: card.avatarPositionY || 0,
+      avatarRotation: card.avatarRotation || 0,
+      avatarFlipH: card.avatarFlipH || false,
+      avatarFlipV: card.avatarFlipV || false,
+      avatarBorderWidth: card.avatarBorderWidth !== undefined ? card.avatarBorderWidth : 3,
+      avatarBorderColor: card.avatarBorderColor || '#ffffff',
+      avatarShadow: card.avatarShadow !== undefined ? card.avatarShadow : true,
+      avatarGlow: card.avatarGlow || false,
+      avatarBackground: card.avatarBackground || 'transparent',
+      avatarOpacity: card.avatarOpacity !== undefined ? card.avatarOpacity : 100,
+      avatarPosition: card.avatarPosition || 'center',
+      avatarLayer: card.avatarLayer || 'above-header',
       isDirty: false,
       saveStatus: 'saved',
       past: [],
@@ -86,57 +118,38 @@ export const useCardBuilderStore = create((set, get) => ({
     });
   },
 
-  // Internal helper to save state to history
   _saveToHistory: () => {
-    const { 
-      sections, seo, displayPreset, colorTheme, footerPreset, 
-      imageUrl, imageScale, imagePositionX, imagePositionY, imageOpacity, overlayType, 
-      imageRotation, imagePlacement, containerStyle, containerSize, containerBorder,
-      containerShadow, containerPadding, imageFit, imageBlur, imageBrightness, imageContrast,
-      imageSaturation, past 
-    } = get();
-    const newPast = [...past, { 
-      sections: JSON.parse(JSON.stringify(sections)), 
-      seo: JSON.parse(JSON.stringify(seo)),
-      displayPreset: displayPreset ? JSON.parse(JSON.stringify(displayPreset)) : null,
-      colorTheme: colorTheme ? JSON.parse(JSON.stringify(colorTheme)) : null,
-      footerPreset: footerPreset ? JSON.parse(JSON.stringify(footerPreset)) : null,
-      imageUrl,
-      imageScale,
-      imagePositionX,
-      imagePositionY,
-      imageOpacity,
-      overlayType,
-      imageRotation,
-      imagePlacement,
-      containerStyle,
-      containerSize,
-      containerBorder,
-      containerShadow,
-      containerPadding,
-      imageFit,
-      imageBlur,
-      imageBrightness,
-      imageContrast,
-      imageSaturation,
-    }];
+    const s = get();
+    const snap = {
+      sections: JSON.parse(JSON.stringify(s.sections)),
+      seo: JSON.parse(JSON.stringify(s.seo)),
+      displayPreset: s.displayPreset ? JSON.parse(JSON.stringify(s.displayPreset)) : null,
+      colorTheme: s.colorTheme ? JSON.parse(JSON.stringify(s.colorTheme)) : null,
+      footerPreset: s.footerPreset ? JSON.parse(JSON.stringify(s.footerPreset)) : null,
+      imageUrl: s.imageUrl, imageScale: s.imageScale, imagePositionX: s.imagePositionX,
+      imagePositionY: s.imagePositionY, imageOpacity: s.imageOpacity, overlayType: s.overlayType,
+      imageRotation: s.imageRotation, imagePlacement: s.imagePlacement, containerStyle: s.containerStyle,
+      containerSize: s.containerSize, containerBorder: s.containerBorder, containerShadow: s.containerShadow,
+      containerPadding: s.containerPadding, imageFit: s.imageFit, imageBlur: s.imageBlur,
+      imageBrightness: s.imageBrightness, imageContrast: s.imageContrast, imageSaturation: s.imageSaturation,
+      avatarUrl: s.avatarUrl, avatarShape: s.avatarShape, avatarScale: s.avatarScale,
+      avatarPositionX: s.avatarPositionX, avatarPositionY: s.avatarPositionY,
+      avatarRotation: s.avatarRotation, avatarFlipH: s.avatarFlipH, avatarFlipV: s.avatarFlipV,
+      avatarBorderWidth: s.avatarBorderWidth, avatarBorderColor: s.avatarBorderColor,
+      avatarShadow: s.avatarShadow, avatarGlow: s.avatarGlow,
+      avatarBackground: s.avatarBackground, avatarOpacity: s.avatarOpacity,
+      avatarPosition: s.avatarPosition, avatarLayer: s.avatarLayer,
+    };
+    const newPast = [...s.past, snap];
     if (newPast.length > MAX_HISTORY) newPast.shift();
     set({ past: newPast, future: [], isDirty: true });
   },
 
-  setSections: (sections) => {
-    get()._saveToHistory();
-    set({ sections });
-  },
-
+  setSections: (sections) => { get()._saveToHistory(); set({ sections }); },
   addSection: (section) => {
     get()._saveToHistory();
-    set((state) => ({
-      sections: [...state.sections, section],
-      activeSectionId: section.sectionId,
-    }));
+    set((state) => ({ sections: [...state.sections, section], activeSectionId: section.sectionId }));
   },
-
   updateSection: (sectionId, updatedData) => {
     get()._saveToHistory();
     set((state) => ({
@@ -145,7 +158,6 @@ export const useCardBuilderStore = create((set, get) => ({
       ),
     }));
   },
-
   updateSectionRealTime: (sectionId, updatedData) => {
     set((state) => ({
       isDirty: true,
@@ -154,7 +166,6 @@ export const useCardBuilderStore = create((set, get) => ({
       ),
     }));
   },
-
   toggleSectionVisibility: (sectionId) => {
     get()._saveToHistory();
     set((state) => ({
@@ -163,245 +174,127 @@ export const useCardBuilderStore = create((set, get) => ({
       ),
     }));
   },
-
   removeSection: (sectionId) => {
     get()._saveToHistory();
     set((state) => {
       const newSections = state.sections.filter((sec) => sec.sectionId !== sectionId);
       return {
         sections: newSections,
-        activeSectionId: state.activeSectionId === sectionId ? (newSections[0]?.sectionId || null) : state.activeSectionId,
+        activeSectionId: state.activeSectionId === sectionId
+          ? (newSections[0]?.sectionId || null)
+          : state.activeSectionId,
       };
     });
   },
-
-  setActiveSection: (sectionId) => set({
-    activeSectionId: sectionId,
-  }),
-
-  setSeo: (seo) => {
-    get()._saveToHistory();
-    set({ seo: { ...seo } });
-  },
-
+  setActiveSection: (sectionId) => set({ activeSectionId: sectionId }),
+  setSeo: (seo) => { get()._saveToHistory(); set({ seo: { ...seo } }); },
   setSaveStatus: (status) => set({
     saveStatus: status,
-    ...(status === 'saved' ? { isDirty: false, lastSavedAt: Date.now() } : {})
+    ...(status === 'saved' ? { isDirty: false, lastSavedAt: Date.now() } : {}),
   }),
-
   setPreviewDevice: (device) => set({ previewDevice: device }),
   setActiveTab: (tab) => set({ activeTab: tab }),
   setBlockPickerOpen: (isOpen) => set({ isBlockPickerOpen: isOpen }),
-  
-  setDesignPreset: (type, preset) => {
-    get()._saveToHistory();
-    set({ [type]: preset, isDirty: true });
-  },
+  setDesignPreset: (type, preset) => { get()._saveToHistory(); set({ [type]: preset, isDirty: true }); },
 
-  updateHeaderImage: (data) => {
-    get()._saveToHistory();
-    set({ ...data, isDirty: true });
-  },
-
-  updateHeaderImageRealTime: (data) => {
-    set({ ...data, isDirty: true });
-  },
-
-  openWorkspace: () => {
-    const state = get();
+  // Cover
+  updateHeaderImage: (data) => { get()._saveToHistory(); set({ ...data, isDirty: true }); },
+  updateHeaderImageRealTime: (data) => set({ ...data, isDirty: true }),
+  openCoverEditor: () => {
+    const s = get();
     set({
-      isWorkspaceOpen: true,
+      isCoverEditorOpen: true,
       _workspaceBackup: {
-        imageUrl: state.imageUrl,
-        imageScale: state.imageScale,
-        imagePositionX: state.imagePositionX,
-        imagePositionY: state.imagePositionY,
-        imageOpacity: state.imageOpacity,
-        overlayType: state.overlayType,
-        imageRotation: state.imageRotation || 0,
-        imagePlacement: state.imagePlacement || 'Inside Header',
-        containerStyle: state.containerStyle || 'None',
-        containerSize: state.containerSize || 100,
-        containerBorder: state.containerBorder || false,
-        containerShadow: state.containerShadow || false,
-        containerPadding: state.containerPadding || 0,
-        imageFit: state.imageFit || 'Cover',
-        imageBlur: state.imageBlur || 0,
-        imageBrightness: state.imageBrightness || 100,
-        imageContrast: state.imageContrast || 100,
-        imageSaturation: state.imageSaturation || 100,
-      }
+        imageUrl: s.imageUrl, imageScale: s.imageScale, imagePositionX: s.imagePositionX,
+        imagePositionY: s.imagePositionY, imageOpacity: s.imageOpacity, overlayType: s.overlayType,
+        imageRotation: s.imageRotation, imagePlacement: s.imagePlacement, containerStyle: s.containerStyle,
+        containerSize: s.containerSize, containerBorder: s.containerBorder, containerShadow: s.containerShadow,
+        containerPadding: s.containerPadding, imageFit: s.imageFit, imageBlur: s.imageBlur,
+        imageBrightness: s.imageBrightness, imageContrast: s.imageContrast, imageSaturation: s.imageSaturation,
+      },
     });
   },
-
-  closeWorkspace: () => set({ isWorkspaceOpen: false, _workspaceBackup: null }),
-
+  closeCoverEditor: () => set({ isCoverEditorOpen: false, _workspaceBackup: null }),
+  // Legacy aliases
+  openWorkspace: () => get().openCoverEditor(),
+  closeWorkspace: () => set({ isWorkspaceOpen: false, isCoverEditorOpen: false, _workspaceBackup: null }),
   discardWorkspaceChanges: () => {
     const backup = get()._workspaceBackup;
-    if (backup) {
-      set({
-        ...backup,
-        isWorkspaceOpen: false,
-        _workspaceBackup: null,
-      });
-    } else {
-      set({ isWorkspaceOpen: false });
-    }
+    if (backup) set({ ...backup, isWorkspaceOpen: false, isCoverEditorOpen: false, _workspaceBackup: null });
+    else set({ isWorkspaceOpen: false, isCoverEditorOpen: false });
   },
+
+  // Avatar
+  updateAvatar: (data) => { get()._saveToHistory(); set({ ...data, isDirty: true }); },
+  updateAvatarRealTime: (data) => set({ ...data, isDirty: true }),
+  openAvatarEditor: () => set({ isAvatarEditorOpen: true }),
+  closeAvatarEditor: () => set({ isAvatarEditorOpen: false }),
 
   undo: () => set((state) => {
     if (state.past.length === 0) return state;
-    
     const previous = state.past[state.past.length - 1];
     const newPast = state.past.slice(0, state.past.length - 1);
-    
-    return {
-      past: newPast,
-      future: [{ 
-        sections: state.sections, 
-        seo: state.seo, 
-        displayPreset: state.displayPreset,
-        colorTheme: state.colorTheme,
-        footerPreset: state.footerPreset,
-        imageUrl: state.imageUrl,
-        imageScale: state.imageScale,
-        imagePositionX: state.imagePositionX,
-        imagePositionY: state.imagePositionY,
-        imageOpacity: state.imageOpacity,
-        overlayType: state.overlayType,
-        imageRotation: state.imageRotation,
-        imagePlacement: state.imagePlacement,
-        containerStyle: state.containerStyle,
-        containerSize: state.containerSize,
-        containerBorder: state.containerBorder,
-        containerShadow: state.containerShadow,
-        containerPadding: state.containerPadding,
-        imageFit: state.imageFit,
-        imageBlur: state.imageBlur,
-        imageBrightness: state.imageBrightness,
-        imageContrast: state.imageContrast,
-        imageSaturation: state.imageSaturation,
-      }, ...state.future],
-      sections: previous.sections,
-      seo: previous.seo,
-      displayPreset: previous.displayPreset,
-      colorTheme: previous.colorTheme,
-      footerPreset: previous.footerPreset,
-      imageUrl: previous.imageUrl,
-      imageScale: previous.imageScale,
-      imagePositionX: previous.imagePositionX,
-      imagePositionY: previous.imagePositionY,
-      imageOpacity: previous.imageOpacity,
-      overlayType: previous.overlayType,
-      imageRotation: previous.imageRotation,
-      imagePlacement: previous.imagePlacement,
-      containerStyle: previous.containerStyle,
-      containerSize: previous.containerSize,
-      containerBorder: previous.containerBorder,
-      containerShadow: previous.containerShadow,
-      containerPadding: previous.containerPadding,
-      imageFit: previous.imageFit,
-      imageBlur: previous.imageBlur,
-      imageBrightness: previous.imageBrightness,
-      imageContrast: previous.imageContrast,
-      imageSaturation: previous.imageSaturation,
-      isDirty: true,
+    const cur = {
+      sections: state.sections, seo: state.seo,
+      displayPreset: state.displayPreset, colorTheme: state.colorTheme, footerPreset: state.footerPreset,
+      imageUrl: state.imageUrl, imageScale: state.imageScale, imagePositionX: state.imagePositionX,
+      imagePositionY: state.imagePositionY, imageOpacity: state.imageOpacity, overlayType: state.overlayType,
+      imageRotation: state.imageRotation, imagePlacement: state.imagePlacement,
+      containerStyle: state.containerStyle, containerSize: state.containerSize,
+      containerBorder: state.containerBorder, containerShadow: state.containerShadow,
+      containerPadding: state.containerPadding, imageFit: state.imageFit, imageBlur: state.imageBlur,
+      imageBrightness: state.imageBrightness, imageContrast: state.imageContrast, imageSaturation: state.imageSaturation,
+      avatarUrl: state.avatarUrl, avatarShape: state.avatarShape, avatarScale: state.avatarScale,
+      avatarPositionX: state.avatarPositionX, avatarPositionY: state.avatarPositionY,
+      avatarRotation: state.avatarRotation, avatarFlipH: state.avatarFlipH, avatarFlipV: state.avatarFlipV,
+      avatarBorderWidth: state.avatarBorderWidth, avatarBorderColor: state.avatarBorderColor,
+      avatarShadow: state.avatarShadow, avatarGlow: state.avatarGlow,
+      avatarBackground: state.avatarBackground, avatarOpacity: state.avatarOpacity,
+      avatarPosition: state.avatarPosition, avatarLayer: state.avatarLayer,
     };
+    return { past: newPast, future: [cur, ...state.future], ...previous, isDirty: true };
   }),
 
   redo: () => set((state) => {
     if (state.future.length === 0) return state;
-    
     const next = state.future[0];
     const newFuture = state.future.slice(1);
-    
-    return {
-      past: [...state.past, { 
-        sections: state.sections, 
-        seo: state.seo, 
-        displayPreset: state.displayPreset,
-        colorTheme: state.colorTheme,
-        footerPreset: state.footerPreset,
-        imageUrl: state.imageUrl,
-        imageScale: state.imageScale,
-        imagePositionX: state.imagePositionX,
-        imagePositionY: state.imagePositionY,
-        imageOpacity: state.imageOpacity,
-        overlayType: state.overlayType,
-        imageRotation: state.imageRotation,
-        imagePlacement: state.imagePlacement,
-        containerStyle: state.containerStyle,
-        containerSize: state.containerSize,
-        containerBorder: state.containerBorder,
-        containerShadow: state.containerShadow,
-        containerPadding: state.containerPadding,
-        imageFit: state.imageFit,
-        imageBlur: state.imageBlur,
-        imageBrightness: state.imageBrightness,
-        imageContrast: state.imageContrast,
-        imageSaturation: state.imageSaturation,
-      }],
-      future: newFuture,
-      sections: next.sections,
-      seo: next.seo,
-      displayPreset: next.displayPreset,
-      colorTheme: next.colorTheme,
-      footerPreset: next.footerPreset,
-      imageUrl: next.imageUrl,
-      imageScale: next.imageScale,
-      imagePositionX: next.imagePositionX,
-      imagePositionY: next.imagePositionY,
-      imageOpacity: next.imageOpacity,
-      overlayType: next.overlayType,
-      imageRotation: next.imageRotation,
-      imagePlacement: next.imagePlacement,
-      containerStyle: next.containerStyle,
-      containerSize: next.containerSize,
-      containerBorder: next.containerBorder,
-      containerShadow: next.containerShadow,
-      containerPadding: next.containerPadding,
-      imageFit: next.imageFit,
-      imageBlur: next.imageBlur,
-      imageBrightness: next.imageBrightness,
-      imageContrast: next.imageContrast,
-      imageSaturation: next.imageSaturation,
-      isDirty: true,
+    const cur = {
+      sections: state.sections, seo: state.seo,
+      displayPreset: state.displayPreset, colorTheme: state.colorTheme, footerPreset: state.footerPreset,
+      imageUrl: state.imageUrl, imageScale: state.imageScale, imagePositionX: state.imagePositionX,
+      imagePositionY: state.imagePositionY, imageOpacity: state.imageOpacity, overlayType: state.overlayType,
+      imageRotation: state.imageRotation, imagePlacement: state.imagePlacement,
+      containerStyle: state.containerStyle, containerSize: state.containerSize,
+      containerBorder: state.containerBorder, containerShadow: state.containerShadow,
+      containerPadding: state.containerPadding, imageFit: state.imageFit, imageBlur: state.imageBlur,
+      imageBrightness: state.imageBrightness, imageContrast: state.imageContrast, imageSaturation: state.imageSaturation,
+      avatarUrl: state.avatarUrl, avatarShape: state.avatarShape, avatarScale: state.avatarScale,
+      avatarPositionX: state.avatarPositionX, avatarPositionY: state.avatarPositionY,
+      avatarRotation: state.avatarRotation, avatarFlipH: state.avatarFlipH, avatarFlipV: state.avatarFlipV,
+      avatarBorderWidth: state.avatarBorderWidth, avatarBorderColor: state.avatarBorderColor,
+      avatarShadow: state.avatarShadow, avatarGlow: state.avatarGlow,
+      avatarBackground: state.avatarBackground, avatarOpacity: state.avatarOpacity,
+      avatarPosition: state.avatarPosition, avatarLayer: state.avatarLayer,
     };
+    return { past: [...state.past, cur], future: newFuture, ...next, isDirty: true };
   }),
 
   resetBuilder: () => set({
-    cardId: null,
-    slug: '',
-    title: '',
-    sections: [],
+    cardId: null, slug: '', title: '', sections: [],
     seo: { metaTitle: '', metaDescription: '', ogImageUrl: '' },
-    activeSectionId: null,
-    activeTab: 'links',
-    displayPreset: null,
-    colorTheme: null,
-    footerPreset: null,
-    imageUrl: '',
-    imageScale: 100,
-    imagePositionX: 0,
-    imagePositionY: 0,
-    imageOpacity: 80,
-    overlayType: 'None',
-    imageRotation: 0,
-    imagePlacement: 'Inside Header',
-    containerStyle: 'None',
-    containerSize: 100,
-    containerBorder: false,
-    containerShadow: false,
-    containerPadding: 0,
-    imageFit: 'Cover',
-    imageBlur: 0,
-    imageBrightness: 100,
-    imageContrast: 100,
-    imageSaturation: 100,
-    isWorkspaceOpen: false,
-    _workspaceBackup: null,
-    isDirty: false,
-    past: [],
-    future: [],
+    activeSectionId: null, activeTab: 'links',
+    displayPreset: null, colorTheme: null, footerPreset: null,
+    imageUrl: '', imageScale: 100, imagePositionX: 0, imagePositionY: 0, imageOpacity: 80,
+    overlayType: 'None', imageRotation: 0, imagePlacement: 'Inside Header', containerStyle: 'None',
+    containerSize: 100, containerBorder: false, containerShadow: false, containerPadding: 0,
+    imageFit: 'Cover', imageBlur: 0, imageBrightness: 100, imageContrast: 100, imageSaturation: 100,
+    avatarUrl: '', avatarShape: 'circle', avatarScale: 100, avatarPositionX: 0, avatarPositionY: 0,
+    avatarRotation: 0, avatarFlipH: false, avatarFlipV: false, avatarBorderWidth: 3,
+    avatarBorderColor: '#ffffff', avatarShadow: true, avatarGlow: false,
+    avatarBackground: 'transparent', avatarOpacity: 100,
+    avatarPosition: 'center', avatarLayer: 'above-header',
+    isWorkspaceOpen: false, isCoverEditorOpen: false, isAvatarEditorOpen: false, _workspaceBackup: null,
+    isDirty: false, past: [], future: [],
   }),
 }));

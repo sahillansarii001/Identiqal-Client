@@ -152,33 +152,10 @@ export default function PhonePreview() {
     displayPreset, 
     footerPreset,
     imageUrl,
-    imageScale,
-    imageOpacity,
-    overlayType,
-    updateHeaderImage,
-    updateHeaderImageRealTime
   } = useCardBuilderStore();
-
-  const handleUpload = (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-      updateHeaderImage({
-        imageUrl: ev.target.result,
-        imageScale: displayPreset?.defaultZoom || 100,
-        imagePositionX: displayPreset?.defaultPositionX || 0,
-        imagePositionY: displayPreset?.defaultPositionY || 0,
-        imageOpacity: 80,
-        overlayType: 'None',
-      });
-    };
-    reader.readAsDataURL(file);
-  };
 
   const activeSection = sections.find(s => s.sectionId === activeSectionId);
   const isEditingHeader = activeSection?.type === 'about';
-  const showBannerImg = !!imageUrl && displayPreset?.name !== 'Minimal';
 
   // Apply layout theme overrides
   let activeColorTheme = colorTheme || {};
@@ -223,7 +200,6 @@ export default function PhonePreview() {
     data: {
       headline: 'Alex Rivers',
       bio: 'Senior Product Designer at Framer. Crafting premium user experiences & building modern interfaces.',
-      avatarUrl: imageUrl || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80',
     }
   };
   const previewSections = (sections && sections.length > 0) ? sections : [mockAboutSection];

@@ -58,7 +58,7 @@ export const AIFeatures = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-80px" }}
-          className="grid lg:grid-cols-3 gap-10 items-stretch"
+          className="grid grid-cols-1 lg:grid-cols-3 gap-10 items-stretch"
         >
           {/* Card 1: AI Smart Introduction */}
           <motion.div

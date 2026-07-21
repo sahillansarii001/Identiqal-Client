@@ -4,7 +4,7 @@ import React from "react";
 import TopToolbar from "./TopToolbar";
 import { BlockPickerModal } from "./BlockPickerModal";
 import PhonePreview from "./PhonePreview";
-import { InspectorPanel } from "./InspectorPanel";
+import { InspectorPanel, ImageEditorPanels } from "./InspectorPanel";
 import { AppearanceEditor } from "./AppearanceEditor";
 import { useCardBuilderStore } from "@/store/cardBuilderStore";
 
@@ -18,6 +18,9 @@ export const CardBuilderCanvas = () => {
 
       {/* Block Picker Modal */}
       <BlockPickerModal />
+
+      {/* Floating image editor slide-in panels (Cover & Avatar) */}
+      <ImageEditorPanels />
 
       {/* Layout Content */}
       {activeTab === "links" ? (

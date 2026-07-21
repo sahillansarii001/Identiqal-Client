@@ -44,8 +44,7 @@ const reviews = [
   },
 ];
 
-// Triple the list for seamless infinite loop
-const scrollList = [...reviews, ...reviews, ...reviews];
+// Keep original list — we render it twice for a seamless -50% loop
 
 export const Testimonials = () => {
   const shouldReduceMotion = useSafeReducedMotion();
@@ -69,25 +68,25 @@ export const Testimonials = () => {
         </p>
       </AnimatedSection>
 
-      {/* Marquee container — pauses on hover */}
-      <div className="relative w-full overflow-hidden flex items-center select-none mask-fade group">
+      {/* Marquee — two identical halves; translateX(-50%) lands perfectly at seam */}
+      <div className="relative w-full overflow-hidden flex items-stretch select-none mask-fade group h-[260px]">
         <div
-          className={`flex space-x-6 min-w-full py-4 ${shouldReduceMotion ? "" : "animate-marquee-slow group-hover:[animation-play-state:paused]"}`}
+          className={`flex items-stretch w-max py-2 ${shouldReduceMotion ? "" : "animate-marquee group-hover:[animation-play-state:paused]"}`}
         >
-          {scrollList.map((review, index) => (
+          {/* First copy */}
+          {reviews.map((review, index) => (
             <motion.div
-              key={index}
+              key={`a-${index}`}
               whileHover={
                 shouldReduceMotion
                   ? {}
                   : {
-                      y: -6,
                       scale: 1.02,
                       boxShadow: "0 20px 40px -12px rgba(30, 64, 175, 0.12)",
                     }
               }
               transition={{ type: "spring", stiffness: 300, damping: 26 }}
-              className="group/card bg-white/55 border border-primary/6 backdrop-blur-md p-6 rounded-2xl w-[320px] shrink-0 flex flex-col justify-between cursor-default relative overflow-hidden"
+              className="group/card bg-white/55 border border-primary/6 backdrop-blur-md p-6 rounded-2xl mx-3 w-[220px] sm:w-[280px] md:w-[320px] shrink-0 h-full flex flex-col justify-between cursor-default relative overflow-hidden"
             >
               {/* Border glow on hover */}
               <motion.div
@@ -98,9 +97,8 @@ export const Testimonials = () => {
                 style={{ boxShadow: "inset 0 0 0 1px rgba(184,138,68,0.2)" }}
               />
 
-              <div className="space-y-4">
-                {/* Stars */}
-                <div className="flex space-x-1">
+              <div className="space-y-3">
+                <div className="flex space-x-0.5">
                   {[...Array(5)].map((_, i) => (
                     <motion.div
                       key={i}
@@ -108,38 +106,75 @@ export const Testimonials = () => {
                       whileInView={{ opacity: 1, scale: 1 }}
                       viewport={{ once: true }}
                       transition={{
-                        delay: 0.05 * i,
+                        delay: 0.02 * i,
                         type: "spring",
-                        stiffness: 400,
-                        damping: 18,
+                        stiffness: 600,
+                        damping: 14,
                       }}
                     >
-                      <Star
-                        size={13}
-                        fill="#2563EB"
-                        className="text-accent"
-                      />
+                      <Star size={13} fill="#2563EB" className="text-accent" />
                     </motion.div>
                   ))}
                 </div>
-
-                <p className="text-xs text-brand-secondary leading-relaxed italic">
-                  "{review.quote}"
+                <p className="text-brand-secondary text-sm leading-relaxed line-clamp-4">
+                  {review.quote}
                 </p>
               </div>
 
-              {/* Author */}
-              <div className="flex items-center space-x-3 mt-6 pt-4 border-t border-primary/5">
-                <div className="w-9 h-9 rounded-full bg-linear-to-tr from-primary to-accent flex items-center justify-center text-white font-bold text-xs shrink-0 shadow-sm">
+              <div className="flex items-center space-x-3 mt-4">
+                <div className="w-9 h-9 rounded-full bg-accent flex items-center justify-center text-white text-xs font-bold shrink-0">
                   {review.initials}
                 </div>
                 <div>
-                  <h4 className="font-bold text-brand-text text-xs font-sans">
-                    {review.name}
-                  </h4>
-                  <p className="text-[10px] text-brand-secondary font-sans">
-                    {review.role}
-                  </p>
+                  <p className="text-sm font-semibold text-brand-text">{review.name}</p>
+                  <p className="text-xs text-brand-secondary">{review.title}</p>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+
+          {/* Second copy — aria-hidden for screen readers */}
+          {reviews.map((review, index) => (
+            <motion.div
+              key={`b-${index}`}
+              aria-hidden="true"
+              whileHover={
+                shouldReduceMotion
+                  ? {}
+                  : {
+                      scale: 1.02,
+                      boxShadow: "0 20px 40px -12px rgba(30, 64, 175, 0.12)",
+                    }
+              }
+              transition={{ type: "spring", stiffness: 300, damping: 26 }}
+              className="group/card bg-white/55 border border-primary/6 backdrop-blur-md p-6 rounded-2xl mx-3 w-[220px] sm:w-[280px] md:w-[320px] shrink-0 h-full flex flex-col justify-between cursor-default relative overflow-hidden"
+            >
+              <motion.div
+                className="absolute inset-0 rounded-2xl pointer-events-none"
+                initial={{ opacity: 0 }}
+                whileHover={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
+                style={{ boxShadow: "inset 0 0 0 1px rgba(184,138,68,0.2)" }}
+              />
+
+              <div className="space-y-3">
+                <div className="flex space-x-0.5">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} size={13} fill="#2563EB" className="text-accent" />
+                  ))}
+                </div>
+                <p className="text-brand-secondary text-sm leading-relaxed line-clamp-4">
+                  {review.quote}
+                </p>
+              </div>
+
+              <div className="flex items-center space-x-3 mt-4">
+                <div className="w-9 h-9 rounded-full bg-accent flex items-center justify-center text-white text-xs font-bold shrink-0">
+                  {review.initials}
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-brand-text">{review.name}</p>
+                  <p className="text-xs text-brand-secondary">{review.title}</p>
                 </div>
               </div>
             </motion.div>
@@ -149,5 +184,3 @@ export const Testimonials = () => {
     </section>
   );
 };
-
-
