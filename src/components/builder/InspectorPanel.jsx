@@ -133,8 +133,11 @@ const ContextualEditor = ({ section }) => {
       {section.type === 'gallery' && (
         <GallerySettings data={data} onUpdate={handleUpdate} />
       )}
+      {section.type === 'video' && (
+        <VideoSettings data={data} onUpdate={handleUpdate} />
+      )}
       {['testimonials', 'form'].includes(section.type) && (
-        <div className="text-sm text-gray-400 text-center py-12 border border-gray-100 rounded-2xl bg-gray-50/50">
+        <div className="text-sm text-gray-400 dark:text-zinc-500 text-center py-12 border border-gray-100 dark:border-white/10 rounded-2xl bg-gray-50/50 dark:bg-white/5">
           Settings for {section.type} coming soon.
         </div>
       )}
@@ -349,9 +352,23 @@ export const ThemeCustomizer = () => {
           axiosInstance.get('/presets/colors'),
           axiosInstance.get('/presets/footers')
         ]);
-        // Controller returns the array directly (not wrapped in { data: [...] })
-        setDisplayPresets(Array.isArray(dRes) ? dRes : (dRes.data || []));
-        setColorThemes(Array.isArray(cRes) ? cRes : (cRes.data || []));
+        
+        // Filter out 'Colorful' and 'Professional' display layouts
+        const allDisplays = Array.isArray(dRes) ? dRes : (dRes.data || []);
+        const filteredDisplays = allDisplays.filter(d => {
+          const name = (d.name || '').toLowerCase();
+          return !name.includes('colorful') && !name.includes('professional');
+        });
+        setDisplayPresets(filteredDisplays);
+        
+        // Filter to only include Light and Dark themes
+        const allColors = Array.isArray(cRes) ? cRes : (cRes.data || []);
+        const filteredColors = allColors.filter(t => {
+          const name = (t.name || '').toLowerCase();
+          return name.includes('light') || name.includes('dark');
+        });
+        setColorThemes(filteredColors.length > 0 ? filteredColors : allColors.slice(0, 2)); // Fallback if no matching names
+        
         setFooterPresets(Array.isArray(fRes) ? fRes : (fRes.data || []));
       } catch (error) {
         console.error('Failed to load presets:', error);
@@ -516,8 +533,8 @@ export const ImageEditorPanels = () => (
 const AboutSettings = ({ data, onUpdate }) => (
   <>
     <SettingGroup title="Content">
-      <RealtimeInput label="Name / Headline" value={data.headline} onChange={(val) => onUpdate('headline', val)} />
-      <RealtimeInput label="Bio / Description" value={data.bio} onChange={(val) => onUpdate('bio', val)} as="textarea" />
+      <RealtimeInput label="Name" value={data.headline} onChange={(val) => onUpdate('headline', val)} />
+      <RealtimeInput label="Headline" value={data.bio} onChange={(val) => onUpdate('bio', val)} as="textarea" />
     </SettingGroup>
 
     <SettingGroup title="Images">
@@ -661,3 +678,122 @@ const GallerySettings = ({ data, onUpdate }) => {
   );
 };
 
+/* -------------------------------------------------------------------------- */
+/* VIDEO SETTINGS                                                              */
+/* -------------------------------------------------------------------------- */
+
+const VideoSettings = ({ data, onUpdate }) => {
+  const url = data.url || '';
+  const uploadedVideo = data.uploadedVideo || '';
+
+  // Derive embed URL from YouTube / Vimeo share links
+  const getEmbedUrl = (raw) => {
+    if (!raw) return '';
+    const ytMatch = raw.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/);
+    if (ytMatch) return `https://www.youtube.com/embed/${ytMatch[1]}?rel=0&modestbranding=1`;
+    const vimMatch = raw.match(/vimeo\.com\/(\d+)/);
+    if (vimMatch) return `https://player.vimeo.com/video/${vimMatch[1]}`;
+    if (raw.includes('youtube.com/embed') || raw.includes('player.vimeo.com')) return raw;
+    return '';
+  };
+
+  const embedUrl = getEmbedUrl(url);
+
+  const handleVideoUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    // Clear the URL field so uploaded video takes priority
+    onUpdate('url', '');
+    const reader = new FileReader();
+    reader.onload = (ev) => onUpdate('uploadedVideo', ev.target.result);
+    reader.readAsDataURL(file);
+  };
+
+  const handleClear = () => {
+    onUpdate('url', '');
+    onUpdate('uploadedVideo', '');
+  };
+
+  const hasContent = embedUrl || uploadedVideo;
+
+  return (
+    <>
+      <SettingGroup title="Video">
+
+        {/* ── Upload Button ── */}
+        <div className="space-y-1.5">
+          <label className="text-[12px] font-semibold text-gray-700 dark:text-gray-300 block">Upload Video File</label>
+          <label className="w-full flex items-center justify-center gap-2 py-2.5 bg-blue-500 hover:bg-blue-600 text-white rounded-xl text-[12px] font-bold cursor-pointer transition-all shadow-sm">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+            Upload Video
+            <input type="file" accept="video/*" className="hidden" onChange={handleVideoUpload} />
+          </label>
+        </div>
+
+        {/* ── Divider ── */}
+        <div className="flex items-center gap-3">
+          <div className="flex-1 h-px bg-gray-200 dark:bg-white/10" />
+          <span className="text-[10px] font-bold text-gray-400 dark:text-zinc-500 uppercase tracking-widest">or</span>
+          <div className="flex-1 h-px bg-gray-200 dark:bg-white/10" />
+        </div>
+
+        {/* ── URL Input ── */}
+        <RealtimeInput
+          label="YouTube or Vimeo URL"
+          value={url}
+          onChange={(val) => { onUpdate('url', val); onUpdate('uploadedVideo', ''); }}
+          placeholder="https://youtu.be/abc123"
+        />
+
+        {/* ── Preview area ── */}
+        {uploadedVideo ? (
+          <div className="rounded-2xl overflow-hidden border border-gray-200 dark:border-white/10 shadow-sm bg-black aspect-video mt-2 relative group">
+            <video src={uploadedVideo} controls className="w-full h-full object-contain" />
+            <button
+              onClick={handleClear}
+              className="absolute top-2 right-2 w-7 h-7 flex items-center justify-center bg-black/60 hover:bg-red-500 text-white rounded-full transition-all opacity-0 group-hover:opacity-100"
+              title="Remove video"
+            >
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+        ) : embedUrl ? (
+          <div className="rounded-2xl overflow-hidden border border-gray-200 dark:border-white/10 shadow-sm bg-black aspect-video mt-2 relative group">
+            <iframe
+              src={embedUrl}
+              title="Video Preview"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="w-full h-full"
+            />
+            <button
+              onClick={handleClear}
+              className="absolute top-2 right-2 w-7 h-7 flex items-center justify-center bg-black/60 hover:bg-red-500 text-white rounded-full transition-all opacity-0 group-hover:opacity-100"
+              title="Remove video"
+            >
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+        ) : url ? (
+          <p className="text-xs text-amber-500 dark:text-amber-400 bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/20 rounded-xl px-3 py-2">
+            Could not parse URL. Paste a valid YouTube or Vimeo link.
+          </p>
+        ) : (
+          <div className="rounded-2xl bg-gray-50 dark:bg-white/5 border-2 border-dashed border-gray-200 dark:border-white/10 aspect-video flex flex-col items-center justify-center gap-2 text-gray-400 dark:text-zinc-500">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><polygon points="5 3 19 12 5 21 5 3" /></svg>
+            <p className="text-xs font-medium">Upload a file or paste a URL above</p>
+          </div>
+        )}
+      </SettingGroup>
+
+      <SettingGroup title="Options">
+        <RealtimeInput
+          label="Caption (optional)"
+          value={data.caption || ''}
+          onChange={(val) => onUpdate('caption', val)}
+          placeholder="Short description shown below the video"
+        />
+      </SettingGroup>
+    </>
+  );
+};

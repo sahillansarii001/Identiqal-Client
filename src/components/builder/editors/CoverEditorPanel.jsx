@@ -6,7 +6,7 @@ import {
   X, Upload, Trash2, RefreshCw, Sun, Contrast, Droplets,
   Wind, Eye, Layers, Move, ZoomIn, RotateCw, FlipHorizontal2,
   FlipVertical2, AlignCenter, Maximize2, Minimize2, Image as ImgIcon,
-  ChevronDown,
+  ChevronDown, Video,
 } from 'lucide-react';
 
 const OVERLAY_OPTIONS = [
@@ -59,23 +59,32 @@ export default function CoverEditorPanel() {
   const store = useCardBuilderStore();
   const {
     isCoverEditorOpen, closeCoverEditor,
-    imageUrl, imageScale, imagePositionX, imagePositionY, imageOpacity,
+    imageUrl, isVideo, imageScale, imagePositionX, imagePositionY, imageOpacity,
     overlayType, imageRotation, imagePlacement, imageFit,
     imageBlur, imageBrightness, imageContrast, imageSaturation,
     updateHeaderImage, updateHeaderImageRealTime,
   } = store;
 
   const [activeTab, setActiveTab] = useState('image');
-  const fileRef = useRef(null);
+  const imageFileRef = useRef(null);
+  const videoFileRef = useRef(null);
 
   const rt = (patch) => updateHeaderImageRealTime(patch);
   const commit = (patch) => updateHeaderImage(patch);
 
-  const handleUpload = (e) => {
+  const handleImageUpload = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = (ev) => commit({ imageUrl: ev.target.result });
+    reader.onload = (ev) => commit({ imageUrl: ev.target.result, isVideo: false });
+    reader.readAsDataURL(file);
+  };
+
+  const handleVideoUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => commit({ imageUrl: ev.target.result, isVideo: true });
     reader.readAsDataURL(file);
   };
 
@@ -131,36 +140,52 @@ export default function CoverEditorPanel() {
             <div className="space-y-4">
               {imageUrl ? (
                 <div className="relative rounded-xl overflow-hidden aspect-video bg-gray-100 group">
-                  <img src={imageUrl} alt="Cover" className="w-full h-full object-cover" />
+                  {isVideo ? (
+                    <video src={imageUrl} autoPlay loop muted playsInline className="w-full h-full object-cover" />
+                  ) : (
+                    <img src={imageUrl} alt="Cover" className="w-full h-full object-cover" />
+                  )}
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100">
                     <label className="w-8 h-8 bg-white rounded-lg flex items-center justify-center cursor-pointer shadow-sm hover:bg-gray-50 transition">
                       <RefreshCw size={14} className="text-gray-700" />
-                      <input type="file" accept="image/*" className="hidden" onChange={handleUpload} />
+                      <input type="file" accept={isVideo ? 'video/*' : 'image/*'} className="hidden" onChange={isVideo ? handleVideoUpload : handleImageUpload} />
                     </label>
-                    <button onClick={() => commit({ imageUrl: '' })}
+                    <button onClick={() => commit({ imageUrl: '', isVideo: false })}
                       className="w-8 h-8 bg-red-500 rounded-lg flex items-center justify-center hover:bg-red-600 transition shadow-sm">
                       <Trash2 size={14} className="text-white" />
                     </button>
                   </div>
                 </div>
               ) : (
-                <label className="flex flex-col items-center justify-center gap-3 h-32 border-2 border-dashed border-gray-200 rounded-xl cursor-pointer hover:border-blue-400 hover:bg-blue-50/50 transition-all group">
-                  <div className="w-10 h-10 rounded-xl bg-gray-100 group-hover:bg-blue-100 flex items-center justify-center transition">
-                    <Upload size={18} className="text-gray-400 group-hover:text-blue-500" />
+                <div className="space-y-3">
+                  <div className="flex gap-2">
+                    {/* Image Upload Button */}
+                    <label className="flex-1 flex flex-col items-center justify-center gap-2 py-6 border-2 border-dashed border-gray-200 rounded-2xl cursor-pointer hover:border-blue-400 hover:bg-blue-50/50 transition-all group">
+                      <Upload size={16} className="text-gray-400 group-hover:text-blue-500" />
+                      <span className="text-[11px] font-bold text-gray-600 group-hover:text-blue-600">Upload Image</span>
+                      <input type="file" accept="image/*" className="hidden" onChange={handleImageUpload} />
+                    </label>
+
+                    {/* Video Upload Button */}
+                    <label className="flex-1 flex flex-col items-center justify-center gap-2 py-6 border-2 border-dashed border-gray-200 rounded-2xl cursor-pointer hover:border-indigo-400 hover:bg-indigo-50/50 transition-all group">
+                      <Video size={16} className="text-gray-400 group-hover:text-indigo-500" />
+                      <span className="text-[11px] font-bold text-gray-600 group-hover:text-indigo-600">Upload Video</span>
+                      <input type="file" accept="video/*" className="hidden" onChange={handleVideoUpload} />
+                    </label>
                   </div>
-                  <div className="text-center">
-                    <p className="text-sm font-semibold text-gray-600 group-hover:text-blue-600">Upload Cover Image</p>
-                    <p className="text-[11px] text-gray-400">JPG, PNG, WebP up to 10MB</p>
-                  </div>
-                  <input type="file" accept="image/*" className="hidden" onChange={handleUpload} />
-                </label>
+                </div>
               )}
 
               {/* URL paste */}
               <div className="space-y-1.5">
-                <label className="text-[11px] font-semibold text-gray-500">Or paste image URL</label>
-                <input type="text" value={imageUrl || ''} placeholder="https://example.com/image.jpg"
-                  onChange={(e) => rt({ imageUrl: e.target.value })}
+                <label className="text-[11px] font-semibold text-gray-500">Or paste image/video URL</label>
+                <input type="text" value={imageUrl?.startsWith('http') ? imageUrl : ''} placeholder="https://example.com/image.jpg or .mp4"
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    const isVid = !!val.trim().match(/\.(mp4|webm|ogg|mov|mkv)($|\?)/i);
+                    rt({ imageUrl: val, isVideo: isVid });
+                    commit({ imageUrl: val, isVideo: isVid });
+                  }}
                   className="w-full px-3 py-2 text-sm bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400" />
               </div>
 

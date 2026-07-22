@@ -86,11 +86,19 @@ export default async function PublicCardPage(props) {
                       ...sec, 
                       cardId: card._id,
                       imageUrl: card.imageUrl,
+                      isVideo: card.isVideo,
                       imageScale: card.imageScale,
                       imagePositionX: card.imagePositionX,
                       imagePositionY: card.imagePositionY,
                       imageOpacity: card.imageOpacity,
                       overlayType: card.overlayType,
+                      imageRotation: card.imageRotation,
+                      imagePlacement: card.imagePlacement,
+                      imageFit: card.imageFit,
+                      imageBlur: card.imageBlur,
+                      imageBrightness: card.imageBrightness,
+                      imageContrast: card.imageContrast,
+                      imageSaturation: card.imageSaturation,
                     }}
                     theme={theme}
                     displayPreset={displayPreset}

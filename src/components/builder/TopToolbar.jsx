@@ -260,11 +260,10 @@ function LivePreviewOverlay({ store, sections, onClose }) {
 /* ─── Main TopToolbar ─────────────────────────────────────────── */
 export default function TopToolbar() {
   const router = useRouter();
-  const store = useCardBuilderStore();
+  const store  = useCardBuilderStore();
   const {
-    cardId, title, sections, seo, saveStatus, setSaveStatus, setCard,
-    past, future, undo, redo,
-    displayPreset, colorTheme, footerPreset,
+    title, undo, redo, past, future, previewMode, setPreviewMode,
+    activeSections, displayPreset, colorTheme, footerPreset, setCard,
     imageUrl, imageScale, imagePositionX, imagePositionY,
     imageOpacity, overlayType, imageRotation, imagePlacement,
     containerStyle, containerSize, containerBorder, containerShadow,
@@ -272,40 +271,25 @@ export default function TopToolbar() {
     imageContrast, imageSaturation,
   } = store;
 
-  const [previewMode,  setPreviewMode]  = useState("card");
-  const [publicOpen,   setPublicOpen]   = useState(false);
-  const [liveOpen,     setLiveOpen]     = useState(false);
+  const [saveStatus, setSaveStatus] = useState("idle");
+  const [publicOpen, setPublicOpen] = useState(false);
+  const [liveOpen,   setLiveOpen]   = useState(false);
 
-  // Active sections for overlays
-  const activeSections = (sections && sections.length > 0)
-    ? sections
-    : [{
-        sectionId: "about",
-        type: "about",
-        isVisible: true,
-        data: {
-          headline: "Alex Rivers",
-          bio: "Senior Product Designer at Framer. Crafting premium user experiences.",
-          avatarUrl: imageUrl || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80",
-        },
-      }];
-
-  // Handle tab clicks — public/live open overlays, card is the default state
-  const handleModeChange = useCallback((id) => {
-    if (id === "public") { setPublicOpen(true); setPreviewMode("card"); return; }
-    if (id === "live")   { setLiveOpen(true);   setPreviewMode("card"); return; }
-    setPreviewMode(id);
-  }, []);
+  const handleModeChange = (modeId) => {
+    if (modeId === "public") {
+      setPublicOpen(true);
+    } else if (modeId === "live") {
+      setLiveOpen(true);
+    } else {
+      setPreviewMode(modeId);
+    }
+  };
 
   const handleSaveCard = async () => {
-    if (!cardId) return;
     setSaveStatus("saving");
     try {
-      const response = await cardService.updateCard(cardId, {
-        title, sections, seo,
-        displayPresetId: displayPreset?._id || null,
-        colorThemeId:    colorTheme?._id    || null,
-        footerPresetId:  footerPreset?._id  || null,
+      const response = await cardService.saveCardLayout({
+        title, activeSections, displayPreset, colorTheme, footerPreset,
         imageUrl, imageScale, imagePositionX, imagePositionY,
         imageOpacity, overlayType, imageRotation, imagePlacement,
         containerStyle, containerSize, containerBorder, containerShadow,
@@ -326,17 +310,17 @@ export default function TopToolbar() {
   return (
     <>
       {/* ─── TOOLBAR STRIP ──────────────────────────────────────── */}
-      <div className="h-14 border-b border-gray-200 bg-white px-5 flex items-center gap-3 sticky top-0 z-20">
+      <div className="h-14 border-b border-gray-200 dark:border-white/10 bg-white dark:bg-[#111111] px-3 sm:px-5 flex items-center justify-between sm:justify-start gap-1.5 sm:gap-3 sticky top-0 z-20 transition-colors overflow-x-auto no-scrollbar w-full max-w-full min-w-0">
 
         {/* Brand */}
-        <span className="font-bold text-lg text-primary select-none shrink-0">identiqal</span>
-        <div className="h-5 w-px bg-gray-200 shrink-0" />
+        <span className="hidden sm:inline-block font-bold text-lg text-primary dark:text-blue-500 select-none shrink-0">identiqal</span>
+        <div className="hidden sm:block h-5 w-px bg-gray-200 dark:bg-white/10 shrink-0" />
 
         {/* Card title */}
-        <span className="text-sm font-medium text-gray-600 shrink-0 max-w-[100px] truncate">
+        <span className="hidden md:inline-block text-sm font-semibold text-gray-700 dark:text-zinc-200 shrink-0 max-w-[100px] truncate">
           {title || "Untitled Card"}
         </span>
-        <div className="h-5 w-px bg-gray-200 shrink-0" />
+        <div className="hidden md:block h-5 w-px bg-gray-200 dark:bg-white/10 shrink-0" />
 
         {/* Undo / Redo */}
         <div className="flex items-center gap-0.5 shrink-0">
@@ -344,7 +328,7 @@ export default function TopToolbar() {
             onClick={undo}
             disabled={past.length === 0}
             title="Undo"
-            className="w-7 h-7 flex items-center justify-center rounded-md hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed text-gray-500 hover:text-gray-800 transition-colors"
+            className="w-7 h-7 flex items-center justify-center rounded-md hover:bg-gray-100 dark:hover:bg-zinc-800 disabled:opacity-30 disabled:cursor-not-allowed text-gray-500 dark:text-zinc-400 hover:text-gray-800 dark:hover:text-white transition-colors"
           >
             <Undo size={14} />
           </button>
@@ -352,43 +336,15 @@ export default function TopToolbar() {
             onClick={redo}
             disabled={future.length === 0}
             title="Redo"
-            className="w-7 h-7 flex items-center justify-center rounded-md hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed text-gray-500 hover:text-gray-800 transition-colors"
+            className="w-7 h-7 flex items-center justify-center rounded-md hover:bg-gray-100 dark:hover:bg-zinc-800 disabled:opacity-30 disabled:cursor-not-allowed text-gray-500 dark:text-zinc-400 hover:text-gray-800 dark:hover:text-white transition-colors"
           >
             <Redo size={14} />
           </button>
         </div>
-        <div className="h-5 w-px bg-gray-200 shrink-0" />
-
-        {/* Links / Appearance tabs */}
-        <div className="flex bg-gray-100 p-1 rounded-full shrink-0">
-          {["links", "appearance"].map((tab) => {
-            const isActive = (store.activeTab || "links") === tab;
-            return (
-              <button
-                key={tab}
-                onClick={() => store.setActiveTab(tab)}
-                className={`relative px-4 py-1.5 rounded-full text-sm font-semibold transition-all capitalize cursor-pointer ${
-                  isActive ? "text-gray-900" : "text-gray-500 hover:text-gray-800"
-                }`}
-              >
-                {isActive && (
-                  <motion.div
-                    layoutId="toolbar-tab-pill"
-                    className="absolute inset-0 bg-white rounded-full shadow-sm"
-                    transition={{ type: "spring", stiffness: 440, damping: 34 }}
-                  />
-                )}
-                <span className="relative capitalize">{tab}</span>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Spacer — pushes everything after to the right */}
-        <div className="flex-1" />
+        <div className="hidden sm:block h-5 w-px bg-gray-200 dark:bg-white/10 shrink-0" />
 
         {/* 3-Mode Preview Segmented Control */}
-        <div className="flex relative bg-gray-100 p-1 rounded-xl border border-gray-200/80 shrink-0">
+        <div className="flex relative bg-gray-100 dark:bg-zinc-950 p-1 rounded-xl border border-gray-200/80 dark:border-white/5 shrink-0">
           {PREVIEW_MODES.map((mode) => {
             const Icon     = mode.icon;
             const isActive = previewMode === mode.id;
@@ -397,54 +353,58 @@ export default function TopToolbar() {
                 key={mode.id}
                 type="button"
                 onClick={() => handleModeChange(mode.id)}
-                className="relative px-3 py-1.5 rounded-lg text-[11px] font-semibold flex items-center gap-1.5 cursor-pointer z-10 whitespace-nowrap focus-visible:outline-none"
+                className="relative px-2 sm:px-3 py-1.5 rounded-lg text-[11px] font-semibold flex items-center gap-1 sm:gap-1.5 cursor-pointer z-10 whitespace-nowrap focus-visible:outline-none"
               >
                 {isActive && (
                   <motion.div
                     layoutId="builder-preview-tab"
-                    className="absolute inset-0 bg-white rounded-lg shadow-sm border border-gray-200/70"
+                    className="absolute inset-0 bg-white dark:bg-zinc-900 rounded-lg shadow-sm border border-gray-200/70 dark:border-white/10"
                     transition={{ type: "spring", stiffness: 440, damping: 34 }}
                   />
                 )}
                 <span className={`relative flex items-center gap-1.5 ${
                   isActive
-                    ? mode.id === "live" ? "text-emerald-600" : "text-blue-600"
-                    : "text-gray-500 hover:text-gray-700"
+                    ? mode.id === "live" ? "text-emerald-600 dark:text-emerald-400 font-extrabold" : "text-blue-600 dark:text-blue-400 font-extrabold"
+                    : "text-gray-500 hover:text-gray-700 dark:text-zinc-450 dark:hover:text-zinc-200"
                 }`}>
                   {mode.id === "live" && (
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
                   )}
                   <Icon size={12} />
-                  <span>{mode.label}</span>
+                  <span className="hidden xl:inline">{mode.label}</span>
+                  <span className="hidden sm:inline xl:hidden">{mode.shortLabel}</span>
                 </span>
               </button>
             );
           })}
         </div>
 
-        <div className="h-5 w-px bg-gray-200 shrink-0" />
+        {/* Spacer — pushes everything after to the right */}
+        <div className="flex-1" />
+
+        <div className="hidden sm:block h-5 w-px bg-gray-200 dark:bg-white/10 shrink-0" />
 
         {/* Share */}
         <button
           onClick={() => alert("Share dialog coming soon!")}
-          className="flex items-center gap-1.5 px-4 py-2 rounded-full border border-gray-200 text-gray-700 hover:bg-gray-50 font-medium text-sm transition-all shrink-0"
+          className="hidden md:flex items-center gap-1.5 px-3 py-1.5 sm:py-2 rounded-full border border-gray-200 dark:border-zinc-800 text-gray-700 dark:text-zinc-300 hover:bg-gray-50 dark:hover:bg-zinc-800/80 font-medium text-xs sm:text-sm transition-all shrink-0 cursor-pointer"
         >
           <Share size={14} />
-          Share
+          <span>Share</span>
         </button>
 
         {/* Save Layout */}
         <button
           onClick={handleSaveCard}
           disabled={saveStatus === "saving"}
-          className="flex items-center gap-1.5 px-5 py-2 rounded-full bg-gray-900 text-white hover:bg-black font-semibold text-sm transition-all shadow-sm active:scale-95 disabled:opacity-50 whitespace-nowrap shrink-0"
+          className="flex items-center gap-1.5 px-3.5 sm:px-5 py-1.5 sm:py-2 rounded-full bg-gray-900 dark:bg-blue-600 text-white hover:bg-black dark:hover:bg-blue-700 font-semibold text-xs sm:text-sm transition-all shadow-sm active:scale-95 disabled:opacity-50 whitespace-nowrap shrink-0 cursor-pointer"
         >
           {saveStatus === "saving" ? (
             <Loader2 size={14} className="animate-spin" />
           ) : (
             <Check size={14} />
           )}
-          {saveStatus === "saving" ? "Saving..." : "Save Layout"}
+          <span>{saveStatus === "saving" ? "Saving..." : "Save"}<span className="hidden sm:inline">&nbsp;Layout</span></span>
         </button>
       </div>
       {/* ─── Public Page Overlay ─── */}

@@ -91,7 +91,7 @@ export default function LoginPage() {
 
           {/* Global Error Banner */}
           {errorMsg && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-xl text-xs flex items-center space-x-2 animate-shake">
+            <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400 rounded-xl text-xs flex items-center space-x-2 animate-shake">
               <ShieldAlert size={16} className="shrink-0 animate-pulse" />
               <span>{errorMsg}</span>
             </div>

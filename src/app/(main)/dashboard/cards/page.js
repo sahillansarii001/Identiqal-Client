@@ -179,9 +179,15 @@ export default function CardsPage() {
   const onSubmit = async (data) => {
     setErrorMsg('');
     try {
-      await createCard({ slug: data.slug, title: data.title });
+      const res = await createCard({ slug: data.slug, title: data.title });
+      const targetSlug = res?.data?.slug || res?.slug || data.slug;
       setIsModalOpen(false);
       reset();
+      if (typeof window !== 'undefined' && targetSlug) {
+        window.location.href = `/dashboard/cards/${targetSlug}`;
+      } else {
+        router.push(`/dashboard/cards/${targetSlug}`);
+      }
     } catch (err) {
       setErrorMsg(err.message || 'Slug already exists or creation failed');
     }
@@ -290,7 +296,7 @@ export default function CardsPage() {
       {/* Creation Modal */}
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Create Premium Digital Card">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 p-2">
-          {errorMsg && <p className="text-xs bg-red-50 text-red-600 border border-red-100 p-3 rounded-xl font-bold">{errorMsg}</p>}
+          {errorMsg && <p className="text-xs bg-red-500/10 text-red-600 dark:text-red-400 border border-red-500/20 p-3.5 rounded-xl font-bold">{errorMsg}</p>}
           <Input
             label="Card Title"
             placeholder="e.g. John Doe — Executive Profile"

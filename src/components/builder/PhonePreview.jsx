@@ -1,7 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import { useCardBuilderStore } from '@/store/cardBuilderStore';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SectionRenderer } from './SectionRenderer';
+import { 
+  Smartphone, 
+  Monitor, 
+  Globe, 
+  ZoomIn, 
+  ZoomOut, 
+  Maximize2, 
+  ChevronDown
+} from 'lucide-react';
 
 /* ── Preset-driven style helpers ─────────────────────────────────────── */
 
@@ -19,71 +28,12 @@ function getCardRadius(cardShape) {
 }
 
 function getCardShadow(cardShape, colorTheme) {
-  if (cardShape === 'Floating') return '0 32px 80px -8px rgba(0,0,0,0.45), 0 0 0 1.5px rgba(255,255,255,0.18)';
-  if (cardShape === 'Glass') return '0 8px 32px rgba(0,0,0,0.18), inset 0 0 0 1px rgba(255,255,255,0.25)';
-  if (cardShape === 'Soft Shadow') return '0 12px 40px rgba(0,0,0,0.15)';
+  if (cardShape === 'Floating') return '0 32px 80px -8px rgba(0,0,0,0.55), 0 0 0 1.5px rgba(255,255,255,0.18)';
+  if (cardShape === 'Glass') return '0 8px 32px rgba(0,0,0,0.25), inset 0 0 0 1px rgba(255,255,255,0.25)';
+  if (cardShape === 'Soft Shadow') return '0 16px 48px rgba(0,0,0,0.20)';
   if (cardShape === 'Border') return `0 0 0 2px ${colorTheme?.border || 'rgba(0,0,0,0.12)'}`;
   if (cardShape === 'Borderless') return 'none';
-  return '0 0 0 1.5px rgba(255,255,255,0.22), 0 24px 64px -12px rgba(0,0,0,0.55)';
-}
-
-function getAvatarShape(profilePhotoStyle) {
-  const map = {
-    'Circle': '50%',
-    'Rounded Square': '20%',
-    'Square': '0px',
-    'Glass Border': '50%',
-    'Gradient Border': '50%',
-    'Shadow': '50%',
-    'No Border': '50%',
-  };
-  return map[profilePhotoStyle] || '50%';
-}
-
-function getAvatarBorderStyle(profilePhotoStyle, colorTheme) {
-  if (profilePhotoStyle === 'Gradient Border') {
-    return {
-      border: '3px solid transparent',
-      backgroundClip: 'padding-box',
-      outline: `3px solid ${colorTheme?.accent || colorTheme?.primary || '#000'}`,
-    };
-  }
-  if (profilePhotoStyle === 'Glass Border') {
-    return {
-      border: '3px solid rgba(255,255,255,0.5)',
-      backdropFilter: 'blur(8px)',
-    };
-  }
-  if (profilePhotoStyle === 'Shadow') {
-    return {
-      border: '3px solid rgba(255,255,255,0.9)',
-      boxShadow: '0 4px 20px rgba(0,0,0,0.25)',
-    };
-  }
-  if (profilePhotoStyle === 'No Border') {
-    return { border: 'none' };
-  }
-  return { border: `3px solid ${colorTheme?.background || '#fff'}` };
-}
-
-function getHeaderHeight(displayPreset) {
-  // Use explicit headerHeight if set, otherwise derive from style
-  if (displayPreset?.headerHeight) return displayPreset.headerHeight;
-  const style = displayPreset?.headerStyle;
-  if (style === 'Full Image' || style === 'Full Video') return '300px';
-  return '200px';
-}
-
-function getProfilePosition(position) {
-  // Returns alignment class for the profile block
-  const map = {
-    'Left': 'items-start text-left',
-    'Center': 'items-center text-center',
-    'Right': 'items-end text-right',
-    'Floating': 'items-center text-center',
-    'Overlapping Header': 'items-center text-center',
-  };
-  return map[position] || 'items-center text-center';
+  return '0 25px 70px -12px rgba(0,0,0,0.65), 0 0 0 1px rgba(255,255,255,0.10)';
 }
 
 /* ── Footer Strip ────────────────────────────────────────────────────── */
@@ -96,7 +46,8 @@ function FooterStrip({ footerPreset, colorTheme }) {
 
   return (
     <div
-      className="w-full py-3 text-center text-[10px] opacity-50 tracking-wide border-t"
+      data-section-id="footer"
+      className="w-full py-3.5 text-center text-[10px] opacity-50 tracking-wide border-t shrink-0"
       style={{
         color: colorTheme?.text || '#555',
         borderColor: colorTheme?.border || 'rgba(0,0,0,0.06)',
@@ -108,18 +59,21 @@ function FooterStrip({ footerPreset, colorTheme }) {
 }
 
 /* ── Preview Section wrapper ─────────────────────────────────────────── */
-const PreviewSection = ({ section, theme, displayPreset, colorTheme, activeSectionId, setActiveSection, cardId }) => {
+const PreviewSection = ({ section, theme, displayPreset, colorTheme, activeSectionId, setActiveSection, cardId, isPublicMode, isHighlighted }) => {
   const isActive = activeSectionId === section.sectionId;
 
   if (!section.isVisible) return null;
 
   return (
     <div
-      onClick={() => setActiveSection(section.sectionId)}
-      className={`relative transition-all duration-300 cursor-pointer overflow-visible ${
-        isActive
-          ? 'z-10 bg-primary/[0.04]'
-          : 'opacity-95 hover:opacity-100 z-0 hover:bg-black/[0.02] dark:hover:bg-white/[0.02]'
+      data-section-id={section.sectionId}
+      onClick={() => !isPublicMode && setActiveSection(section.sectionId)}
+      className={`relative transition-all duration-500 ${isPublicMode ? '' : 'cursor-pointer'} ${
+        isHighlighted
+          ? 'ring-2 ring-blue-500 ring-offset-2 ring-offset-slate-900 shadow-[0_0_24px_rgba(59,130,246,0.45)] z-20 rounded-xl'
+          : !isPublicMode && isActive
+            ? 'z-10 bg-primary/[0.04]'
+            : !isPublicMode ? 'opacity-95 hover:opacity-100 z-0 hover:bg-black/[0.02] dark:hover:bg-white/[0.02]' : ''
       }`}
     >
       <div className="w-full relative pointer-events-none [&_*]:pointer-events-auto">
@@ -132,30 +86,33 @@ const PreviewSection = ({ section, theme, displayPreset, colorTheme, activeSecti
         />
       </div>
 
-      {/* Active indicator */}
-      {isActive && (
-        <div className="absolute inset-y-0 left-0 w-1 bg-primary rounded-r-full" />
-      )}
+      {/* Active section indicator line removed per request */}
     </div>
   );
 };
 
-/* ── Main PhonePreview ───────────────────────────────────────────────── */
-export default function PhonePreview() {
+/* ── Main Professional Fixed Live Preview Canvas ─────────────────────── */
+export default function LiveCanvasPreview() {
   const { 
     cardId, 
     sections, 
     activeSectionId, 
     setActiveSection, 
-    setBlockPickerOpen, 
     colorTheme, 
     displayPreset, 
     footerPreset,
     imageUrl,
   } = useCardBuilderStore();
 
-  const activeSection = sections.find(s => s.sectionId === activeSectionId);
-  const isEditingHeader = activeSection?.type === 'about';
+  const [viewportMode, setViewportMode] = useState('mobile'); // 'mobile' | 'desktop' | 'public'
+  const [zoomLevel, setZoomLevel]       = useState(100);      // 50 | 75 | 100 | 125 | 150 | 200
+  const [computedScale, setComputedScale] = useState(1);
+  const [zoomDropdownOpen, setZoomDropdownOpen] = useState(false);
+  const [highlightedSectionId, setHighlightedSectionId] = useState(null);
+
+  const canvasViewportRef = useRef(null);
+  const cardContentRef    = useRef(null);
+  const highlightTimerRef = useRef(null);
 
   // Apply layout theme overrides
   let activeColorTheme = colorTheme || {};
@@ -199,127 +156,275 @@ export default function PhonePreview() {
     isVisible: true,
     data: {
       headline: 'Alex Rivers',
-      bio: 'Senior Product Designer at Framer. Crafting premium user experiences & building modern interfaces.',
+      title: 'Senior Product Designer',
+      department: 'Product Design',
+      company: 'Framer',
+      bio: 'Crafting premium user experiences & building modern interfaces.',
     }
   };
   const previewSections = (sections && sections.length > 0) ? sections : [mockAboutSection];
   const cardRadius = getCardRadius(displayPreset?.cardShape);
   const cardShadow = getCardShadow(displayPreset?.cardShape, activeColorTheme);
 
-  return (
-    <div
-      className={`flex-1 min-w-0 flex overflow-auto relative justify-center items-start scroll-smooth ${
-        isStudioMode 
-          ? 'bg-transparent pt-4 px-2 pb-6' 
-          : 'bg-[#F8F6F4] dark:!bg-[#0D0B0D] pt-[40px] px-4 sm:px-8 lg:px-12 pb-[120px]'
-      }`}
-      style={{ height: isStudioMode ? '100%' : 'calc(100vh - 120px)' }}
-    >
-      {/* Ambient glows */}
-      <div className="absolute top-[10%] left-[20%] w-[500px] h-[500px] bg-[#3B82F6]/10 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[20%] right-[10%] w-[600px] h-[600px] bg-[#2563EB]/5 rounded-full blur-[140px] pointer-events-none" />
+  // ── Always Reset Preview Scroll to TOP (top: 0 instant) ──────────────
+  const resetScrollToTop = () => {
+    if (canvasViewportRef.current) {
+      canvasViewportRef.current.scrollTop = 0;
+      canvasViewportRef.current.scrollTo({ top: 0, behavior: 'instant' });
+    }
+  };
 
-      {/* Card Canvas */}
-      <motion.div
-        initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ type: 'spring', stiffness: 200, damping: 25 }}
-        className="relative overflow-hidden flex-shrink-0 z-10 transition-all duration-500 w-full max-w-[400px] h-fit min-h-[560px]"
+  useEffect(() => {
+    resetScrollToTop();
+  }, [viewportMode, activeSectionId, sections, displayPreset, colorTheme, footerPreset, imageUrl]);
+
+  // ── Auto-Fit Card Height (Dynamically scale card to fit preview container)
+  useLayoutEffect(() => {
+    const calculateScale = () => {
+      if (!canvasViewportRef.current || !cardContentRef.current) return;
+
+      const contentHeight  = cardContentRef.current.offsetHeight || cardContentRef.current.scrollHeight;
+      const viewportHeight = canvasViewportRef.current.clientHeight;
+
+      if (contentHeight > 0 && viewportHeight > 0) {
+        const availableHeight = viewportHeight - 48; // Leave padding top & bottom
+        if (contentHeight > availableHeight && availableHeight > 100) {
+          const ratio = availableHeight / contentHeight;
+          setComputedScale(Math.max(0.25, Math.min(1, ratio)));
+        } else {
+          setComputedScale(1);
+        }
+      }
+    };
+
+    calculateScale();
+
+    const observer = new ResizeObserver(calculateScale);
+    if (cardContentRef.current)    observer.observe(cardContentRef.current);
+    if (canvasViewportRef.current) observer.observe(canvasViewportRef.current);
+
+    return () => observer.disconnect();
+  }, [sections, displayPreset, colorTheme, footerPreset, imageUrl, viewportMode]);
+
+  // ── Highlight Pulse on Section Change ────────────────────────────────
+  useEffect(() => {
+    if (!activeSectionId) return;
+    setHighlightedSectionId(activeSectionId);
+    if (highlightTimerRef.current) clearTimeout(highlightTimerRef.current);
+    highlightTimerRef.current = setTimeout(() => {
+      setHighlightedSectionId(null);
+    }, 2000);
+  }, [activeSectionId]);
+
+  // Effective scale combining auto-fit scale and zoom level
+  const effectiveScale = computedScale * (zoomLevel / 100);
+
+  // Zoom preset options
+  const ZOOM_OPTIONS = [50, 75, 100, 125, 150, 200];
+
+  const handleZoomChange = (val) => {
+    setZoomLevel(val);
+    setZoomDropdownOpen(false);
+  };
+
+  const handleStepZoom = (delta) => {
+    let idx = ZOOM_OPTIONS.findIndex(z => z >= zoomLevel);
+    if (idx === -1) idx = 2;
+    let nextIdx = Math.max(0, Math.min(ZOOM_OPTIONS.length - 1, idx + delta));
+    setZoomLevel(ZOOM_OPTIONS[nextIdx]);
+  };
+
+  return (
+    <div className="flex-1 w-full h-full flex flex-col overflow-hidden relative bg-[#0E1018] text-slate-100 select-none">
+      
+      {/* ─── CANVAS CONTROL TOOLBAR (Top) ─────────────────────────────────── */}
+      <div className="h-12 border-b border-white/10 bg-[#121520]/90 backdrop-blur-md px-3 sm:px-6 flex items-center justify-between gap-3 shrink-0 z-30 overflow-x-auto no-scrollbar">
+        
+        {/* Left: Viewport Mode Switcher */}
+        <div className="flex bg-[#0A0C12] p-1 rounded-xl border border-white/10 shrink-0">
+          <button
+            onClick={() => setViewportMode('mobile')}
+            className={`px-2.5 sm:px-3 py-1 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
+              viewportMode === 'mobile'
+                ? 'bg-blue-600 text-white shadow-sm font-bold'
+                : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            <Smartphone size={13} />
+            <span>Mobile</span>
+          </button>
+
+          <button
+            onClick={() => setViewportMode('desktop')}
+            className={`px-2.5 sm:px-3 py-1 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
+              viewportMode === 'desktop'
+                ? 'bg-blue-600 text-white shadow-sm font-bold'
+                : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            <Monitor size={13} />
+            <span>Desktop</span>
+          </button>
+
+          <button
+            onClick={() => setViewportMode('public')}
+            className={`px-2.5 sm:px-3 py-1 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
+              viewportMode === 'public'
+                ? 'bg-emerald-600 text-white shadow-sm font-bold'
+                : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            <Globe size={13} />
+            <span>Public Page</span>
+          </button>
+        </div>
+
+        {/* Right: Zoom Controls (Hidden in Public Mode) */}
+        {viewportMode !== 'public' && (
+          <div className="flex items-center gap-2 shrink-0">
+            {/* Zoom Stepper */}
+            <div className="flex items-center bg-[#0A0C12] border border-white/10 rounded-xl p-0.5 text-xs text-slate-300">
+              <button
+                onClick={() => handleStepZoom(-1)}
+                title="Zoom Out"
+                className="w-7 h-7 flex items-center justify-center hover:bg-white/10 rounded-lg transition-colors cursor-pointer text-slate-400 hover:text-white"
+              >
+                <ZoomOut size={13} />
+              </button>
+
+              {/* Zoom Dropdown */}
+              <div className="relative">
+                <button
+                  onClick={() => setZoomDropdownOpen(!zoomDropdownOpen)}
+                  className="px-2 py-1 flex items-center gap-1 font-mono text-[11px] font-bold text-slate-200 hover:text-white cursor-pointer"
+                >
+                  <span>{Math.round(effectiveScale * 100)}%</span>
+                  <ChevronDown size={11} className="text-slate-400" />
+                </button>
+
+                {zoomDropdownOpen && (
+                  <div className="absolute top-full right-0 mt-1.5 w-24 bg-[#181C2B] border border-white/15 rounded-xl shadow-2xl py-1 z-50 text-xs">
+                    {ZOOM_OPTIONS.map((val) => (
+                      <button
+                        key={val}
+                        onClick={() => handleZoomChange(val)}
+                        className={`w-full px-3 py-1.5 text-left text-[11px] font-mono font-medium cursor-pointer ${
+                          zoomLevel === val ? 'text-blue-400 bg-blue-500/10 font-bold' : 'text-slate-300 hover:bg-white/5'
+                        }`}
+                      >
+                        {val}%
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <button
+                onClick={() => handleStepZoom(1)}
+                title="Zoom In"
+                className="w-7 h-7 flex items-center justify-center hover:bg-white/10 rounded-lg transition-colors cursor-pointer text-slate-400 hover:text-white"
+              >
+                <ZoomIn size={13} />
+              </button>
+            </div>
+
+            {/* Fit to Screen Button */}
+            <button
+              onClick={() => { setZoomLevel(100); resetScrollToTop(); }}
+              title="Reset Zoom & Fit to Screen"
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-[#0A0C12] hover:bg-white/10 border border-white/10 rounded-xl text-xs font-semibold text-slate-300 hover:text-white transition-all cursor-pointer active:scale-95"
+            >
+              <Maximize2 size={13} />
+              <span className="hidden sm:inline">Fit to Screen</span>
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* ─── FIXED NON-SCROLLABLE DESIGN CANVAS VIEWPORT ─────────────────── */}
+      <div
+        ref={canvasViewportRef}
+        onWheel={(e) => e.preventDefault()}
+        onTouchMove={(e) => e.preventDefault()}
+        className={`flex-1 w-full h-full relative flex items-start justify-center pt-6 sm:pt-8 pb-8 overflow-hidden select-none transition-colors duration-500 ${
+          viewportMode === 'public'
+            ? 'bg-[#F8F6F4] dark:bg-[#0A0A0A]'
+            : ''
+        }`}
         style={{
-          borderRadius: cardRadius,
-          boxShadow: cardShadow,
+          overflow: 'hidden',
+          touchAction: 'none',
+          overscrollBehavior: 'none',
+          ...(viewportMode !== 'public'
+            ? { background: 'radial-gradient(circle at 50% 35%, #181C2B 0%, #0E1018 75%)' }
+            : {})
         }}
-        data-card-preview="true"
       >
-        {/* Card Background */}
+        {/* Soft Ambient Vignette Lighting */}
+        {viewportMode !== 'public' && (
+          <>
+            <div className="absolute top-[15%] left-[25%] w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-[140px] pointer-events-none" />
+            <div className="absolute bottom-[20%] right-[20%] w-[500px] h-[500px] bg-indigo-500/8 rounded-full blur-[120px] pointer-events-none" />
+          </>
+        )}
+
+        {/* ─── DYNAMICALLY AUTO-SCALED FLOATING CARD ─────────────────────── */}
         <div
-          className="w-full h-full relative"
+          ref={cardContentRef}
+          className={`shrink-0 relative transition-transform duration-300 ease-out origin-top mt-2 overflow-hidden ${
+            viewportMode === 'public'
+              ? 'w-full max-w-[420px]'
+              : viewportMode === 'desktop'
+                ? 'w-[640px] sm:w-[720px]'
+                : 'w-[360px] sm:w-[380px]'
+          }`}
           style={{
+            transform: `scale(${effectiveScale})`,
+            transformOrigin: 'top center',
+            borderRadius: cardRadius,
+            overflow: 'hidden',
+            boxShadow: viewportMode === 'public' ? cardShadow : getCardShadow(displayPreset?.cardShape, activeColorTheme),
             backgroundColor: activeColorTheme?.background || '#ffffff',
             color: activeColorTheme?.text || '#1A1A1A',
             fontFamily: 'Inter, sans-serif',
           }}
+          data-card-preview="true"
         >
           <AnimatePresence mode="popLayout">
-            {(!isStudioMode && sections.length === 0) ? (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                className="flex flex-col items-center justify-center min-h-[560px] text-center px-8 py-12 bg-white/50 dark:bg-[#151215]/50 backdrop-blur-sm"
-              >
-                <div className="relative w-32 h-32 mb-8">
-                  <div className="absolute inset-0 bg-primary/5 dark:bg-white/5 rounded-full blur-2xl" />
-                  <div className="relative w-full h-full border-[3px] border-dashed border-gray-200 dark:border-white/10 rounded-3xl flex items-center justify-center bg-white dark:bg-[#181518] shadow-sm transform rotate-[-4deg] transition-transform hover:rotate-0 duration-300">
-                    <div className="w-12 h-12 bg-gray-50 dark:bg-white/5 rounded-2xl flex items-center justify-center shadow-inner">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary/60 dark:text-white/60">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                        <polyline points="17 8 12 3 7 8" />
-                        <line x1="12" y1="3" x2="12" y2="15" />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="space-y-3 mb-8 w-full">
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-white tracking-tight">Start Building</h3>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed max-w-[240px] mx-auto">
-                    Drag blocks from the right panel or choose a ready-made template.
-                  </p>
-                </div>
-
-                <div className="w-full space-y-3">
-                  <button
-                    onClick={() => setBlockPickerOpen(true)}
-                    className="w-full py-3.5 px-6 text-sm text-white rounded-xl font-semibold shadow-lg shadow-primary/20 transition-all hover:-translate-y-0.5 active:scale-95 flex items-center justify-center gap-2"
-                    style={{ backgroundColor: colorTheme?.primary || '#2563EB' }}
+            <div className="w-full flex flex-col overflow-hidden">
+              {previewSections.map((section, idx) => (
+                <React.Fragment key={section.sectionId}>
+                  <motion.div
+                    layout
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ type: 'spring', stiffness: 300, damping: 25 }}
                   >
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <line x1="12" y1="5" x2="12" y2="19" />
-                      <line x1="5" y1="12" x2="19" y2="12" />
-                    </svg>
-                    Add First Block
-                  </button>
-                  <button className="w-full py-3.5 px-6 text-sm font-medium text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-white/5 hover:bg-gray-100 dark:hover:bg-white/10 rounded-xl transition-all active:scale-95">
-                    Browse Templates
-                  </button>
-                </div>
-              </motion.div>
-            ) : (
-              <div className="w-full flex flex-col">
-                {previewSections.map((section, idx) => (
-                  <React.Fragment key={section.sectionId}>
-                    <motion.div
-                      layout
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, scale: 0.95 }}
-                      transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-                    >
-                      <PreviewSection
-                        section={section}
-                        theme={theme}
-                        displayPreset={displayPreset}
-                        colorTheme={colorTheme}
-                        activeSectionId={activeSectionId}
-                        setActiveSection={setActiveSection}
-                        cardId={cardId}
-                      />
-                    </motion.div>
-                    {idx < previewSections.length - 1 && section.isVisible && (
-                      <div className="w-full h-px" style={{ backgroundColor: 'rgba(0,0,0,0.06)' }} />
-                    )}
-                  </React.Fragment>
-                ))}
+                    <PreviewSection
+                      section={section}
+                      theme={theme}
+                      displayPreset={displayPreset}
+                      colorTheme={colorTheme}
+                      activeSectionId={activeSectionId}
+                      setActiveSection={setActiveSection}
+                      cardId={cardId}
+                      isPublicMode={viewportMode === 'public'}
+                      isHighlighted={highlightedSectionId === section.sectionId}
+                    />
+                  </motion.div>
+                  {idx < previewSections.length - 1 && section.isVisible && (
+                    <div className="w-full h-px" style={{ backgroundColor: 'rgba(0,0,0,0.06)' }} />
+                  )}
+                </React.Fragment>
+              ))}
 
-                {/* Footer strip */}
-                <FooterStrip footerPreset={footerPreset} colorTheme={colorTheme} />
-              </div>
-            )}
+              {/* Footer strip */}
+              <FooterStrip footerPreset={footerPreset} colorTheme={colorTheme} />
+            </div>
           </AnimatePresence>
         </div>
-      </motion.div>
-
+      </div>
     </div>
   );
 }

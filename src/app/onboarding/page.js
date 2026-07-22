@@ -337,7 +337,7 @@ export default function OnboardingFlow() {
               Don't worry, you can change this anytime.
             </p>
             <div className="grid grid-cols-2 gap-4">
-              {["Minimal", "Dark Mode", "Colorful", "Professional"].map(
+              {["Minimal", "Dark Mode"].map(
                 (themeName, idx) => (
                   <button
                     key={idx}

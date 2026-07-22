@@ -56,6 +56,15 @@ export default function DashboardLayout({ children }) {
     }
   }, [darkMode]);
 
+  // Reset horizontal scroll offset to zero on mobile
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.scrollTo({ left: 0 });
+      document.body.scrollLeft = 0;
+      document.documentElement.scrollLeft = 0;
+    }
+  }, [pathname, sidebarOpen]);
+
   useEffect(() => {
     if (!isCheckingAuth && !isAuthenticated) router.push("/login");
   }, [isAuthenticated, isCheckingAuth, router]);
@@ -121,7 +130,7 @@ export default function DashboardLayout({ children }) {
   return (
     <div
       data-dark={darkMode ? "true" : undefined}
-      className={`flex min-h-[100dvh] font-sans relative transition-colors duration-300 ${
+      className={`flex min-h-[100dvh] w-full max-w-full overflow-x-hidden font-sans relative transition-colors duration-300 ${
         darkMode ? "bg-[#0A0A0A] text-[#FAFAFA]" : "bg-[#F8FAFC] text-inherit"
       }`}
     >
@@ -144,8 +153,8 @@ export default function DashboardLayout({ children }) {
 
       {/* ── Sidebar ─────────────────────────────── */}
       <aside
-        className={`fixed lg:sticky top-0 h-[100dvh] w-[260px] border-r flex flex-col z-50 transition-all duration-300 shrink-0 ${
-          sidebarOpen ? "left-0" : "left-[-260px] lg:left-0"
+        className={`fixed lg:sticky top-0 h-[100dvh] w-[260px] border-r flex flex-col z-50 transition-all duration-300 ${
+          sidebarOpen ? "left-0 flex shrink-0" : "-left-64 lg:left-0 hidden lg:flex lg:shrink-0"
         } ${
           darkMode
             ? "bg-[#111111] border-white/10"
@@ -309,7 +318,7 @@ export default function DashboardLayout({ children }) {
       </aside>
 
       {/* ── Main Content ─────────────────────────── */}
-      <div className="p-4 lg:py-6 lg:pr-6 lg:pl-6 flex flex-col flex-1 min-w-0 relative z-10">
+      <div className="p-1.5 sm:p-4 lg:py-6 lg:pr-6 lg:pl-6 flex flex-col flex-1 min-w-0 relative z-10 w-full max-w-full overflow-x-hidden">
         {/* Premium Navbar */}
         <PremiumNavbar
           user={user}
@@ -320,16 +329,18 @@ export default function DashboardLayout({ children }) {
         />
 
         {/* Page content */}
-        <main className="flex-1 pt-6 overflow-y-auto w-full">
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-            className="w-full"
-          >
-            {children}
-          </motion.div>
-        </main>
+        <div className="flex-1 flex flex-col w-full max-w-full overflow-hidden min-w-0">
+          <main className="flex-1 pt-2 sm:pt-6 overflow-y-auto w-full max-w-full">
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              className="w-full max-w-full overflow-x-hidden"
+            >
+              {children}
+            </motion.div>
+          </main>
+        </div>
       </div>
       <HeaderImageWorkspace />
     </div>
@@ -415,9 +426,9 @@ function PremiumNavbar({
     : "w-9 h-9 rounded-xl bg-[#F8FAFC] border border-[rgba(37,99,235,0.08)] hover:border-[#3B82F6]/40 hover:bg-white flex items-center justify-center text-[#7A7A7A] hover:text-[#2563EB] transition-all";
 
   return (
-    <header className="w-full sticky top-4 z-30">
+    <header className="w-full max-w-full sticky top-2 sm:top-4 z-30">
       <div
-        className={`backdrop-blur-xl border rounded-[28px] shadow-sm px-3 sm:px-5 py-2.5 sm:py-3.5 flex items-center gap-2 sm:gap-4 transition-colors duration-300 ${
+        className={`backdrop-blur-xl border rounded-[20px] sm:rounded-[28px] shadow-sm px-2.5 sm:px-5 py-2 sm:py-3.5 flex items-center justify-between sm:justify-start gap-1.5 sm:gap-4 transition-colors duration-300 ${
           darkMode
             ? "bg-[#111111]/85 border-white/8 shadow-black/20"
             : "bg-white/80 border-[rgba(37,99,235,0.09)] shadow-[#2563EB]/5"
@@ -450,7 +461,7 @@ function PremiumNavbar({
         </div>
 
         {/* ── CENTER ── search */}
-        <div className="flex-1 max-w-xl mx-auto min-w-0">
+        <div className="hidden sm:flex flex-1 max-w-xl mx-auto min-w-0">
           <motion.div
             animate={{ scale: searchFocused ? 1.01 : 1 }}
             transition={{ duration: 0.2 }}

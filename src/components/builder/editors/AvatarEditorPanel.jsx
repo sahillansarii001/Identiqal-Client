@@ -139,7 +139,7 @@ export default function AvatarEditorPanel() {
 
         {/* Live mini preview */}
         <div className="flex justify-center py-4 bg-gray-50 border-b border-gray-100 shrink-0">
-          <div className="relative"
+          <div
             style={{
               width: 80, height: 80,
               transform: `scale(${avatarScale / 100}) rotate(${avatarRotation}deg) scaleX(${avatarFlipH ? -1 : 1}) scaleY(${avatarFlipV ? -1 : 1})`,
@@ -150,7 +150,8 @@ export default function AvatarEditorPanel() {
               background: avatarBackground === 'transparent' ? '#f3f4f6' : avatarBackground,
               opacity: avatarOpacity / 100,
             }}
-            className={getShapeClass(avatarShape)}>
+            className={`relative ${getShapeClass(avatarShape)}`}
+          >
             {avatarUrl ? (
               <img src={avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
             ) : (
@@ -201,9 +202,13 @@ export default function AvatarEditorPanel() {
               )}
 
               <div className="space-y-1.5">
-                <label className="text-[11px] font-semibold text-gray-500">Or paste image URL</label>
-                <input type="text" value={avatarUrl || ''} placeholder="https://example.com/photo.jpg"
-                  onChange={(e) => rt({ avatarUrl: e.target.value })}
+                <label className="text-[11px] font-semibold text-gray-500">Or paste photo URL</label>
+                <input type="text" value={avatarUrl?.startsWith('http') ? avatarUrl : ''} placeholder="https://example.com/photo.jpg"
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    rt({ avatarUrl: val });
+                    commit({ avatarUrl: val });
+                  }}
                   className="w-full px-3 py-2 text-sm bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-300 focus:border-violet-400" />
               </div>
             </div>

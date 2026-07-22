@@ -12,6 +12,7 @@ export const useCardBuilderStore = create((set, get) => ({
 
   // ─── COVER IMAGE ─────────────────────────────────────────────────────────
   imageUrl: '',
+  isVideo: false,
   imageScale: 100,
   imagePositionX: 0,
   imagePositionY: 0,
@@ -62,6 +63,8 @@ export const useCardBuilderStore = create((set, get) => ({
   displayPreset: null,
   colorTheme: null,
   footerPreset: null,
+  wizardCompleted: false,
+  wizardStep: 0,
   past: [],
   future: [],
 
@@ -69,6 +72,8 @@ export const useCardBuilderStore = create((set, get) => ({
     const card = cardData.card || cardData;
     set({
       cardId: card._id,
+      wizardCompleted: card.wizardCompleted !== undefined ? card.wizardCompleted : false,
+      wizardStep: 0,
       slug: card.slug,
       title: card.title,
       sections: card.sections || [],
@@ -78,6 +83,7 @@ export const useCardBuilderStore = create((set, get) => ({
       colorTheme: cardData.colorTheme || null,
       footerPreset: cardData.footerPreset || null,
       imageUrl: card.imageUrl || '',
+      isVideo: card.isVideo || false,
       imageScale: card.imageScale || 100,
       imagePositionX: card.imagePositionX || 0,
       imagePositionY: card.imagePositionY || 0,
@@ -126,7 +132,7 @@ export const useCardBuilderStore = create((set, get) => ({
       displayPreset: s.displayPreset ? JSON.parse(JSON.stringify(s.displayPreset)) : null,
       colorTheme: s.colorTheme ? JSON.parse(JSON.stringify(s.colorTheme)) : null,
       footerPreset: s.footerPreset ? JSON.parse(JSON.stringify(s.footerPreset)) : null,
-      imageUrl: s.imageUrl, imageScale: s.imageScale, imagePositionX: s.imagePositionX,
+      imageUrl: s.imageUrl, isVideo: s.isVideo, imageScale: s.imageScale, imagePositionX: s.imagePositionX,
       imagePositionY: s.imagePositionY, imageOpacity: s.imageOpacity, overlayType: s.overlayType,
       imageRotation: s.imageRotation, imagePlacement: s.imagePlacement, containerStyle: s.containerStyle,
       containerSize: s.containerSize, containerBorder: s.containerBorder, containerShadow: s.containerShadow,
@@ -197,6 +203,13 @@ export const useCardBuilderStore = create((set, get) => ({
   setBlockPickerOpen: (isOpen) => set({ isBlockPickerOpen: isOpen }),
   setDesignPreset: (type, preset) => { get()._saveToHistory(); set({ [type]: preset, isDirty: true }); },
 
+  // Wizard actions
+  setWizardStep: (step) => set({ wizardStep: step }),
+  nextWizardStep: () => set((state) => ({ wizardStep: Math.min(state.wizardStep + 1, 5) })),
+  prevWizardStep: () => set((state) => ({ wizardStep: Math.max(state.wizardStep - 1, 0) })),
+  completeWizard: () => set({ wizardCompleted: true, isDirty: true }),
+  resetWizard: () => set({ wizardCompleted: false, wizardStep: 0 }),
+
   // Cover
   updateHeaderImage: (data) => { get()._saveToHistory(); set({ ...data, isDirty: true }); },
   updateHeaderImageRealTime: (data) => set({ ...data, isDirty: true }),
@@ -205,7 +218,7 @@ export const useCardBuilderStore = create((set, get) => ({
     set({
       isCoverEditorOpen: true,
       _workspaceBackup: {
-        imageUrl: s.imageUrl, imageScale: s.imageScale, imagePositionX: s.imagePositionX,
+        imageUrl: s.imageUrl, isVideo: s.isVideo, imageScale: s.imageScale, imagePositionX: s.imagePositionX,
         imagePositionY: s.imagePositionY, imageOpacity: s.imageOpacity, overlayType: s.overlayType,
         imageRotation: s.imageRotation, imagePlacement: s.imagePlacement, containerStyle: s.containerStyle,
         containerSize: s.containerSize, containerBorder: s.containerBorder, containerShadow: s.containerShadow,
@@ -237,7 +250,7 @@ export const useCardBuilderStore = create((set, get) => ({
     const cur = {
       sections: state.sections, seo: state.seo,
       displayPreset: state.displayPreset, colorTheme: state.colorTheme, footerPreset: state.footerPreset,
-      imageUrl: state.imageUrl, imageScale: state.imageScale, imagePositionX: state.imagePositionX,
+      imageUrl: state.imageUrl, isVideo: state.isVideo, imageScale: state.imageScale, imagePositionX: state.imagePositionX,
       imagePositionY: state.imagePositionY, imageOpacity: state.imageOpacity, overlayType: state.overlayType,
       imageRotation: state.imageRotation, imagePlacement: state.imagePlacement,
       containerStyle: state.containerStyle, containerSize: state.containerSize,
@@ -262,7 +275,7 @@ export const useCardBuilderStore = create((set, get) => ({
     const cur = {
       sections: state.sections, seo: state.seo,
       displayPreset: state.displayPreset, colorTheme: state.colorTheme, footerPreset: state.footerPreset,
-      imageUrl: state.imageUrl, imageScale: state.imageScale, imagePositionX: state.imagePositionX,
+      imageUrl: state.imageUrl, isVideo: state.isVideo, imageScale: state.imageScale, imagePositionX: state.imagePositionX,
       imagePositionY: state.imagePositionY, imageOpacity: state.imageOpacity, overlayType: state.overlayType,
       imageRotation: state.imageRotation, imagePlacement: state.imagePlacement,
       containerStyle: state.containerStyle, containerSize: state.containerSize,
@@ -285,7 +298,7 @@ export const useCardBuilderStore = create((set, get) => ({
     seo: { metaTitle: '', metaDescription: '', ogImageUrl: '' },
     activeSectionId: null, activeTab: 'links',
     displayPreset: null, colorTheme: null, footerPreset: null,
-    imageUrl: '', imageScale: 100, imagePositionX: 0, imagePositionY: 0, imageOpacity: 80,
+    imageUrl: '', isVideo: false, imageScale: 100, imagePositionX: 0, imagePositionY: 0, imageOpacity: 80,
     overlayType: 'None', imageRotation: 0, imagePlacement: 'Inside Header', containerStyle: 'None',
     containerSize: 100, containerBorder: false, containerShadow: false, containerPadding: 0,
     imageFit: 'Cover', imageBlur: 0, imageBrightness: 100, imageContrast: 100, imageSaturation: 100,

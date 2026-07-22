@@ -21,7 +21,7 @@ export default function PageTransition({ children }) {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
   return (
-    <div className="relative min-h-screen flex flex-col w-full">
+    <div className="relative min-h-screen flex flex-col w-full max-w-full overflow-x-hidden">
       {/* ── Page fade-in ─────────────────────────────────────── */}
       <motion.div
         initial={
@@ -31,7 +31,7 @@ export default function PageTransition({ children }) {
         }
         animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
         transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-        className="flex-1 flex flex-col w-full"
+        className="flex-1 flex flex-col w-full max-w-full overflow-x-hidden"
       >
         {children}
       </motion.div>

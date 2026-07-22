@@ -423,6 +423,10 @@ export const SectionRenderer = ({ section, theme = {}, displayPreset = {}, color
         ? store.imageUrl
         : (section.imageUrl || '');
 
+      const currentIsVideo = storeActive
+        ? store.isVideo
+        : (section.isVideo || false);
+
       const currentImageScale = storeActive
         ? store.imageScale
         : (section.imageScale !== undefined ? section.imageScale : 100);
@@ -536,12 +540,12 @@ export const SectionRenderer = ({ section, theme = {}, displayPreset = {}, color
           : 'none';
 
       // ── Header geometry ──────────────────────────────────────────
-      const headerHeight = preset?.name === 'Minimal' ? '80px' : getHeaderHeight(preset);
+      const headerHeight = getHeaderHeight(preset);
       const profilePos    = getProfilePosition(preset?.profilePhotoPosition);
       const headerStyle   = preset?.headerStyle || 'Solid Color';
       const isSleek       = preset?.name === 'Sleek';
       const imgScale      = currentImageScale / 100;
-      const showBannerImg = !!currentImageUrl && preset?.name !== 'Minimal';
+      const showBannerImg = !!currentImageUrl;
       const isEditingHeader = previewMode && store?.activeSectionId === section.sectionId;
 
       // ── LAYER 1: Header design background ────────────────────────────
@@ -731,12 +735,12 @@ export const SectionRenderer = ({ section, theme = {}, displayPreset = {}, color
       };
 
       return (
-        <div className="pb-10 animate-fade-in relative" style={{ color: colors.text || '#212529' }}>
+        <div className="pb-10 animate-fade-in relative overflow-hidden rounded-t-[inherit]" style={{ color: colors.text || '#212529' }}>
 
           {/* ═══════════════ HEADER STACK ═══════════════ */}
           <div
             ref={containerRef}
-            className={`${isSleek ? 'mx-4 mt-4 rounded-2xl shadow-lg border border-white/10' : 'w-full'} relative z-0`}
+            className={`${isSleek ? 'mx-4 mt-4 rounded-2xl shadow-lg border border-white/10' : 'w-full'} relative z-0 rounded-t-[inherit]`}
             style={{
               height: headerHeight,
               /* LAYER 1 — header design is the base */
@@ -807,23 +811,40 @@ export const SectionRenderer = ({ section, theme = {}, displayPreset = {}, color
                       className={`${shapeCls}`} 
                       style={inlineStyle}
                     >
-                      <img
-                        src={currentImageUrl}
-                        alt="Header banner"
-                        onLoad={(e) => {
-                          const { naturalWidth, naturalHeight } = e.target;
-                          if (naturalWidth && naturalHeight) {
-                            setImgRatio(naturalWidth / naturalHeight);
-                          }
-                        }}
-                        className="absolute inset-0 w-full h-full select-none"
-                        style={{
-                          objectFit: currentImageFit.toLowerCase(),
-                          transform: imageTransform,
-                          transformOrigin: 'center center',
-                          filter: imageFilter,
-                        }}
-                      />
+                      {currentIsVideo ? (
+                        <video
+                          src={currentImageUrl}
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
+                          className="absolute inset-0 w-full h-full object-cover select-none"
+                          style={{
+                            objectFit: currentImageFit.toLowerCase(),
+                            transform: imageTransform,
+                            transformOrigin: 'center center',
+                            filter: imageFilter,
+                          }}
+                        />
+                      ) : (
+                        <img
+                          src={currentImageUrl}
+                          alt="Header banner"
+                          onLoad={(e) => {
+                            const { naturalWidth, naturalHeight } = e.target;
+                            if (naturalWidth && naturalHeight) {
+                              setImgRatio(naturalWidth / naturalHeight);
+                            }
+                          }}
+                          className="absolute inset-0 w-full h-full select-none"
+                          style={{
+                            objectFit: currentImageFit.toLowerCase(),
+                            transform: imageTransform,
+                            transformOrigin: 'center center',
+                            filter: imageFilter,
+                          }}
+                        />
+                      )}
                     </div>
                   </div>
                 );
@@ -835,24 +856,42 @@ export const SectionRenderer = ({ section, theme = {}, displayPreset = {}, color
                   className="absolute inset-0 pointer-events-none"
                   style={{ zIndex: 1 }}
                 >
-                  <img
-                    src={currentImageUrl}
-                    alt="Header banner"
-                    onLoad={(e) => {
-                      const { naturalWidth, naturalHeight } = e.target;
-                      if (naturalWidth && naturalHeight) {
-                        setImgRatio(naturalWidth / naturalHeight);
-                      }
-                    }}
-                    className="absolute inset-0 w-full h-full select-none"
-                    style={{
-                      objectFit: currentImageFit.toLowerCase(),
-                      transform: imageTransform,
-                      transformOrigin: 'center center',
-                      opacity: currentImageOpacity / 100,
-                      filter: imageFilter,
-                    }}
-                  />
+                  {currentIsVideo ? (
+                    <video
+                      src={currentImageUrl}
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      className="absolute inset-0 w-full h-full select-none"
+                      style={{
+                        objectFit: currentImageFit.toLowerCase(),
+                        transform: imageTransform,
+                        transformOrigin: 'center center',
+                        opacity: currentImageOpacity / 100,
+                        filter: imageFilter,
+                      }}
+                    />
+                  ) : (
+                    <img
+                      src={currentImageUrl}
+                      alt="Header banner"
+                      onLoad={(e) => {
+                        const { naturalWidth, naturalHeight } = e.target;
+                        if (naturalWidth && naturalHeight) {
+                          setImgRatio(naturalWidth / naturalHeight);
+                        }
+                      }}
+                      className="absolute inset-0 w-full h-full select-none"
+                      style={{
+                        objectFit: currentImageFit.toLowerCase(),
+                        transform: imageTransform,
+                        transformOrigin: 'center center',
+                        opacity: currentImageOpacity / 100,
+                        filter: imageFilter,
+                      }}
+                    />
+                  )}
                 </div>
               );
             })()}
@@ -985,18 +1024,7 @@ export const SectionRenderer = ({ section, theme = {}, displayPreset = {}, color
                 />
               </div>
             )}
-            {/* No avatar: show placeholder initials circle in builder mode */}
-            {!currentAvatarUrl && previewMode && storeActive && (
-              <div
-                className="overflow-hidden shrink-0 flex items-center justify-center bg-white/20 backdrop-blur-sm border-2 border-white/60"
-                style={{ width: 72, height: 72, borderRadius: '50%', marginTop: '-20px' }}
-              >
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="2">
-                  <circle cx="12" cy="8" r="4" />
-                  <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
-                </svg>
-              </div>
-            )}
+
             <div className="space-y-2">
               <h3
                 className="text-lg sm:text-2xl font-black tracking-tight"
@@ -1004,7 +1032,10 @@ export const SectionRenderer = ({ section, theme = {}, displayPreset = {}, color
               >
                 {data.headline || 'Profile Headline'}
               </h3>
-              <p className="text-xs sm:text-sm opacity-80 max-w-md mx-auto" style={{ fontFamily: font.body || 'inherit' }}>
+
+
+
+              <p className="text-xs sm:text-sm opacity-80 max-w-md mx-auto pt-0.5" style={{ fontFamily: font.body || 'inherit' }}>
                 {data.bio || 'Provide a short biography detailing your role and networking background.'}
               </p>
             </div>
@@ -1135,9 +1166,52 @@ export const SectionRenderer = ({ section, theme = {}, displayPreset = {}, color
         </div>
       );
 
+    case 'video': {
+      const rawUrl = data.url || '';
+      const uploadedVideo = data.uploadedVideo || '';
+      const getEmbedUrl = (raw) => {
+        if (!raw) return '';
+        const ytMatch = raw.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/);
+        if (ytMatch) return `https://www.youtube.com/embed/${ytMatch[1]}?rel=0&modestbranding=1`;
+        const vimMatch = raw.match(/vimeo\.com\/(\d+)/);
+        if (vimMatch) return `https://player.vimeo.com/video/${vimMatch[1]}`;
+        if (raw.includes('youtube.com/embed') || raw.includes('player.vimeo.com')) return raw;
+        return '';
+      };
+      const embedUrl = getEmbedUrl(rawUrl);
+      return (
+        <div className="px-4 py-5 w-full space-y-3" style={{ color: colors.text }}>
+          {uploadedVideo ? (
+            <div className="rounded-2xl overflow-hidden border shadow-sm aspect-video w-full bg-black" style={{ borderColor: colors.border || 'rgba(0,0,0,0.08)' }}>
+              <video src={uploadedVideo} controls className="w-full h-full object-contain" />
+            </div>
+          ) : embedUrl ? (
+            <div className="rounded-2xl overflow-hidden border shadow-sm aspect-video w-full" style={{ borderColor: colors.border || 'rgba(0,0,0,0.08)' }}>
+              <iframe
+                src={embedUrl}
+                title="Video Embed"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="w-full h-full"
+              />
+            </div>
+          ) : (
+            <div className="rounded-2xl bg-black/10 border-2 border-dashed border-black/10 aspect-video flex flex-col items-center justify-center gap-2 opacity-60">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><polygon points="5 3 19 12 5 21 5 3" /></svg>
+              <p className="text-xs font-medium">Add a YouTube, Vimeo URL or upload a video</p>
+            </div>
+          )}
+          {data.caption && (
+            <p className="text-[11px] text-center opacity-60 font-medium" style={{ color: colors.text }}>{data.caption}</p>
+          )}
+        </div>
+      );
+    }
+
     default:
       return null;
   }
+
 };
 
 const FormSectionRenderer = ({ section, theme, buttonRadiusClass, previewMode }) => {
