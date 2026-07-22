@@ -18,6 +18,7 @@ import {
   EyeOff,
   Eye,
 } from "lucide-react";
+import { QRCodeSVG } from "qrcode.react";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -104,10 +105,10 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="flex min-h-screen bg-white">
+    <div className="flex h-screen overflow-hidden bg-white">
       {/* Left Side - Form */}
       <div className="flex-1 flex flex-col justify-center px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24 lg:w-1/2 bg-white">
-        <div className="mx-auto w-full max-w-sm lg:w-[400px]">
+        <div className="mx-auto w-full max-w-sm lg:w-100">
           {/* Header */}
           <div className="text-left mb-8">
             <div className="flex items-center space-x-2 mb-6">
@@ -116,21 +117,21 @@ export default function SignupPage() {
                   onClick={() => setStep(1)}
                   className="p-2 -ml-2 rounded-full hover:bg-gray-100 transition-colors"
                 >
-                  <ChevronLeft size={20} className="text-[#0F172A]" />
+                  <ChevronLeft size={20} className="text-brand-text" />
                 </button>
               )}
               <Link
                 href="/"
-                className="inline-flex items-center space-x-2 text-2xl font-black tracking-tight text-[#0F172A]"
+                className="inline-flex items-center space-x-2 text-2xl font-black tracking-tight text-brand-text"
               >
-                <span className="w-8 h-8 rounded-lg bg-linear-to-tr from-[#2563EB] to-[#3B82F6] flex items-center justify-center text-white font-bold text-base shadow-sm">
+                <span className="w-8 h-8 rounded-lg bg-linear-to-tr from-primary to-accent flex items-center justify-center text-white font-bold text-base shadow-sm">
                   I
                 </span>
                 <span className="font-sans">Identiqal</span>
               </Link>
             </div>
 
-            <h2 className="text-3xl font-extrabold text-[#0F172A] font-sans tracking-tight">
+            <h2 className="text-3xl font-extrabold text-brand-text font-sans tracking-tight">
               {step === 1
                 ? "Create an Account"
                 : step === 2
@@ -200,7 +201,7 @@ export default function SignupPage() {
                   <button
                     type="button"
                     onClick={() => router.push("/dashboard")}
-                    className="flex items-center justify-center space-x-2 py-2.5 px-4 bg-white border border-[#E2E8F0] hover:border-[#2563EB]/30 rounded-xl text-xs font-bold text-[#0F172A] hover:bg-[#F8FAFC] transition-all"
+                    className="flex items-center justify-center space-x-2 py-2.5 px-4 bg-white border border-[#E2E8F0] hover:border-primary/30 rounded-xl text-xs font-bold text-brand-text hover:bg-brand-bg transition-all"
                   >
                     {/* Google SVG */}
                     <svg
@@ -230,7 +231,7 @@ export default function SignupPage() {
                   <button
                     type="button"
                     onClick={() => router.push("/dashboard")}
-                    className="flex items-center justify-center space-x-2 py-2.5 px-4 bg-white border border-[#E2E8F0] hover:border-[#2563EB]/30 rounded-xl text-xs font-bold text-[#0F172A] hover:bg-[#F8FAFC] transition-all"
+                    className="flex items-center justify-center space-x-2 py-2.5 px-4 bg-white border border-[#E2E8F0] hover:border-primary/30 rounded-xl text-xs font-bold text-brand-text hover:bg-brand-bg transition-all"
                   >
                     {/* Github SVG */}
                     <svg
@@ -261,7 +262,7 @@ export default function SignupPage() {
                 />
 
                 <div className="space-y-1">
-                  <label className="block text-xs font-bold text-[#0F172A]">
+                  <label className="block text-xs font-bold text-brand-text">
                     Username
                   </label>
                   <div className="relative">
@@ -272,7 +273,7 @@ export default function SignupPage() {
                     </div>
                     <input
                       type="text"
-                      className={`block w-full pl-28 pr-3 py-3 rounded-xl border text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] ${
+                      className={`block w-full pl-28 pr-3 py-3 rounded-xl border text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary ${
                         errors.username ? "border-red-500" : "border-[#E2E8F0]"
                       }`}
                       placeholder="username"
@@ -343,14 +344,14 @@ export default function SignupPage() {
                     I agree to the{" "}
                     <Link
                       href="/terms"
-                      className="text-[#2563EB] hover:underline"
+                      className="text-primary hover:underline"
                     >
                       Terms of Service
                     </Link>{" "}
                     &{" "}
                     <Link
                       href="/privacy"
-                      className="text-[#2563EB] hover:underline"
+                      className="text-primary hover:underline"
                     >
                       Privacy Policy
                     </Link>
@@ -397,7 +398,7 @@ export default function SignupPage() {
             Already have an account?{" "}
             <Link
               href="/login"
-              className="text-[#2563EB] font-extrabold hover:underline"
+              className="text-primary font-extrabold hover:underline"
             >
               Log in
             </Link>
@@ -406,34 +407,47 @@ export default function SignupPage() {
       </div>
 
       {/* Right Side - Imagery */}
-      <div className="hidden lg:flex relative w-0 flex-1 bg-[#F5E6D3] items-center justify-center overflow-hidden">
-        <div className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] rounded-full bg-[#2563EB]/20 blur-[100px]"></div>
-        <div className="absolute bottom-[-20%] left-[-10%] w-[500px] h-[500px] rounded-full bg-white/20 blur-[80px]"></div>
+      <div className="hidden lg:flex relative w-0 flex-1 bg-slate-900 items-center justify-center overflow-hidden">
+        {/* Decorative abstract elements */}
+        <div className="absolute top-[-10%] right-[-10%] w-200 h-200 rounded-full bg-blue-600/20 blur-[120px] mix-blend-screen"></div>
+        <div className="absolute bottom-[-10%] left-[-10%] w-150 h-150 rounded-full bg-purple-600/20 blur-[120px] mix-blend-screen"></div>
 
-        <div className="relative text-center">
-          <h2 className="text-4xl font-black text-[#2563EB] mb-6">
-            One link to rule them all.
-          </h2>
-          <div className="relative w-[320px] h-[650px] bg-white rounded-[40px] shadow-2xl p-2 border-8 border-[#2563EB]/10 mx-auto">
-            <div className="w-full h-full bg-gray-50 rounded-[30px] overflow-hidden flex flex-col items-center pt-16">
-              <div className="w-24 h-24 rounded-full bg-linear-to-tr from-[#2563EB] to-[#3B82F6] shadow-lg mb-4"></div>
-              <div className="w-32 h-6 bg-gray-200 rounded-full mb-8"></div>
-
-              <div className="w-full px-6 space-y-4">
-                <div className="w-full h-12 bg-white shadow-sm rounded-xl border border-gray-100 flex items-center px-4">
-                  <div className="w-6 h-6 rounded-full bg-gray-200"></div>
-                  <div className="ml-3 w-24 h-4 bg-gray-200 rounded-full"></div>
-                </div>
-                <div className="w-full h-12 bg-white shadow-sm rounded-xl border border-gray-100 flex items-center px-4">
-                  <div className="w-6 h-6 rounded-full bg-gray-200"></div>
-                  <div className="ml-3 w-32 h-4 bg-gray-200 rounded-full"></div>
-                </div>
-                <div className="w-full h-12 bg-white shadow-sm rounded-xl border border-gray-100 flex items-center px-4">
-                  <div className="w-6 h-6 rounded-full bg-gray-200"></div>
-                  <div className="ml-3 w-20 h-4 bg-gray-200 rounded-full"></div>
+        {/* Mock Phone UI */}
+        <div className="relative w-85 h-170 bg-slate-50 rounded-[50px] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.6)] p-2 border-12 border-slate-800 flex flex-col items-center scale-80 2xl:scale-100 transform origin-center">
+          {/* Dynamic Island Notch */}
+          <div className="w-30 h-7 bg-slate-800 rounded-full absolute top-2 mt-1 z-10 flex items-center justify-between px-3 shadow-inner">
+             <div className="w-2 h-2 rounded-full bg-blue-500/50"></div>
+             <div className="w-3 h-3 rounded-full bg-slate-900"></div>
+          </div>
+          
+          {/* Profile Header */}
+          <div className="w-full h-32 bg-linear-to-r from-blue-600 to-violet-600 rounded-t-[34px] relative mb-12">
+            <div className="absolute -bottom-10 left-1/2 -translate-x-1/2">
+              <div className="w-20 h-20 rounded-full bg-white p-1 shadow-lg">
+                <div className="w-full h-full rounded-full bg-linear-to-tr from-blue-500 to-purple-500 flex items-center justify-center text-white text-2xl font-bold">
+                  YB
                 </div>
               </div>
             </div>
+          </div>
+
+          <h3 className="text-xl font-extrabold text-slate-900 tracking-tight">Your Brand</h3>
+          <p className="text-sm text-slate-500 mt-1 font-medium px-6 text-center">
+            Digital Business Card
+          </p>
+
+          {/* QR Code section */}
+          <div className="w-full px-8 mt-8 flex flex-col items-center">
+            <div className="w-full aspect-square bg-white rounded-4xl shadow-[0_8px_30px_rgba(0,0,0,0.08)] flex items-center justify-center border border-slate-100 p-6 relative group overflow-hidden">
+               <div className="absolute inset-0 bg-linear-to-br from-blue-50/50 to-purple-50/50 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+               <QRCodeSVG value="https://identiqal.vercel.app/" size={140} fgColor="#1e293b" className="z-10" />
+               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-md z-20 border border-slate-50">
+                  <span className="text-blue-600 font-black text-xl">YB</span>
+               </div>
+            </div>
+            <p className="text-xs text-slate-400 mt-6 font-bold uppercase tracking-widest">
+               Scan to connect
+            </p>
           </div>
         </div>
       </div>
