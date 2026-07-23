@@ -131,9 +131,17 @@ const DashboardCard = ({ card, handleTogglePublish, handleDelete, handleDuplicat
             
             {/* Quick Actions */}
             <div className="flex items-center gap-2">
-              <Link href={`/dashboard/cards/${card.slug}/edit`} onClick={(e) => e.stopPropagation()} className="w-8 h-8 flex items-center justify-center rounded-lg bg-slate-50 text-slate-400 hover:text-[#2563EB] hover:bg-[#F8FAFC] transition-colors border border-transparent hover:border-[#3B82F6]/30" title="Edit Card">
+              <button 
+                onClick={(e) => { 
+                  e.preventDefault(); 
+                  e.stopPropagation(); 
+                  router.push(`/dashboard/cards/${card.slug}/edit`); 
+                }} 
+                className="w-8 h-8 flex items-center justify-center rounded-lg bg-slate-50 text-slate-400 hover:text-[#2563EB] hover:bg-[#F8FAFC] transition-colors border border-transparent hover:border-[#3B82F6]/30" 
+                title="Edit Card"
+              >
                 <Edit size={14} />
-              </Link>
+              </button>
               <button 
                 onClick={(e) => { e.preventDefault(); e.stopPropagation(); copyToClipboard(publicUrl, setCopiedLink); }}
                 className="w-8 h-8 flex items-center justify-center rounded-lg bg-slate-50 text-slate-400 hover:text-[#2563EB] hover:bg-[#F8FAFC] transition-colors border border-transparent hover:border-[#3B82F6]/30"
@@ -311,7 +319,7 @@ export default function CardsPage() {
             {...register('slug')}
           />
           <div className="flex justify-end space-x-3 pt-6 border-t border-[rgba(37,99,235,0.08)] mt-6">
-            <Button type="button" variant="secondary" onClick={() => setIsModalOpen(false)} className="bg-slate-50 hover:bg-slate-100 text-slate-700 font-bold px-6">
+            <Button type="button" variant="secondary" onClick={() => setIsModalOpen(false)} className="bg-slate-50 hover:bg-slate-100 text-slate-700 dark:!bg-white/5 dark:hover:!bg-white/10 dark:!text-slate-300 font-bold px-6">
               Cancel
             </Button>
             <Button type="submit" className="bg-[#2563EB] hover:bg-primary text-white font-bold px-8 shadow-lg shadow-[#2563EB]/20">

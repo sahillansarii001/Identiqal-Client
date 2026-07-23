@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import axiosInstance from '@/services/axiosInstance';
 import { useCardBuilderStore } from '@/store/cardBuilderStore';
-import { Settings, AlignLeft, AlignCenter, AlignRight, Trash2, Plus, ChevronLeft, GripVertical, Eye, EyeOff, Layers, Palette, User, Link as LinkIcon, MessageSquare, FormInput, Image as ImageIcon, Copy, Check } from 'lucide-react';
+import { Settings, AlignLeft, AlignCenter, AlignRight, Trash2, Plus, ChevronLeft, GripVertical, Eye, EyeOff, Layers, Palette, User, Link as LinkIcon, MessageSquare, FormInput, Image as ImageIcon, Copy, Check, QrCode } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { SortableContext, arrayMove, sortableKeyboardCoordinates, verticalListSortingStrategy, useSortable } from '@dnd-kit/sortable';
@@ -18,6 +18,7 @@ const ICONS = {
   gallery: ImageIcon,
   testimonials: MessageSquare,
   form: FormInput,
+  qrcode: QrCode,
 };
 
 export const InspectorPanel = () => {
@@ -135,6 +136,9 @@ const ContextualEditor = ({ section }) => {
       )}
       {section.type === 'video' && (
         <VideoSettings data={data} onUpdate={handleUpdate} />
+      )}
+      {section.type === 'qrcode' && (
+        <QrCodeSettings data={data} />
       )}
       {['testimonials', 'form'].includes(section.type) && (
         <div className="text-sm text-gray-400 dark:text-zinc-500 text-center py-12 border border-gray-100 dark:border-white/10 rounded-2xl bg-gray-50/50 dark:bg-white/5">
@@ -797,3 +801,159 @@ const VideoSettings = ({ data, onUpdate }) => {
     </>
   );
 };
+
+/* -------------------------------------------------------------------------- */
+/* QR CODE SETTINGS                                                           */
+/* -------------------------------------------------------------------------- */
+
+const QrCodeSettings = ({ data }) => {
+  const { updateQrCodeRealTime, showQRCode, qrType, qrImage, qrTitle, qrDescription, qrSettings } = useCardBuilderStore();
+
+  const handleUpdate = (field, value) => {
+    updateQrCodeRealTime({ [field]: value });
+  };
+
+  const handleSettingsUpdate = (field, value) => {
+    const currentSettings = qrSettings || {};
+    updateQrCodeRealTime({ qrSettings: { ...currentSettings, [field]: value } });
+  };
+
+  const handleUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => handleUpdate('qrImage', ev.target.result);
+    reader.readAsDataURL(file);
+  };
+
+  return (
+    <>
+      <SettingGroup title="QR Code Options">
+        {/* Toggle Show QR Code */}
+        <div className="flex items-center justify-between p-1">
+          <label className="text-[12px] font-semibold text-gray-700 dark:text-gray-300">Show QR Code on Card</label>
+          <button
+            onClick={() => handleUpdate('showQRCode', !showQRCode)}
+            className={`w-10 h-5 rounded-full p-0.5 transition-colors ${showQRCode ? 'bg-primary' : 'bg-gray-200 dark:bg-white/10'}`}
+          >
+            <div className={`w-4 h-4 rounded-full bg-white shadow-sm transition-transform ${showQRCode ? 'translate-x-5' : 'translate-x-0'}`} />
+          </button>
+        </div>
+
+        {/* Generate vs Upload */}
+        <div className="flex bg-gray-50/80 dark:bg-white/5 rounded-xl p-1 border border-gray-200 dark:border-white/10 shadow-sm mt-3">
+          {['generated', 'uploaded'].map((type) => (
+            <button
+              key={type}
+              onClick={() => handleUpdate('qrType', type)}
+              className={`flex-1 flex justify-center py-2 rounded-lg text-xs transition-all cursor-pointer capitalize ${
+                qrType === type ? 'bg-white shadow text-gray-900 dark:text-white font-bold' : 'text-gray-500 hover:bg-gray-100/50 dark:hover:bg-white/5'
+              }`}
+            >
+              {type === 'generated' ? 'Auto Generate' : 'Upload QR'}
+            </button>
+          ))}
+        </div>
+
+        {/* Upload Button */}
+        {qrType === 'uploaded' && (
+          <div className="mt-4">
+            <label className="w-full flex items-center justify-center gap-2 py-2.5 bg-blue-500 hover:bg-blue-600 text-white rounded-xl text-[12px] font-bold cursor-pointer transition-all shadow-sm">
+              <Plus size={16} />
+              {qrImage ? 'Change Image' : 'Upload Image'}
+              <input type="file" accept="image/png, image/jpeg, image/svg+xml" className="hidden" onChange={handleUpload} />
+            </label>
+            {qrImage && (
+              <div className="mt-3 relative w-full aspect-square bg-gray-50 border rounded-xl overflow-hidden flex items-center justify-center">
+                <img src={qrImage} alt="QR Upload" className="max-w-full max-h-full object-contain" />
+              </div>
+            )}
+          </div>
+        )}
+      </SettingGroup>
+
+      <SettingGroup title="Text Content">
+        <RealtimeInput label="Title" value={qrTitle} onChange={(val) => handleUpdate('qrTitle', val)} placeholder="Scan Me" />
+        <RealtimeInput label="Description" value={qrDescription} onChange={(val) => handleUpdate('qrDescription', val)} as="textarea" placeholder="Scan to connect instantly" />
+      </SettingGroup>
+
+      <SettingGroup title="Design">
+        {/* Background Color */}
+        <div className="space-y-1.5">
+          <label className="text-[12px] font-semibold text-gray-700 dark:text-gray-300 block">Background Color</label>
+          <input 
+            type="color" 
+            value={qrSettings?.bgColor || '#ffffff'} 
+            onChange={(e) => handleSettingsUpdate('bgColor', e.target.value)} 
+            className="w-full h-10 rounded-xl cursor-pointer"
+          />
+        </div>
+        
+        {/* Width */}
+        <div className="space-y-1.5 mt-4">
+          <div className="flex justify-between">
+            <label className="text-[12px] font-semibold text-gray-700 dark:text-gray-300">Size</label>
+            <span className="text-[10px] text-gray-400">{qrSettings?.width || 200}px</span>
+          </div>
+          <input 
+            type="range" min="100" max="300" step="10" 
+            value={qrSettings?.width || 200} 
+            onChange={(e) => handleSettingsUpdate('width', parseInt(e.target.value))} 
+            className="w-full"
+          />
+        </div>
+
+        {/* Padding */}
+        <div className="space-y-1.5 mt-4">
+          <div className="flex justify-between">
+            <label className="text-[12px] font-semibold text-gray-700 dark:text-gray-300">Padding</label>
+            <span className="text-[10px] text-gray-400">{qrSettings?.padding || 16}px</span>
+          </div>
+          <input 
+            type="range" min="0" max="50" step="2" 
+            value={qrSettings?.padding !== undefined ? qrSettings.padding : 16} 
+            onChange={(e) => handleSettingsUpdate('padding', parseInt(e.target.value))} 
+            className="w-full"
+          />
+        </div>
+
+        {/* Border Radius */}
+        <div className="space-y-1.5 mt-4">
+          <div className="flex justify-between">
+            <label className="text-[12px] font-semibold text-gray-700 dark:text-gray-300">Border Radius</label>
+            <span className="text-[10px] text-gray-400">{qrSettings?.borderRadius || 16}px</span>
+          </div>
+          <input 
+            type="range" min="0" max="100" step="4" 
+            value={qrSettings?.borderRadius !== undefined ? qrSettings.borderRadius : 16} 
+            onChange={(e) => handleSettingsUpdate('borderRadius', parseInt(e.target.value))} 
+            className="w-full"
+          />
+        </div>
+
+        {/* Shadow and Border Toggles */}
+        <div className="mt-5 space-y-3">
+          <div className="flex items-center justify-between p-1">
+            <label className="text-[12px] font-medium text-gray-700 dark:text-gray-300">Drop Shadow</label>
+            <button
+              onClick={() => handleSettingsUpdate('shadow', !qrSettings?.shadow)}
+              className={`w-8 h-4 rounded-full p-0.5 transition-colors ${qrSettings?.shadow ? 'bg-primary' : 'bg-gray-200'}`}
+            >
+              <div className={`w-3 h-3 rounded-full bg-white shadow-sm transition-transform ${qrSettings?.shadow ? 'translate-x-4' : 'translate-x-0'}`} />
+            </button>
+          </div>
+          <div className="flex items-center justify-between p-1">
+            <label className="text-[12px] font-medium text-gray-700 dark:text-gray-300">Outline Border</label>
+            <button
+              onClick={() => handleSettingsUpdate('border', !qrSettings?.border)}
+              className={`w-8 h-4 rounded-full p-0.5 transition-colors ${qrSettings?.border ? 'bg-primary' : 'bg-gray-200'}`}
+            >
+              <div className={`w-3 h-3 rounded-full bg-white shadow-sm transition-transform ${qrSettings?.border ? 'translate-x-4' : 'translate-x-0'}`} />
+            </button>
+          </div>
+        </div>
+      </SettingGroup>
+    </>
+  );
+};
+

@@ -732,7 +732,7 @@ export default function HeaderImageWorkspace() {
               <div className="space-y-2">
                 <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wide">Overlay Type</label>
                 <div className="grid grid-cols-2 gap-1.5">
-                  {['None', 'Dark Overlay', 'Light Overlay', 'Gradient Overlay', 'Glass Overlay'].map((ov) => (
+                  {['None', 'Dark Overlay', 'Light Overlay', 'Gradient Overlay', 'Vignette'].map((ov) => (
                     <button
                       key={ov}
                       onClick={() => updateHeaderImageRealTime({ overlayType: ov })}

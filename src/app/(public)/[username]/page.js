@@ -39,7 +39,13 @@ export default async function PublicCardPage(props) {
   }
 
   const { card, displayPreset, colorTheme, footerPreset } = cardData;
-  const sections = card.sections || [];
+  const sections = card.sections && card.sections.length > 0 
+    ? [...card.sections].sort((a, b) => {
+        if (a.type === 'about') return -1;
+        if (b.type === 'about') return 1;
+        return 0;
+      })
+    : [];
 
   // Map backend presets to the theme structure SectionRenderer expects
   const theme = {

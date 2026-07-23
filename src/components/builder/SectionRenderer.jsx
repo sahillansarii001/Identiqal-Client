@@ -7,10 +7,37 @@ import { buildLeadFormSchema } from '@/validators/leadForm.validator.js';
 import { leadService } from '@/services/leadService.js';
 import { Button } from '@/components/ui/Button.jsx';
 import { Input } from '@/components/ui/Input.jsx';
-import { CheckSquare } from 'lucide-react';
+import { CheckSquare, ExternalLink, ArrowRight, Link2 } from 'lucide-react';
 import { useCardBuilderStore } from '@/store/cardBuilderStore';
+import { QRCodeSVG } from 'qrcode.react';
+import { LINK_PLATFORMS } from '@/constants/links';
 
 // Helper functions for layout engine
+function formatDisplayValue(link) {
+  if (!link || !link.url) return '';
+  const url = link.url.trim();
+  const id = link.platformId;
+  
+  if (id === 'phone' || id === 'whatsapp' || id === 'sms' || id === 'whatsapp_business') {
+    return url.replace(/^(tel:|sms:|https:\/\/wa\.me\/)/, '');
+  }
+  if (id === 'email' || id === 'contact_us') {
+    return url.replace(/^mailto:/, '');
+  }
+  if (id === 'instagram' || id === 'x_twitter' || id === 'tiktok' || id === 'youtube') {
+    const clean = url.replace(/^(https?:\/\/)?(www\.)?(instagram\.com\/|x\.com\/|twitter\.com\/|tiktok\.com\/@|youtube\.com\/@)/i, '');
+    return clean.startsWith('@') ? clean : `@${clean}`;
+  }
+  if (id === 'linkedin' || id === 'linkedin_company') {
+    return url.replace(/^(https?:\/\/)?(www\.)?(linkedin\.com\/(in|company)\/)/i, '').replace(/\/$/, '');
+  }
+  
+  // For websites and everything else, strip https://, http://, and www.
+  let domain = url.replace(/^(https?:\/\/)?(www\.)?/i, '');
+  if (domain.endsWith('/')) domain = domain.slice(0, -1);
+  return domain;
+}
+
 function getHeaderHeight(displayPreset) {
   if (displayPreset?.headerHeight) return displayPreset.headerHeight;
   return '200px';
@@ -578,9 +605,8 @@ export const SectionRenderer = ({ section, theme = {}, displayPreset = {}, color
         'Dark Overlay':     'linear-gradient(to bottom, rgba(0,0,0,0.45), rgba(0,0,0,0.25))',
         'Light Overlay':    'linear-gradient(to bottom, rgba(255,255,255,0.35), rgba(255,255,255,0.15))',
         'Gradient Overlay': `linear-gradient(to bottom, ${colors.primary || '#2563EB'}99, transparent)`,
-        'Glass Overlay':    null, // handled via backdrop-filter below
+        'Vignette':         'radial-gradient(circle, transparent 40%, rgba(0,0,0,0.8) 120%)',
       };
-      const isGlassOverlay = currentOverlayType === 'Glass Overlay';
       const overlayBg = overlayStyles[currentOverlayType] || null;
 
       // ── File upload handler (builder only) ──────────────────────────
@@ -903,8 +929,6 @@ export const SectionRenderer = ({ section, theme = {}, displayPreset = {}, color
                 style={{
                   zIndex: 2,
                   backgroundImage: overlayBg || undefined,
-                  backdropFilter: isGlassOverlay ? 'blur(6px) saturate(1.4)' : undefined,
-                  backgroundColor: isGlassOverlay ? 'rgba(255,255,255,0.12)' : undefined,
                 }}
               />
             )}
@@ -932,21 +956,7 @@ export const SectionRenderer = ({ section, theme = {}, displayPreset = {}, color
               </svg>
             )}
 
-            {/* ── Upload button (shown when no image & in builder & section active) ── */}
-            {previewMode && !currentImageUrl && store?.activeSectionId === section.sectionId && (
-              <div className="absolute inset-0 z-25 flex items-center justify-center select-none">
-                <label className="cursor-pointer flex flex-col items-center gap-2 group">
-                  <div className="w-11 h-11 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur-sm border border-white/10 flex items-center justify-center shadow-lg transition-all duration-200">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="16 16 12 12 8 16" /><line x1="12" y1="12" x2="12" y2="21" />
-                      <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3" />
-                    </svg>
-                  </div>
-                  <span className="text-white text-[9px] font-black tracking-wider uppercase bg-black/60 px-2.5 py-1 rounded-full backdrop-blur-sm shadow-md border border-white/10 transition-transform group-hover:scale-105">+ Upload Image</span>
-                  <input type="file" accept="image/*" className="hidden" onChange={handleUpload} />
-                </label>
-              </div>
-            )}
+
 
             {/* ── Header image editing overlay (drag reposition only, controls are floating outside) ── */}
             {isEditingHeader && showBannerImg && (
@@ -1026,18 +1036,20 @@ export const SectionRenderer = ({ section, theme = {}, displayPreset = {}, color
             )}
 
             <div className="space-y-2">
-              <h3
-                className="text-lg sm:text-2xl font-black tracking-tight"
-                style={{ fontFamily: headingFont, color: colors.primary || '#000000' }}
-              >
-                {data.headline || 'Profile Headline'}
-              </h3>
+              {data.headline && (
+                <h3
+                  className="text-lg sm:text-2xl font-black tracking-tight"
+                  style={{ fontFamily: headingFont, color: colors.primary || '#000000' }}
+                >
+                  {data.headline}
+                </h3>
+              )}
 
-
-
-              <p className="text-xs sm:text-sm opacity-80 max-w-md mx-auto pt-0.5" style={{ fontFamily: font.body || 'inherit' }}>
-                {data.bio || 'Provide a short biography detailing your role and networking background.'}
-              </p>
+              {data.bio && (
+                <p className="text-xs sm:text-sm opacity-80 max-w-md mx-auto pt-0.5" style={{ fontFamily: font.body || 'inherit' }}>
+                  {data.bio}
+                </p>
+              )}
             </div>
           </div>
         </div>
@@ -1057,22 +1069,55 @@ export const SectionRenderer = ({ section, theme = {}, displayPreset = {}, color
           {links.length === 0 ? (
             <p className="text-xs text-slate-500 text-center py-4">No links added yet.</p>
           ) : (
-            links.map((link, idx) => (
-              <a
-                key={idx}
-                href={link.url || '#'}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`group flex items-center justify-between p-4 sm:p-5 bg-black/[0.02] dark:bg-white/[0.02] hover:bg-black/[0.06] dark:hover:bg-white/[0.06] transition-all duration-300 ${buttonRadiusClass}`}
-                style={{ color: colors.primary || '#000000', fontFamily: font.body || 'inherit' }}
-              >
-                <div className="w-10 h-10 rounded-full bg-[#ffffff] dark:bg-black/20 shadow-sm flex items-center justify-center flex-shrink-0" style={{ color: colors.accent || colors.primary }}>
-                  <span className="text-lg">🔗</span>
-                </div>
-                <span className="flex-1 px-4 font-bold text-sm sm:text-base tracking-wide">{link.label}</span>
-                <span className="text-xs opacity-40 group-hover:opacity-100 group-hover:translate-x-1 transition-all">→</span>
-              </a>
-            ))
+            links.map((link, idx) => {
+              const platform = LINK_PLATFORMS.find(p => p.id === link.platformId);
+              const Icon = platform?.icon || Link2;
+              const isCustom = link.platformId === 'custom' || !platform;
+
+              if (isCustom) {
+                // Custom Links (Button Style)
+                return (
+                  <a
+                    key={idx}
+                    href={link.url || '#'}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`group flex items-center justify-between p-4 sm:p-5 bg-black/[0.02] dark:bg-white/[0.02] hover:bg-black/[0.06] dark:hover:bg-white/[0.06] transition-all duration-300 ${buttonRadiusClass}`}
+                    style={{ color: colors.primary || '#000000', fontFamily: font.body || 'inherit' }}
+                  >
+                    <div className="w-10 h-10 rounded-full bg-[#ffffff] dark:bg-black/20 shadow-sm flex items-center justify-center flex-shrink-0" style={{ color: colors.accent || colors.primary }}>
+                      <Icon size={18} />
+                    </div>
+                    <span className="flex-1 px-4 font-bold text-sm sm:text-base tracking-wide">{link.label}</span>
+                    <span className="text-xs opacity-40 group-hover:opacity-100 group-hover:translate-x-1 transition-all">
+                      <ArrowRight size={14} />
+                    </span>
+                  </a>
+                );
+              }
+
+              // Predefined Links (Information-first minimal row)
+              return (
+                <a
+                  key={idx}
+                  href={link.url || '#'}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center justify-between py-3.5 hover:opacity-75 transition-all duration-200"
+                  style={{ color: colors.text || '#1A1A1A', fontFamily: font.body || 'inherit' }}
+                >
+                  <div className="flex items-center gap-4 overflow-hidden">
+                    <Icon size={20} className="shrink-0" style={{ color: colors.primary || '#000000' }} />
+                    <span className="font-medium text-[15px] truncate">
+                      {formatDisplayValue(link)}
+                    </span>
+                  </div>
+                  <span className="text-xs opacity-0 group-hover:opacity-40 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all shrink-0 ml-4">
+                    <ExternalLink size={14} />
+                  </span>
+                </a>
+              );
+            })
           )}
         </div>
       );
@@ -1165,6 +1210,71 @@ export const SectionRenderer = ({ section, theme = {}, displayPreset = {}, color
           )}
         </div>
       );
+
+    case 'qrcode': {
+      const storeActive = previewMode && store?.cardId === section.cardId;
+      const showQRCode = storeActive ? store.showQRCode : data.showQRCode;
+      if (!showQRCode) return null;
+
+      const qrType = storeActive ? store.qrType : data.qrType;
+      const qrImage = storeActive ? store.qrImage : data.qrImage;
+      const qrTitle = storeActive ? store.qrTitle : data.qrTitle;
+      const qrDescription = storeActive ? store.qrDescription : data.qrDescription;
+      const qrSettings = storeActive ? store.qrSettings : data.qrSettings;
+      
+      const { bgColor = '#ffffff', borderRadius = 16, shadow = true, border = true, padding = 16, width = 200 } = qrSettings || {};
+      
+      const publicUrl = typeof window !== 'undefined' ? `${window.location.origin}/${store.slug || 'profile'}` : `https://identiqal.com/${store.slug || 'profile'}`;
+
+      return (
+        <div className="px-4 py-8 flex flex-col items-center justify-center space-y-4" style={{ color: colors.text }}>
+          {qrTitle && (
+            <h3 className="text-[14px] font-bold tracking-wide mb-1" style={{ fontFamily: font.heading || 'inherit', color: colors.primary || colors.text }}>
+              {qrTitle}
+            </h3>
+          )}
+          
+          <div 
+            style={{
+              backgroundColor: bgColor,
+              borderRadius: `${borderRadius}px`,
+              padding: `${padding}px`,
+              boxShadow: shadow ? '0 10px 40px -10px rgba(0,0,0,0.15)' : 'none',
+              border: border ? '1px solid rgba(0,0,0,0.08)' : 'none',
+              width: `${width}px`,
+              height: `${width}px`,
+            }}
+            className="flex items-center justify-center overflow-hidden"
+          >
+            {qrType === 'generated' ? (
+              <QRCodeSVG 
+                value={publicUrl} 
+                size={width - (padding * 2)} 
+                bgColor={bgColor}
+                fgColor="#1E2332"
+                level="H"
+                imageSettings={{
+                  src: "data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='28' fill='white'/%3E%3Crect x='44' y='30' width='12' height='40' rx='6' fill='%232563EB'/%3E%3C/svg%3E",
+                  height: (width - (padding * 2)) * 0.25,
+                  width: (width - (padding * 2)) * 0.25,
+                  excavate: true,
+                }}
+              />
+            ) : qrImage ? (
+              <img src={qrImage} alt="QR Code" className="w-full h-full object-cover" />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center text-gray-400">
+                <span className="text-xs text-center">No image uploaded</span>
+              </div>
+            )}
+          </div>
+
+          <p className="text-[10px] font-black tracking-[0.18em] text-[#94A3B8] uppercase mt-3" style={{ fontFamily: font.body || 'inherit' }}>
+            {qrDescription || 'SCAN TO CONNECT'}
+          </p>
+        </div>
+      );
+    }
 
     case 'video': {
       const rawUrl = data.url || '';

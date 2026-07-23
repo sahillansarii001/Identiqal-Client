@@ -32,12 +32,15 @@ export default function DashboardLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // ── Dark mode — lifted from Navbar, persisted in localStorage ──────────────
-  const [darkMode, setDarkMode] = useState(() => {
+  const [darkMode, setDarkMode] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
     if (typeof window !== "undefined") {
-      return localStorage.getItem("iq-dark-mode") === "true";
+      setDarkMode(localStorage.getItem("iq-dark-mode") === "true");
     }
-    return false;
-  });
+  }, []);
 
   const toggleDarkMode = () => {
     setDarkMode((prev) => {
@@ -130,7 +133,7 @@ export default function DashboardLayout({ children }) {
   return (
     <div
       data-dark={darkMode ? "true" : undefined}
-      className={`flex min-h-[100dvh] w-full max-w-full overflow-x-hidden font-sans relative transition-colors duration-300 ${
+      className={`flex h-[100dvh] overflow-hidden w-full max-w-full font-sans relative transition-colors duration-300 ${
         darkMode ? "bg-[#0A0A0A] text-[#FAFAFA]" : "bg-[#F8FAFC] text-inherit"
       }`}
     >
@@ -153,7 +156,7 @@ export default function DashboardLayout({ children }) {
 
       {/* ── Sidebar ─────────────────────────────── */}
       <aside
-        className={`fixed lg:sticky top-0 h-[100dvh] w-[260px] border-r flex flex-col z-50 transition-all duration-300 ${
+        className={`fixed lg:relative top-0 h-full w-[260px] border-r flex flex-col z-50 transition-all duration-300 ${
           sidebarOpen ? "left-0 flex shrink-0" : "-left-64 lg:left-0 hidden lg:flex lg:shrink-0"
         } ${
           darkMode
@@ -318,7 +321,7 @@ export default function DashboardLayout({ children }) {
       </aside>
 
       {/* ── Main Content ─────────────────────────── */}
-      <div className="p-1.5 sm:p-4 lg:py-6 lg:pr-6 lg:pl-6 flex flex-col flex-1 min-w-0 relative z-10 w-full max-w-full overflow-x-hidden">
+      <div className="p-1.5 sm:p-4 lg:py-6 lg:pr-6 lg:pl-6 flex flex-col flex-1 min-w-0 relative z-10 w-full max-w-full">
         {/* Premium Navbar */}
         <PremiumNavbar
           user={user}
@@ -426,7 +429,7 @@ function PremiumNavbar({
     : "w-9 h-9 rounded-xl bg-[#F8FAFC] border border-[rgba(37,99,235,0.08)] hover:border-[#3B82F6]/40 hover:bg-white flex items-center justify-center text-[#7A7A7A] hover:text-[#2563EB] transition-all";
 
   return (
-    <header className="w-full max-w-full sticky top-2 sm:top-4 z-30">
+    <header className="w-full max-w-full sticky top-2 sm:top-4 z-50">
       <div
         className={`backdrop-blur-xl border rounded-[20px] sm:rounded-[28px] shadow-sm px-2.5 sm:px-5 py-2 sm:py-3.5 flex items-center justify-between sm:justify-start gap-1.5 sm:gap-4 transition-colors duration-300 ${
           darkMode
@@ -444,6 +447,7 @@ function PremiumNavbar({
           </button>
           <div className="hidden xl:block">
             <p
+              suppressHydrationWarning
               className={`text-sm font-black leading-tight whitespace-nowrap ${
                 darkMode ? "text-[#F1F5F9]" : "text-inherit"
               }`}

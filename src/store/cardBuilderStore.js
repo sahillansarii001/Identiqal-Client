@@ -10,6 +10,15 @@ export const useCardBuilderStore = create((set, get) => ({
   seo: { metaTitle: '', metaDescription: '', ogImageUrl: '' },
   activeSectionId: null,
 
+  // ─── QR CODE ─────────────────────────────────────────────────────────────
+  showQRCode: false,
+  qrType: 'generated',
+  qrImage: '',
+  qrTitle: '',
+  qrDescription: '',
+  qrSettings: { bgColor: '#ffffff', borderRadius: 16, shadow: true, border: true, padding: 16, width: 200 },
+
+
   // ─── COVER IMAGE ─────────────────────────────────────────────────────────
   imageUrl: '',
   isVideo: false,
@@ -117,6 +126,14 @@ export const useCardBuilderStore = create((set, get) => ({
       avatarOpacity: card.avatarOpacity !== undefined ? card.avatarOpacity : 100,
       avatarPosition: card.avatarPosition || 'center',
       avatarLayer: card.avatarLayer || 'above-header',
+      
+      showQRCode: card.showQRCode || false,
+      qrType: card.qrType || 'generated',
+      qrImage: card.qrImage || '',
+      qrTitle: card.qrTitle || '',
+      qrDescription: card.qrDescription || '',
+      qrSettings: card.qrSettings || { bgColor: '#ffffff', borderRadius: 16, shadow: true, border: true, padding: 16, width: 200 },
+      
       isDirty: false,
       saveStatus: 'saved',
       past: [],
@@ -145,6 +162,8 @@ export const useCardBuilderStore = create((set, get) => ({
       avatarShadow: s.avatarShadow, avatarGlow: s.avatarGlow,
       avatarBackground: s.avatarBackground, avatarOpacity: s.avatarOpacity,
       avatarPosition: s.avatarPosition, avatarLayer: s.avatarLayer,
+      showQRCode: s.showQRCode, qrType: s.qrType, qrImage: s.qrImage, 
+      qrTitle: s.qrTitle, qrDescription: s.qrDescription, qrSettings: s.qrSettings,
     };
     const newPast = [...s.past, snap];
     if (newPast.length > MAX_HISTORY) newPast.shift();
@@ -205,7 +224,7 @@ export const useCardBuilderStore = create((set, get) => ({
 
   // Wizard actions
   setWizardStep: (step) => set({ wizardStep: step }),
-  nextWizardStep: () => set((state) => ({ wizardStep: Math.min(state.wizardStep + 1, 5) })),
+  nextWizardStep: () => set((state) => ({ wizardStep: Math.min(state.wizardStep + 1, 6) })),
   prevWizardStep: () => set((state) => ({ wizardStep: Math.max(state.wizardStep - 1, 0) })),
   completeWizard: () => set({ wizardCompleted: true, isDirty: true }),
   resetWizard: () => set({ wizardCompleted: false, wizardStep: 0 }),
@@ -243,6 +262,23 @@ export const useCardBuilderStore = create((set, get) => ({
   openAvatarEditor: () => set({ isAvatarEditorOpen: true }),
   closeAvatarEditor: () => set({ isAvatarEditorOpen: false }),
 
+  // QR Code
+  updateQrCode: (data) => {
+    get()._saveToHistory();
+    set((state) => {
+      let newSections = state.sections;
+      
+      // If toggling on for the first time, make sure there's a block in sections array for drag/drop
+      if (data.showQRCode === true && !state.sections.find(s => s.type === 'qrcode')) {
+        const order = state.sections.length > 0 ? Math.max(...state.sections.map(s => s.order || 0)) + 1 : 1;
+        newSections = [...state.sections, { type: 'qrcode', sectionId: 'qrcode', isVisible: true, order }];
+      }
+      
+      return { ...data, sections: newSections, isDirty: true };
+    });
+  },
+  updateQrCodeRealTime: (data) => set({ ...data, isDirty: true }),
+
   undo: () => set((state) => {
     if (state.past.length === 0) return state;
     const previous = state.past[state.past.length - 1];
@@ -264,6 +300,8 @@ export const useCardBuilderStore = create((set, get) => ({
       avatarShadow: state.avatarShadow, avatarGlow: state.avatarGlow,
       avatarBackground: state.avatarBackground, avatarOpacity: state.avatarOpacity,
       avatarPosition: state.avatarPosition, avatarLayer: state.avatarLayer,
+      showQRCode: state.showQRCode, qrType: state.qrType, qrImage: state.qrImage,
+      qrTitle: state.qrTitle, qrDescription: state.qrDescription, qrSettings: state.qrSettings,
     };
     return { past: newPast, future: [cur, ...state.future], ...previous, isDirty: true };
   }),
@@ -289,6 +327,8 @@ export const useCardBuilderStore = create((set, get) => ({
       avatarShadow: state.avatarShadow, avatarGlow: state.avatarGlow,
       avatarBackground: state.avatarBackground, avatarOpacity: state.avatarOpacity,
       avatarPosition: state.avatarPosition, avatarLayer: state.avatarLayer,
+      showQRCode: state.showQRCode, qrType: state.qrType, qrImage: state.qrImage,
+      qrTitle: state.qrTitle, qrDescription: state.qrDescription, qrSettings: state.qrSettings,
     };
     return { past: [...state.past, cur], future: newFuture, ...next, isDirty: true };
   }),
@@ -307,6 +347,8 @@ export const useCardBuilderStore = create((set, get) => ({
     avatarBorderColor: '#ffffff', avatarShadow: true, avatarGlow: false,
     avatarBackground: 'transparent', avatarOpacity: 100,
     avatarPosition: 'center', avatarLayer: 'above-header',
+    showQRCode: false, qrType: 'generated', qrImage: '', qrTitle: '', qrDescription: '', 
+    qrSettings: { bgColor: '#ffffff', borderRadius: 16, shadow: true, border: true, padding: 16, width: 200 },
     isWorkspaceOpen: false, isCoverEditorOpen: false, isAvatarEditorOpen: false, _workspaceBackup: null,
     isDirty: false, past: [], future: [],
   }),

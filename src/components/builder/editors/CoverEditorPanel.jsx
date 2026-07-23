@@ -6,7 +6,7 @@ import {
   X, Upload, Trash2, RefreshCw, Sun, Contrast, Droplets,
   Wind, Eye, Layers, Move, ZoomIn, RotateCw, FlipHorizontal2,
   FlipVertical2, AlignCenter, Maximize2, Minimize2, Image as ImgIcon,
-  ChevronDown, Video,
+  ChevronDown, Video, Plus, Minus
 } from 'lucide-react';
 
 const OVERLAY_OPTIONS = [
@@ -14,7 +14,7 @@ const OVERLAY_OPTIONS = [
   { id: 'Dark Overlay', label: 'Dark', preview: 'bg-black/60' },
   { id: 'Light Overlay', label: 'Light', preview: 'bg-white/60' },
   { id: 'Gradient Overlay', label: 'Gradient', preview: 'bg-gradient-to-b from-blue-600/70 to-transparent' },
-  { id: 'Glass Overlay', label: 'Glass', preview: 'bg-white/20 backdrop-blur-sm border border-white/30' },
+  { id: 'Vignette', label: 'Vignette', preview: 'shadow-[inset_0_0_20px_rgba(0,0,0,0.8)]' },
 ];
 
 const PLACEMENT_OPTIONS = [
@@ -41,9 +41,23 @@ const Slider = ({ label, value, min, max, step = 1, unit = '', onChange }) => (
       <span className="font-semibold text-gray-600">{label}</span>
       <span className="font-mono text-gray-400">{value}{unit}</span>
     </div>
-    <input type="range" min={min} max={max} step={step} value={value}
-      onChange={(e) => onChange(Number(e.target.value))}
-      className="w-full h-1.5 rounded-full accent-blue-500 cursor-pointer" />
+    <div className="flex items-center gap-2">
+      <button 
+        onClick={() => onChange(Math.max(min, value - step))}
+        className="w-5 h-5 flex items-center justify-center bg-gray-100 rounded-md text-gray-500 hover:text-gray-900 transition-colors shrink-0"
+      >
+        <Minus size={12} />
+      </button>
+      <input type="range" min={min} max={max} step={step} value={value}
+        onChange={(e) => onChange(Number(e.target.value))}
+        className="flex-1 h-1.5 rounded-full accent-blue-500 cursor-pointer" />
+      <button 
+        onClick={() => onChange(Math.min(max, value + step))}
+        className="w-5 h-5 flex items-center justify-center bg-gray-100 rounded-md text-gray-500 hover:text-gray-900 transition-colors shrink-0"
+      >
+        <Plus size={12} />
+      </button>
+    </div>
   </div>
 );
 

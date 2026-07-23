@@ -189,7 +189,7 @@ export default function SingleCardDashboard() {
               <button onClick={handleDuplicate} className="action-btn" title="Duplicate">
                 <CopyPlus size={18} />
               </button>
-              <button onClick={handleDelete} className="action-btn text-slate-400 hover:bg-red-50 hover:text-red-500 hover:border-red-100" title="Delete Card">
+              <button onClick={handleDelete} className="action-btn hover:!bg-red-50 hover:!text-red-500 hover:!border-red-100 dark:hover:!bg-red-500/10 dark:hover:!text-red-400 dark:hover:!border-red-500/20" title="Delete Card">
                 <Trash2 size={18} />
               </button>
               <Link href={`/dashboard/cards/${card.slug}/edit`}>

@@ -1,18 +1,24 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { useCardBuilderStore } from '@/store/cardBuilderStore';
+import { useAuthStore } from '@/store/authStore';
 import axiosInstance from '@/services/axiosInstance';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ChevronLeft, ChevronRight, Upload, Trash2, Plus, Check, Sparkles,
   Share2, ExternalLink, Eye, User, Image as ImgIcon, Sun, Layers, Move,
   Globe, Camera, Briefcase, Code, Video, MessageCircle, Mail, Phone,
-  Link2, GripVertical, RefreshCw, Contrast, Droplets, ZoomIn
+  Link2, GripVertical, RefreshCw, Contrast, Droplets, ZoomIn, Minus,
+  Smartphone, Search, Cake, MapPin, FileText, StickyNote, Music,
+  Play, Radio, Coffee, ShoppingBag, Download, DollarSign, Headphones,
+  HelpCircle, Calendar, Users, Tv, Mic, MessageSquare
 } from 'lucide-react';
 import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { SortableContext, arrayMove, verticalListSortingStrategy, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { LINK_PLATFORMS, CATEGORIES } from '@/constants/links';
 
 /* -------------------------------------------------------------------------- */
 /* THUMBNAIL COMPONENT FOR DISPLAY PRESETS                                    */
@@ -89,6 +95,7 @@ const HeaderPresetThumbnail = ({ preset, activeTheme }) => {
 /* STEP DEFINITIONS                                                           */
 /* -------------------------------------------------------------------------- */
 const STEP_TITLES = [
+  'Profile Info',
   'Choose Header Design',
   'Customize Header',
   'Choose Card Theme',
@@ -269,9 +276,14 @@ export default function SetupWizard() {
           >
 
             {/* ============================================================ */}
-            {/* STEP 1 — CHOOSE HEADER DESIGN                                */}
+            {/* STEP 1 — PROFILE INFO                                        */}
             {/* ============================================================ */}
-            {wizardStep === 0 && (
+            {wizardStep === 0 && <WizardProfileSection />}
+
+            {/* ============================================================ */}
+            {/* STEP 2 — CHOOSE HEADER DESIGN                                */}
+            {/* ============================================================ */}
+            {wizardStep === 1 && (
               <div className="space-y-4">
                 <p className="text-xs text-gray-500 dark:text-zinc-400">
                   Select a layout for your card's header area. Click any design to apply & continue.
@@ -315,9 +327,9 @@ export default function SetupWizard() {
             )}
 
             {/* ============================================================ */}
-            {/* STEP 2 — CUSTOMIZE HEADER                                    */}
+            {/* STEP 3 — CUSTOMIZE HEADER                                    */}
             {/* ============================================================ */}
-            {wizardStep === 1 && (
+            {wizardStep === 2 && (
               <div className="space-y-5">
                 <p className="text-xs text-gray-500 dark:text-zinc-400">
                   Fine-tune your cover image styling, positioning, overlay, and effects.
@@ -382,11 +394,19 @@ export default function SetupWizard() {
                       <span className="font-semibold text-gray-700 dark:text-gray-300">Zoom Level</span>
                       <span className="font-mono text-gray-400">{imageScale}%</span>
                     </div>
-                    <input
-                      type="range" min="50" max="250" value={imageScale}
-                      onChange={(e) => updateHeaderImageRealTime({ imageScale: Number(e.target.value) })}
-                      className="w-full h-1.5 rounded-full accent-blue-500 cursor-pointer"
-                    />
+                    <div className="flex items-center gap-2">
+                      <button onClick={() => updateHeaderImageRealTime({ imageScale: Math.max(50, imageScale - 1) })} className="w-5 h-5 flex items-center justify-center bg-gray-100 dark:bg-white/10 rounded-md text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors shrink-0">
+                        <Minus size={12} />
+                      </button>
+                      <input
+                        type="range" min="50" max="250" value={imageScale}
+                        onChange={(e) => updateHeaderImageRealTime({ imageScale: Number(e.target.value) })}
+                        className="flex-1 h-1.5 rounded-full accent-blue-500 cursor-pointer"
+                      />
+                      <button onClick={() => updateHeaderImageRealTime({ imageScale: Math.min(250, imageScale + 1) })} className="w-5 h-5 flex items-center justify-center bg-gray-100 dark:bg-white/10 rounded-md text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors shrink-0">
+                        <Plus size={12} />
+                      </button>
+                    </div>
                   </div>
 
                   {/* Position X / Y */}
@@ -396,22 +416,38 @@ export default function SetupWizard() {
                         <span className="font-semibold text-gray-700 dark:text-gray-300">Position X</span>
                         <span className="font-mono text-gray-400">{imagePositionX}px</span>
                       </div>
-                      <input
-                        type="range" min="-150" max="150" value={imagePositionX}
-                        onChange={(e) => updateHeaderImageRealTime({ imagePositionX: Number(e.target.value) })}
-                        className="w-full h-1.5 rounded-full accent-blue-500 cursor-pointer"
-                      />
+                      <div className="flex items-center gap-2">
+                        <button onClick={() => updateHeaderImageRealTime({ imagePositionX: Math.max(-150, imagePositionX - 1) })} className="w-5 h-5 flex items-center justify-center bg-gray-100 dark:bg-white/10 rounded-md text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors shrink-0">
+                          <Minus size={12} />
+                        </button>
+                        <input
+                          type="range" min="-150" max="150" value={imagePositionX}
+                          onChange={(e) => updateHeaderImageRealTime({ imagePositionX: Number(e.target.value) })}
+                          className="flex-1 h-1.5 rounded-full accent-blue-500 cursor-pointer"
+                        />
+                        <button onClick={() => updateHeaderImageRealTime({ imagePositionX: Math.min(150, imagePositionX + 1) })} className="w-5 h-5 flex items-center justify-center bg-gray-100 dark:bg-white/10 rounded-md text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors shrink-0">
+                          <Plus size={12} />
+                        </button>
+                      </div>
                     </div>
                     <div className="space-y-1.5">
                       <div className="flex justify-between text-[11px]">
                         <span className="font-semibold text-gray-700 dark:text-gray-300">Position Y</span>
                         <span className="font-mono text-gray-400">{imagePositionY}px</span>
                       </div>
-                      <input
-                        type="range" min="-150" max="150" value={imagePositionY}
-                        onChange={(e) => updateHeaderImageRealTime({ imagePositionY: Number(e.target.value) })}
-                        className="w-full h-1.5 rounded-full accent-blue-500 cursor-pointer"
-                      />
+                      <div className="flex items-center gap-2">
+                        <button onClick={() => updateHeaderImageRealTime({ imagePositionY: Math.max(-150, imagePositionY - 1) })} className="w-5 h-5 flex items-center justify-center bg-gray-100 dark:bg-white/10 rounded-md text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors shrink-0">
+                          <Minus size={12} />
+                        </button>
+                        <input
+                          type="range" min="-150" max="150" value={imagePositionY}
+                          onChange={(e) => updateHeaderImageRealTime({ imagePositionY: Number(e.target.value) })}
+                          className="flex-1 h-1.5 rounded-full accent-blue-500 cursor-pointer"
+                        />
+                        <button onClick={() => updateHeaderImageRealTime({ imagePositionY: Math.min(150, imagePositionY + 1) })} className="w-5 h-5 flex items-center justify-center bg-gray-100 dark:bg-white/10 rounded-md text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors shrink-0">
+                          <Plus size={12} />
+                        </button>
+                      </div>
                     </div>
                   </div>
 
@@ -421,18 +457,26 @@ export default function SetupWizard() {
                       <span className="font-semibold text-gray-700 dark:text-gray-300">Opacity</span>
                       <span className="font-mono text-gray-400">{imageOpacity}%</span>
                     </div>
-                    <input
-                      type="range" min="0" max="100" value={imageOpacity}
-                      onChange={(e) => updateHeaderImageRealTime({ imageOpacity: Number(e.target.value) })}
-                      className="w-full h-1.5 rounded-full accent-blue-500 cursor-pointer"
-                    />
+                    <div className="flex items-center gap-2">
+                      <button onClick={() => updateHeaderImageRealTime({ imageOpacity: Math.max(0, imageOpacity - 1) })} className="w-5 h-5 flex items-center justify-center bg-gray-100 dark:bg-white/10 rounded-md text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors shrink-0">
+                        <Minus size={12} />
+                      </button>
+                      <input
+                        type="range" min="0" max="100" value={imageOpacity}
+                        onChange={(e) => updateHeaderImageRealTime({ imageOpacity: Number(e.target.value) })}
+                        className="flex-1 h-1.5 rounded-full accent-blue-500 cursor-pointer"
+                      />
+                      <button onClick={() => updateHeaderImageRealTime({ imageOpacity: Math.min(100, imageOpacity + 1) })} className="w-5 h-5 flex items-center justify-center bg-gray-100 dark:bg-white/10 rounded-md text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors shrink-0">
+                        <Plus size={12} />
+                      </button>
+                    </div>
                   </div>
 
                   {/* Overlay Presets */}
                   <div className="space-y-2 pt-2">
                     <label className="text-[11px] font-bold uppercase tracking-wider text-gray-400 block">Overlay Effect</label>
                     <div className="grid grid-cols-3 gap-2">
-                      {['None', 'Dark Overlay', 'Light Overlay', 'Gradient Overlay', 'Glass Overlay'].map((ov) => (
+                      {['None', 'Dark Overlay', 'Light Overlay', 'Gradient Overlay', 'Vignette'].map((ov) => (
                         <button
                           key={ov}
                           onClick={() => updateHeaderImage({ overlayType: ov })}
@@ -473,9 +517,9 @@ export default function SetupWizard() {
             )}
 
             {/* ============================================================ */}
-            {/* STEP 3 — CHOOSE CARD THEME                                  */}
+            {/* STEP 4 — CHOOSE CARD THEME                                  */}
             {/* ============================================================ */}
-            {wizardStep === 2 && (
+            {wizardStep === 3 && (
               <div className="space-y-4">
                 <p className="text-xs text-gray-500 dark:text-zinc-400">
                   Choose a color palette theme for your card.
@@ -518,14 +562,14 @@ export default function SetupWizard() {
             )}
 
             {/* ============================================================ */}
-            {/* STEP 4 — ADD LINKS                                           */}
+            {/* STEP 5 — ADD LINKS                                           */}
             {/* ============================================================ */}
-            {wizardStep === 3 && <WizardLinksSection />}
+            {wizardStep === 4 && <WizardLinksSection />}
 
             {/* ============================================================ */}
-            {/* STEP 5 — CHOOSE FOOTER                                       */}
+            {/* STEP 6 — CHOOSE FOOTER                                       */}
             {/* ============================================================ */}
-            {wizardStep === 4 && (
+            {wizardStep === 5 && (
               <div className="space-y-4">
                 <p className="text-xs text-gray-500 dark:text-zinc-400">
                   Select a footer preset for your digital card.
@@ -563,9 +607,9 @@ export default function SetupWizard() {
             )}
 
             {/* ============================================================ */}
-            {/* STEP 6 — FINISH                                              */}
+            {/* STEP 7 — FINISH                                              */}
             {/* ============================================================ */}
-            {wizardStep === 5 && (
+            {wizardStep === 6 && (
               <div className="space-y-6 text-center py-6">
                 <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-tr from-blue-500 to-indigo-600 text-white flex items-center justify-center shadow-xl shadow-blue-500/25 animate-bounce">
                   <Sparkles size={36} />
@@ -633,116 +677,455 @@ export default function SetupWizard() {
 }
 
 /* -------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
 /* STEP 5 WIZARD LINKS SECTION                                                */
 /* -------------------------------------------------------------------------- */
-const PLATFORMS = [
-  { label: 'Website', prefix: 'https://', icon: Globe },
-  { label: 'Instagram', prefix: 'https://instagram.com/', icon: Camera },
-  { label: 'LinkedIn', prefix: 'https://linkedin.com/in/', icon: Briefcase },
-  { label: 'GitHub', prefix: 'https://github.com/', icon: Code },
-  { label: 'YouTube', prefix: 'https://youtube.com/@', icon: Video },
-  { label: 'WhatsApp', prefix: 'https://wa.me/', icon: MessageCircle },
-  { label: 'Email', prefix: 'mailto:', icon: Mail },
-  { label: 'Phone', prefix: 'tel:', icon: Phone },
-  { label: 'Custom', prefix: 'https://', icon: Link2 },
-];
+
+/* Drag and Drop Item Component for Links */
+const SortableLinkItem = ({ link, index, removeLink, editLink }) => {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: `link-${index}` });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    zIndex: isDragging ? 10 : 1,
+    opacity: isDragging ? 0.8 : 1,
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      className={`p-3 bg-white dark:bg-[#1C191D] border border-gray-200 dark:border-white/10 rounded-2xl space-y-2 relative group shadow-sm ${isDragging ? 'shadow-lg ring-2 ring-blue-500/50' : ''}`}
+    >
+      <div className="flex items-start justify-between">
+        <div className="flex items-start gap-3 overflow-hidden">
+          <div
+            {...attributes}
+            {...listeners}
+            className="cursor-grab active:cursor-grabbing p-1 mt-0.5 text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 rounded-md transition-colors shrink-0"
+          >
+            <GripVertical size={14} />
+          </div>
+          <div className="overflow-hidden">
+            <p className="text-xs font-bold text-gray-900 dark:text-white truncate">{link.label || 'No Label'}</p>
+            <p className="text-[10px] text-gray-500 dark:text-gray-400 font-mono truncate mt-0.5">{link.url || 'No URL'}</p>
+          </div>
+        </div>
+        <div className="flex items-center gap-1.5 shrink-0 ml-2">
+          <button
+            onClick={() => editLink(index)}
+            className="px-2.5 py-1 bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 text-gray-700 dark:text-gray-300 rounded-lg text-[10px] font-bold transition-all"
+          >
+            Edit
+          </button>
+          <button
+            onClick={() => removeLink(index)}
+            className="px-2.5 py-1 bg-red-50 dark:bg-red-500/10 hover:bg-red-100 dark:hover:bg-red-500/20 text-red-600 dark:text-red-400 rounded-lg text-[10px] font-bold transition-all"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* -------------------------------------------------------------------------- */
+/* LINK EDITOR MODAL                                                          */
+/* -------------------------------------------------------------------------- */
+const LinkEditorModal = ({ editorData, onSave, onCancel }) => {
+  const [label, setLabel] = useState('');
+  const [url, setUrl] = useState('');
+  const [error, setError] = useState('');
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (editorData) {
+      setLabel(editorData.link.label || '');
+      setUrl(editorData.link.url || '');
+      setError('');
+    }
+  }, [editorData]);
+
+  const handleSave = () => {
+    if (!url.trim()) {
+      setError('URL is required');
+      return;
+    }
+    // simple URL validation
+    if (!url.includes('.') && !url.startsWith('tel:') && !url.startsWith('mailto:')) {
+       setError('Please enter a valid URL, email, or phone number');
+       return;
+    }
+    
+    onSave({ ...editorData.link, label, url });
+  };
+
+  const content = (
+    <AnimatePresence>
+      {editorData && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-[100] flex justify-center items-end sm:items-center bg-black/40 backdrop-blur-sm p-0 sm:p-4"
+          onClick={onCancel}
+        >
+          {(() => {
+            const platform = LINK_PLATFORMS.find(p => p.id === editorData.platformId);
+            const Icon = platform?.icon || Link2;
+            
+            return (
+              <motion.div
+                initial={{ y: 50, opacity: 0, scale: 0.98 }}
+                animate={{ y: 0, opacity: 1, scale: 1 }}
+                exit={{ y: 20, opacity: 0, scale: 0.98 }}
+                transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                onClick={(e) => e.stopPropagation()}
+                className="w-full h-[85vh] sm:h-auto sm:max-h-[85vh] sm:w-[420px] bg-white dark:bg-[#1C1C1E] shadow-2xl flex flex-col rounded-t-[32px] sm:rounded-3xl border border-transparent dark:border-white/10 overflow-hidden"
+              >
+                {/* Header */}
+                <div className="flex items-center justify-between p-6 pb-4 shrink-0">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center border border-blue-100 dark:border-blue-500/20 shadow-sm">
+                      <Icon size={22} className="text-blue-600 dark:text-blue-400" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-gray-900 dark:text-white text-lg tracking-tight">{editorData.isNew ? 'Add Link' : 'Edit Link'}</h3>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">{platform?.label || 'Custom Link'}</p>
+                    </div>
+                  </div>
+                  <button onClick={onCancel} className="p-2.5 text-gray-400 hover:text-gray-900 dark:hover:text-white rounded-full hover:bg-gray-100 dark:hover:bg-white/10 transition-colors">
+                    <Plus size={22} className="rotate-45" />
+                  </button>
+                </div>
+
+                {/* Body */}
+                <div className="flex-1 px-6 py-4 space-y-5 overflow-y-auto">
+                  <div className="space-y-1.5">
+                    <label className="text-[11px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 ml-1">Display Name</label>
+                    <input
+                      type="text"
+                      value={label}
+                      onChange={(e) => setLabel(e.target.value)}
+                      placeholder="e.g. My Portfolio"
+                      className="w-full px-4 py-3.5 bg-gray-50 dark:bg-white/[0.03] border border-gray-200/75 dark:border-white/10 rounded-2xl text-sm text-gray-900 dark:text-white focus:outline-none focus:border-blue-500/50 focus:ring-4 focus:ring-blue-500/10 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-600"
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-[11px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 ml-1">URL / Username</label>
+                    <input
+                      type="text"
+                      value={url}
+                      onChange={(e) => { setUrl(e.target.value); setError(''); }}
+                      placeholder="https://..."
+                      className={`w-full px-4 py-3.5 bg-gray-50 dark:bg-white/[0.03] border rounded-2xl text-sm text-gray-900 dark:text-white font-mono focus:outline-none focus:border-blue-500/50 focus:ring-4 focus:ring-blue-500/10 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-600 ${error ? 'border-red-500/50 focus:border-red-500/50 focus:ring-red-500/10' : 'border-gray-200/75 dark:border-white/10'}`}
+                    />
+                    {error && <p className="text-xs text-red-500 mt-1.5 ml-1 font-medium flex items-center gap-1.5"><Check size={12} className="rotate-45" /> {error}</p>}
+                  </div>
+                </div>
+
+                {/* Footer */}
+                <div className="p-6 pt-4 flex items-center gap-3 shrink-0">
+                  <button onClick={onCancel} className="flex-1 px-4 py-3.5 text-sm font-bold text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-white/5 border border-transparent hover:border-gray-200 dark:hover:border-white/10 rounded-2xl hover:bg-gray-200 dark:hover:bg-white/10 transition-all">
+                    Cancel
+                  </button>
+                  <button onClick={handleSave} className="flex-1 px-4 py-3.5 text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-2xl shadow-lg shadow-blue-500/25 transition-all active:scale-[0.98]">
+                    Save
+                  </button>
+                </div>
+              </motion.div>
+            );
+          })()}
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+
+  if (!mounted) return null;
+  return createPortal(content, document.body);
+};
+
+function WizardProfileSection() {
+  const { sections, addSection, updateSection, updateSectionRealTime } = useCardBuilderStore();
+  
+  const aboutSection = sections.find(s => s.type === 'about');
+  
+  const headline = aboutSection?.data?.headline || '';
+  const bio = aboutSection?.data?.bio || '';
+
+  const handleUpdate = (field, value) => {
+    if (aboutSection) {
+      updateSectionRealTime(aboutSection.sectionId, { [field]: value });
+    } else {
+      addSection({
+        sectionId: 'about-' + Date.now(),
+        type: 'about',
+        isVisible: true,
+        data: { headline: '', bio: '', [field]: value }
+      });
+    }
+  };
+
+  const handleBlur = (field, value) => {
+    if (aboutSection) {
+      updateSection(aboutSection.sectionId, { [field]: value });
+    }
+  };
+
+  return (
+    <div className="space-y-4">
+      <p className="text-xs text-gray-500 dark:text-zinc-400">
+        Let's start with your basics. Add your name and a short bio.
+      </p>
+      
+      <div className="space-y-4">
+        <div className="space-y-1.5">
+          <label className="text-[11px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 ml-1">Your Name</label>
+          <input
+            type="text"
+            value={headline}
+            onChange={(e) => handleUpdate('headline', e.target.value)}
+            onBlur={(e) => handleBlur('headline', e.target.value)}
+            placeholder="e.g. John Doe"
+            className="w-full px-4 py-3.5 bg-gray-50 dark:bg-white/[0.03] border border-gray-200/75 dark:border-white/10 rounded-2xl text-sm text-gray-900 dark:text-white focus:outline-none focus:border-blue-500/50 focus:ring-4 focus:ring-blue-500/10 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-600"
+          />
+        </div>
+        <div className="space-y-1.5">
+          <label className="text-[11px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 ml-1">Short Bio</label>
+          <textarea
+            value={bio}
+            onChange={(e) => handleUpdate('bio', e.target.value)}
+            onBlur={(e) => handleBlur('bio', e.target.value)}
+            rows={3}
+            placeholder="e.g. Crafting premium user experiences..."
+            className="w-full px-4 py-3.5 bg-gray-50 dark:bg-white/[0.03] border border-gray-200/75 dark:border-white/10 rounded-2xl text-sm text-gray-900 dark:text-white focus:outline-none focus:border-blue-500/50 focus:ring-4 focus:ring-blue-500/10 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-600 resize-none"
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function WizardLinksSection() {
-  const { sections, updateSection } = useCardBuilderStore();
+  const { sections, updateSection, addSection } = useCardBuilderStore();
+  const { user } = useAuthStore();
+  
+  const userGoal = user?.goal && CATEGORIES[user.goal] ? user.goal : 'personal';
+  const categoryData = CATEGORIES[userGoal];
+
   const linksSection = sections.find((s) => s.type === 'links');
   const links = linksSection?.data?.links || [];
+
+  const [searchQuery, setSearchQuery] = useState('');
+  const [activeEditor, setActiveEditor] = useState(null);
 
   const handleUpdateLinks = (newLinks) => {
     if (linksSection) {
       updateSection(linksSection.sectionId, { links: newLinks });
+    } else {
+      addSection({
+        type: 'links',
+        sectionId: `links-${Date.now()}`,
+        isVisible: true,
+        order: sections.length,
+        data: { links: newLinks }
+      });
     }
   };
 
-  const addLink = (platform) => {
-    const newLink = {
-      label: platform.label === 'Custom' ? 'My Link' : platform.label,
-      url: platform.prefix,
-    };
-    handleUpdateLinks([...links, newLink]);
+  const openAddModal = (platform) => {
+    setActiveEditor({
+      isNew: true,
+      platformId: platform.id,
+      link: {
+        label: platform.id === 'custom' ? 'My Link' : platform.label,
+        url: platform.prefix,
+        platformId: platform.id
+      }
+    });
+  };
+
+  const openEditModal = (index) => {
+    const link = links[index];
+    setActiveEditor({
+      isNew: false,
+      index,
+      platformId: link.platformId,
+      link: { ...link }
+    });
+  };
+
+  const handleSaveLink = (updatedLink) => {
+    if (activeEditor.isNew) {
+      handleUpdateLinks([updatedLink, ...links]);
+    } else {
+      const updated = [...links];
+      updated[activeEditor.index] = updatedLink;
+      handleUpdateLinks(updated);
+    }
+    setActiveEditor(null);
   };
 
   const removeLink = (index) => {
     handleUpdateLinks(links.filter((_, i) => i !== index));
   };
 
-  const updateLinkField = (index, field, value) => {
-    const updated = [...links];
-    updated[index] = { ...updated[index], [field]: value };
-    handleUpdateLinks(updated);
+  // Drag and Drop
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: { distance: 5 },
+    })
+  );
+
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+    if (over && active.id !== over.id) {
+      const oldIndex = links.findIndex((_, idx) => `link-${idx}` === active.id);
+      const newIndex = links.findIndex((_, idx) => `link-${idx}` === over.id);
+      handleUpdateLinks(arrayMove(links, oldIndex, newIndex));
+    }
+  };
+
+  // Filter available platforms based on category and search
+  const availablePlatforms = LINK_PLATFORMS.filter(p => categoryData.links.includes(p.id));
+  const filteredPlatforms = availablePlatforms.filter(p => p.label.toLowerCase().includes(searchQuery.toLowerCase()));
+
+  const renderPlatformButton = (platformId) => {
+    const p = LINK_PLATFORMS.find(p => p.id === platformId);
+    if (!p) return null;
+    
+    const Icon = p.icon;
+    const isAdded = !p.allowDuplicates && links.some(l => l.platformId === p.id || l.label === p.label);
+    
+    return (
+      <button
+        key={p.id}
+        onClick={() => {
+          if (isAdded) {
+            const idx = links.findIndex(l => l.platformId === p.id || l.label === p.label);
+            if (idx !== -1) openEditModal(idx);
+          } else {
+            openAddModal(p);
+          }
+        }}
+        className={`group py-2 px-2.5 rounded-xl border text-[11px] font-semibold flex items-center justify-between transition-all ${
+          isAdded 
+            ? 'bg-blue-50 dark:bg-blue-500/10 border-blue-200 dark:border-blue-500/30 text-blue-700 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-500/20'
+            : 'bg-white dark:bg-white/5 border-gray-200 dark:border-white/10 hover:border-blue-400 dark:hover:border-blue-500 text-gray-700 dark:text-gray-300 hover:scale-[1.02]'
+        }`}
+      >
+        <div className="flex items-center gap-2 overflow-hidden">
+          <Icon size={14} className={isAdded ? 'text-blue-600 dark:text-blue-400 shrink-0' : 'text-gray-400 dark:text-gray-500 shrink-0'} />
+          <span className="truncate">{p.label}</span>
+        </div>
+        {isAdded ? (
+          <Minus size={14} className="text-blue-600 dark:text-blue-400 shrink-0 opacity-70 group-hover:opacity-100" />
+        ) : (
+          <Plus size={14} className="text-gray-400 dark:text-gray-500 shrink-0 opacity-50 group-hover:opacity-100" />
+        )}
+      </button>
+    );
   };
 
   return (
-    <div className="space-y-5">
-      <p className="text-xs text-gray-500 dark:text-zinc-400">
-        Add your social media profiles, website, and contact links.
-      </p>
-
-      {/* Platform preset buttons */}
-      <div className="space-y-2">
-        <label className="text-[11px] font-bold uppercase tracking-wider text-gray-400 block">Quick Add Platform</label>
-        <div className="grid grid-cols-3 gap-2">
-          {PLATFORMS.map((p) => {
-            const Icon = p.icon;
-            return (
-              <button
-                key={p.label}
-                onClick={() => addLink(p)}
-                className="py-2 px-2.5 rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-white/5 hover:border-blue-400 dark:hover:border-blue-500 text-gray-700 dark:text-gray-300 text-[11px] font-semibold flex items-center gap-2 transition-all hover:scale-[1.02]"
-              >
-                <Icon size={14} className="text-blue-500 shrink-0" />
-                <span className="truncate">{p.label}</span>
-              </button>
-            );
-          })}
+    <div className="space-y-6">
+      <LinkEditorModal 
+        editorData={activeEditor} 
+        onSave={handleSaveLink} 
+        onCancel={() => setActiveEditor(null)} 
+      />
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <p className="text-xs text-gray-500 dark:text-zinc-400">
+            Add your social media profiles, website, and contact links.
+          </p>
         </div>
+
+        {/* Search */}
+        <div className="relative">
+          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+          <input
+            type="search"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search links (e.g. Instagram, Website)"
+            className="w-full pl-8 pr-4 py-2.5 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-xs text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/30 transition-all"
+          />
+        </div>
+
+        {/* Quick Add Lists */}
+        {searchQuery ? (
+          <div className="space-y-2">
+            <label className="text-[11px] font-bold uppercase tracking-wider text-gray-400 block">Search Results</label>
+            {filteredPlatforms.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                {filteredPlatforms.map(p => renderPlatformButton(p.id))}
+              </div>
+            ) : (
+              <p className="text-xs text-gray-500 py-4 text-center">No links found for "{searchQuery}"</p>
+            )}
+          </div>
+        ) : (
+          <div className="space-y-5">
+
+            {/* Popular */}
+            <div className="space-y-2">
+              <label className="text-[11px] font-bold uppercase tracking-wider text-gray-400 block">Popular for {userGoal}</label>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                {categoryData.popular.map(id => renderPlatformButton(id))}
+              </div>
+            </div>
+
+            {/* All available links for user goal */}
+            <div className="space-y-2">
+              <label className="text-[11px] font-bold uppercase tracking-wider text-gray-400 block">All Available Links</label>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                {availablePlatforms.map(p => renderPlatformButton(p.id))}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
-      {/* Added Links List */}
-      <div className="space-y-3 pt-2">
+      {/* Added Links List with Drag and Drop */}
+      <div className="space-y-3 pt-4 border-t border-gray-100 dark:border-white/10">
         <label className="text-[11px] font-bold uppercase tracking-wider text-gray-400 block">Your Card Links ({links.length})</label>
         
         {links.length === 0 ? (
-          <div className="p-6 text-center border-2 border-dashed border-gray-200 dark:border-white/10 rounded-2xl text-xs text-gray-400">
-            Click a platform above to add your first link!
+          <div className="p-8 text-center border-2 border-dashed border-gray-200 dark:border-white/10 rounded-2xl flex flex-col items-center justify-center gap-3">
+            <div className="w-12 h-12 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 flex items-center justify-center text-gray-300 dark:text-gray-600">
+              <Link2 size={24} />
+            </div>
+            <p className="text-xs text-gray-400 font-medium">No links added yet</p>
+            <button
+              onClick={() => document.querySelector('input[type="search"]')?.focus()}
+              className="mt-2 px-4 py-2 bg-blue-50 hover:bg-blue-100 dark:bg-blue-500/10 dark:hover:bg-blue-500/20 text-blue-600 dark:text-blue-400 rounded-lg text-[11px] font-bold transition-all"
+            >
+              + Add Your First Link
+            </button>
           </div>
         ) : (
-          <div className="space-y-3">
-            {links.map((link, index) => (
-              <div
-                key={index}
-                className="p-3 bg-white dark:bg-[#1C191D] border border-gray-200 dark:border-white/10 rounded-2xl space-y-2 relative group shadow-sm"
-              >
-                <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Link {index + 1}</span>
-                  <button
-                    onClick={() => removeLink(index)}
-                    className="text-gray-400 hover:text-red-500 p-1 rounded-lg transition-colors"
-                  >
-                    <Trash2 size={13} />
-                  </button>
-                </div>
-                <input
-                  type="text"
-                  value={link.label || ''}
-                  onChange={(e) => updateLinkField(index, 'label', e.target.value)}
-                  placeholder="Label (e.g. Portfolio)"
-                  className="w-full px-3 py-2 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-xs text-gray-900 dark:text-white"
-                />
-                <input
-                  type="text"
-                  value={link.url || ''}
-                  onChange={(e) => updateLinkField(index, 'url', e.target.value)}
-                  placeholder="URL (https://...)"
-                  className="w-full px-3 py-2 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-xs text-gray-900 dark:text-white font-mono"
-                />
+          <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+            <SortableContext items={links.map((_, i) => `link-${i}`)} strategy={verticalListSortingStrategy}>
+              <div className="space-y-3">
+                {links.map((link, index) => (
+                  <SortableLinkItem 
+                    key={`link-${index}`} 
+                    link={link} 
+                    index={index} 
+                    removeLink={removeLink} 
+                    editLink={openEditModal} 
+                  />
+                ))}
               </div>
-            ))}
-          </div>
+            </SortableContext>
+          </DndContext>
         )}
       </div>
     </div>
