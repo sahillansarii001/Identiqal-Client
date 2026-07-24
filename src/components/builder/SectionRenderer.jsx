@@ -39,8 +39,11 @@ function formatDisplayValue(link) {
 }
 
 function getHeaderHeight(displayPreset) {
-  if (displayPreset?.headerHeight) return displayPreset.headerHeight;
-  return '200px';
+  if (displayPreset?.headerHeight) {
+    const val = parseFloat(displayPreset.headerHeight);
+    if (!isNaN(val)) return `${Math.min(160, Math.max(90, val))}px`;
+  }
+  return '140px';
 }
 
 function getAvatarShapeStyle(shape) {
@@ -102,7 +105,17 @@ export const SectionRenderer = ({ section, theme = {}, displayPreset = {}, color
   const cTheme = colorTheme || {};
 
   const baseColors = theme.colors || {};
-  const colors = { ...baseColors };
+  const colors = {
+    background: cTheme.background || baseColors.background || '#ffffff',
+    text: cTheme.text || baseColors.text || '#212529',
+    primary: cTheme.primary || baseColors.primary || '#2563EB',
+    accent: cTheme.accent || baseColors.accent || '#3B82F6',
+    secondary: cTheme.secondary || baseColors.secondary || '#6c757d',
+    surface: cTheme.surface || baseColors.surface || '#F8FAFC',
+    border: cTheme.border || baseColors.border || 'rgba(0,0,0,0.06)',
+    button: cTheme.button || cTheme.primary || baseColors.button || '#2563EB',
+    icon: cTheme.icon || baseColors.icon || '#495057',
+  };
   const font = theme.font || {};
 
   // Apply layout theme overrides
@@ -761,7 +774,7 @@ export const SectionRenderer = ({ section, theme = {}, displayPreset = {}, color
       };
 
       return (
-        <div className="pb-10 animate-fade-in relative overflow-hidden rounded-t-[inherit]" style={{ color: colors.text || '#212529' }}>
+        <div className="pb-1 animate-fade-in relative overflow-hidden rounded-t-[inherit]" style={{ color: colors.text || '#212529' }}>
 
           {/* ═══════════════ HEADER STACK ═══════════════ */}
           <div
@@ -1011,7 +1024,7 @@ export const SectionRenderer = ({ section, theme = {}, displayPreset = {}, color
           )}
 
           {/* Card content — below the header */}
-          <div className={`px-6 sm:px-10 space-y-4 flex flex-col ${profilePos} pt-6 relative z-10`}>
+          <div className={`px-5 sm:px-8 space-y-2 flex flex-col ${profilePos} pt-3 pb-1 relative z-10`}>
             {/* Avatar photo — independent from cover image */}
             {currentAvatarUrl && (
               <div
@@ -1059,13 +1072,13 @@ export const SectionRenderer = ({ section, theme = {}, displayPreset = {}, color
     case 'links':
       const links = data.links || [];
       const linkSpacingClass = {
-        'Compact': 'py-4',
-        'Normal': 'py-8',
-        'Spacious': 'py-12'
-      }[sectionSpacing] || 'py-8';
+        'Compact': 'py-1.5',
+        'Normal': 'py-2.5',
+        'Spacious': 'py-4'
+      }[sectionSpacing] || 'py-2.5';
 
       return (
-        <div className={`space-y-3 w-full px-6 sm:px-10 ${linkSpacingClass}`}>
+        <div className={`space-y-2 w-full px-5 sm:px-8 ${linkSpacingClass}`}>
           {links.length === 0 ? (
             <p className="text-xs text-slate-500 text-center py-4">No links added yet.</p>
           ) : (
@@ -1213,14 +1226,14 @@ export const SectionRenderer = ({ section, theme = {}, displayPreset = {}, color
 
     case 'qrcode': {
       const storeActive = previewMode && store?.cardId === section.cardId;
-      const showQRCode = storeActive ? store.showQRCode : data.showQRCode;
+      const showQRCode = storeActive ? store.showQRCode : (data?.showQRCode ?? section?.showQRCode ?? true);
       if (!showQRCode) return null;
 
-      const qrType = storeActive ? store.qrType : data.qrType;
-      const qrImage = storeActive ? store.qrImage : data.qrImage;
-      const qrTitle = storeActive ? store.qrTitle : data.qrTitle;
-      const qrDescription = storeActive ? store.qrDescription : data.qrDescription;
-      const qrSettings = storeActive ? store.qrSettings : data.qrSettings;
+      const qrType = storeActive ? store.qrType : (data?.qrType || section?.qrType || 'generated');
+      const qrImage = storeActive ? store.qrImage : (data?.qrImage || section?.qrImage || '');
+      const qrTitle = storeActive ? store.qrTitle : (data?.qrTitle || section?.qrTitle || '');
+      const qrDescription = storeActive ? store.qrDescription : (data?.qrDescription || section?.qrDescription || '');
+      const qrSettings = storeActive ? store.qrSettings : (data?.qrSettings || section?.qrSettings || {});
       
       const { bgColor = '#ffffff', borderRadius = 16, shadow = true, border = true, padding = 16, width = 200 } = qrSettings || {};
       

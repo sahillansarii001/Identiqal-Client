@@ -79,18 +79,25 @@ export const useCardBuilderStore = create((set, get) => ({
 
   setCard: (cardData) => {
     const card = cardData.card || cardData;
+    const resolvedDisplayPreset = cardData.displayPreset || card.displayPreset || (typeof card.displayPresetId === 'object' ? card.displayPresetId : card.displayPresetId) || null;
+    const resolvedColorTheme = cardData.colorTheme || card.colorTheme || (typeof card.colorThemeId === 'object' ? card.colorThemeId : card.colorThemeId) || null;
+    const resolvedFooterPreset = cardData.footerPreset || card.footerPreset || (typeof card.footerPresetId === 'object' ? card.footerPresetId : card.footerPresetId) || null;
+
     set({
       cardId: card._id,
-      wizardCompleted: card.wizardCompleted !== undefined ? card.wizardCompleted : false,
+      wizardCompleted: card.wizardCompleted !== undefined 
+        ? card.wizardCompleted 
+        : ((card.sections && card.sections.length > 0) || !!card.displayPresetId || !!card.colorThemeId),
       wizardStep: 0,
       slug: card.slug,
       title: card.title,
+      isPublished: card.isPublished !== undefined ? card.isPublished : true,
       sections: card.sections || [],
       seo: card.seo || { metaTitle: '', metaDescription: '', ogImageUrl: '' },
       activeSectionId: card.sections?.[0]?.sectionId || null,
-      displayPreset: cardData.displayPreset || null,
-      colorTheme: cardData.colorTheme || null,
-      footerPreset: cardData.footerPreset || null,
+      displayPreset: resolvedDisplayPreset,
+      colorTheme: resolvedColorTheme,
+      footerPreset: resolvedFooterPreset,
       imageUrl: card.imageUrl || '',
       isVideo: card.isVideo || false,
       imageScale: card.imageScale || 100,
@@ -226,7 +233,15 @@ export const useCardBuilderStore = create((set, get) => ({
   setWizardStep: (step) => set({ wizardStep: step }),
   nextWizardStep: () => set((state) => ({ wizardStep: Math.min(state.wizardStep + 1, 6) })),
   prevWizardStep: () => set((state) => ({ wizardStep: Math.max(state.wizardStep - 1, 0) })),
-  completeWizard: () => set({ wizardCompleted: true, isDirty: true }),
+  completeWizard: () => {
+    const s = get();
+    set({ wizardCompleted: true, isDirty: true });
+    if (s.cardId) {
+      import('../services/cardService.js').then(({ cardService }) => {
+        cardService.updateCard(s.cardId, { wizardCompleted: true }).catch(() => {});
+      });
+    }
+  },
   resetWizard: () => set({ wizardCompleted: false, wizardStep: 0 }),
 
   // Cover

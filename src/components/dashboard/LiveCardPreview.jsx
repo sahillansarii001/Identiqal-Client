@@ -5,7 +5,9 @@ import { SectionRenderer } from '@/components/builder/SectionRenderer.jsx';
 
 export function LiveCardPreview({ card, className = "h-[280px]", scale = 0.31 }) {
   const sections = card.sections || [];
-  const colorTheme = card.colorThemeId || {};
+  const colorTheme = (typeof card.colorThemeId === 'object' && card.colorThemeId) ? card.colorThemeId : (card.colorTheme || card.colorThemeId || {});
+  const displayPreset = (typeof card.displayPresetId === 'object' && card.displayPresetId) ? card.displayPresetId : (card.displayPreset || card.displayPresetId || {});
+  
   const theme = {
     colors: {
       background: colorTheme.background || '#ffffff',
@@ -29,8 +31,8 @@ export function LiveCardPreview({ card, className = "h-[280px]", scale = 0.31 })
           height: '812px',
           transformOrigin: 'top center',
           transform: `scale(${scale})`,
-          backgroundColor: theme.colors?.background || '#ffffff',
-          color: theme.colors?.text || '#212529'
+          backgroundColor: colorTheme.background || theme.colors?.background || '#ffffff',
+          color: colorTheme.text || theme.colors?.text || '#212529'
         }}
       >
         <div className="w-full h-full overflow-y-auto overflow-x-hidden no-scrollbar">
@@ -46,6 +48,12 @@ export function LiveCardPreview({ card, className = "h-[280px]", scale = 0.31 })
                     section={{ 
                       ...sec, 
                       cardId: card._id,
+                      showQRCode: card.showQRCode,
+                      qrType: card.qrType,
+                      qrImage: card.qrImage,
+                      qrTitle: card.qrTitle,
+                      qrDescription: card.qrDescription,
+                      qrSettings: card.qrSettings,
                       imageUrl: card.imageUrl,
                       imageScale: card.imageScale,
                       imagePositionX: card.imagePositionX,
@@ -54,8 +62,8 @@ export function LiveCardPreview({ card, className = "h-[280px]", scale = 0.31 })
                       overlayType: card.overlayType,
                     }}
                     theme={theme}
-                    displayPreset={card.displayPresetId}
-                    colorTheme={card.colorThemeId}
+                    displayPreset={displayPreset}
+                    colorTheme={colorTheme}
                     previewMode={false}
                   />
                   {idx < sections.length - 1 && sec.isVisible && (

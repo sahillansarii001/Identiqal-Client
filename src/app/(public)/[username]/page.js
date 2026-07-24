@@ -91,6 +91,12 @@ export default async function PublicCardPage(props) {
                     section={{ 
                       ...sec, 
                       cardId: card._id,
+                      showQRCode: card.showQRCode,
+                      qrType: card.qrType,
+                      qrImage: card.qrImage,
+                      qrTitle: card.qrTitle,
+                      qrDescription: card.qrDescription,
+                      qrSettings: card.qrSettings,
                       imageUrl: card.imageUrl,
                       isVideo: card.isVideo,
                       imageScale: card.imageScale,

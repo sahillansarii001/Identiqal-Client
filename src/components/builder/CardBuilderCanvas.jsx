@@ -82,7 +82,7 @@ export const CardBuilderCanvas = () => {
         <div className="flex flex-col lg:flex-row flex-1 overflow-hidden relative">
           {/* Editor Panel Column (Left on desktop, scrolls independently) */}
           <div
-            className={`w-full lg:w-[420px] xl:w-[460px] h-full border-b lg:border-b-0 lg:border-r border-gray-200 dark:border-white/10! bg-white dark:bg-[#181518]! shrink-0 flex flex-col z-10 relative overflow-y-auto ${
+            className={`w-full lg:w-[560px] xl:w-[620px] h-full border-b lg:border-b-0 lg:border-r border-gray-200 dark:border-white/10! bg-white dark:bg-[#181518]! shrink-0 flex flex-col z-10 relative overflow-y-auto ${
               mobileView === "editor" ? "flex" : "hidden lg:flex"
             }`}
           >
@@ -102,7 +102,7 @@ export const CardBuilderCanvas = () => {
         <div className="flex flex-col lg:flex-row flex-1 overflow-hidden relative bg-[#0E1018]">
           {/* Appearance Editor Column (Left on desktop, scrolls independently) */}
           <div
-            className={`w-full lg:w-[420px] xl:w-[460px] h-full border-b lg:border-b-0 lg:border-r border-gray-200 dark:border-white/10! bg-white dark:bg-[#181518]! shrink-0 flex flex-col z-10 relative overflow-y-auto ${
+            className={`w-full lg:w-[560px] xl:w-[620px] h-full border-b lg:border-b-0 lg:border-r border-gray-200 dark:border-white/10! bg-white dark:bg-[#181518]! shrink-0 flex flex-col z-10 relative overflow-y-auto ${
               mobileView === "editor" ? "flex" : "hidden lg:flex"
             }`}
           >

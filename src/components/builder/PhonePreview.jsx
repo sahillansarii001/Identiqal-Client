@@ -38,16 +38,17 @@ function getCardShadow(cardShape, colorTheme) {
 
 /* ── Footer Strip ────────────────────────────────────────────────────── */
 function FooterStrip({ footerPreset, colorTheme }) {
-  if (!footerPreset || !footerPreset.contentTemplate) return null;
+  if (!footerPreset) return null;
 
-  const text = footerPreset.contentTemplate === '{{custom}}'
-    ? footerPreset.name
-    : footerPreset.contentTemplate;
+  const raw = footerPreset.contentTemplate || footerPreset.copyrightText || footerPreset.name || "";
+  if (!raw || raw === "No Footer" || footerPreset.name === "No Footer") return null;
+
+  const text = raw === "{{custom}}" ? (footerPreset.copyrightText || footerPreset.name || "Powered by Identiqal") : raw;
 
   return (
     <div
       data-section-id="footer"
-      className="w-full py-3.5 text-center text-[10px] opacity-60 tracking-wide border-t shrink-0"
+      className="w-full py-2.5 px-4 text-center text-[11px] font-medium opacity-70 tracking-wide border-t shrink-0 relative z-20"
       style={{
         color: colorTheme?.text || '#555',
         borderColor: colorTheme?.border || (colorTheme?.background === '#121212' || colorTheme?.background === '#181518' ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)'),
@@ -171,7 +172,7 @@ export default function LiveCanvasPreview() {
     resetScrollToTop();
   }, [viewportMode, activeSectionId, sections, displayPreset, colorTheme, footerPreset, imageUrl]);
 
-  // ── Auto-Fit Card Height (Dynamically scale card to fit preview container)
+  // ── Auto-Fit Card Height (Dynamically scale card to fit preview container without pushing it far)
   useLayoutEffect(() => {
     const calculateScale = () => {
       if (!canvasViewportRef.current || !cardContentRef.current) return;
@@ -181,10 +182,10 @@ export default function LiveCanvasPreview() {
 
       if (contentHeight > 0 && viewportHeight > 0) {
         setContentDimensions({ height: contentHeight });
-        const availableHeight = viewportHeight - 80; // Leave extra padding top & bottom to ensure no clipping
+        const availableHeight = viewportHeight - 48;
         if (contentHeight > availableHeight && availableHeight > 100) {
           const ratio = availableHeight / contentHeight;
-          setComputedScale(Math.max(0.1, Math.min(1, ratio)));
+          setComputedScale(Math.max(0.35, Math.min(1, ratio)));
         } else {
           setComputedScale(1);
         }
@@ -232,68 +233,68 @@ export default function LiveCanvasPreview() {
     <div className="flex-1 w-full h-full flex flex-col overflow-hidden relative bg-[#0E1018] text-slate-100 select-none">
       
       {/* ─── CANVAS CONTROL TOOLBAR (Top) ─────────────────────────────────── */}
-      <div className="h-12 border-b border-white/10 bg-[#121520]/90 backdrop-blur-md px-3 sm:px-6 flex items-center justify-between gap-3 shrink-0 z-30 relative">
+      <div className="h-12 border-b border-white/10 bg-[#121520]/90 backdrop-blur-md px-2 sm:px-3 flex items-center justify-between gap-1.5 shrink-0 z-30 relative overflow-x-auto no-scrollbar">
         
         {/* Left: Viewport Mode Switcher */}
-        <div className="flex bg-[#0A0C12] p-1 rounded-xl border border-white/10">
+        <div className="flex items-center bg-[#0A0C12] border border-white/10 rounded-xl p-0.5 text-xs text-slate-300 shrink-0">
           <button
             onClick={() => setViewportMode('mobile')}
-            className={`px-2.5 sm:px-3 py-1 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
+            className={`px-2 py-1 rounded-lg text-xs font-semibold flex items-center gap-1 transition-all cursor-pointer whitespace-nowrap ${
               viewportMode === 'mobile'
                 ? 'bg-blue-600 text-white shadow-sm font-bold'
                 : 'text-slate-400 hover:text-white'
             }`}
           >
             <Smartphone size={13} />
-            <span>Mobile</span>
+            <span className="whitespace-nowrap">Mobile</span>
           </button>
 
           <button
             onClick={() => setViewportMode('desktop')}
-            className={`px-2.5 sm:px-3 py-1 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
+            className={`px-2 py-1 rounded-lg text-xs font-semibold flex items-center gap-1 transition-all cursor-pointer whitespace-nowrap ${
               viewportMode === 'desktop'
                 ? 'bg-blue-600 text-white shadow-sm font-bold'
                 : 'text-slate-400 hover:text-white'
             }`}
           >
             <Monitor size={13} />
-            <span>Desktop</span>
+            <span className="whitespace-nowrap">Desktop</span>
           </button>
 
           <button
             onClick={() => setViewportMode('public')}
-            className={`px-2.5 sm:px-3 py-1 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
+            className={`px-2 py-1 rounded-lg text-xs font-semibold flex items-center gap-1 transition-all cursor-pointer whitespace-nowrap ${
               viewportMode === 'public'
                 ? 'bg-emerald-600 text-white shadow-sm font-bold'
                 : 'text-slate-400 hover:text-white'
             }`}
           >
             <Globe size={13} />
-            <span>Public Page</span>
+            <span className="whitespace-nowrap">Public Page</span>
           </button>
         </div>
 
         {/* Right: Zoom Controls (Hidden in Public Mode) */}
         {viewportMode !== 'public' && (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 shrink-0">
             {/* Zoom Stepper */}
-            <div className="flex items-center bg-[#0A0C12] border border-white/10 rounded-xl p-0.5 text-xs text-slate-300">
+            <div className="flex items-center bg-[#0A0C12] border border-white/10 rounded-xl p-0.5 text-xs text-slate-300 shrink-0">
               <button
                 onClick={() => handleStepZoom(-1)}
                 title="Zoom Out"
-                className="w-7 h-7 flex items-center justify-center hover:bg-white/10 rounded-lg transition-colors cursor-pointer text-slate-400 hover:text-white"
+                className="w-6 h-6 flex items-center justify-center hover:bg-white/10 rounded-lg transition-colors cursor-pointer text-slate-400 hover:text-white"
               >
-                <ZoomOut size={13} />
+                <ZoomOut size={12} />
               </button>
 
               {/* Zoom Dropdown */}
               <div className="relative">
                 <button
                   onClick={() => setZoomDropdownOpen(!zoomDropdownOpen)}
-                  className="px-2 py-1 flex items-center gap-1 font-mono text-[11px] font-bold text-slate-200 hover:text-white cursor-pointer"
+                  className="px-1.5 py-1 flex items-center gap-0.5 font-mono text-[11px] font-bold text-slate-200 hover:text-white cursor-pointer whitespace-nowrap"
                 >
                   <span>{Math.round(effectiveScale * 100)}%</span>
-                  <ChevronDown size={11} className="text-slate-400" />
+                  <ChevronDown size={10} className="text-slate-400" />
                 </button>
 
                 {zoomDropdownOpen && (
@@ -316,9 +317,9 @@ export default function LiveCanvasPreview() {
               <button
                 onClick={() => handleStepZoom(1)}
                 title="Zoom In"
-                className="w-7 h-7 flex items-center justify-center hover:bg-white/10 rounded-lg transition-colors cursor-pointer text-slate-400 hover:text-white"
+                className="w-6 h-6 flex items-center justify-center hover:bg-white/10 rounded-lg transition-colors cursor-pointer text-slate-400 hover:text-white"
               >
-                <ZoomIn size={13} />
+                <ZoomIn size={12} />
               </button>
             </div>
 
@@ -326,10 +327,10 @@ export default function LiveCanvasPreview() {
             <button
               onClick={() => { setZoomLevel(100); resetScrollToTop(); }}
               title="Reset Zoom & Fit to Screen"
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-[#0A0C12] hover:bg-white/10 border border-white/10 rounded-xl text-xs font-semibold text-slate-300 hover:text-white transition-all cursor-pointer active:scale-95"
+              className="flex items-center gap-1 px-2.5 py-1.5 bg-[#0A0C12] hover:bg-white/10 border border-white/10 rounded-xl text-xs font-semibold text-slate-300 hover:text-white transition-all cursor-pointer active:scale-95 shrink-0 whitespace-nowrap"
             >
-              <Maximize2 size={13} />
-              <span className="hidden sm:inline">Fit to Screen</span>
+              <Maximize2 size={12} />
+              <span className="whitespace-nowrap">Fit to Screen</span>
             </button>
           </div>
         )}
@@ -340,7 +341,7 @@ export default function LiveCanvasPreview() {
         ref={canvasViewportRef}
         onWheel={(e) => e.preventDefault()}
         onTouchMove={(e) => e.preventDefault()}
-        className={`flex-1 w-full h-full relative flex items-start justify-center pt-6 sm:pt-8 pb-12 overflow-hidden select-none transition-colors duration-500 ${
+        className={`flex-1 w-full h-full relative flex items-start justify-center pt-4 sm:pt-6 pb-6 overflow-hidden select-none transition-colors duration-500 ${
           viewportMode === 'public'
             ? 'bg-[#F8F6F4] dark:bg-[#0A0A0A]'
             : ''
@@ -367,7 +368,7 @@ export default function LiveCanvasPreview() {
           className="relative mt-2" 
           style={{ 
             height: contentDimensions.height ? contentDimensions.height * effectiveScale : 'auto',
-            width: viewportMode === 'public' ? '100%' : (viewportMode === 'desktop' ? '640px' : '360px'),
+            width: viewportMode === 'public' ? '100%' : (viewportMode === 'desktop' ? '640px' : '375px'),
             maxWidth: viewportMode === 'public' ? '420px' : (viewportMode === 'desktop' ? '720px' : '380px'),
             flexShrink: 0
           }}

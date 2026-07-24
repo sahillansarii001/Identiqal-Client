@@ -262,8 +262,9 @@ export default function TopToolbar() {
   const router = useRouter();
   const store  = useCardBuilderStore();
   const {
-    title, undo, redo, past, future, previewMode, setPreviewMode,
-    activeSections, displayPreset, colorTheme, footerPreset, setCard,
+    title, slug, undo, redo, past, future, previewMode, setPreviewMode,
+    sections, displayPreset, colorTheme, footerPreset, setCard, cardId, wizardCompleted,
+    showQRCode, qrType, qrImage, qrTitle, qrDescription, qrSettings,
     imageUrl, imageScale, imagePositionX, imagePositionY,
     imageOpacity, overlayType, imageRotation, imagePlacement,
     containerStyle, containerSize, containerBorder, containerShadow,
@@ -286,10 +287,35 @@ export default function TopToolbar() {
   };
 
   const handleSaveCard = async () => {
+    if (!cardId) {
+      alert("No card ID found. Cannot save layout.");
+      return;
+    }
     setSaveStatus("saving");
     try {
-      const response = await cardService.saveCardLayout({
-        title, activeSections, displayPreset, colorTheme, footerPreset,
+      // Ensure all sections have a valid order property to satisfy backend validation
+      const formattedSections = sections.map((sec, index) => ({
+        ...sec,
+        order: typeof sec.order === 'number' ? sec.order : index
+      }));
+
+      const response = await cardService.updateCard(cardId, {
+        title, 
+        isPublished: true,
+        wizardCompleted,
+        sections: formattedSections, 
+        colorThemeId: colorTheme?._id || (typeof colorTheme === 'string' ? colorTheme : null),
+        displayPresetId: displayPreset?._id || (typeof displayPreset === 'string' ? displayPreset : null),
+        footerPresetId: footerPreset?._id || (typeof footerPreset === 'string' ? footerPreset : null),
+        displayPreset, 
+        colorTheme, 
+        footerPreset,
+        showQRCode,
+        qrType,
+        qrImage,
+        qrTitle,
+        qrDescription,
+        qrSettings,
         imageUrl, imageScale, imagePositionX, imagePositionY,
         imageOpacity, overlayType, imageRotation, imagePlacement,
         containerStyle, containerSize, containerBorder, containerShadow,
@@ -412,7 +438,7 @@ export default function TopToolbar() {
         {publicOpen && (
           <PublicPageOverlay
             store={store}
-            sections={activeSections}
+            sections={sections}
             onClose={() => setPublicOpen(false)}
           />
         )}
@@ -423,7 +449,7 @@ export default function TopToolbar() {
         {liveOpen && (
           <LivePreviewOverlay
             store={store}
-            sections={activeSections}
+            sections={sections}
             onClose={() => setLiveOpen(false)}
           />
         )}

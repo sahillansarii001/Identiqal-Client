@@ -294,28 +294,28 @@ export default function SetupWizard() {
                     <div className="w-6 h-6 border-2 border-blue-500/30 border-t-blue-500 rounded-full animate-spin" />
                   </div>
                 ) : (
-                  <div className="grid grid-cols-2 gap-2.5 sm:gap-3.5">
+                  <div className="grid grid-cols-2 gap-2.5 max-w-[340px] mx-auto">
                     {displayPresets.map((preset) => {
                       const isSelected = displayPreset?._id === preset._id;
                       return (
                         <button
                           key={preset._id}
                           onClick={() => handleSelectHeader(preset)}
-                          className={`group relative rounded-[18px] sm:rounded-[20px] border-2 p-2 sm:p-2.5 flex flex-col items-center gap-2 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg w-full overflow-hidden ${
+                          className={`group relative rounded-[16px] border-2 p-1.5 sm:p-2 flex flex-col items-center gap-1.5 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg w-full overflow-hidden ${
                             isSelected
                               ? 'border-blue-500 bg-blue-50/50 dark:bg-blue-950/20 shadow-[0_0_16px_rgba(59,130,246,0.3)]'
                               : 'border-gray-200 dark:border-white/10 hover:border-blue-400/50 bg-white dark:bg-[#1C191D]'
                           }`}
                         >
-                          <div className="w-full h-24 relative overflow-hidden rounded-[14px]">
+                          <div className="w-full h-18 relative overflow-hidden rounded-[12px]">
                             <HeaderPresetThumbnail preset={preset} activeTheme={colorTheme} />
                             {isSelected && (
-                              <div className="absolute top-2 right-2 w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center text-white shadow-sm z-10">
-                                <Check size={12} strokeWidth={3} />
+                              <div className="absolute top-1.5 right-1.5 w-4 h-4 rounded-full bg-blue-500 flex items-center justify-center text-white shadow-sm z-10">
+                                <Check size={10} strokeWidth={3} />
                               </div>
                             )}
                           </div>
-                          <span className="text-xs font-bold text-gray-800 dark:text-gray-200 capitalize">
+                          <span className="text-[11px] font-bold text-gray-800 dark:text-gray-200 capitalize">
                             {preset.name}
                           </span>
                         </button>
